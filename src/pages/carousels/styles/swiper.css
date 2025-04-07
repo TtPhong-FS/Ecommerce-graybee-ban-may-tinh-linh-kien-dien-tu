@@ -1,0 +1,66 @@
+.swiper-button-next,
+.swiper-button-prev {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: lightblue !important;
+  border-radius: 99rem !important;
+  color: #090d14 !important;
+  font-family: none !important;
+  height: 2.5rem !important;
+  width: 2.5rem !important;
+}
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #7ebfeb !important;
+  border-radius: 99rem !important;
+}
+
+.swiper-pagination-bullet {
+  width: 1rem !important;
+  border-radius: 0.5rem !important;
+  height: 0.5rem !important;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 1.2rem !important;
+}
+
+.carousel-container {
+  background-color: white;
+  padding: 7px;
+  border: 1px solid #d1d5dc;
+  border-radius: 4px;
+  width: 100%;
+  height: auto;
+}
+
+.carousel-box {
+  padding: 3px;
+}
+
+.carousel-container-img {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.carousel-container-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.carousel-content-text {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #090d14;
+}
+
+.carousel-container-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  margin-top: 1.2rem;
+}

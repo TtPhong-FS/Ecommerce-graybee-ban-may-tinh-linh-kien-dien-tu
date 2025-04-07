@@ -1,0 +1,133 @@
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import '../../styles/Sidebar.css'
+import { Loading } from '../Loading'
+const Sidebar = () => {
+  const dispatch = useDispatch()
+
+  const menus = useSelector((state) => state.sidebar.menus)
+
+  const [activeCategory, setActiveCategory] = useState(null)
+  const [isMegaMenuVisible, setIsMegaMenuVisible] = useState(false)
+  const [show, setShow] = useState(false)
+
+  const navigate = useNavigate()
+  const onMouse = () => {
+    setIsMegaMenuVisible(true)
+    setShow(true)
+  }
+
+  const onLeave = () => {
+    setIsMegaMenuVisible(false)
+    setShow(false)
+  }
+
+  const formatQueryParam = (param) =>
+    param
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+
+  const handleFindByCateogryAndManufacturer = (category, manufacturer) => {
+    navigate(`pages/${category.toLowerCase()}/${manufacturer.toLowerCase()}`)
+    const queryString = `find/products?category=${formatQueryParam(category)}&manufacturer=${formatQueryParam(
+      manufacturer
+    )}`
+
+    console.log(queryString)
+  }
+
+  const handleFindByCategory = (category) => {
+    navigate(`pages/${category.toLowerCase()}`)
+    // dispatch(findByCategory({ category: category }))
+  }
+
+  const handleFindByCategoryAndSubcategoryAndTag = (category, subcategory, tag) => {
+    navigate(`pages/${category.toLowerCase()}/${tag.toLowerCase()}`)
+    const queryString = `find/products?category=${formatQueryParam(category)}&subcategory=${formatQueryParam(
+      subcategory
+    )}&tag=${formatQueryParam(tag)}`
+
+    console.log(queryString)
+  }
+
+  if (!menus || menus.length === 0) {
+    return <Loading />
+  }
+
+  return (
+    <div className="flex h-96 gap-2 mb-10" onMouseLeave={onLeave}>
+      {/* Sidebar 15% */}
+      <div className="w-[15%] h-full" onMouseEnter={onMouse}>
+        <nav className="flex flex-col bg-white h-full cursor-pointer rounded-md">
+          {menus.map((category) => (
+            <div className="" key={category.id}>
+              <div
+                onClick={() => handleFindByCategory(category.name)}
+                className="flex items-center justify-between p-2 rounded-md  hover:bg-red-500 hover:text-white cursor-pointer"
+                onMouseEnter={() => setActiveCategory(category.id)}
+              >
+                {category.name}
+              </div>
+            </div>
+          ))}
+        </nav>
+      </div>
+      {show && (
+        <div className="w-[85%]" onMouseEnter={onMouse} onMouseLeave={onLeave}>
+          {/* Mega Menu 85% */}
+          <div
+            className={`mega-menu ${isMegaMenuVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'} rounded-br-md`}
+          >
+            {menus.map(
+              (category) =>
+                activeCategory === category.id && (
+                  <div key={category.id} className="w-full flex flex-wrap">
+                    <div className="w-1/3 p-2">
+                      <h4 className="font-bold text-red-500">Thương hiệu</h4>
+                      <ul className="mt-2">
+                        {category.manufacturers?.map((manufacturer) => (
+                          <li
+                            onClick={() => handleFindByCateogryAndManufacturer(category.name, manufacturer.name)}
+                            key={manufacturer.id}
+                            className="text-gray-700 font-medium hover:text-red-500 cursor-pointer"
+                          >
+                            {manufacturer.name}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    {category.subcategories?.map((sub) => (
+                      <div key={sub.id} className="w-1/3 p-2">
+                        <h4 className="font-bold text-red-500">{sub.name}</h4>
+                        <ul className="mt-2">
+                          {sub.tags.map((tag) => (
+                            <li
+                              onClick={() =>
+                                handleFindByCategoryAndSubcategoryAndTag(category.name, sub.name, tag.name)
+                              }
+                              key={tag.id}
+                              className="text-gray-700 font-medium hover:text-red-500 cursor-pointer"
+                            >
+                              {tag.name}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                )
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default Sidebar

@@ -1,0 +1,51 @@
+.sidebar-menu {
+  width: 20%;
+  height: 100%;
+  background: #f8f8f8;
+  border-radius: 0.2rem;
+}
+
+.menu-item-wrapper {
+  width: 80%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 21%;
+}
+
+.mega-menu {
+  width: 100%;
+  background: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  height: 100%;
+  gap: 20px;
+  z-index: 999;
+}
+
+/* Khi hover vào menu-item-wrapper thì hiện mega-menu */
+.menu-item-wrapper:hover .mega-menu {
+  display: grid;
+}
+
+/* Định dạng các nhóm trong Mega Menu */
+.mega-menu h3 {
+  color: red;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.mega-menu p {
+  font-size: 14px;
+  margin: 5px 0;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.mega-menu p:hover {
+  color: #007bff;
+}
+
+.mega-menu-series {
+  grid-column: 1 / -1;
+}

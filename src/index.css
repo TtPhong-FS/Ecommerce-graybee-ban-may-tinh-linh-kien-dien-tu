@@ -1,0 +1,70 @@
+@import 'tailwindcss';
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  color: #242424;
+  color-scheme: light dark;
+  background-color: #f3f4f6;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-size: 14px;
+}
+
+.title {
+  font-size: 1.65rem;
+  font-weight: 600;
+  color: #333333;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.multi-line-ellipsis {
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.sub-title {
+  font-size: 1.14rem;
+  font-weight: 600;
+  color: #090d14;
+}
+
+.box {
+  background-color: white;
+  padding: 1rem;
+  width: 100%;
+  border-radius: 0.7rem;
+}
+
+@theme {
+  --color-secondary: #3366cc;
+}
+
+.ant-rate-star {
+  margin-inline-end: 0.3rem !important;
+}
+
+/* Ẩn nút tăng giảm trên Chrome, Edge, Safari */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+}
+
+/* Ẩn nút tăng giảm trên Firefox */
+input[type='number'] {
+  -moz-appearance: textfield !important;
+  appearance: textfield !important; /* Ẩn trên Edge và các trình duyệt Chromium */
+}
