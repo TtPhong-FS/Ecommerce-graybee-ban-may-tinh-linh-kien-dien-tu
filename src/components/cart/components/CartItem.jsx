@@ -5,7 +5,6 @@ import { Button, Image, Popconfirm } from 'antd'
 import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { getToken } from '../../../utils'
 import { addItemToCart, clearItemsToCart, decreaseQuantityToCartItem, deleteItemToCart } from '../features/thunk'
 
 const CustomTooltip = styled(({ className, ...props }) => <Tooltip {...props} classes={{ popper: className }} />)({
@@ -20,7 +19,7 @@ const CustomTooltip = styled(({ className, ...props }) => <Tooltip {...props} cl
 const CartItem = () => {
   console.log('render')
   const dispatch = useDispatch()
-  const token = getToken()
+
   const mobile = useMediaQuery('(max-width:1024px)')
   const [selectedItems, setSelectedItems] = useState([])
   const [selectAll, setSelectAll] = useState(false)
@@ -45,19 +44,19 @@ const CartItem = () => {
 
   const handleDecreaseQuantity = async (productId, quantity) => {
     const values = { productId, quantity }
-    dispatch(decreaseQuantityToCartItem({ request: values, token: token }))
+    dispatch(decreaseQuantityToCartItem({ request: values }))
   }
   const handleIncreaseQuantity = (productId, quantity) => {
     const values = { productId, quantity }
-    dispatch(addItemToCart({ request: values, token: token }))
+    dispatch(addItemToCart({ request: values }))
   }
 
   const handleRemoveItem = (cartItemId) => {
-    dispatch(deleteItemToCart({ cartItemId: cartItemId, token: token }))
+    dispatch(deleteItemToCart({ cartItemId: cartItemId }))
   }
 
   const handleClearItems = () => {
-    dispatch(clearItemsToCart({ token: token }))
+    dispatch(clearItemsToCart())
   }
 
   const { setValue } = useFormContext()

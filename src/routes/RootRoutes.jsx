@@ -9,6 +9,7 @@ import { ProfileLayout, RootLayout } from '../layout'
 import { HomePage } from '../pages/HomePage'
 import { ProductDetail } from '../pages/product/pages/ProductDetail'
 import ProductPage from '../pages/product/pages/ProductPage'
+import { OrderDetail } from '../pages/user/components/OrderDetail'
 
 const Contact = React.lazy(() => import('../pages/Contact'))
 const AuthPage = React.lazy(() =>
@@ -44,6 +45,7 @@ const RootRoutes = () => {
           <Route path="pages/:category/:manufacturer" element={<ProductPage />} />
 
           <Route path="order" element={<OrderPage />} />
+          <Route path="order/detail" element={<OrderDetail />} />
           <Route path="*" element={<div>Not found</div>} />
 
           <Route

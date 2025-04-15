@@ -1,6 +1,5 @@
 import { Avatar } from '@mui/material'
 import { Button, Spin } from 'antd'
-import Cookies from 'js-cookie'
 
 import { omit } from 'lodash'
 import PropTypes from 'prop-types'
@@ -21,14 +20,14 @@ export const Profile = ({ handleCancel }) => {
   const { contextHolder, messageApi } = useMessage()
   const [loading, setLoading] = useState()
   const dispatch = useDispatch()
-  const token = Cookies.get('token')
+
   const onSubmit = async (values) => {
     try {
       setLoading(true)
       const formatDateOfBirth = new Date(values?.dateOfBirth).toLocaleDateString('en-CA')
       const filtedValues = omit(values, ['uid'])
       const request = { ...filtedValues, dateOfBirth: formatDateOfBirth }
-      const response = await dispatch(updateProfile({ request: request, token: token })).unwrap()
+      const response = await dispatch(updateProfile({ request: request })).unwrap()
       if (response.status === 200) {
         messageApi.open({ type: 'success', content: response.message, duration: 0.5 })
         reset(defaultValues)

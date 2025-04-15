@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom'
 import { RHFInputField, RHFRadioGroup, RHFTextArea } from '../../../components/fields'
 import { paymentMethod } from '../../../components/options/paymentMethod'
 import { useMessage } from '../../../hooks'
-import { getToken } from '../../../utils'
 
 import CartItem from '../../../components/cart/components/CartItem'
 import { AddressSelector } from '../../user/components/AddressSelector'
@@ -20,7 +19,6 @@ export const Order = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const token = getToken()
   const cartItems = useSelector((state) => state.cart.cartItems)
   const [confirm, setConfirm] = useState(false)
   const { contextHolder, messageApi } = useMessage()
@@ -48,7 +46,7 @@ export const Order = () => {
     }
     try {
       console.log('submit', values)
-      const res = await dispatch(createOrder({ request: values, token: token })).unwrap()
+      const res = await dispatch(createOrder({ request: values })).unwrap()
       if (res.status === 201) {
         messageApi(res.message)
         reset(defaultValues)
@@ -73,14 +71,16 @@ export const Order = () => {
       {contextHolder}
       {cartItems.length > 0 ? (
         <div>
-          <span
-            onClick={() => onUnConfirm()}
-            className="text-blue-500 text-[1rem] hover:decoration-solid hover:underline cursor-pointer"
-          >
-            Quay trở về giỏ hàng
-          </span>
+          <div className="py-3">
+            <span
+              onClick={() => onUnConfirm()}
+              className="text-blue-500 text-[1rem] hover:decoration-solid hover:underline cursor-pointer"
+            >
+              Quay trở về giỏ hàng
+            </span>
+          </div>
           <Spin spinning={isSubmitting}>
-            <form className="mt-4" onSubmit={handleSubmit(onSubmit)}>
+            <form className="mt-10" onSubmit={handleSubmit(onSubmit)}>
               <Grid2 container spacing={2}>
                 <Grid2 size={{ mobile: 12, tablet: 12, laptop: 8 }}>
                   <CartItem />

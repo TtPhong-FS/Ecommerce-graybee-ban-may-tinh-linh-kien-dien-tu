@@ -10,12 +10,16 @@ const RootLayout = () => {
       <AuthProvider>
         <Navbar />
       </AuthProvider>
-      <main className="flex justify-center mt-8 mb-8">
-        <div className="p-6 max-w-[76.25rem] w-full flex flex-col gap-6 relative">
-          <Outlet />
+      <main className="">
+        <div className="bg-[#f3f4f6]">
+          <div className="container mx-auto pb-12 px-[1.25rem] gap-6 relative ">
+            <Outlet />
+          </div>
         </div>
       </main>
-      <Footer />
+      <div className="bg-[#090d14]">
+        <Footer />
+      </div>
     </div>
   )
 }

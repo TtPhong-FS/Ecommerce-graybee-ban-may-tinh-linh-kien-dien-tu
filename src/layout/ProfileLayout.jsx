@@ -13,7 +13,13 @@ export const ProfileLayout = () => {
 
   return (
     <Grid2 container size={12} spacing={2}>
-      <Grid2 container size={3.5} alignSelf={'flex-start'} sx={{ position: 'sticky', top: 0 }}>
+      <Grid2
+        display={{ mobile: 'none', tablet: 'none', laptop: 'flex' }}
+        container
+        size={3.5}
+        alignSelf={'flex-start'}
+        sx={{ position: 'sticky', top: 80 }}
+      >
         <Grid2 height={200} size={12} sx={{ bgcolor: 'white', padding: '0.5rem', borderRadius: '0.8rem' }}>
           <div className="flex gap-2 items-center">
             <a href="/account/profile" className="cursor-pointer">
@@ -59,7 +65,7 @@ export const ProfileLayout = () => {
           </nav>
         </Grid2>
       </Grid2>
-      <Grid2 size={8.5}>
+      <Grid2 size={{ tablet: 12, laptop: 8.5 }}>
         <Outlet />
       </Grid2>
     </Grid2>

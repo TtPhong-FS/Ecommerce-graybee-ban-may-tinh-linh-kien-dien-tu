@@ -1,5 +1,3 @@
-import Cookies from 'js-cookie'
-
 import { Button, Spin } from 'antd'
 import { omit } from 'lodash'
 import PropTypes from 'prop-types'
@@ -15,7 +13,6 @@ import { AddressSelector } from './AddressSelector'
 
 export const Address = ({ isUpdate, onClose }) => {
   const dispatch = useDispatch()
-  const token = Cookies.get('token')
 
   const {
     handleSubmit,
@@ -30,15 +27,15 @@ export const Address = ({ isUpdate, onClose }) => {
       setLoading(true)
       if (isUpdate) {
         const request = omit(values, ['id'])
-        console.log(request, values.id, token)
-        const response = await dispatch(updateAddress({ request: request, id: values.id, token: token })).unwrap()
+
+        const response = await dispatch(updateAddress({ request: request, id: values.id })).unwrap()
         if (response.status === 200) {
           await messageApi.open({ type: 'success', content: response.message, duration: 0.5 })
           reset(defaultValues)
           onClose()
         }
       } else {
-        const response = await dispatch(createAddress({ request: values, token: token })).unwrap()
+        const response = await dispatch(createAddress({ request: values })).unwrap()
         if (response.status === 201) {
           await messageApi.open({ type: 'success', content: response.message, duration: 0.5 })
           reset(defaultValues)

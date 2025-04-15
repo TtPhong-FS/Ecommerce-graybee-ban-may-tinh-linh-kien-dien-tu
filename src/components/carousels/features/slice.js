@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { API_URL } from '../../../config'
+import { publicAPI } from '../../../config'
 import { carouselType, categoryMap } from '../data/load'
 
 const carousel_endpoint = '/api/v1/public/carousel'
 
 const fetchProductByCategory = (type, category, size, sortBy, order) =>
-  API_URL.get(`${carousel_endpoint}?type=${type}&category=${category}&size=${size}&sortBy=${sortBy}&order=${order}`, {})
+  publicAPI.get(
+    `${carousel_endpoint}?type=${type}&category=${category}&size=${size}&sortBy=${sortBy}&order=${order}`,
+    {}
+  )
 
 export const fetchCarousel = createAsyncThunk(
   'carousel/fetchProductsByCategoryForCarousel',

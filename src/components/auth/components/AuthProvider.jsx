@@ -38,14 +38,16 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogin = async (request) => {
     try {
-      const response = await dispatch(Login({ request: request })).unwrap()
-      const data = response.data
-      if (response.status === 200) {
-        saveAuthToken(data?.token)
-
+      const res = await dispatch(Login({ request: request })).unwrap()
+      const { token } = res.data
+      if (res.status === 200) {
+        const extractToken = jwtDecode(token)
+        setUser(extractToken)
+        saveAuthToken(token)
+        setLoading(false)
         navigate('/')
       }
-      return response.status
+      return res.status
     } catch (error) {
       console.error('Login failed:', error)
 
@@ -61,8 +63,10 @@ export const AuthProvider = ({ children }) => {
       const data = response.data
       console.log('Sign up success: ', response)
       if (response.status === 201) {
-        saveAuthToken(data?.token)
+        const extractToken = jwtDecode(data?.token)
+        setUser(extractToken)
 
+        saveAuthToken(data?.token, data?.role)
         navigate('/')
       }
       return response.status
@@ -81,6 +85,7 @@ export const AuthProvider = ({ children }) => {
     dispatch(clearAll())
     dispatch(clearAllToLogout())
     setUser(null)
+
     navigate('/')
   }
 

@@ -35,6 +35,8 @@ export const Login = () => {
         }
         if (error.unconnect) {
           openNotificationWithIcon('error', 'Lỗi kết nối', error.unconnect)
+        } else {
+          openNotificationWithIcon('error', error.title, error.detail)
         }
       }
     }

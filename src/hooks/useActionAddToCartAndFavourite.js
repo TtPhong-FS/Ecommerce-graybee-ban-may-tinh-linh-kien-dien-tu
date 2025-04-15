@@ -19,7 +19,6 @@ export const useActionAddToCartAndFavourite = () => {
     try {
       const response = await dispatch(
         addToFavourite({
-          token: token,
           productId: productId
         })
       ).unwrap()
@@ -41,7 +40,7 @@ export const useActionAddToCartAndFavourite = () => {
   const handleAddItemToCart = async (productId, quantity) => {
     const values = { productId, quantity }
     try {
-      const response = await dispatch(addItemToCart({ request: values, token: token })).unwrap()
+      const response = await dispatch(addItemToCart({ request: values })).unwrap()
 
       if (response.status === 201) {
         messageApi.success(response.message)

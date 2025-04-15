@@ -1,36 +1,40 @@
-import { CheckCircleOutlined } from '@ant-design/icons'
 import { Divider } from '@mui/material'
-import { Image } from 'antd'
+import { Image, Typography } from 'antd'
+import PropTypes from 'prop-types'
 import React from 'react'
-import { orderHistories } from '../../../data/orderHistory'
-
-export const OrderCard = () => {
+import { shallowEqual, useSelector } from 'react-redux'
+import { deliveryType } from '../../../en-vi/orderHistory'
+import { colorMap, iconMap, orderStatus } from '../../../en-vi/orderStatus'
+const { Text, Link } = Typography
+export const OrderCard = ({ status }) => {
+  const orders = useSelector((state) => state.account.orders, shallowEqual)
+  const orderMap = orders[status]
   return (
     <div className="flex flex-col gap-4">
-      {orderHistories.map((order, index) => (
+      {orderMap?.map((order, index) => (
         <div key={index} className="bg-white py-2 rounded-lg">
           <div className="flex justify-between mb-2 px-2 py-1">
             <div className="flex gap-2">
               <span>{order.orderDate}</span>
               <span className="text-gray-300">|</span>
-              <span>{order.deliveryType}</span>
+              <span>{deliveryType[order.deliveryType]}</span>
               <span className="text-gray-300">|</span>
               <span>{order.totalQuantity} sản phẩm</span>
             </div>
             <div className="flex gap-2 items-center">
               <span className="text-xs text-gray-500 font-medium">{order.paymentMethod}</span>
-              <CheckCircleOutlined style={{ color: '#059669' }} />
-              <span className="text-[#059669] font-medium">Hoàn tất</span>
+              {iconMap[order.status]}
+              <Text type={colorMap[order.status]}>{orderStatus[order.status]}</Text>
             </div>
           </div>
           <Divider />
-          {order.orderDetails.map((oDetail, index) => (
+          {order?.orderDetails?.map((oDetail, index) => (
             <div key={index}>
               <div className="flex justify-between px-4 py-6 ">
-                <div className="">
-                  <div className="flex gap-2">
-                    <div className="border-1 border-gray-300 p-1">
-                      <Image src={oDetail.thumbnail} />
+                <div className="flex-2">
+                  <div className="flex gap-4">
+                    <div className="w-[60px] h-[60px] border-1 border-gray-300 rounded-md">
+                      <Image className="p-1" width={60} height={60} src={oDetail.thumbnail} />
                     </div>
                     <div className="flex flex-col">
                       <span className="font-medium text-base">{oDetail.productName}</span>
@@ -38,7 +42,7 @@ export const OrderCard = () => {
                     </div>
                   </div>
                 </div>
-                <div>
+                <div className="flex-1">
                   <div className="flex flex-col items-end gap-1">
                     <span className="font-medium text-base font-sans ">
                       {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
@@ -60,12 +64,19 @@ export const OrderCard = () => {
               <Divider />
             </div>
           ))}
-          <span className="font-medium text-red-500 text-base flex justify-end px-4 pt-4">
-            Tổng tiền:{' '}
-            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.totalAmount)}
-          </span>
+          <div className="flex items-center justify-between px-4 py-2">
+            <Link className="">MVB152678</Link>
+            <span className="font-medium text-red-500 text-base flex justify-end">
+              Tổng tiền:{' '}
+              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.totalAmount)}
+            </span>
+          </div>
         </div>
       ))}
     </div>
   )
+}
+
+OrderCard.propTypes = {
+  status: PropTypes.string
 }

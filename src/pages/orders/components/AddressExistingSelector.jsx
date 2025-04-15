@@ -5,11 +5,9 @@ import { useFormContext, useWatch } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAddressExistingByTokenOrSessionId } from '../../../components/address/features/slice'
 import { RHFCheckBox } from '../../../components/fields'
-import { getToken } from '../../../utils'
 
 export function AddressExistingSelector() {
   const dispatch = useDispatch()
-  const token = getToken()
 
   const addressExisting = useSelector((state) => state.general?.addressExisting)
 
@@ -21,7 +19,7 @@ export function AddressExistingSelector() {
 
   const handleDropdownVisibleChange = (open) => {
     if ((open && !addressExisting) || addressExisting.length === 0) {
-      dispatch(fetchAddressExistingByTokenOrSessionId({ token: token }))
+      dispatch(fetchAddressExistingByTokenOrSessionId())
     }
   }
 
@@ -42,7 +40,6 @@ export function AddressExistingSelector() {
 
   useEffect(() => {
     if (!useExistingAddress) {
-      console.log('useEffect run')
       clearErrors()
 
       setSelectedId(null)

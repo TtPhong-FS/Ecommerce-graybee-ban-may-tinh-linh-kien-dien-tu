@@ -30,9 +30,6 @@ export function saveAuthToken(token) {
 export function getToken() {
   const token = Cookies.get('token')
   if (token) {
-    if (!token.startsWith('Bearer ')) {
-      return `Bearer ${token}`
-    }
     return token
   }
   return null
@@ -44,6 +41,7 @@ export function getSession() {
 
 export function clearAuthToken() {
   Cookies.remove('token')
+
   initSession()
 }
 

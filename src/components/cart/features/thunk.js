@@ -46,12 +46,12 @@ export const decreaseQuantityToCartItem = createAsyncThunk(
 
 export const findCartByUserUidOrSessionId = createAsyncThunk(
   'cart/findCartByUserUidOrSessionId',
-  async ({ token }, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       if (!navigator.connection) {
         return rejectWithValue('No internet connection')
       }
-      const response = await cartApi.findCartByUserUidOrSessionId(token)
+      const response = await cartApi.findCartByUserUidOrSessionId()
       return response.data
     } catch (error) {
       if (error.code === 'EER_NETWORK' || error.message === 'Network Error') {

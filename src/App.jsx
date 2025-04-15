@@ -24,28 +24,19 @@ function App() {
   }, [dispatch])
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (token) {
-        await Promise.all([
-          dispatch(getProfileByToken({ token: token })),
-          dispatch(getFavourites({ token: token })),
-          dispatch(getAddressesByToken({ token: token }))
-        ])
-      }
+    if (token) {
+      dispatch(getProfileByToken())
+      dispatch(getFavourites())
+      dispatch(getAddressesByToken())
     }
-
-    fetchUserData()
   }, [token, dispatch])
 
   useEffect(() => {
     const fetchCart = async () => {
-      if (token) {
-        await dispatch(findCartByUserUidOrSessionId({ token: token }))
-      }
+      await dispatch(findCartByUserUidOrSessionId())
     }
-
     fetchCart()
-  }, [token, dispatch])
+  }, [dispatch])
 
   return (
     <div className="select-none h-dvh ">

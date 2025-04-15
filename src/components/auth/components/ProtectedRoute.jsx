@@ -15,7 +15,7 @@ export const ProtectedRoute = ({ children, requiredRoles }) => {
     return <Navigate to="/login" replace />
   }
 
-  if (requiredRoles && !requiredRoles.includes(user.role)) {
+  if (requiredRoles && !requiredRoles.includes(user?.role)) {
     return <Navigate to="/login" replace />
   }
 

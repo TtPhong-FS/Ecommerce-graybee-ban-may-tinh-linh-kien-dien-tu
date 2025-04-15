@@ -1,6 +1,5 @@
 import { Avatar } from '@mui/material'
 import { Button } from 'antd'
-import Cookies from 'js-cookie'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Loading } from '../../../components/Loading'
@@ -9,7 +8,7 @@ import { ProfileProvider } from '../components/ProfileProvider'
 import { getProfileByToken } from '../features'
 export const ProfilePage = () => {
   const dispatch = useDispatch()
-  const token = Cookies.get('token')
+
   const { contextHolder, messageApi } = useMessage()
 
   const [isEdit, setIsEdit] = useState(false)
@@ -21,7 +20,7 @@ export const ProfilePage = () => {
   const handleUpdate = async () => {
     try {
       setLoading(true)
-      const response = await dispatch(getProfileByToken({ token: token })).unwrap()
+      const response = await dispatch(getProfileByToken()).unwrap()
       if (response.status === 200) {
         setInitialData(response.data)
         setIsEdit(true)

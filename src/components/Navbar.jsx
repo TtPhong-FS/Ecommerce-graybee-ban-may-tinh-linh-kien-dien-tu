@@ -85,7 +85,7 @@ const Navbar = () => {
   return (
     <div className="sticky top-0 z-50">
       <header className=" bg-secondary h-[5rem] flex items-center justify-center md:px-4 px-2">
-        <div className="flex w-full h-[2.8rem] max-w-[76.25rem] gap-2 items-center">
+        <div className="flex container mx-auto h-[2.8rem] gap-2 items-center">
           <div className="flex h-full items-center md:gap-3">
             <div className="hidden md:flex gap-1 items-center">
               <img className="hidden md:block size-6 md:size-10" src={logo} alt="Logo Image" />

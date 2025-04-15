@@ -1,7 +1,6 @@
 import { HeartFilled, HeartOutlined } from '@ant-design/icons'
 import { IconButton } from '@mui/material'
 import { Image } from 'antd'
-import Cookies from 'js-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 import { useMessage } from '../../../hooks'
 import { isPresentInFavorites } from '../../../utils'
@@ -9,7 +8,6 @@ import { addToFavourite } from '../features/thunk'
 export const Favourite = () => {
   const favourites = useSelector((state) => state.account.favourites)
   const dispatch = useDispatch()
-  const token = Cookies.get('token')
 
   const { contextHolder, messageApi } = useMessage()
 
@@ -17,7 +15,6 @@ export const Favourite = () => {
     try {
       const response = await dispatch(
         addToFavourite({
-          token: token,
           productId: productId
         })
       ).unwrap()

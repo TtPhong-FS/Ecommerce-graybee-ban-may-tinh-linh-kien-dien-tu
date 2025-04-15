@@ -1,50 +1,93 @@
 import { Input, Tabs } from 'antd'
+import { useEffect, useRef, useState } from 'react'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { useMessage } from '../../../hooks'
 import { OrderCard } from '../components/OrderCard'
+import { findOrdersByStatusOptional } from '../features'
 
-const statusNavigation = [
+const items = [
   {
     key: 'all',
-    label: 'Tất cả',
-    children: <OrderCard />
+    label: 'Tất cả'
   },
   {
     key: 'processing',
-    label: 'Đang xử lý',
-    children: <OrderCard />
+    label: 'Đang xử lý'
   },
   {
     key: 'delivered',
-    label: 'Đang giao',
-    children: <OrderCard />
+    label: 'Đang giao'
   },
   {
     key: 'completed',
-    label: 'Hoàn tất',
-    children: <OrderCard />
+    label: 'Hoàn tất'
   },
   {
     key: 'cancelled',
-    label: 'Đã huỷ',
-    children: <OrderCard />
+    label: 'Đã huỷ'
   },
   {
     key: 'refuned',
-    label: 'Trả hàng',
-    children: <OrderCard />
+    label: 'Trả hàng'
   }
 ]
 
 export const OrderHistoryPage = () => {
-  const handleFindOrderByStatus = (key) => {
+  const [activeKey, setActiveKey] = useState('all')
+  const dispatch = useDispatch()
+  const { contextHolder, messageApi } = useMessage()
+  const orders = useSelector((state) => state.account.orders, shallowEqual)
+  const data = orders['all']
+  const isFetch = useRef(false)
+  useEffect(() => {
+    if (!isFetch.current && (!data || data.length === 0)) {
+      dispatch(findOrdersByStatusOptional('all'))
+      isFetch.current = true
+    }
+  }, [])
+
+  const handleFindOrderByStatus = async (key) => {
+    setActiveKey(key)
     if (key === 'all') {
-      console.log('Find All order')
+      try {
+        const res = await dispatch(findOrdersByStatusOptional('all')).unwrap()
+        if (res.data?.status === 200) {
+          messageApi.success(res.data?.message)
+        }
+      } catch (error) {
+        if (error && typeof error === 'object') {
+          if (error.general) {
+            messageApi.error(error.general)
+          } else if (error.unconnect) {
+            messageApi.error(error.unconnect)
+          } else {
+            messageApi.error(error.detail)
+          }
+        }
+      }
     } else {
-      console.log('Find order by status: ', key)
+      try {
+        const res = await dispatch(findOrdersByStatusOptional(key)).unwrap()
+        if (res.data?.status === 200) {
+          messageApi.success(res.data?.message)
+        }
+      } catch (error) {
+        if (error && typeof error === 'object') {
+          if (error.general) {
+            messageApi.error(error.general)
+          } else if (error.unconnect) {
+            messageApi.error(error.unconnect)
+          } else {
+            messageApi.error(error.detail)
+          }
+        }
+      }
     }
   }
 
   return (
     <div>
+      {contextHolder}
       <header className="grid grid-cols-2 py-3 pb-6">
         <h2 className="title">Lịch sử mua hàng</h2>
         <Input.Search placeholder="Nhập mã đơn hàng hoặc tên sản phẩm để tìm kiếm..." />
@@ -54,7 +97,10 @@ export const OrderHistoryPage = () => {
         centered
         size="middle"
         defaultActiveKey="all"
-        items={statusNavigation}
+        items={items.map((item) => ({
+          ...item,
+          children: <OrderCard status={item.key === activeKey ? item.key : 'all'} />
+        }))}
         onChange={handleFindOrderByStatus}
       />
     </div>

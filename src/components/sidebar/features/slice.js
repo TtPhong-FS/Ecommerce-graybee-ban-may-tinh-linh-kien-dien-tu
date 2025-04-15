@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { API_URL } from '../../../config/axiosServer'
+import { publicAPI } from '../../../config/axiosServer'
 
 const sidebar_endpoint = '/api/v1/public/sidebar'
 
-const sidebarApi = () => API_URL.get(sidebar_endpoint, {})
+const sidebarApi = () => publicAPI.get(sidebar_endpoint, {})
 
 export const getSidebar = createAsyncThunk('sidebar/getSidebar', async (_, { rejectWithValue }) => {
   try {

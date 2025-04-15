@@ -3,7 +3,7 @@ import {
   addToFavourite,
   createAddress,
   deleteAddressByIdAndUserUidFromToken,
-  findOrdersByStatus,
+  findOrdersByStatusOptional,
   getAddressesByToken,
   getFavourites,
   getProfileByToken,
@@ -33,17 +33,18 @@ const accountSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      .addCase(findOrdersByStatus.pending, (state) => {
+      .addCase(findOrdersByStatusOptional.pending, (state) => {
         state.error = null
         state.status = 'loading'
       })
-      .addCase(findOrdersByStatus.fulfilled, (state, action) => {
+      .addCase(findOrdersByStatusOptional.fulfilled, (state, action) => {
         state.error = null
         state.status = 'success'
         const { status, data } = action.payload
-        state.orders[status] = data || []
+        console.log(action.payload)
+        state.orders[status] = data.data || []
       })
-      .addCase(findOrdersByStatus.rejected, (state, action) => {
+      .addCase(findOrdersByStatusOptional.rejected, (state, action) => {
         state.error = action.error.message
         state.status = 'failed'
       })

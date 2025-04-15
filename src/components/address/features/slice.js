@@ -1,20 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { API_URL } from '../../../config/axiosServer'
+import { privateAPI } from '../../../config/axiosServer'
 
 const general_endpoint = '/api/v1/general'
 
-export const getAddressExisting = (token) =>
-  API_URL.get(`${general_endpoint}/address-existing`, {
-    headers: {
-      Authorization: token
-    }
-  })
+export const getAddressExisting = () => privateAPI.get(`${general_endpoint}/address-existing`, {})
 
 export const fetchAddressExistingByTokenOrSessionId = createAsyncThunk(
   'address/fetchAddressExistingByTokenOrSessionId',
-  async ({ token }, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const res = await getAddressExisting(token)
+      const res = await getAddressExisting()
       return res.data
     } catch (error) {}
   }

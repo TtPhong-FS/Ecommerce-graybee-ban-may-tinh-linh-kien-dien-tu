@@ -5,7 +5,6 @@ import { Avatar, Button, Drawer } from 'antd'
 import React, { useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useMessage } from '../../../hooks'
-import { getToken } from '../../../utils'
 import { AddressProvider } from '../components/AddressProvider'
 import { deleteAddressByIdAndUserUidFromToken, getAddressesByToken, updateDefaultAddress } from '../features'
 const personalAddress = [
@@ -61,7 +60,6 @@ export const ManageAddressPage = () => {
   const [visible, setVisible] = useState(false)
   const { messageApi, contextHolder } = useMessage()
 
-  const token = getToken()
   const dispatch = useDispatch()
 
   const showDrawer = (record = null) => {
@@ -80,7 +78,7 @@ export const ManageAddressPage = () => {
   const handleDeleteAddressById = async (id) => {
     try {
       setLoading(true)
-      const response = await dispatch(deleteAddressByIdAndUserUidFromToken({ id: id, token: token })).unwrap()
+      const response = await dispatch(deleteAddressByIdAndUserUidFromToken({ id: id })).unwrap()
       if (response.status === 200) {
         messageApi.success(response.message)
         setLoading(false)
@@ -102,7 +100,7 @@ export const ManageAddressPage = () => {
   const handleSetDefailtAddress = async (id) => {
     try {
       setLoading(true)
-      const response = await dispatch(updateDefaultAddress({ id: id, token: token })).unwrap()
+      const response = await dispatch(updateDefaultAddress({ id: id })).unwrap()
       if (response.status === 200) {
         messageApi.success(response.message)
         setLoading(false)
@@ -124,7 +122,10 @@ export const ManageAddressPage = () => {
   const handleReloadAddress = async () => {
     try {
       setLoading(true)
-      dispatch(getAddressesByToken({ token: token }))
+      const response = await dispatch(getAddressesByToken()).unwrap()
+      if (response.status === 200) {
+        setLoading(false)
+      }
     } catch (error) {
       if (error && typeof error === 'object') {
         if (error.general) {

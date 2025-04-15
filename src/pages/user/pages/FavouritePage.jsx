@@ -1,6 +1,5 @@
 import { LoadingOutlined, RedoOutlined } from '@ant-design/icons'
 import { IconButton } from '@mui/material'
-import Cookies from 'js-cookie'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useMessage } from '../../../hooks'
@@ -9,15 +8,15 @@ import { getFavourites } from '../features/thunk'
 export const FavouritePage = () => {
   const dispatch = useDispatch()
 
-  const token = Cookies.get('token')
   const [loading, setLoading] = useState(false)
   const { contextHolder, messageApi } = useMessage()
 
   const handleReloadFavourites = async () => {
     try {
       setLoading(true)
-      const response = await dispatch(getFavourites({ token: token })).unwrap()
-      if (response.status === 200) {
+      const res = await dispatch(getFavourites()).unwrap()
+      if (res.status === 200) {
+        messageApi.success(res.message)
         setLoading(false)
       }
     } catch (error) {
