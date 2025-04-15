@@ -1,5 +1,3 @@
 export * from './CollectionLayout'
-export * from './DetailLayout'
-export * from './HomeLayout'
 export * from './ProfileLayout'
 export { default as RootLayout } from './RootLayout'

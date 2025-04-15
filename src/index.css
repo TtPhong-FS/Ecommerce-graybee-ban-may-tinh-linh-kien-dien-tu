@@ -23,7 +23,7 @@ body {
 }
 
 .title {
-  font-size: 1.65rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: #333333;
   font-family: Arial, Helvetica, sans-serif;
@@ -57,14 +57,15 @@ body {
   margin-inline-end: 0.3rem !important;
 }
 
-/* Ẩn nút tăng giảm trên Chrome, Edge, Safari */
-input[type='number']::-webkit-outer-spin-button,
-input[type='number']::-webkit-inner-spin-button {
-  -webkit-appearance: none !important;
+::-webkit-scrollbar {
+  width: 0.3rem !important;
 }
 
-/* Ẩn nút tăng giảm trên Firefox */
-input[type='number'] {
-  -moz-appearance: textfield !important;
-  appearance: textfield !important; /* Ẩn trên Edge và các trình duyệt Chromium */
+::-webkit-scrollbar-track {
+  background: #e6e4e4 !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888 !important;
+  border-radius: 3px !important;
 }

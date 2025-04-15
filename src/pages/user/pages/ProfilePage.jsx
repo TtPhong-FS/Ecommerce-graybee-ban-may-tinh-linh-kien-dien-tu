@@ -3,17 +3,19 @@ import { Button } from 'antd'
 import Cookies from 'js-cookie'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Loading } from '../../../components/Loading'
 import { useMessage } from '../../../hooks'
 import { ProfileProvider } from '../components/ProfileProvider'
 import { getProfileByToken } from '../features'
 export const ProfilePage = () => {
   const dispatch = useDispatch()
   const token = Cookies.get('token')
+  const { contextHolder, messageApi } = useMessage()
+
   const [isEdit, setIsEdit] = useState(false)
   const [isUpdate, setIsUpdate] = useState(false)
   const [loading, setLoading] = useState(false)
   const [initialData, setInitialData] = useState(null)
-  const { contextHolder, messageApi } = useMessage()
   const user = useSelector((state) => state.account.user)
 
   const handleUpdate = async () => {
@@ -45,7 +47,7 @@ export const ProfilePage = () => {
   }
 
   if (loading) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   return (

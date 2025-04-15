@@ -9,14 +9,13 @@ const persistConfig = {
   key: 'root',
   storage,
   version: 1,
-  whitelist: []
+  whitelist: ['sidebar', 'auth', 'product', 'general']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const store = configureStore({
   reducer: persistedReducer,
-
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false

@@ -1,7 +1,7 @@
 import * as yup from 'yup'
 export const Schema = yup.object({
   phoneNumber: yup.string().required('Nhập số điện thoại người nhận'),
-  fullname: yup.string().required('Nhập họ và tên người nhận'),
+  fullName: yup.string().required('Nhập họ và tên người nhận'),
   city: yup.string().required('Chọn thành phố/tỉnh'),
   district: yup.string().required('Chọn huyện/quận'),
   commune: yup.string().required('Chọn xã/phường'),
@@ -11,7 +11,7 @@ export const Schema = yup.object({
 
 export const defaultValues = {
   phoneNumber: '',
-  fullname: '',
+  fullName: '',
   city: '',
   district: '',
   commune: '',

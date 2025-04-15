@@ -25,13 +25,21 @@ export const getSidebar = createAsyncThunk('sidebar/getSidebar', async (_, { rej
 const initialState = {
   error: null,
   status: 'idle',
+  active: false,
   menus: []
 }
 
 const sidebarSlice = createSlice({
   name: 'sidebar',
   initialState,
-  reducers: {},
+  reducers: {
+    onFocusSidebar: (state) => {
+      state.active = true
+    },
+    unFocusSidebar: (state) => {
+      state.active = false
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getSidebar.pending, (state) => {
@@ -48,5 +56,7 @@ const sidebarSlice = createSlice({
       })
   }
 })
+
+export const { onFocusSidebar, unFocusSidebar } = sidebarSlice.actions
 
 export default sidebarSlice.reducer

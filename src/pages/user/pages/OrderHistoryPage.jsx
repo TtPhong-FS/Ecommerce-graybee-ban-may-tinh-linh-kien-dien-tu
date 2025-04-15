@@ -1,6 +1,38 @@
 import { Input, Tabs } from 'antd'
+import { OrderCard } from '../components/OrderCard'
 
-import { statusNavigation } from '../../../ui/statusNavigation'
+const statusNavigation = [
+  {
+    key: 'all',
+    label: 'Tất cả',
+    children: <OrderCard />
+  },
+  {
+    key: 'processing',
+    label: 'Đang xử lý',
+    children: <OrderCard />
+  },
+  {
+    key: 'delivered',
+    label: 'Đang giao',
+    children: <OrderCard />
+  },
+  {
+    key: 'completed',
+    label: 'Hoàn tất',
+    children: <OrderCard />
+  },
+  {
+    key: 'cancelled',
+    label: 'Đã huỷ',
+    children: <OrderCard />
+  },
+  {
+    key: 'refuned',
+    label: 'Trả hàng',
+    children: <OrderCard />
+  }
+]
 
 export const OrderHistoryPage = () => {
   const handleFindOrderByStatus = (key) => {

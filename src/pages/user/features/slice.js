@@ -3,6 +3,7 @@ import {
   addToFavourite,
   createAddress,
   deleteAddressByIdAndUserUidFromToken,
+  findOrdersByStatus,
   getAddressesByToken,
   getFavourites,
   getProfileByToken,
@@ -14,6 +15,7 @@ import {
 const initialState = {
   user: null,
   favourites: [],
+  orders: {},
   deliveryAddress: [],
   error: null,
   status: 'idle'
@@ -30,6 +32,22 @@ const accountSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+
+      .addCase(findOrdersByStatus.pending, (state) => {
+        state.error = null
+        state.status = 'loading'
+      })
+      .addCase(findOrdersByStatus.fulfilled, (state, action) => {
+        state.error = null
+        state.status = 'success'
+        const { status, data } = action.payload
+        state.orders[status] = data || []
+      })
+      .addCase(findOrdersByStatus.rejected, (state, action) => {
+        state.error = action.error.message
+        state.status = 'failed'
+      })
+
       .addCase(getProfileByToken.pending, (state) => {
         state.error = null
         state.status = 'loading'
@@ -38,7 +56,7 @@ const accountSlice = createSlice({
         state.error = null
         state.status = 'success'
         const data = action.payload?.data
-        state.user = data
+        state.user = data || null
       })
       .addCase(getProfileByToken.rejected, (state, action) => {
         state.error = action.error.message
@@ -53,7 +71,7 @@ const accountSlice = createSlice({
         state.error = null
         state.status = 'success'
         const data = action.payload?.data
-        state.user = data
+        state.user = data || null
       })
       .addCase(updateProfile.rejected, (state, action) => {
         state.error = action.error.message

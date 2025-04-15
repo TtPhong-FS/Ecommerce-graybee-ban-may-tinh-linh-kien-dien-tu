@@ -3,6 +3,7 @@ import { parse } from 'date-fns'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { Loading } from '../../../components/Loading'
 import { defaultValues, Schema } from '../types/schema'
 import { Profile } from './Profile'
 
@@ -22,7 +23,7 @@ export const ProfileProvider = ({ handleCancel, initialData, isUpdate }) => {
   }, [initialData, methods])
 
   return loading ? (
-    <div>Loading...</div>
+    <Loading />
   ) : (
     <FormProvider {...methods}>{isUpdate && <Profile handleCancel={handleCancel} />}</FormProvider>
   )

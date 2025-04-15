@@ -9,7 +9,7 @@ export const ReviewComment = () => {
     <div className="rounded-lg bg-white p-4">
       {!reviews || reviews.length === 0 ? (
         <div>
-          <span className="sub-title">Sản phẩm chưa có đánh giá nào</span>
+          <span className="text-gray-500 italic">Sản phẩm chưa có đánh giá nào</span>
         </div>
       ) : (
         <div>

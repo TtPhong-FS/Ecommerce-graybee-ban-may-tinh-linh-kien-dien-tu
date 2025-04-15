@@ -196,3 +196,25 @@ export const updateAddress = createAsyncThunk(
     }
   }
 )
+
+export const findOrdersByStatusOptional = createAsyncThunk(
+  'account/findOrdersByStatusOptional',
+  async ({ status, token }, { rejectWithValue }) => {
+    try {
+      if (!navigator.onLine) {
+        return rejectWithValue('No internet connection')
+      }
+      const response = await accountApi.findOrdersByStatusOptional(status, token)
+      return { status: status, data: response.data }
+    } catch (error) {
+      if (error.code === 'EER_NETWORK' || error.message === 'Network Error') {
+        return rejectWithValue({
+          unconnect: 'Không thể kết nối đến server. Vui lòng kiểm tra mạng và thử lại!'
+        })
+      }
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data)
+      }
+    }
+  }
+)

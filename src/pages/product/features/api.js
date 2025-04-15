@@ -14,5 +14,6 @@ export const productApi = {
       `${product_endpoint}/by-category-and-subcategory-and-tag?category=${category}&subcategory=${subcategory}&tag=${tag}`,
       {}
     ),
-  getDetailById: (id) => API_URL.get(`${product_endpoint}/detail?id=${id}`, {})
+  getDetailById: (id) => API_URL.get(`${product_endpoint}/detail?id=${id}`, {}),
+  searchProductByName: (keyword) => API_URL.get(`${product_endpoint}/search?keyword=${keyword}`, {})
 }

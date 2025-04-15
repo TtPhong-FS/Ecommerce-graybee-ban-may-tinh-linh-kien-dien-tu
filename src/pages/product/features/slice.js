@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { findByCategory, getDetailById } from './thunk'
+import { getDetailById, searchProductByName } from './thunk'
 
 const initialState = {
-  products: {},
+  listProductSearch: [],
   details: null,
   error: null,
   productId: null,
@@ -14,50 +14,42 @@ export const productSlice = createSlice({
   initialState,
   reducers: {
     saveIdToState: (state, action) => {
-      console.log(action.payload)
       state.productId = action.payload
     },
-    clearProductId: (state) => {
-      state.productId = null
-    },
-    clearDetails: (state) => {
+    leaveDetailPage: (state) => {
       state.details = null
     }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(findByCategory.pending, (state) => {
-        state.error = null
-        state.status = 'loading'
-      })
-      .addCase(findByCategory.fulfilled, (state, action) => {
-        state.error = null
-        state.status = 'success'
-        const data = action.payload?.data
-        state.products = data.reduce((id, product) => {
-          id[product?.id] = product
-          return id
-        }, {})
-      })
-      .addCase(findByCategory.rejected, (state, action) => {
-        state.status = 'failed'
-        state.error = action.error.message
-      })
       .addCase(getDetailById.pending, (state) => {
         state.error = null
         state.status = 'loading'
       })
       .addCase(getDetailById.fulfilled, (state, action) => {
         state.status = 'success'
-        state.details = action.payload.data
+        state.details = action.payload?.data || null
       })
       .addCase(getDetailById.rejected, (state, action) => {
+        state.error = action.error.message
+        state.status = 'failed'
+      })
+
+      .addCase(searchProductByName.pending, (state) => {
+        state.error = null
+        state.status = 'loading'
+      })
+      .addCase(searchProductByName.fulfilled, (state, action) => {
+        state.status = 'success'
+        state.listProductSearch = action.payload?.data || []
+      })
+      .addCase(searchProductByName.rejected, (state, action) => {
         state.error = action.error.message
         state.status = 'failed'
       })
   }
 })
 
-export const { clearProductId, saveIdToState, clearDetails } = productSlice.actions
+export const { leaveDetailPage, saveIdToState } = productSlice.actions
 
 export default productSlice.reducer

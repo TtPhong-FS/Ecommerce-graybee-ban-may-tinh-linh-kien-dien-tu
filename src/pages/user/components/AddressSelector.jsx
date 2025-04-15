@@ -12,6 +12,7 @@ export const AddressSelector = () => {
 
   const watchCity = useWatch({ control, name: 'city' })
   const watchDistrict = useWatch({ control, name: 'district' })
+  const useExistingAddress = useWatch({ control, name: 'useExistingAddress' })
 
   useEffect(() => {
     if (watchCity) setSelectedCity(watchCity)
@@ -30,26 +31,27 @@ export const AddressSelector = () => {
     setSelectedDistrict(value)
   }
   return (
-    <>
+    <div className="flex flex-col gap-4 w-full">
       <Controller
         control={control}
         name="city"
         render={({ field, fieldState: { error } }) => (
           <FormControl fullWidth error={!!error}>
             <Select
-              style={{ width: '100%', height: '3rem' }}
-              {...field}
+              placeholder="Chọn Tỉnh/Thành phố"
               value={field.value}
-              placeholder="Vui lòng chọn Tỉnh/Thành Phố"
-              label="Chọn Tỉnh/Thành Phố"
-              showSearch={true}
+              disabled={useExistingAddress}
+              style={{ width: '100%', height: '3rem' }}
+              showSearch
               options={citiesOption}
               onChange={(value) => {
                 field.onChange(value)
                 handleCityChange(value)
               }}
             />
-            {error && <FormHelperText sx={{ marginLeft: '0.6rem' }}>{error?.message}</FormHelperText>}
+            {error && (
+              <FormHelperText sx={{ marginLeft: '0.3rem', fontSize: '0.875rem' }}>{error.message}</FormHelperText>
+            )}
           </FormControl>
         )}
       />
@@ -60,12 +62,11 @@ export const AddressSelector = () => {
         render={({ field, fieldState: { error } }) => (
           <FormControl fullWidth error={!!error}>
             <Select
-              style={{ width: '100%', height: '3rem' }}
-              {...field}
+              disabled={useExistingAddress}
               value={field.value}
-              placeholder="Vui lòng chọn Quận/Huyện"
-              label={'Chọn Quận/Huyện'}
-              showSearch={true}
+              style={{ width: '100%', height: '3rem' }}
+              placeholder="Chọn Huyện/Quận"
+              showSearch
               onChange={(value) => {
                 field.onChange(value)
                 handleDistrictChange(value)
@@ -77,7 +78,9 @@ export const AddressSelector = () => {
                 </Select.Option>
               ))}
             </Select>
-            {error && <FormHelperText sx={{ marginLeft: '0.6rem' }}>{error?.message}</FormHelperText>}
+            {error && (
+              <FormHelperText sx={{ marginLeft: '0.3rem', fontSize: '0.875rem' }}>{error.message}</FormHelperText>
+            )}
           </FormControl>
         )}
       />
@@ -87,15 +90,12 @@ export const AddressSelector = () => {
         render={({ field, fieldState: { error } }) => (
           <FormControl fullWidth error={!!error}>
             <Select
-              style={{ width: '100%', height: '3rem' }}
-              {...field}
-              onChange={(value) => {
-                field.onChange(value)
-              }}
+              disabled={useExistingAddress}
               value={field.value}
-              placeholder="Vui lòng chọn Phường/Xã"
-              label={'Chọn Phường/Xã'}
-              showSearch={true}
+              style={{ width: '100%', height: '3rem' }}
+              placeholder="Chọn Xã/Phường"
+              onChange={(value) => field.onChange(value)}
+              showSearch
             >
               {communes[selectedDistrict?.toLowerCase()]?.map((commune) => (
                 <Select.Option key={commune.id} value={commune.value}>
@@ -103,10 +103,12 @@ export const AddressSelector = () => {
                 </Select.Option>
               ))}
             </Select>
-            {error && <FormHelperText sx={{ marginLeft: '0.6rem' }}>{error?.message}</FormHelperText>}
+            {error && (
+              <FormHelperText sx={{ marginLeft: '0.3rem', fontSize: '0.875rem' }}>{error.message}</FormHelperText>
+            )}
           </FormControl>
         )}
       />
-    </>
+    </div>
   )
 }

@@ -1,10 +1,21 @@
 import { Button } from 'antd'
 import PropTypes from 'prop-types'
+import { useFormContext, useWatch } from 'react-hook-form'
 
 import { useSelector } from 'react-redux'
 
 export const ConfirmOrder = ({ confirm, setConfirm }) => {
-  const totalAmount = useSelector((state) => state.cart.totalAmount)
+  const {
+    control,
+    formState: { isSubmitting }
+  } = useFormContext()
+
+  const cartItemIds = useWatch({ control, name: 'cartItemIds' })
+
+  const cartItems = useSelector((state) => state.cart.cartItems)
+
+  const tolal = cartItems?.filter((item) => cartItemIds.includes(item.id)).reduce((sum, item) => sum + item.total, 0)
+
   return (
     <div className="sticky top-0">
       <div className="box min-w-[20rem]">
@@ -14,7 +25,7 @@ export const ConfirmOrder = ({ confirm, setConfirm }) => {
             <span className="flex items-center justify-between border-b-1 border-gray-400 pb-2">
               <span>Tổng tiền</span>
               <span className="font-medium text-base font-sans ">
-                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalAmount)}
+                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tolal)}
               </span>
             </span>
             <span className="flex items-center justify-between border-b-1 border-dashed border-gray-400 pb-2">
@@ -26,7 +37,7 @@ export const ConfirmOrder = ({ confirm, setConfirm }) => {
             <span className="flex items-center justify-between">
               <span>Tiền thanh toán</span>
               <span className="font-medium  font-sans text-red-500">
-                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalAmount)}
+                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tolal)}
               </span>
             </span>
             <span className="flex items-center justify-between">
@@ -37,7 +48,13 @@ export const ConfirmOrder = ({ confirm, setConfirm }) => {
         </div>
         <div className="mt-4">
           {confirm ? (
-            <Button type="primary" htmlType="submit" style={{ width: '100%', height: '2.5rem' }}>
+            <Button
+              disabled={isSubmitting}
+              loading={isSubmitting}
+              type="primary"
+              htmlType="submit"
+              style={{ width: '100%', height: '2.5rem' }}
+            >
               Đặt hàng
             </Button>
           ) : (

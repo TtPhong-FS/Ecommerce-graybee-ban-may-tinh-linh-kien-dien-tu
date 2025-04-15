@@ -1,7 +1,8 @@
 import { Outlet } from 'react-router-dom'
-import { AuthProvider } from '../auth/AuthProvider'
+
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
+import { AuthProvider } from '../components/auth/components/AuthProvider'
 
 const RootLayout = () => {
   return (
@@ -10,7 +11,7 @@ const RootLayout = () => {
         <Navbar />
       </AuthProvider>
       <main className="flex justify-center mt-8 mb-8">
-        <div className="p-6 max-w-[76.25rem] w-full">
+        <div className="p-6 max-w-[76.25rem] w-full flex flex-col gap-6 relative">
           <Outlet />
         </div>
       </main>

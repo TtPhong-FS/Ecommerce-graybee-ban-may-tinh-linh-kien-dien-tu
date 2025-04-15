@@ -1,19 +1,19 @@
 import { Route, Routes } from 'react-router-dom'
 
-import React, { lazy, Suspense } from 'react'
+import React, { Suspense } from 'react'
 import { Loading } from '../components/Loading'
 
-import { AuthProvider } from '../auth/AuthProvider'
-import { ProtectedRoute } from '../auth/ProtectedRoute'
-import { HomeLayout, ProfileLayout, RootLayout } from '../layout'
+import { AuthProvider } from '../components/auth/components/AuthProvider'
+import { ProtectedRoute } from '../components/auth/components/ProtectedRoute'
+import { ProfileLayout, RootLayout } from '../layout'
+import { HomePage } from '../pages/HomePage'
+import { ProductDetail } from '../pages/product/pages/ProductDetail'
 import ProductPage from '../pages/product/pages/ProductPage'
 
-const ProductDetail = lazy(() =>
-  import('../pages/product/pages/ProductDetail').then((module) => ({ default: module.ProductDetail }))
-)
-
 const Contact = React.lazy(() => import('../pages/Contact'))
-const AuthPage = React.lazy(() => import('../pages/auth/pages').then((module) => ({ default: module.AuthPage })))
+const AuthPage = React.lazy(() =>
+  import('../components/auth/pages/AuthPage').then((module) => ({ default: module.AuthPage }))
+)
 
 const OrderPage = React.lazy(() => import('../pages/orders/pages').then((module) => ({ default: module.OrderPage })))
 
@@ -34,12 +34,12 @@ const RootRoutes = () => {
     <Suspense fallback={<Loading />}>
       <Routes>
         <Route path="/" element={<RootLayout />}>
-          <Route index element={<HomeLayout />} />
-          <Route path="login" element={<HomeLayout />} />
-          <Route path="signup" element={<HomeLayout />} />
+          <Route index element={<HomePage />} />
+          <Route path="login" element={<HomePage />} />
+          <Route path="signup" element={<HomePage />} />
           <Route path="contact" element={<Contact />} />
 
-          <Route path="products/:slugId" element={<ProductDetail />} />
+          <Route path="product/details/:slugId" element={<ProductDetail />} />
           <Route path="pages/:category" element={<ProductPage />} />
           <Route path="pages/:category/:manufacturer" element={<ProductPage />} />
 

@@ -22,6 +22,11 @@ export const findByCategoryAndManufacturer = createAsyncThunk(
   }
 )
 
+export const searchProductByName = createAsyncThunk('product/searchProductByName', async ({ keyword }) => {
+  const response = await productApi.searchProductByName(keyword)
+  return response.data
+})
+
 export const getDetailById = createAsyncThunk('product/getDetailById', async ({ id }) => {
   const response = await productApi.getDetailById(id)
   return response.data

@@ -3,16 +3,22 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import '../../styles/Sidebar.css'
 import { Loading } from '../Loading'
+import { unFocusSidebar } from './features/slice'
 const Sidebar = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
+  const active = useSelector((state) => state.sidebar.active)
   const menus = useSelector((state) => state.sidebar.menus)
 
   const [activeCategory, setActiveCategory] = useState(null)
   const [isMegaMenuVisible, setIsMegaMenuVisible] = useState(false)
   const [show, setShow] = useState(false)
 
-  const navigate = useNavigate()
+  const handleUnFocus = () => {
+    dispatch(unFocusSidebar())
+  }
+
   const onMouse = () => {
     setIsMegaMenuVisible(true)
     setShow(true)
@@ -61,71 +67,82 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="flex h-96 gap-2 mb-10" onMouseLeave={onLeave}>
-      {/* Sidebar 15% */}
-      <div className="w-[15%] h-full" onMouseEnter={onMouse}>
-        <nav className="flex flex-col bg-white h-full cursor-pointer rounded-md">
-          {menus.map((category) => (
-            <div className="" key={category.id}>
-              <div
-                onClick={() => handleFindByCategory(category.name)}
-                className="flex items-center justify-between p-2 rounded-md  hover:bg-red-500 hover:text-white cursor-pointer"
-                onMouseEnter={() => setActiveCategory(category.id)}
-              >
-                {category.name}
+    <div className={`${active ? 'sticky top-25 z-40' : ''} mb-10`}>
+      {active && <div className="fixed inset-0 bg-black opacity-70" onClick={() => handleUnFocus()}></div>}
+
+      <div className="flex h-100 gap-2 relative" onMouseLeave={onLeave}>
+        {/* Sidebar 15% */}
+        <div
+          className={`w-[15%] rounded-md overflow-y-auto scroll-smooth transition-all duration-300 ${
+            active ? 'shadow-lg z-40 bg-white' : ''
+          }`}
+          onMouseEnter={onMouse}
+        >
+          <nav className="flex flex-col bg-white h-full cursor-pointer rounded-md">
+            {menus.map((category) => (
+              <div className="" key={category.id}>
+                <div
+                  onClick={() => handleFindByCategory(category.name)}
+                  className="flex items-center justify-between p-2 rounded-md  hover:bg-red-500 hover:text-white cursor-pointer"
+                  onMouseEnter={() => setActiveCategory(category.id)}
+                >
+                  {category.name}
+                </div>
               </div>
-            </div>
-          ))}
-        </nav>
-      </div>
-      {show && (
-        <div className="w-[85%]" onMouseEnter={onMouse} onMouseLeave={onLeave}>
-          {/* Mega Menu 85% */}
-          <div
-            className={`mega-menu ${isMegaMenuVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'} rounded-br-md`}
-          >
-            {menus.map(
-              (category) =>
-                activeCategory === category.id && (
-                  <div key={category.id} className="w-full flex flex-wrap">
-                    <div className="w-1/3 p-2">
-                      <h4 className="font-bold text-red-500">Thương hiệu</h4>
-                      <ul className="mt-2">
-                        {category.manufacturers?.map((manufacturer) => (
-                          <li
-                            onClick={() => handleFindByCateogryAndManufacturer(category.name, manufacturer.name)}
-                            key={manufacturer.id}
-                            className="text-gray-700 font-medium hover:text-red-500 cursor-pointer"
-                          >
-                            {manufacturer.name}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    {category.subcategories?.map((sub) => (
-                      <div key={sub.id} className="w-1/3 p-2">
-                        <h4 className="font-bold text-red-500">{sub.name}</h4>
+            ))}
+          </nav>
+        </div>
+        {show && (
+          <div className="w-[85%] rounded-e-md rounded-s-md" onMouseEnter={onMouse} onMouseLeave={onLeave}>
+            {/* Mega Menu 85% */}
+            <div
+              className={`mega-menu ${
+                isMegaMenuVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              } rounded-e-md `}
+            >
+              {menus.map(
+                (category) =>
+                  activeCategory === category.id && (
+                    <div key={category.id} className="w-full flex flex-wrap">
+                      <div className="w-1/3 p-2">
+                        <h4 className="font-bold text-red-500">Thương hiệu</h4>
                         <ul className="mt-2">
-                          {sub.tags.map((tag) => (
+                          {category.manufacturers?.map((manufacturer) => (
                             <li
-                              onClick={() =>
-                                handleFindByCategoryAndSubcategoryAndTag(category.name, sub.name, tag.name)
-                              }
-                              key={tag.id}
+                              onClick={() => handleFindByCateogryAndManufacturer(category.name, manufacturer.name)}
+                              key={manufacturer.id}
                               className="text-gray-700 font-medium hover:text-red-500 cursor-pointer"
                             >
-                              {tag.name}
+                              {manufacturer.name}
                             </li>
                           ))}
                         </ul>
                       </div>
-                    ))}
-                  </div>
-                )
-            )}
+                      {category.subcategories?.map((sub) => (
+                        <div key={sub.id} className="w-1/3 p-2">
+                          <h4 className="font-bold text-red-500">{sub.name}</h4>
+                          <ul className="mt-2">
+                            {sub.tags.map((tag) => (
+                              <li
+                                onClick={() =>
+                                  handleFindByCategoryAndSubcategoryAndTag(category.name, sub.name, tag.name)
+                                }
+                                key={tag.id}
+                                className="text-gray-700 font-medium hover:text-red-500 cursor-pointer"
+                              >
+                                {tag.name}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  )
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }

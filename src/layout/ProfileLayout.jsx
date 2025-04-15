@@ -2,7 +2,8 @@ import { Avatar, Grid2 } from '@mui/material'
 import { useContext } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, Outlet, useLocation } from 'react-router-dom'
-import { AuthContext } from '../auth/AuthProvider'
+
+import { AuthContext } from '../components/auth/components/AuthProvider'
 import { profileNavigation } from '../ui/profileNavigation'
 export const ProfileLayout = () => {
   const location = useLocation()

@@ -8,5 +8,13 @@ export const Theme = createTheme({
       laptop: 1024,
       desktop: 1240
     }
+  },
+  palette: {
+    custom: {
+      main: '#ffffff',
+      secondary: '#0000000a',
+      icon: '#242424',
+      border: '#4096ff'
+    }
   }
 })

@@ -13,7 +13,7 @@ export const RHFTextArea = ({ name, placeholder }) => {
       render={({ field }) => (
         <FormControl fullWidth>
           <TextArea
-            style={{ fontSize: '0.875rem' }}
+            style={{ fontSize: '1rem' }}
             {...field}
             placeholder={placeholder}
             autoSize={{ minRows: 5, maxRows: 7 }}

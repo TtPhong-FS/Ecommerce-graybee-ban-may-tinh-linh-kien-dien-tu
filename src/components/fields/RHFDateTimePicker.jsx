@@ -1,3 +1,4 @@
+import { FormControl, FormHelperText } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
@@ -12,10 +13,20 @@ export const RHFDateTimePicker = ({ label, name }) => {
     <Controller
       control={control}
       name={name}
-      render={({ field }) => (
-        <LocalizationProvider {...field} dateAdapter={AdapterDateFns}>
-          <DatePicker value={field.value} label={label} onChange={(value) => field.onChange(value)} />
-        </LocalizationProvider>
+      render={({ field, fieldState: { error } }) => (
+        <FormControl error={!!error} fullWidth>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              {...field}
+              value={field.value ? new Date(field.value) : null}
+              label={label}
+              onChange={(value) => field.onChange(value)}
+            />
+            {error && (
+              <FormHelperText sx={{ marginLeft: '0.3rem', fontSize: '0.875rem' }}>{error.message}</FormHelperText>
+            )}
+          </LocalizationProvider>
+        </FormControl>
       )}
     />
   )

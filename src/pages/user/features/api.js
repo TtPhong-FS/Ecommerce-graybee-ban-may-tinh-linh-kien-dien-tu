@@ -66,5 +66,11 @@ export const accountApi = {
           Authorization: token
         }
       }
-    )
+    ),
+  findOrdersByStatusOptional: (status, token) =>
+    API_URL.get(`${account_endpoint}/order-history?status=${status}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
 }
