@@ -90,12 +90,12 @@ export const deleteItemToCart = createAsyncThunk(
   }
 )
 
-export const clearItemsToCart = createAsyncThunk('cart/clearItemsToCart', async ({ token }, { rejectWithValue }) => {
+export const clearItemsToCart = createAsyncThunk('cart/clearItemsToCart', async (_, { rejectWithValue }) => {
   try {
     if (!navigator.connection) {
       return rejectWithValue('No internet connection')
     }
-    const response = await cartApi.clearItemsToCart(token)
+    const response = await cartApi.clearItemsToCart()
     return response.data
   } catch (error) {
     if (error.code === 'EER_NETWORK' || error.message === 'Network Error') {

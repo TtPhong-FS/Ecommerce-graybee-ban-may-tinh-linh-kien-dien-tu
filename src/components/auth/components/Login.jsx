@@ -48,9 +48,14 @@ export const Login = () => {
         <h1 className="title mb-2">Đăng nhập hoặc tạo tài khoản</h1>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-4 mb-10 mt-6">
+        <div className="flex flex-col gap-4 mb-2 mt-6">
           <RHFInputField label="Số điện thoại" name="username" placeholder="Nhập số điện thoại..." type="tel" />
           <RHFInputField label="Mật khẩu" name="password" placeholder="Nhập mật khẩu..." type="password" />
+        </div>
+        <div className="flex justify-end mb-8">
+          <Link to="/reset-password" className="text-blue-500 hover:underline decoration-solid">
+            Quên mật khẩu?
+          </Link>
         </div>
         <Button
           loading={isSubmitting}

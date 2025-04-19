@@ -1,0 +1,39 @@
+import { Breadcrumbs, Typography } from '@mui/material'
+
+import { Link, useLocation, useMatches } from 'react-router-dom'
+export const BreadCrumbs = () => {
+  const matches = useMatches()
+  const location = useLocation()
+
+  console.log(matches)
+
+  const hiddenPaths = ['/', '/login', '/signup']
+
+  if (hiddenPaths.includes(location.pathname)) {
+    return null
+  }
+
+  const crumbs = matches
+    .filter((match) => match.handle?.crumb)
+    .map((match) => ({
+      label: match.handle.crumb(match),
+      path: match.pathname
+    }))
+
+  return (
+    <Breadcrumbs aria-label="breadcrumb" py={2}>
+      {crumbs.map((item, index) => {
+        const lastItem = index === crumbs.length - 1
+        return lastItem ? (
+          <Typography key={index} color="textDisabled">
+            {item.label}
+          </Typography>
+        ) : (
+          <Link className="text-blue-600 hover:underline decoration-solid " to={item.path} key={index}>
+            {item.label}
+          </Link>
+        )
+      })}
+    </Breadcrumbs>
+  )
+}

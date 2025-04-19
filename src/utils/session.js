@@ -24,7 +24,6 @@ export function saveAuthToken(token) {
 
   Cookies.set('token', token, { expires: 0.021 })
   Cookies.remove('sessionId')
-  console.log('Token saved, sessionId removed')
 }
 
 export function getToken() {
@@ -41,7 +40,6 @@ export function getSession() {
 
 export function clearAuthToken() {
   Cookies.remove('token')
-
   initSession()
 }
 

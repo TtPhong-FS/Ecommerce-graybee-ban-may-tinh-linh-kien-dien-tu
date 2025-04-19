@@ -89,7 +89,7 @@ const Navbar = () => {
           <div className="flex h-full items-center md:gap-3">
             <div className="hidden md:flex gap-1 items-center">
               <img className="hidden md:block size-6 md:size-10" src={logo} alt="Logo Image" />
-              <h1 className="text-2xl hidden lg:flex cursor-pointer" onClick={() => navigate('/')}>
+              <h1 className="text-2xl text-white uppercase hidden lg:flex cursor-pointer" onClick={() => navigate('/')}>
                 Graybee
               </h1>
             </div>
@@ -155,7 +155,7 @@ const Navbar = () => {
               </IconButton>
             </div>
             <div className="hidden md:block">
-              <IconButton onClick={() => navigate('/order')}>
+              <IconButton onClick={() => navigate('/cart/cart-buy-order-box')}>
                 <Badge color="secondary" badgeContent={quantity}>
                   <ShoppingCartOutlinedIcon sx={{ fontSize: '1.3rem', color: 'white' }} />
                 </Badge>

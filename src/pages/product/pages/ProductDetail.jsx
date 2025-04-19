@@ -60,15 +60,6 @@ export const ProductDetail = () => {
     <div className="">
       {contextHolder}
       <div className="">
-        <div className="flex gap-2 mb-4">
-          <a href="" className="text-blue-600 text-[1.1rem] hover:underline decoration-solid">
-            Sản phẩm
-          </a>
-          <span className="text-[1.2rem] text-gray-500">/</span>
-          <span className="text-gray-500  text-[1.1rem] select-text">
-            {details?.name?.toUpperCase().substring(0, 50)}
-          </span>
-        </div>
         <div className="select-text">
           <Grid2 width={'100%'} container>
             <Grid2

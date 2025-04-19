@@ -71,16 +71,18 @@ export const Order = () => {
       {contextHolder}
       {cartItems.length > 0 ? (
         <div>
-          <div className="py-3">
-            <span
-              onClick={() => onUnConfirm()}
-              className="text-blue-500 text-[1rem] hover:decoration-solid hover:underline cursor-pointer"
-            >
-              Quay trở về giỏ hàng
-            </span>
-          </div>
+          {confirm && (
+            <div className="mb-4">
+              <span
+                onClick={() => onUnConfirm()}
+                className="text-blue-500 text-[1rem] hover:decoration-solid hover:underline cursor-pointer"
+              >
+                Quay trở về giỏ hàng
+              </span>
+            </div>
+          )}
           <Spin spinning={isSubmitting}>
-            <form className="mt-10" onSubmit={handleSubmit(onSubmit)}>
+            <form className="" onSubmit={handleSubmit(onSubmit)}>
               <Grid2 container spacing={2}>
                 <Grid2 size={{ mobile: 12, tablet: 12, laptop: 8 }}>
                   <CartItem />
