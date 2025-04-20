@@ -5,7 +5,7 @@ export const Description = () => {
 
   return (
     <div className="box">
-      <div className="text-[1.1rem]">{description}</div>
+      <div className="text-[1.1rem]" dangerouslySetInnerHTML={{ __html: description }} />
     </div>
   )
 }

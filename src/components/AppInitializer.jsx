@@ -24,17 +24,15 @@ export const AppInitializer = () => {
           await dispatch(getFavourites())
         }
       }
-      const fetchPublic = async () => {
-        await dispatch(getSidebar())
-        await dispatch(preLoadCarousel())
-        await dispatch(findCartByUserUidOrSessionId())
-      }
+
+      dispatch(getSidebar())
+      dispatch(preLoadCarousel())
+      dispatch(findCartByUserUidOrSessionId())
 
       fetchPrivate()
-      fetchPublic()
     }
     initialized.current = true
-  }, [dispatch])
+  }, [])
 
   return null
 }

@@ -5,7 +5,11 @@ export const HomePage = () => {
   return (
     <div>
       <Sidebar />
-      <CarouselWrapper category={'laptop'} type={'best_seller'} />
+      <div className="flex flex-col gap-4">
+        <CarouselWrapper category={'laptop'} />
+        <CarouselWrapper category={'pc'} />
+        <CarouselWrapper category={'cpu'} />
+      </div>
     </div>
   )
 }

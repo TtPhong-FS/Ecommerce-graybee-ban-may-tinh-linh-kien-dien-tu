@@ -11,10 +11,10 @@ import { Loading } from '../../Loading'
 import { getCarouselByCategoryAndType } from '../features/carouselSelector'
 import { fetchCarousel } from '../features/slice'
 import '../styles/swiper.css'
-export const CarouselWrapper = ({ category, type }) => {
+export const CarouselWrapper = ({ category }) => {
   console.log('render')
   const dispatch = useDispatch()
-  const selectCarousel = useMemo(() => getCarouselByCategoryAndType(category, type), [category, type])
+  const selectCarousel = useMemo(() => getCarouselByCategoryAndType(category), [category])
 
   const carousel = useSelector(selectCarousel)
 
@@ -23,11 +23,11 @@ export const CarouselWrapper = ({ category, type }) => {
   useEffect(() => {
     if (!isFetch.current) {
       if (!carousel || carousel.length === 0) {
-        dispatch(fetchCarousel({ category, type }))
+        dispatch(fetchCarousel({ category }))
       }
     }
     isFetch.current = true
-  }, [carousel, category, type, dispatch])
+  }, [carousel, category, dispatch])
 
   if (!carousel || carousel.length === 0) return <Loading />
 

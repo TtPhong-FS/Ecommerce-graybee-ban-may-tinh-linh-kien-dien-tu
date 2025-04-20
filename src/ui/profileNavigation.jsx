@@ -19,7 +19,7 @@ export const profileNavigation = [
     key: 2,
     title: 'Quản lý địa chỉ',
     icon: <EditLocationAltOutlinedIcon />,
-    path: '/account/manage-address'
+    path: '/account/manage/address'
   },
   {
     key: 3,

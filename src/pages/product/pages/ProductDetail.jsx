@@ -8,16 +8,10 @@ import { Loading } from '../../../components/Loading'
 import { useActionAddToCartAndFavourite } from '../../../hooks'
 import { isPresentInFavorites } from '../../../utils'
 import { Description } from '../components/Description'
-import { GeneralInfo } from '../components/GeneralInfo'
 import { ReviewComment } from '../components/ReviewComment'
 import { getDetailById } from '../features/thunk'
 
 const items = [
-  {
-    key: 'general_info',
-    label: 'Thông tin chung',
-    children: <GeneralInfo />
-  },
   {
     key: 'description',
     label: 'Mô tả sản phẩm',
@@ -71,7 +65,7 @@ export const ProductDetail = () => {
             >
               <Grid2 size={5} sx={{ borderRight: '1px solid #d1d5dc', padding: '1rem' }}>
                 <div>
-                  <div className="flex items-center justify-end mb-6">
+                  <div className="flex items-center  mb-6">
                     <Image width={200} height={200} src={details?.thumbnail} alt="" />
                   </div>
                 </div>
@@ -100,6 +94,13 @@ export const ProductDetail = () => {
                       -{details?.discountPercent}%
                     </Tag>
                   </span>
+                </div>
+                <div className="text-base box">
+                  <p className="sub-title">Thương hiệu: {details?.manufacturerName}</p>
+                  <p className="sub-title">Tình trạng: {details?.conditions}</p>
+                  <p className="sub-title">Bảo hàng: {details?.warranty} tháng</p>
+                  {details?.weight !== 0 ? <p className="sub-title">Cân nặng: {details?.weight}kg</p> : null}
+                  {details?.color && <p className="sub-title">Màu: {details?.color}</p>}
                 </div>
                 <div className="flex gap-10 justify-center items-center mt-10">
                   <div className="block">

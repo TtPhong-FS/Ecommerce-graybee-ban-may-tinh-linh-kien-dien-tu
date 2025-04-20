@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { cartApi } from './api'
 
-export const addItemToCart = createAsyncThunk('cart/addItemToCart', async ({ request, token }, { rejectWithValue }) => {
+export const addItemToCart = createAsyncThunk('cart/addItemToCart', async ({ request }, { rejectWithValue }) => {
   try {
     if (!navigator.connection) {
       return rejectWithValue('No internet connection')
     }
-    const response = await cartApi.addItemToCart(request, token)
+    const response = await cartApi.addItemToCart(request)
     return response.data
   } catch (error) {
     if (error.code === 'EER_NETWORK' || error.message === 'Network Error') {
@@ -23,12 +23,12 @@ export const addItemToCart = createAsyncThunk('cart/addItemToCart', async ({ req
 
 export const decreaseQuantityToCartItem = createAsyncThunk(
   'cart/decreaseQuantityToCartItem',
-  async ({ request, token }, { rejectWithValue }) => {
+  async ({ request }, { rejectWithValue }) => {
     try {
       if (!navigator.connection) {
         return rejectWithValue('No internet connection')
       }
-      const response = await cartApi.decreaseQuantityToCartItem(request, token)
+      const response = await cartApi.decreaseQuantityToCartItem(request)
       return response.data
     } catch (error) {
       if (error.code === 'EER_NETWORK' || error.message === 'Network Error') {
@@ -69,12 +69,12 @@ export const findCartByUserUidOrSessionId = createAsyncThunk(
 
 export const deleteItemToCart = createAsyncThunk(
   'cart/deleteItemToCart',
-  async ({ cartItemId, token }, { rejectWithValue }) => {
+  async ({ cartItemId }, { rejectWithValue }) => {
     try {
       if (!navigator.connection) {
         return rejectWithValue('No internet connection')
       }
-      const response = await cartApi.deleteItemToCart(cartItemId, token)
+      const response = await cartApi.deleteItemToCart(cartItemId)
       return response.data
     } catch (error) {
       if (error.code === 'EER_NETWORK' || error.message === 'Network Error') {
