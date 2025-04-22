@@ -17,19 +17,17 @@ export const AppInitializer = () => {
 
   React.useEffect(() => {
     if (!initialized.current) {
-      const fetchPrivate = async () => {
-        if (token && (!user || user == null)) await dispatch(getProfileByToken())
-        if (token) {
-          await dispatch(getAddressesByToken())
-          await dispatch(getFavourites())
-        }
+      if (token && (!user || user == null)) {
+        dispatch(getProfileByToken())
+      }
+      if (token) {
+        dispatch(getAddressesByToken())
+        dispatch(getFavourites())
       }
 
       dispatch(getSidebar())
       dispatch(preLoadCarousel())
       dispatch(findCartByUserUidOrSessionId())
-
-      fetchPrivate()
     }
     initialized.current = true
   }, [])

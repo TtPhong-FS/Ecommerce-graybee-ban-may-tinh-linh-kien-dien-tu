@@ -65,30 +65,35 @@ export const Address = ({ isUpdate, onClose }) => {
       <Spin spinning={isSubmitting}>
         <form className="h-full" onSubmit={handleSubmit(onSubmit)}>
           <div className="bg-white px-4 py-6 mb-4">
-            <h2 className="sub-title">{isUpdate ? 'Chỉnh sửa địa chỉ' : 'Thêm địa chỉ mới'}</h2>
+            <h1>{isUpdate ? 'Chỉnh sửa địa chỉ' : 'Thêm địa chỉ mới'}</h1>
           </div>
           <div>
             <div className="p-4">
-              <h2 className="text-gray-500 text-[1.2rem] mb-4">Thông tin người nhận</h2>
-              <div className="flex flex-col gap-4">
+              <h2>Thông tin người nhận</h2>
+              <div className="flex flex-col gap-2">
                 <RHFInputField name="fullname" type="text" label="Họ và tên" />
                 <RHFInputField name="phoneNumber" type="text" label="Số điện thoại" />
               </div>
             </div>
             <div className="p-4">
-              <h2 className="text-gray-500 text-[1.2rem] mb-4">Địa chỉ người nhận</h2>
-              <div className="flex flex-col gap-2">
+              <h2>Địa chỉ người nhận</h2>
+              <div className="flex flex-col gap-2 mt-1">
                 {/* <RHFSelect name="city" type="text" label="Tỉnh/Thành phố" options={cityOption} />
               <RHFSelect name="district" type="text" label="Quận/Huyện" />
               <RHFSelect name="commune" type="text" label="Phường/Xã" /> */}
                 <AddressSelector />
                 <div className="mt-2">
-                  <RHFInputField name="streetAddress" type="text" label="Địa chỉ cụ thể" />
+                  <RHFInputField
+                    name="streetAddress"
+                    type="text"
+                    label="Địa chỉ cụ thể"
+                    placeholder={'Nhập địa chỉ cụ thể...'}
+                  />
                 </div>
               </div>
             </div>
             <div className="flex items-center justify-between p-4">
-              <h2 className="text-gray-500 text-[1.2rem]">Đặt làm địa chỉ mặc định</h2>
+              <h2>Đặt làm địa chỉ mặc định</h2>
               <RHFSwitch name="default" />
             </div>
           </div>

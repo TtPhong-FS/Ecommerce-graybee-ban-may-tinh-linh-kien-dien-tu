@@ -52,7 +52,7 @@ export const ProfilePage = () => {
   return (
     <div className="">
       {contextHolder}
-      <h2 className="title py-3 mb-4">Thông tin cá nhân</h2>
+      <h1>Thông tin cá nhân</h1>
       {isEdit ? (
         <ProfileProvider handleCancel={handleCancel} initialData={initialData} isUpdate={isUpdate} />
       ) : (

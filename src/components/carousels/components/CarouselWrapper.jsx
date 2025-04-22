@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import React, { useEffect, useMemo, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -8,32 +8,16 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import ProductCard from '../../cards/ProductCard'
 import { Loading } from '../../Loading'
-import { getCarouselByCategoryAndType } from '../features/carouselSelector'
-import { fetchCarousel } from '../features/slice'
 import '../styles/swiper.css'
-export const CarouselWrapper = ({ category }) => {
-  console.log('render')
-  const dispatch = useDispatch()
-  const selectCarousel = useMemo(() => getCarouselByCategoryAndType(category), [category])
 
-  const carousel = useSelector(selectCarousel)
+const CarouselWrapper = ({ category }) => {
+  const carousels = useSelector((state) => state.carousel.carousels[category])
 
-  const isFetch = useRef(false)
-
-  useEffect(() => {
-    if (!isFetch.current) {
-      if (!carousel || carousel.length === 0) {
-        dispatch(fetchCarousel({ category }))
-      }
-    }
-    isFetch.current = true
-  }, [carousel, category, dispatch])
-
-  if (!carousel || carousel.length === 0) return <Loading />
+  if (!carousels || carousels.length === 0) return <Loading />
 
   return (
     <div className="box">
-      <h2 className="title mb-4">{category?.toUpperCase()} bán chạy</h2>
+      <h1>{category?.toUpperCase()} bán chạy</h1>
       <Swiper
         modules={[Navigation, Autoplay, Pagination]}
         slidesPerView={5}
@@ -43,7 +27,7 @@ export const CarouselWrapper = ({ category }) => {
         loop={true}
         className="relative"
       >
-        {carousel?.map((product, index) => (
+        {carousels?.map((product, index) => (
           <SwiperSlide key={index}>
             <ProductCard data={product} />
           </SwiperSlide>
@@ -57,3 +41,5 @@ CarouselWrapper.propTypes = {
   category: PropTypes.string,
   type: PropTypes.string
 }
+
+export default React.memo(CarouselWrapper)

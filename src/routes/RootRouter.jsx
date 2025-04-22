@@ -1,7 +1,9 @@
 import { AuthProvider } from '../components/auth/components/AuthProvider'
+import { ProtectedRoute } from '../components/auth/components/ProtectedRoute'
 import { ProfileLayout, RootLayout } from '../layout'
+import { HomePage } from '../pages'
 import Contact from '../pages/Contact'
-import { HomePage } from '../pages/HomePage'
+
 import { NotFoundPage } from '../pages/NotFoundPage'
 import { OrderPage } from '../pages/orders/pages'
 import { ProductDetail } from '../pages/product/pages/ProductDetail'
@@ -11,7 +13,12 @@ import { FavouritePage, ManageAddressPage, OrderHistoryPage, ProfilePage } from 
 const RootRouter = [
   {
     path: '/',
-    element: <RootLayout />,
+    element: (
+      <AuthProvider>
+        <RootLayout />
+      </AuthProvider>
+    ),
+
     errorElement: <NotFoundPage />,
     handle: {
       crumb: () => 'Trang chủ'
@@ -66,9 +73,9 @@ const RootRouter = [
         path: 'account/',
         element: (
           <>
-            <AuthProvider>
+            <ProtectedRoute requiredRoles={['ADMIN', 'CUSTOMER', 'MANAGE']}>
               <ProfileLayout />
-            </AuthProvider>
+            </ProtectedRoute>
           </>
         ),
 

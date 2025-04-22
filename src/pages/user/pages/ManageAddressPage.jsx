@@ -2,53 +2,11 @@ import { HomeFilled, LoadingOutlined, RedoOutlined } from '@ant-design/icons'
 import { DeleteOutline } from '@mui/icons-material'
 import { Chip, IconButton } from '@mui/material'
 import { Avatar, Button, Drawer } from 'antd'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useMessage } from '../../../hooks'
 import { AddressProvider } from '../components/AddressProvider'
 import { deleteAddressByIdAndUserUidFromToken, getAddressesByToken, updateDefaultAddress } from '../features'
-const personalAddress = [
-  {
-    id: 1,
-    fullname: 'Nguyễn Thị Bích Ngọc',
-    phoneNumber: '0343646044',
-    city: 'Hà Nội',
-    district: 'Huyện Thường Tín',
-    commune: 'Xã Vân Tảo',
-    streetAddress: 'Số 65 Xóm Đoàn kết Thôn Xâm động',
-    default: true
-  },
-  {
-    id: 2,
-    fullname: 'Nguyễn Thị Bích Ngọc',
-    phoneNumber: '0343646044',
-    city: 'Hà Nội',
-    district: 'Huyện Thường Tín',
-    commune: 'Xã Vân Tảo',
-    streetAddress: 'Số 65 Xóm Đoàn kết Thôn Xâm động',
-    default: false
-  },
-  {
-    id: 3,
-    fullname: 'Nguyễn Thị Bích Ngọc',
-    phoneNumber: '0343646044',
-    city: 'Hà Nội',
-    district: 'Huyện Thường Tín',
-    commune: 'Xã Vân Tảo',
-    streetAddress: 'Số 65 Xóm Đoàn kết Thôn Xâm động',
-    default: false
-  },
-  {
-    id: 4,
-    fullname: 'Nguyễn Thị Bích Ngọc',
-    phoneNumber: '0343646044',
-    city: 'Hà Nội',
-    district: 'Huyện Thường Tín',
-    commune: 'Xã Vân Tảo',
-    streetAddress: 'Số 65 Xóm Đoàn kết Thôn Xâm động',
-    default: false
-  }
-]
 
 export const ManageAddressPage = () => {
   const deliveryAddress = useSelector((state) => state.account.deliveryAddress, shallowEqual)
@@ -145,7 +103,7 @@ export const ManageAddressPage = () => {
       {contextHolder}
       <div className="flex justify-between items-center">
         <div className="flex items-center">
-          <h2 className="title">Địa chỉ cá nhân</h2>
+          <h1>Địa chỉ cá nhân</h1>
           <div className="ml-12">
             <IconButton disabled={loading} onClick={handleReloadAddress}>
               {loading ? <LoadingOutlined spin /> : <RedoOutlined />}
@@ -154,7 +112,7 @@ export const ManageAddressPage = () => {
         </div>
         <div className="flex content-center items-center gap-6 mb-6">
           <Button
-            onClick={() => setOpen(true)}
+            onClick={() => showDrawer(null)}
             type="primary"
             htmlType="button"
             style={{ height: '2.7rem', backgroundColor: '#dc2f2f' }}

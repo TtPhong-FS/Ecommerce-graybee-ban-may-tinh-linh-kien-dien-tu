@@ -1,4 +1,3 @@
-import { FormLabel } from '@mui/material'
 import { Select } from 'antd'
 import { useEffect, useState } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
@@ -9,7 +8,7 @@ import { RHFCheckBox } from '../../../components/fields'
 export function AddressExistingSelector() {
   const dispatch = useDispatch()
 
-  const addressExisting = useSelector((state) => state.general?.addressExisting)
+  const addressExisting = useSelector((state) => state.address?.addressExisting)
 
   const [selectedId, setSelectedId] = useState(null)
 
@@ -18,7 +17,7 @@ export function AddressExistingSelector() {
   const useExistingAddress = useWatch({ control, name: 'useExistingAddress' })
 
   const handleDropdownVisibleChange = (open) => {
-    if ((open && !addressExisting) || addressExisting.length === 0) {
+    if (open && (!addressExisting || addressExisting?.length === 0)) {
       dispatch(fetchAddressExistingByTokenOrSessionId())
     }
   }
@@ -44,12 +43,6 @@ export function AddressExistingSelector() {
 
       setSelectedId(null)
       setValue('addressId', null)
-      setValue('fullName', '')
-      setValue('phoneNumber', '')
-      setValue('city', null)
-      setValue('district', null)
-      setValue('streetAddress', '')
-      setValue('commune', null)
     }
     return () => {}
   }, [useExistingAddress])
@@ -60,7 +53,7 @@ export function AddressExistingSelector() {
 
       {useExistingAddress && (
         <>
-          <FormLabel sx={{ marginBottom: '0.2rem', fontSize: '1rem' }}>Chọn địa chỉ</FormLabel>
+          <label>Chọn địa chỉ</label>
           <Select
             showSearch
             onDropdownVisibleChange={handleDropdownVisibleChange}

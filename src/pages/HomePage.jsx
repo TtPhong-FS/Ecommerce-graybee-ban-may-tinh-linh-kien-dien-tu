@@ -1,4 +1,4 @@
-import { CarouselWrapper } from '../components/carousels/components/CarouselWrapper'
+import CarouselWrapper from '../components/carousels/components/CarouselWrapper'
 import Sidebar from '../components/sidebar/Sidebar'
 
 export const HomePage = () => {

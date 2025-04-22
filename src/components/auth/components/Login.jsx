@@ -45,7 +45,7 @@ export const Login = () => {
     <>
       {contextHolder}
       <div className="flex items-center justify-center w-full">
-        <h1 className="title mb-2">Đăng nhập hoặc tạo tài khoản</h1>
+        <h1>Đăng nhập hoặc tạo tài khoản</h1>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4 mb-2 mt-6">

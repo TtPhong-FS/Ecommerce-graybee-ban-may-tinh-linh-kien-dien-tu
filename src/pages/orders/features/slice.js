@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { removeItemsByIds } from '../../../components/cart/features/slice'
 import { privateAPI } from '../../../config/axiosServer'
 
 const order_endpoint = '/api/v1/public/order'
@@ -10,12 +9,8 @@ export const createOrder = createAsyncThunk('order/createOrder', async ({ reques
   try {
     const res = await createOrderApi(request)
 
-    const cartItemIds = res.data.data
-    console.log(cartItemIds)
-    dispatch(removeItemsByIds(cartItemIds))
     return res.data
   } catch (error) {
-    console.error(error)
     if (error.code === 'EER_NETWORK' || error.message === 'Network Error') {
       return rejectWithValue({
         unconnect: 'Không thể kết nối đến server. Vui lòng kiểm tra mạng và thử lại!'

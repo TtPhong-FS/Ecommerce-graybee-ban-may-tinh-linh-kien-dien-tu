@@ -37,7 +37,7 @@ export const FavouritePage = () => {
     <div>
       {contextHolder}
       <div className="flex items-center py-3 mb-4">
-        <h2 className="title">Sản phẩm yêu thích</h2>
+        <h1>Sản phẩm yêu thích</h1>
         <div className="ml-12">
           <IconButton onClick={handleReloadFavourites}>
             {loading ? <LoadingOutlined spin /> : <RedoOutlined />}

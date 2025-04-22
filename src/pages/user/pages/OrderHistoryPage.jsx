@@ -88,10 +88,10 @@ export const OrderHistoryPage = () => {
   return (
     <div>
       {contextHolder}
-      <header className="grid grid-cols-2 py-3 pb-6">
-        <h2 className="title">Lịch sử mua hàng</h2>
+      <div className="grid grid-cols-2 py-3 pb-6">
+        <h1>Lịch sử mua hàng</h1>
         <Input.Search placeholder="Nhập mã đơn hàng hoặc tên sản phẩm để tìm kiếm..." />
-      </header>
+      </div>
       <Tabs
         tabBarStyle={{ backgroundColor: 'white', borderRadius: '10x 10px 0 0' }}
         centered

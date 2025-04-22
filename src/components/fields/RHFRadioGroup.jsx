@@ -1,4 +1,4 @@
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -14,7 +14,7 @@ export const RHFRadioGroup = ({ name, options, label }) => {
       defaultValue=""
       render={({ field, fieldState: { error } }) => (
         <FormControl {...field} error={!!error}>
-          <FormLabel>{label}</FormLabel>
+          <label className="title-form">{label}</label>
           <RadioGroup row>
             {options?.map((option) => (
               <FormControlLabel
@@ -25,6 +25,7 @@ export const RHFRadioGroup = ({ name, options, label }) => {
               />
             ))}
           </RadioGroup>
+          {error && <span className="error-message">{error.message}</span>}
         </FormControl>
       )}
     />

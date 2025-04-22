@@ -80,14 +80,14 @@ const Sidebar = () => {
         >
           <nav className="flex flex-col bg-white h-full cursor-pointer rounded-md">
             {menus.map((category) => (
-              <div className="" key={category.id}>
-                <div
+              <div key={category.id}>
+                <h3
                   onClick={() => handleFindByCategory(category.name)}
                   className="flex items-center justify-between p-2 rounded-md  hover:bg-red-500 hover:text-white cursor-pointer"
                   onMouseEnter={() => setActiveCategory(category.id)}
                 >
                   {category.name}
-                </div>
+                </h3>
               </div>
             ))}
           </nav>
@@ -105,7 +105,7 @@ const Sidebar = () => {
                   activeCategory === category.id && (
                     <div key={category.id} className="w-full flex flex-wrap">
                       <div className="w-1/3 p-2">
-                        <h4 className="font-bold text-red-500">Thương hiệu</h4>
+                        <h3 className=" text-red-500">Thương hiệu</h3>
                         <ul className="mt-2">
                           {category.manufacturers?.map((manufacturer) => (
                             <li
@@ -120,7 +120,7 @@ const Sidebar = () => {
                       </div>
                       {category.subcategories?.map((sub) => (
                         <div key={sub.id} className="w-1/3 p-2">
-                          <h4 className="font-bold text-red-500">{sub.name}</h4>
+                          <h3 className=" text-red-500">{sub.name}</h3>
                           <ul className="mt-2">
                             {sub.tags.map((tag) => (
                               <li

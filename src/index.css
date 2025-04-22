@@ -21,24 +21,40 @@ body {
   font-size: 14px;
 }
 
-.title {
+h1 {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #333333;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.multi-line-ellipsis {
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
 }
 
-.sub-title {
-  font-size: 1.14rem;
+h3 {
+  font-size: 1rem;
   font-weight: 600;
-  color: #090d14;
+}
+
+.error-message {
+  color: #fb2c36;
+  margin-left: 6px;
+  margin-top: 3px;
+}
+
+.title-form {
+  color: #6a7282;
+  margin-bottom: 4px;
+}
+
+.description {
+  user-select: text;
+  color: #6a7282;
+}
+
+.content {
 }
 
 .box {

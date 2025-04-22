@@ -89,7 +89,7 @@ const Navbar = () => {
           <div className="flex h-full items-center md:gap-3">
             <div className="hidden md:flex gap-1 items-center">
               <img className="hidden md:block size-6 md:size-10" src={logo} alt="Logo Image" />
-              <h1 className="text-2xl text-white uppercase hidden lg:flex cursor-pointer" onClick={() => navigate('/')}>
+              <h1 className="text-white uppercase hidden lg:flex cursor-pointer" onClick={() => navigate('/')}>
                 Graybee
               </h1>
             </div>
@@ -128,9 +128,9 @@ const Navbar = () => {
                 {isSearch && (
                   <>
                     {!listProductSearch || listProductSearch?.length === 0 ? (
-                      <div className="rounded-md absolute top-12 z-50 bg-white w-full flex items-center justify-center py-5 text-gray-500">
+                      <span className="rounded-md absolute top-12 z-50 bg-white w-full flex items-center justify-center py-5 description">
                         Chưa có sản phẩm nào...
-                      </div>
+                      </span>
                     ) : (
                       <div ref={containerRef} className="rounded-md absolute top-12 z-50 bg-white w-full h-[30rem]">
                         <div className="w-full h-[30rem]">

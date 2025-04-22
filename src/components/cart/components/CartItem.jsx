@@ -19,7 +19,6 @@ const CustomTooltip = styled(({ className, ...props }) => <Tooltip {...props} cl
 })
 
 const CartItem = () => {
-  console.log('render')
   const dispatch = useDispatch()
 
   const mobile = useMediaQuery('(max-width:1024px)')
@@ -29,6 +28,7 @@ const CartItem = () => {
   const toDetail = useToDetail()
 
   const cartItems = useSelector((state) => state.cart.cartItems)
+  console.log(cartItems)
   const totalItem = cartItems.length
 
   const handleSelectItem = (cartItemId) => {
@@ -46,7 +46,7 @@ const CartItem = () => {
     setSelectAll(!selectAll)
   }
 
-  const handleDecreaseQuantity = async (productId, quantity) => {
+  const handleDecreaseQuantity = (productId, quantity) => {
     const values = { productId, quantity }
     dispatch(decreaseQuantityToCartItem({ request: values }))
   }
@@ -74,7 +74,7 @@ const CartItem = () => {
       <div className="flex justify-between items-center bg-white pl-4 py-1 pr-4 rounded-[0.7rem] mb-4">
         <div className="flex items-center gap-2">
           <Checkbox checked={selectAll} onChange={handleSelectAll} />
-          <h2 className="select-text">Chọn tất cả ({totalItem})</h2>
+          <h2>Chọn tất cả ({totalItem})</h2>
         </div>
         <Popconfirm
           title="Xoá giỏ hàng"
@@ -96,7 +96,7 @@ const CartItem = () => {
               placement="auto"
               title={
                 <div className="w-auto">
-                  {cartItems.map((cartItem, index) => (
+                  {cartItems?.map((cartItem, index) => (
                     <div key={index} className="flex items-center not-first:pt-4 box">
                       <div className="mr-2">
                         <Checkbox
@@ -119,16 +119,17 @@ const CartItem = () => {
                         <Link
                           target="_blank"
                           onClick={() => toDetail({ id: cartItem.product.id, name: cartItem.product.name })}
-                          className="cursor-pointer text-sm font-medium w-[12rem] hover:underline decoration-solid text-blue-600"
+                          className="link text-sm font-medium w-[12rem]"
                         >
                           {cartItem.product.name}
                         </Link>
                       </div>
                       <div className="flex ml-4 mr-4 gap-2 items-center justify-center">
                         <Button
-                          disabled={cartItem.quantity <= 1 ? true : false}
+                          disabled={cartItem.quantity === 1 ? true : false}
                           size="small"
-                          onClick={() => handleDecreaseQuantity(cartItem.product.id, 1)}
+                          htmlType="button"
+                          onClick={() => console.log(cartItem)}
                         >
                           <span className="text-[1.5rem]">-</span>
                         </Button>
@@ -171,7 +172,7 @@ const CartItem = () => {
                 </div>
               }
             >
-              <span className="font-medium box cursor-pointer">Chạm để xem sản phẩm</span>
+              <h2>Chạm để xem sản phẩm</h2>
             </CustomTooltip>
           ) : (
             <div className="w-auto ">
@@ -207,9 +208,9 @@ const CartItem = () => {
                         <Button
                           icon={<MinusOutlined style={{ fontSize: '0.8rem' }} />}
                           style={{ padding: '1rem' }}
-                          disabled={cartItem.quantity <= 1 ? true : false}
+                          disabled={cartItem.quantity === 1 ? true : false}
                           size="small"
-                          onClick={() => handleDecreaseQuantity(cartItem.id, cartItem.product.id, 1)}
+                          onClick={() => handleDecreaseQuantity(cartItem.product.id, 1)}
                         />
 
                         <span className="p-2 text-[1rem]">{cartItem.quantity}</span>
@@ -220,7 +221,7 @@ const CartItem = () => {
                           style={{ padding: '1rem' }}
                         />
                       </div>
-                      <span className="inline-flex w-[8rem] ml-8 flex-col items-start ">
+                      <div className="inline-flex w-[8rem] ml-8 flex-col items-start ">
                         <span className="font-medium text-[16px] font-sans text-red-500">
                           {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
                             cartItem.product.finalPrice
@@ -231,7 +232,7 @@ const CartItem = () => {
                             cartItem.product.price
                           )}
                         </del>
-                      </span>
+                      </div>
                       <div className="ml-4">
                         <Popconfirm
                           title="Xoá giỏ hàng"

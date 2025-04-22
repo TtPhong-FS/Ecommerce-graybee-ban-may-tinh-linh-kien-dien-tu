@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText } from '@mui/material'
+import { FormControl } from '@mui/material'
 import { Select } from 'antd'
 import { useEffect, useState } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
@@ -18,9 +18,6 @@ export const AddressSelector = () => {
     if (watchCity) setSelectedCity(watchCity)
     if (watchDistrict) setSelectedDistrict(watchDistrict)
   }, [watchCity, watchDistrict])
-
-  console.log('city: ', selectedCity)
-  console.log('distrcit: ', selectedDistrict)
 
   const handleCityChange = (value) => {
     setSelectedCity(value)
@@ -49,9 +46,7 @@ export const AddressSelector = () => {
                 handleCityChange(value)
               }}
             />
-            {error && (
-              <FormHelperText sx={{ marginLeft: '0.3rem', fontSize: '0.875rem' }}>{error.message}</FormHelperText>
-            )}
+            {error && <span className="error-message">{error.message}</span>}
           </FormControl>
         )}
       />
@@ -78,9 +73,7 @@ export const AddressSelector = () => {
                 </Select.Option>
               ))}
             </Select>
-            {error && (
-              <FormHelperText sx={{ marginLeft: '0.3rem', fontSize: '0.875rem' }}>{error.message}</FormHelperText>
-            )}
+            {error && <span className="error-message">{error.message}</span>}
           </FormControl>
         )}
       />
@@ -103,9 +96,7 @@ export const AddressSelector = () => {
                 </Select.Option>
               ))}
             </Select>
-            {error && (
-              <FormHelperText sx={{ marginLeft: '0.3rem', fontSize: '0.875rem' }}>{error.message}</FormHelperText>
-            )}
+            {error && <span className="error-message">{error.message}</span>}
           </FormControl>
         )}
       />

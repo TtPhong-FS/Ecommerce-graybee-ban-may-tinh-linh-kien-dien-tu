@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText } from '@mui/material'
+import { FormControl } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
@@ -22,9 +22,7 @@ export const RHFDateTimePicker = ({ label, name }) => {
               label={label}
               onChange={(value) => field.onChange(value)}
             />
-            {error && (
-              <FormHelperText sx={{ marginLeft: '0.3rem', fontSize: '0.875rem' }}>{error.message}</FormHelperText>
-            )}
+            {error && <span className="error-message">{error.message}</span>}
           </LocalizationProvider>
         </FormControl>
       )}

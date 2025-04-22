@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { privateAPI } from '../../../config/axiosServer'
 
-const general_endpoint = '/api/v1/general'
+const account_endpoint = '/api/v1/public/order'
 
-export const getAddressExisting = () => privateAPI.get(`${general_endpoint}/address-existing`, {})
+export const getAddressExisting = () => privateAPI.get(`${account_endpoint}/address-existing`)
 
 export const fetchAddressExistingByTokenOrSessionId = createAsyncThunk(
   'address/fetchAddressExistingByTokenOrSessionId',
@@ -11,7 +11,16 @@ export const fetchAddressExistingByTokenOrSessionId = createAsyncThunk(
     try {
       const res = await getAddressExisting()
       return res.data
-    } catch (error) {}
+    } catch (error) {
+      if (error.code === 'EER_NETWORK' || error.message === 'Network Error') {
+        return rejectWithValue({
+          unconnect: 'Không thể kết nối đến server. Vui lòng kiểm tra mạng và thử lại!'
+        })
+      }
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data)
+      }
+    }
   }
 )
 

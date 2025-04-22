@@ -19,7 +19,9 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     removeItemsByIds: (state, action) => {
+      debugger
       const ids = action.payload
+
       state.cartItems = state.cartItems?.filter((item) => !ids.includes(item.id))
       state.totalAmount = state.cartItems.reduce((sum, cartItem) => sum + cartItem.total, 0)
     },
@@ -68,7 +70,7 @@ export const cartSlice = createSlice({
         }
         state.totalAmount = state.cartItems?.reduce((sum, cartItem) => sum + cartItem.total, 0)
       })
-      .addCase(addItemToCart.rejected, (state, action) => {
+      .addCase(addItemToCart.rejected, (state) => {
         state.status = 'failed'
       })
 

@@ -1,4 +1,4 @@
-import { alpha, FormControl, FormHelperText, FormLabel, InputBase, styled } from '@mui/material'
+import { alpha, FormControl, InputBase, styled } from '@mui/material'
 import PropTypes from 'prop-types'
 
 import { Controller, useFormContext } from 'react-hook-form'
@@ -61,7 +61,7 @@ export const RHFInputField = ({ name, label, type, placeholder, disabled }) => {
       defaultValue=""
       render={({ field, fieldState: { error } }) => (
         <FormControl fullWidth error={!!error}>
-          <FormLabel sx={{ marginBottom: '0.5rem', fontSize: '1rem' }}>{label}</FormLabel>
+          <label className="title-form">{label}</label>
           <StyledTextField
             label={label}
             {...field}
@@ -71,9 +71,7 @@ export const RHFInputField = ({ name, label, type, placeholder, disabled }) => {
             error={!!error}
             placeholder={placeholder}
           />
-          {error && (
-            <FormHelperText sx={{ marginLeft: '0.3rem', fontSize: '0.875rem' }}>{error.message}</FormHelperText>
-          )}
+          {error && <span className="error-message">{error.message}</span>}
         </FormControl>
       )}
     />

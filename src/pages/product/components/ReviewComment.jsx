@@ -9,12 +9,12 @@ export const ReviewComment = () => {
     <div className="rounded-lg bg-white p-4">
       {!reviews || reviews.length === 0 ? (
         <div>
-          <span className="text-gray-500 italic">Sản phẩm chưa có đánh giá nào</span>
+          <span className="description">Sản phẩm chưa có đánh giá nào</span>
         </div>
       ) : (
         <div>
           <div className="mb-6 font-semibold text-xl flex gap-2 items-center justify-between">
-            <h1 className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <div>
                 <span className="text-3xl">4.9</span>
                 <span>/</span>
@@ -23,8 +23,8 @@ export const ReviewComment = () => {
               <span>
                 <Rate disabled allowHalf value={4.5} />
               </span>
-              <span className="text-gray-600">1000 ratings and 450 reviews</span>
-            </h1>
+              <h2>1000 ratings and 450 reviews</h2>
+            </div>
             <Button type="primary" style={{ borderRadius: '2rem', height: '2.5rem' }}>
               Đánh giá sản phẩm
             </Button>

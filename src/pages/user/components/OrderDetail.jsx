@@ -38,11 +38,11 @@ export const OrderDetail = () => {
             <div>
               <div className="flex">
                 <div className="flex-1">
-                  <h2 className="title">Giao hàng thành công</h2>
+                  <h1>Giao hàng thành công</h1>
                   <span>Rất vui vì bạn đã tin tưởng và mua hàng</span>
                 </div>
                 <div className="flex-1">
-                  <h2 className="sub-title">Tài xế giao hàng</h2>
+                  <h2>Tài xế giao hàng</h2>
                   <div>
                     <Avatar />
                     <span>
@@ -58,14 +58,14 @@ export const OrderDetail = () => {
               <Divider />
               <div className="flex ">
                 <div className="flex-1">
-                  <h2 className="sub-title">Thông tin người nhận</h2>
+                  <h2>Thông tin người nhận</h2>
                   <div>
                     <span>{orderHistories.customerInfo.fullName}</span>
                     <span>{orderHistories.customerInfo.phoneNumber}</span>
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h2 className="sub-title">Nhận hàng tại</h2>
+                  <h2>Nhận hàng tại</h2>
                   <div>
                     <span>{orderHistories.customerInfo.address}</span>
                   </div>
@@ -74,7 +74,7 @@ export const OrderDetail = () => {
             </div>
           </div>
           <div className="box">
-            <h2 className="sub-title">Danh sách sản phẩm</h2>
+            <h1>Danh sách sản phẩm</h1>
             <div className="mt-4">
               {orderHistories?.orderDetails?.map((oDetail, index) => (
                 <div key={index}>

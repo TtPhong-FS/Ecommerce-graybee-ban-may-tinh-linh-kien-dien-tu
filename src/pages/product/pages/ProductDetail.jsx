@@ -38,16 +38,16 @@ export const ProductDetail = () => {
       if (!details || details?.id !== id) {
         dispatch(getDetailById({ id }))
       }
-      setLoading(false)
     }
+    setLoading(false)
   }, [id, dispatch, details])
-
-  if (!details || details === null) {
-    return <Loading />
-  }
 
   if (loading) {
     return <Loading />
+  }
+
+  if (!details || details === null) {
+    return <div>Không có sản phẩm...</div>
   }
 
   return (
@@ -71,7 +71,7 @@ export const ProductDetail = () => {
                 </div>
               </Grid2>
               <Grid2 size={7} sx={{ padding: '1rem' }}>
-                <h1 className="text-2xl font-medium ">{details?.name}</h1>
+                <h1>{details?.name}</h1>
                 <div className="flex mt-4 mb-4 gap-3 items-center">
                   <span className="font-medium text-[2rem] font-sans text-red-500 max-sm:text-[0.9rem]">
                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(details?.finalPrice)}
@@ -96,11 +96,11 @@ export const ProductDetail = () => {
                   </span>
                 </div>
                 <div className="text-base box">
-                  <p className="sub-title">Thương hiệu: {details?.manufacturerName}</p>
-                  <p className="sub-title">Tình trạng: {details?.conditions}</p>
-                  <p className="sub-title">Bảo hàng: {details?.warranty} tháng</p>
-                  {details?.weight !== 0 ? <p className="sub-title">Cân nặng: {details?.weight}kg</p> : null}
-                  {details?.color && <p className="sub-title">Màu: {details?.color}</p>}
+                  <p className="content">Thương hiệu: {details?.manufacturerName}</p>
+                  <p className="content">Tình trạng: {details?.conditions}</p>
+                  <p className="content">Bảo hàng: {details?.warranty} tháng</p>
+                  {details?.weight !== 0 ? <p className="content">Cân nặng: {details?.weight}kg</p> : null}
+                  {details?.color && <p className="content">Màu: {details?.color}</p>}
                 </div>
                 <div className="flex gap-10 justify-center items-center mt-10">
                   <div className="block">

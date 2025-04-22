@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText, FormLabel } from '@mui/material'
+import { FormControl } from '@mui/material'
 import { Select } from 'antd'
 import PropTypes from 'prop-types'
 import { Controller, useFormContext } from 'react-hook-form'
@@ -12,7 +12,7 @@ export const RHFSelect = ({ name, label, options, showSearch, disabled, mode }) 
       control={control}
       render={({ field, fieldState: { error } }) => (
         <FormControl fullWidth error={!!error}>
-          <FormLabel style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>{label}</FormLabel>
+          <label className="title-form">{label}</label>
           <Select
             {...field}
             mode={mode}
@@ -25,7 +25,7 @@ export const RHFSelect = ({ name, label, options, showSearch, disabled, mode }) 
             options={options}
             onChange={(value) => field.onChange(value)}
           />
-          {error && <FormHelperText sx={{ marginLeft: '0.6rem' }}>{error?.message}</FormHelperText>}
+          {error && <span className="error-message">{error?.message}</span>}
         </FormControl>
       )}
     />

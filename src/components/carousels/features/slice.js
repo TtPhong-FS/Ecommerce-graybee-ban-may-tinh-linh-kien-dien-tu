@@ -32,6 +32,7 @@ export const preLoadCarousel = createAsyncThunk('carousel/preloadCarousel', asyn
 })
 
 const initialState = {
+  carousels: {},
   loading: false
 }
 
@@ -46,8 +47,8 @@ export const carouselSlice = createSlice({
     builder.addCase(fetchCarousel.fulfilled, (state, action) => {
       const { category, data } = action.payload
       state.loading = false
-      if (!state[category]) state[category] = {}
-      state[category] = data.data
+      if (!state.carousels[category]) state.carousels[category] = {}
+      state.carousels[category] = data.data
     })
     builder.addCase(fetchCarousel.rejected, (state, action) => {
       state.loading = false

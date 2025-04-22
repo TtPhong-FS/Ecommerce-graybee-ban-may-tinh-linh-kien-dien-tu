@@ -9,6 +9,7 @@ import { paymentMethod } from '../../../components/options/paymentMethod'
 import { useMessage } from '../../../hooks'
 
 import CartItem from '../../../components/cart/components/CartItem'
+import { removeItemsByIds } from '../../../components/cart/features/slice'
 import { AddressSelector } from '../../user/components/AddressSelector'
 import { createOrder } from '../features/slice'
 import { defaultValues } from '../types/schema'
@@ -42,17 +43,19 @@ export const Order = () => {
 
   const onSubmit = async (values) => {
     if (values.cartItemIds.length < 1) {
-      return messageApi.warning('Hãy chọn ít nhất 1 sản phẩm để đặt hàng!')
+      messageApi.warning('Hãy chọn ít nhất 1 sản phẩm để đặt hàng!')
+      return
     }
     try {
       console.log('submit', values)
       const res = await dispatch(createOrder({ request: values })).unwrap()
       if (res.status === 201) {
+        console.log(res)
+        await dispatch(removeItemsByIds(res.data))
         messageApi(res.message)
         reset(defaultValues)
       }
     } catch (error) {
-      console.log(error)
       if (error && typeof error === 'object') {
         Object.entries(error).forEach(([field, message]) => {
           setError(field, { type: 'server', message })
@@ -122,17 +125,17 @@ export const Order = () => {
                             options={[
                               {
                                 id: 1,
-                                value: 'HOME DELIVERY',
+                                value: 'HOME_DELIVERY',
                                 label: 'Giao hàng tận nhà'
                               },
                               {
                                 id: 2,
-                                value: 'STORE PICKUP',
+                                value: 'STORE_PICKUP',
                                 label: 'Nhận tại cửa hàng'
                               }
                             ]}
                           />
-                          {deliveryType === 'HOME DELIVERY' ? (
+                          {deliveryType === 'HOME_DELIVERY' ? (
                             <>
                               <h2 className="mt-2 sub-title">Phương thức giao hàng</h2>
                               <RHFRadioGroup
@@ -140,25 +143,23 @@ export const Order = () => {
                                 options={[
                                   {
                                     id: 1,
-                                    value: 'STANDARD SHIPPING',
+                                    value: 'STANDARD_SHIPPING',
                                     label: 'Tiêu chuẩn'
                                   },
                                   {
                                     id: 2,
-                                    value: 'ECONOMY SHIPPING',
+                                    value: 'ECONOMY_SHIPPING',
                                     label: 'Tiết kiệm'
                                   },
                                   {
                                     id: 3,
-                                    value: 'FAST DELIVERY',
+                                    value: 'FAST_DELIVERY',
                                     label: 'Nhanh'
                                   }
                                 ]}
                               />
                             </>
-                          ) : (
-                            <></>
-                          )}
+                          ) : null}
                         </div>
                         <div className="flex flex-col gap-4">
                           <h2 className="sub-title">Địa chỉ nhận hàng</h2>
