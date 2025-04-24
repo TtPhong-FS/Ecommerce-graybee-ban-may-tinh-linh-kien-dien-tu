@@ -18,7 +18,6 @@ const RootRouter = [
         <RootLayout />
       </AuthProvider>
     ),
-
     errorElement: <NotFoundPage />,
     handle: {
       crumb: () => 'Trang chủ'
@@ -26,6 +25,10 @@ const RootRouter = [
     children: [
       {
         index: true,
+        element: <HomePage />
+      },
+      {
+        path: 'home',
         element: <HomePage />
       },
       {

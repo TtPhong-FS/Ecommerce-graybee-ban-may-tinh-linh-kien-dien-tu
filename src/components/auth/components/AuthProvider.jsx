@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
       }
     }
     setLoading(false)
-  }, [token, dispatch])
+  }, [])
 
   const handleLogin = useCallback(async (request) => {
     try {
@@ -44,6 +44,12 @@ export const AuthProvider = ({ children }) => {
         setUser(extractToken)
         saveAuthToken(token)
         setLoading(false)
+
+        // dispatch(getFavourites())
+        // dispatch(getProfileByToken())
+        // dispatch(getAddressesByToken())
+        // dispatch(findCartByUserUidOrSessionId())
+
         navigate('/')
       }
       return res.status
@@ -64,8 +70,13 @@ export const AuthProvider = ({ children }) => {
       if (response.status === 201) {
         const extractToken = jwtDecode(data?.token)
         setUser(extractToken)
-
         saveAuthToken(data?.token, data?.role)
+        setLoading(false)
+        // dispatch(getFavourites())
+        // dispatch(getProfileByToken())
+        // dispatch(getAddressesByToken())
+        // dispatch(findCartByUserUidOrSessionId())
+
         navigate('/')
       }
       return response.status
@@ -84,9 +95,10 @@ export const AuthProvider = ({ children }) => {
     dispatch(clearAll())
     dispatch(clearAllToLogout())
     setUser(null)
-
-    navigate('/')
+    navigate('/home')
   }, [])
+
+  console.log(user)
 
   // if (loading) {
   //   return <Loading />

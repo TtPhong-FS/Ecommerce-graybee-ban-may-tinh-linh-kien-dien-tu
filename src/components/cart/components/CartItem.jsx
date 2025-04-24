@@ -7,6 +7,7 @@ import { useFormContext } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useToDetail } from '../../../hooks'
+import { formattedPrice } from '../../../utils'
 import { addItemToCart, clearItemsToCart, decreaseQuantityToCartItem, deleteItemToCart } from '../features/thunk'
 
 const CustomTooltip = styled(({ className, ...props }) => <Tooltip {...props} classes={{ popper: className }} />)({
@@ -28,7 +29,7 @@ const CartItem = () => {
   const toDetail = useToDetail()
 
   const cartItems = useSelector((state) => state.cart.cartItems)
-  console.log(cartItems)
+
   const totalItem = cartItems.length
 
   const handleSelectItem = (cartItemId) => {
@@ -90,168 +91,76 @@ const CartItem = () => {
       </div>
       <article className="flex flex-col gap-2 mb-4">
         <>
-          {mobile ? (
-            <CustomTooltip
-              arrow
-              placement="auto"
-              title={
-                <div className="w-auto">
-                  {cartItems?.map((cartItem, index) => (
-                    <div key={index} className="flex items-center not-first:pt-4 box">
-                      <div className="mr-2">
-                        <Checkbox
-                          checked={selectedItems.includes(cartItem.id)}
-                          onChange={() => handleSelectItem(cartItem.id)}
-                          value={cartItem.id}
-                        />
-                      </div>
-                      <div className="flex items-center gap-3 mr-1">
-                        {mobile ? null : (
-                          <Image
-                            className="border-1  border-gray-300 rounded-md"
-                            style={{ minWidth: 60, minHeight: 65, maxWidth: 60, maxHeight: 65 }}
-                            width={60}
-                            height={65}
-                            src={cartItem.product.thumbnail}
-                            alt="Anh san pham"
-                          />
-                        )}
-                        <Link
-                          target="_blank"
-                          onClick={() => toDetail({ id: cartItem.product.id, name: cartItem.product.name })}
-                          className="link text-sm font-medium w-[12rem]"
-                        >
-                          {cartItem.product.name}
-                        </Link>
-                      </div>
-                      <div className="flex ml-4 mr-4 gap-2 items-center justify-center">
-                        <Button
-                          disabled={cartItem.quantity === 1 ? true : false}
-                          size="small"
-                          htmlType="button"
-                          onClick={() => console.log(cartItem)}
-                        >
-                          <span className="text-[1.5rem]">-</span>
-                        </Button>
-                        <span className="p-2 text-[1rem]">{cartItem.quantity}</span>
-                        <Button
-                          size="small"
-                          onClick={() => handleIncreaseQuantity(cartItem.product.id, 1)}
-                          className=""
-                        >
-                          <span className="text-[1.5rem]">+</span>
-                        </Button>
-                      </div>
-                      <div className="inline-flex w-[8rem] ml-4 flex-col items-start ">
-                        <span className="font-medium text-[16px] font-sans text-red-500">
-                          {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                            cartItem.product.finalPrice
-                          )}
-                        </span>
-                        <del className="font-medium text-sm text-gray-500">
-                          {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                            cartItem.product.price
-                          )}
-                        </del>
-                      </div>
-                      <div className="ml-4">
-                        <Popconfirm
-                          title="Xoá giỏ hàng"
-                          description="Bạn muốn xoá sản phẩm này khỏi giỏ hàng?"
-                          onConfirm={() => handleRemoveItem(cartItem.id)}
-                          okText={'Xoá'}
-                          cancelText={'Huỷ bỏ'}
-                        >
-                          <IconButton>
-                            <DeleteOutlined style={{ fontSize: '1.3rem' }} />
-                          </IconButton>
-                        </Popconfirm>
-                      </div>
+          <div className="w-auto ">
+            {cartItems.map((cartItem, index) => (
+              <div key={index}>
+                <div className="flex items-center not-first:mt-4 box">
+                  <div className="mr-2">
+                    <Checkbox
+                      checked={selectedItems.includes(cartItem.id)}
+                      onChange={() => handleSelectItem(cartItem.id)}
+                      value={cartItem.id}
+                    />
+                  </div>
+                  <div className="flex justify-between items-center w-full">
+                    <div className="flex items-center gap-3 mr-6">
+                      <Image
+                        className="border-1 p-2 border-gray-300 rounded-md"
+                        style={{ minWidth: 60, minHeight: 65, maxWidth: 60, maxHeight: 65 }}
+                        width={60}
+                        height={65}
+                        src={cartItem.product.thumbnail}
+                        alt="Anh san pham"
+                      />
+                      <Link
+                        target="_blank"
+                        onClick={() => toDetail({ id: cartItem.product.id, name: cartItem.product.name })}
+                        className="cursor-pointer text-sm font-medium max-w-[20rem] decoration-solid text-blue-600 line-clamp-3 hover:underline"
+                      >
+                        {cartItem.product.name}
+                      </Link>
                     </div>
-                  ))}
-                </div>
-              }
-            >
-              <h2>Chạm để xem sản phẩm</h2>
-            </CustomTooltip>
-          ) : (
-            <div className="w-auto ">
-              {cartItems.map((cartItem, index) => (
-                <div key={index}>
-                  <div className="flex items-center not-first:mt-4 box">
-                    <div className="mr-2">
-                      <Checkbox
-                        checked={selectedItems.includes(cartItem.id)}
-                        onChange={() => handleSelectItem(cartItem.id)}
-                        value={cartItem.id}
+                    <div className="flex mr-2 gap-2 items-center justify-center">
+                      <Button
+                        icon={<MinusOutlined style={{ fontSize: '0.8rem' }} />}
+                        style={{ padding: '1rem' }}
+                        disabled={cartItem.quantity === 1 ? true : false}
+                        size="small"
+                        onClick={() => handleDecreaseQuantity(cartItem.product.id, 1)}
+                      />
+
+                      <span className="p-2 text-[1rem]">{cartItem.quantity}</span>
+                      <Button
+                        icon={<PlusOutlined style={{ fontSize: '0.8rem' }} />}
+                        size="small"
+                        onClick={() => handleIncreaseQuantity(cartItem.product.id, 1)}
+                        style={{ padding: '1rem' }}
                       />
                     </div>
-                    <div className="flex justify-between items-center w-full">
-                      <div className="flex items-center gap-3 mr-6">
-                        <Image
-                          className="border-1 p-2 border-gray-300 rounded-md"
-                          style={{ minWidth: 60, minHeight: 65, maxWidth: 60, maxHeight: 65 }}
-                          width={60}
-                          height={65}
-                          src={cartItem.product.thumbnail}
-                          alt="Anh san pham"
-                        />
-                        <Link
-                          target="_blank"
-                          onClick={() => toDetail({ id: cartItem.product.id, name: cartItem.product.name })}
-                          className="cursor-pointer text-sm font-medium line-clamp-2 max-w-[20rem] decoration-solid text-blue-600 hover:underline"
-                        >
-                          {cartItem.product.name}
-                        </Link>
-                      </div>
-                      <div className="flex mr-2 gap-2 items-center justify-center">
-                        <Button
-                          icon={<MinusOutlined style={{ fontSize: '0.8rem' }} />}
-                          style={{ padding: '1rem' }}
-                          disabled={cartItem.quantity === 1 ? true : false}
-                          size="small"
-                          onClick={() => handleDecreaseQuantity(cartItem.product.id, 1)}
-                        />
-
-                        <span className="p-2 text-[1rem]">{cartItem.quantity}</span>
-                        <Button
-                          icon={<PlusOutlined style={{ fontSize: '0.8rem' }} />}
-                          size="small"
-                          onClick={() => handleIncreaseQuantity(cartItem.product.id, 1)}
-                          style={{ padding: '1rem' }}
-                        />
-                      </div>
-                      <div className="inline-flex w-[8rem] ml-8 flex-col items-start ">
-                        <span className="font-medium text-[16px] font-sans text-red-500">
-                          {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                            cartItem.product.finalPrice
-                          )}
-                        </span>
-                        <del className="font-medium text-sm text-gray-500">
-                          {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                            cartItem.product.price
-                          )}
-                        </del>
-                      </div>
-                      <div className="ml-4">
-                        <Popconfirm
-                          title="Xoá giỏ hàng"
-                          description="Bạn muốn xoá sản phẩm này khỏi giỏ hàng?"
-                          onConfirm={() => handleRemoveItem(cartItem.id)}
-                          okText={'Xoá'}
-                          cancelText={'Huỷ bỏ'}
-                        >
-                          <IconButton>
-                            <DeleteOutlined style={{ fontSize: '1.3rem' }} />
-                          </IconButton>
-                        </Popconfirm>
-                      </div>
+                    <div className="inline-flex w-[8rem] ml-8 flex-col items-start ">
+                      <span className="font-medium text-[16px] font-sans text-red-500">
+                        {formattedPrice(cartItem.product.finalPrice)}
+                      </span>
+                      <del className="font-medium text-sm text-gray-500">{formattedPrice(cartItem.product.price)}</del>
+                    </div>
+                    <div className="ml-4">
+                      <Popconfirm
+                        title="Xoá giỏ hàng"
+                        description="Bạn muốn xoá sản phẩm này khỏi giỏ hàng?"
+                        onConfirm={() => handleRemoveItem(cartItem.id)}
+                        okText={'Xoá'}
+                        cancelText={'Huỷ bỏ'}
+                      >
+                        <IconButton>
+                          <DeleteOutlined style={{ fontSize: '1.3rem' }} />
+                        </IconButton>
+                      </Popconfirm>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
         </>
       </article>
     </>

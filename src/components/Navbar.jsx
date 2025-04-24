@@ -3,11 +3,9 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons/faMagnifyin
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined'
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined'
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import { Badge, IconButton } from '@mui/material'
-import { Input } from 'antd'
+import { Button, Input } from 'antd'
 import { debounce } from 'lodash'
 import PropTypes from 'prop-types'
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
@@ -18,12 +16,15 @@ import logo from '../assets/vite.svg'
 import { searchProductByName } from '../pages/product/features'
 import { AuthContext } from './auth/components/AuthProvider'
 
+import useUserData from '../pages/user/components/data/useUserData'
 import { ProductSearchCard } from './cards'
 import { onFocusSidebar } from './sidebar/features/slice'
 
 const Navbar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
+  const { user } = useUserData()
 
   const listProductSearch = useSelector((state) => state.product.listProductSearch, shallowEqual)
   const cartItems = useSelector((state) => state.cart?.cartItems)
@@ -161,24 +162,17 @@ const Navbar = () => {
                 </Badge>
               </IconButton>
             </div>
-            <div className="">
+            <div className="hidden lg:block">
               {isLogin ? (
-                <IconButton onClick={() => navigate('/account')}>
-                  <PermIdentityOutlinedIcon sx={{ fontSize: '1.3rem', color: 'white' }} />
-                </IconButton>
+                <Button style={{ height: '2.7rem' }} onClick={() => navigate('/account')}>
+                  Hi, {user?.fullName}
+                </Button>
               ) : (
-                <IconButton onClick={() => navigate('/login')}>
-                  <PermIdentityOutlinedIcon sx={{ fontSize: '1.3rem', color: 'white' }} />
-                </IconButton>
+                <Button style={{ height: '2.7rem' }} onClick={() => navigate('/login')}>
+                  Đăng nhập
+                </Button>
               )}
             </div>
-            {isLogin && (
-              <div className="hidden md:block">
-                <IconButton onClick={() => handleLogout()}>
-                  <LogoutRoundedIcon sx={{ fontSize: '1.3rem', color: 'white' }} />
-                </IconButton>
-              </div>
-            )}
           </div>
         </div>
       </header>

@@ -4,27 +4,26 @@ import InterestsIcon from '@mui/icons-material/Interests'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined'
 export const profileNavigation = [
   {
-    key: 4,
+    key: 'favourites',
     title: 'Sản phẩm yêu thích',
     icon: <InterestsIcon />,
     path: '/account/favourites'
   },
   {
-    key: 1,
+    key: 'order-history',
     title: 'Lịch sử mua hàng',
     icon: <ArchiveOutlinedIcon />,
     path: '/account/order-history'
   },
   {
-    key: 2,
+    key: 'manage-address',
     title: 'Quản lý địa chỉ',
     icon: <EditLocationAltOutlinedIcon />,
     path: '/account/manage/address'
   },
   {
-    key: 3,
+    key: 'logout',
     title: 'Đăng xuất',
-    icon: <LogoutOutlinedIcon />,
-    path: '/logout'
+    icon: <LogoutOutlinedIcon />
   }
 ]

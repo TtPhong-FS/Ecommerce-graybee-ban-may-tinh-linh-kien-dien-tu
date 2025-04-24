@@ -6,10 +6,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { RHFInputField, RHFRadioGroup, RHFTextArea } from '../../../components/fields'
 import { paymentMethod } from '../../../components/options/paymentMethod'
-import { useMessage } from '../../../hooks'
+import { useNotification } from '../../../hooks'
 
 import CartItem from '../../../components/cart/components/CartItem'
 import { removeItemsByIds } from '../../../components/cart/features/slice'
+import { handleAsyncSubmit } from '../../../components/func/handleAsyncSubmit'
 import { AddressSelector } from '../../user/components/AddressSelector'
 import { createOrder } from '../features/slice'
 import { defaultValues } from '../types/schema'
@@ -22,7 +23,7 @@ export const Order = () => {
 
   const cartItems = useSelector((state) => state.cart.cartItems)
   const [confirm, setConfirm] = useState(false)
-  const { contextHolder, messageApi } = useMessage()
+  const { contextHolder, openNotificationWithIcon } = useNotification()
 
   const {
     handleSubmit,
@@ -43,31 +44,44 @@ export const Order = () => {
 
   const onSubmit = async (values) => {
     if (values.cartItemIds.length < 1) {
-      messageApi.warning('Hãy chọn ít nhất 1 sản phẩm để đặt hàng!')
+      openNotificationWithIcon('warning', 'Lời nhắc', 'Hãy chọn ít nhất 1 sản phẩm để đặt hàng!')
       return
     }
-    try {
-      console.log('submit', values)
-      const res = await dispatch(createOrder({ request: values })).unwrap()
-      if (res.status === 201) {
+    await handleAsyncSubmit({
+      asyncAction: (vals) => dispatch(createOrder({ request: vals })).unwrap(),
+      values,
+      onSuccess: async (res) => {
         console.log(res)
-        await dispatch(removeItemsByIds(res.data))
-        messageApi(res.message)
-        reset(defaultValues)
-      }
-    } catch (error) {
-      if (error && typeof error === 'object') {
-        Object.entries(error).forEach(([field, message]) => {
-          setError(field, { type: 'server', message })
-        })
-        if (error.general) {
-          messageApi.error(error.general)
-        }
-        if (error.unconnect) {
-          messageApi.warning(error.unconnect)
-        }
-      }
-    }
+        dispatch(removeItemsByIds(res.data))
+        openNotificationWithIcon('success', 'Thành công', res.message)
+      },
+      openNotificationWithIcon,
+      reset,
+      defaultValues,
+      setError
+    })
+    // try {
+    //   console.log('submit', values)
+    //   const res = await dispatch(createOrder({ request: values })).unwrap()
+    //   if (res.status === 201) {
+    //     console.log(res)
+    //     dispatch(removeItemsByIds(res.data))
+    //     messageApi(res.message)
+    //     reset(defaultValues)
+    //   }
+    // } catch (error) {
+    //   if (error && typeof error === 'object') {
+    //     Object.entries(error).forEach(([field, message]) => {
+    //       setError(field, { type: 'server', message })
+    //     })
+    //     if (error.general) {
+    //       messageApi.error(error.general)
+    //     }
+    //     if (error.unconnect) {
+    //       messageApi.warning(error.unconnect)
+    //     }
+    //   }
+    // }
   }
   return (
     <div className="">

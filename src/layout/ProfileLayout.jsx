@@ -48,7 +48,7 @@ export const ProfileLayout = () => {
             <ul className="flex flex-col py-2">
               {profileNavigation.map((item, index) => (
                 <Link
-                  onClick={item.key === 3 ? () => handleLogout() : undefined}
+                  onClick={item.key === 'logout' ? () => handleLogout() : undefined}
                   key={index}
                   to={item.path}
                   className={`p-2 flex gap-2 transition-all hover:pl-4 w-full border-l-2 ${

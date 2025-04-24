@@ -17,7 +17,7 @@ export const ConfirmOrder = ({ confirm, setConfirm }) => {
   const tolal = cartItems?.filter((item) => cartItemIds.includes(item.id)).reduce((sum, item) => sum + item.total, 0)
 
   return (
-    <div className="sticky top-0">
+    <div className="sticky top-24">
       <div className="box min-w-[20rem]">
         <div className="text-[1rem]">
           <h2 className="mb-2">Thông tin đơn hàng</h2>

@@ -1,64 +1,44 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { useMessage } from '.'
 import { addItemToCart } from '../components/cart/features'
+import { handleAsync, handleAsyncSubmit } from '../components/func'
 import { addToFavourite } from '../pages/user/features'
 import { getToken } from '../utils'
-export const useActionAddToCartAndFavourite = () => {
-  const dispatch = useDispatch()
+export const useActionAddToCartAndFavourite = (openNotificationWithIcon) => {
   const token = getToken()
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const { isLogin } = useSelector((state) => state.auth)
-  const { contextHolder, messageApi } = useMessage()
 
   const handleAddToFavourites = async (productId) => {
     if (!isLogin || !token) {
       return navigate('/login')
     }
 
-    try {
-      const response = await dispatch(
-        addToFavourite({
-          productId: productId
-        })
-      ).unwrap()
-      if (response.status === 200) {
-        messageApi.success(response.message)
-      }
-    } catch (error) {
-      if (error && typeof error === 'object') {
-        if (error.general) {
-          messageApi.error(error.general)
-        }
-        if (error.unconnect) {
-          messageApi.warning(error.unconnect)
-        }
-      }
-    }
+    await handleAsync({
+      asyncAction: (id) => dispatch(addToFavourite({ productId: id })).unwrap(),
+      onSuccess: (res) => {
+        openNotificationWithIcon('success', 'Thành công', res.message)
+      },
+      values: productId,
+      openNotificationWithIcon
+    })
   }
 
   const handleAddItemToCart = async (productId, quantity) => {
     const values = { productId, quantity }
-    try {
-      const response = await dispatch(addItemToCart({ request: values })).unwrap()
 
-      if (response.status === 201) {
-        messageApi.success(response.message)
-      }
-    } catch (error) {
-      if (error && typeof error === 'object') {
-        if (error.general) {
-          messageApi.error(error.general)
-        }
-        if (error.unconnect) {
-          messageApi.warning(error.unconnect)
-        }
-      }
-    }
+    await handleAsyncSubmit({
+      asyncAction: (vals) => dispatch(addItemToCart({ request: vals })).unwrap(),
+      onSuccess: (res) => {
+        openNotificationWithIcon('success', 'Thành công', res.message)
+      },
+      openNotificationWithIcon,
+      values
+    })
   }
   return {
     handleAddItemToCart,
-    handleAddToFavourites,
-    contextHolder
+    handleAddToFavourites
   }
 }

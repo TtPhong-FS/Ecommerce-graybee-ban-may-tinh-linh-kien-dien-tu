@@ -1,3 +1,5 @@
+export * from './format'
+export * from './isPresentInCart'
 export * from './isPresentInFavorites'
 export * from './session'
 export * from './toSlug'

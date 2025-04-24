@@ -1,31 +1,39 @@
-import { HomeFilled, LoadingOutlined, RedoOutlined } from '@ant-design/icons'
+import { HomeFilled } from '@ant-design/icons'
 import { DeleteOutline } from '@mui/icons-material'
 import { Chip, IconButton } from '@mui/material'
-import { Avatar, Button, Drawer } from 'antd'
+import { Avatar, Button, Drawer, Spin } from 'antd'
 import { useState } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { useMessage } from '../../../hooks'
+import { useDispatch } from 'react-redux'
+import { handleAsync } from '../../../components/func'
+import { useNotification } from '../../../hooks'
 import { AddressProvider } from '../components/AddressProvider'
+import useAddressData from '../components/data/useAddressData'
 import { deleteAddressByIdAndUserUidFromToken, getAddressesByToken, updateDefaultAddress } from '../features'
 
 export const ManageAddressPage = () => {
-  const deliveryAddress = useSelector((state) => state.account.deliveryAddress, shallowEqual)
+  const { deliveryAddress, loading } = useAddressData()
 
   const [open, setOpen] = useState(false)
-  const [loading, setLoading] = useState(false)
+
   const [initialData, setInitialData] = useState(null)
   const [isUpdate, setIsUpdate] = useState(false)
   const [visible, setVisible] = useState(false)
-  const { messageApi, contextHolder } = useMessage()
+  const { openNotificationWithIcon, contextHolder } = useNotification()
 
   const dispatch = useDispatch()
 
-  const showDrawer = (record = null) => {
+  const showDrawer = () => {
+    setVisible(true)
+    setOpen(true)
+  }
+
+  const onUpdate = (record) => {
     setVisible(true)
     setIsUpdate(true)
     setInitialData(record)
     setOpen(true)
   }
+
   const onClose = () => {
     setVisible(false)
     setIsUpdate(false)
@@ -34,68 +42,32 @@ export const ManageAddressPage = () => {
   }
 
   const handleDeleteAddressById = async (id) => {
-    try {
-      setLoading(true)
-      const response = await dispatch(deleteAddressByIdAndUserUidFromToken({ id: id })).unwrap()
-      if (response.status === 200) {
-        messageApi.success(response.message)
-        setLoading(false)
-      }
-    } catch (error) {
-      if (error && typeof error === 'object') {
-        if (error.general) {
-          messageApi.error(error.general)
-        }
-        if (error.unconnect) {
-          messageApi.warning(error.unconnect)
-        }
-      }
-    } finally {
-      setLoading(false)
-    }
+    await handleAsync({
+      asyncAction: (id) => dispatch(deleteAddressByIdAndUserUidFromToken({ id: id })).unwrap(),
+      onSuccess: (res) => {
+        openNotificationWithIcon('success', 'Thành công', res.message)
+      },
+      openNotificationWithIcon,
+      values: id
+    })
   }
 
   const handleSetDefailtAddress = async (id) => {
-    try {
-      setLoading(true)
-      const response = await dispatch(updateDefaultAddress({ id: id })).unwrap()
-      if (response.status === 200) {
-        messageApi.success(response.message)
-        setLoading(false)
-      }
-    } catch (error) {
-      if (error && typeof error === 'object') {
-        if (error.general) {
-          messageApi.error(error.general)
-        }
-        if (error.unconnect) {
-          messageApi.warning(error.unconnect)
-        }
-      }
-    } finally {
-      setLoading(false)
-    }
+    await handleAsync({
+      asyncAction: (id) => dispatch(updateDefaultAddress({ id: id })).unwrap(),
+      onSuccess: (res) => {
+        openNotificationWithIcon('success', 'Thành công', res.message)
+      },
+      openNotificationWithIcon,
+      values: id
+    })
   }
 
   const handleReloadAddress = async () => {
-    try {
-      setLoading(true)
-      const response = await dispatch(getAddressesByToken()).unwrap()
-      if (response.status === 200) {
-        setLoading(false)
-      }
-    } catch (error) {
-      if (error && typeof error === 'object') {
-        if (error.general) {
-          messageApi.error(error.general)
-        }
-        if (error.unconnect) {
-          messageApi.warning(error.unconnect)
-        }
-      }
-    } finally {
-      setLoading(false)
-    }
+    await handleAsync({
+      asyncAction: () => dispatch(getAddressesByToken()).unwrap(),
+      openNotificationWithIcon
+    })
   }
 
   return (
@@ -105,14 +77,22 @@ export const ManageAddressPage = () => {
         <div className="flex items-center">
           <h1>Địa chỉ cá nhân</h1>
           <div className="ml-12">
-            <IconButton disabled={loading} onClick={handleReloadAddress}>
-              {loading ? <LoadingOutlined spin /> : <RedoOutlined />}
-            </IconButton>
+            <Button
+              loading={loading}
+              style={{ height: '2.7rem' }}
+              type="default"
+              htmlType="button"
+              disabled={loading}
+              onClick={handleReloadAddress}
+            >
+              {loading ? 'Đang  tải' : 'Làm mới'}
+            </Button>
           </div>
         </div>
         <div className="flex content-center items-center gap-6 mb-6">
           <Button
-            onClick={() => showDrawer(null)}
+            disabled={loading}
+            onClick={() => showDrawer()}
             type="primary"
             htmlType="button"
             style={{ height: '2.7rem', backgroundColor: '#dc2f2f' }}
@@ -121,7 +101,8 @@ export const ManageAddressPage = () => {
           </Button>
         </div>
       </div>
-      <div className="">
+
+      <Spin spinning={loading}>
         <div>
           {deliveryAddress.map((address) => (
             <div key={address?.id} className="box flex items-center justify-between not-last:mb-6">
@@ -131,7 +112,7 @@ export const ManageAddressPage = () => {
                 </div>
                 <div className="">
                   <div className="flex items-center gap-2 text-[#090d14] h-[2.3rem]">
-                    <span className="sub-title">{address?.fullname}</span>
+                    <span className="sub-title">{address?.fullName}</span>
                     <span className="text-gray-400">|</span>
                     <span className="font-normal">{address?.phoneNumber}</span>
                     {address?.default ? (
@@ -142,7 +123,7 @@ export const ManageAddressPage = () => {
                 </div>
               </div>
               <div className="flex flex-2 items-center gap-4 justify-between">
-                <span onClick={() => showDrawer(address)} className="cursor-pointer text-[#dc2f2f]">
+                <span onClick={() => onUpdate(address)} className="cursor-pointer text-[#dc2f2f]">
                   Sửa
                 </span>
                 <span onClick={() => handleSetDefailtAddress(address?.id)} className="cursor-pointer text-[#dc2f2f]">
@@ -166,7 +147,7 @@ export const ManageAddressPage = () => {
             <AddressProvider isUpdate={isUpdate} initialData={initialData} onClose={onClose} />
           </Drawer>
         )}
-      </div>
+      </Spin>
     </div>
   )
 }

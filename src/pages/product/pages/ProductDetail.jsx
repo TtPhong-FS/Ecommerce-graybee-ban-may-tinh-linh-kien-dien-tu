@@ -1,12 +1,13 @@
 import { HeartFilled, HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { Grid2, IconButton } from '@mui/material'
-import { Button, Image, Tabs, Tag } from 'antd'
+import { Button, Image, Spin, Tabs, Tag } from 'antd'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Loading } from '../../../components/Loading'
 
 import { useActionAddToCartAndFavourite } from '../../../hooks'
 import { isPresentInFavorites } from '../../../utils'
+import { formattedPrice } from '../../../utils/format'
+import useUserData from '../../user/components/data/useUserData'
 import { Description } from '../components/Description'
 import { ReviewComment } from '../components/ReviewComment'
 import { getDetailById } from '../features/thunk'
@@ -27,12 +28,15 @@ const items = [
 export const ProductDetail = () => {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
+
   const id = useSelector((state) => state.product.productId)
 
   const details = useSelector((state) => state.product?.details)
-  const favourites = useSelector((state) => state.account.favourites)
+
+  const { favourites } = useUserData()
 
   const { contextHolder, handleAddItemToCart, handleAddToFavourites } = useActionAddToCartAndFavourite()
+
   useEffect(() => {
     if (id) {
       if (!details || details?.id !== id) {
@@ -42,18 +46,14 @@ export const ProductDetail = () => {
     setLoading(false)
   }, [id, dispatch, details])
 
-  if (loading) {
-    return <Loading />
-  }
-
   if (!details || details === null) {
     return <div>Không có sản phẩm...</div>
   }
 
   return (
-    <div className="">
+    <>
       {contextHolder}
-      <div className="">
+      <Spin spinning={loading}>
         <div className="select-text">
           <Grid2 width={'100%'} container>
             <Grid2
@@ -74,10 +74,10 @@ export const ProductDetail = () => {
                 <h1>{details?.name}</h1>
                 <div className="flex mt-4 mb-4 gap-3 items-center">
                   <span className="font-medium text-[2rem] font-sans text-red-500 max-sm:text-[0.9rem]">
-                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(details?.finalPrice)}
+                    {formattedPrice(details?.finalPrice)}
                   </span>
                   <del className="font-medium text-[1.4rem] text-gray-500 max-sm:text-[0.6rem]">
-                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(details?.price)}
+                    {formattedPrice(details?.price)}
                   </del>
                   <span>
                     <Tag
@@ -128,7 +128,7 @@ export const ProductDetail = () => {
             </Grid2>
           </Grid2>
         </div>
-      </div>
-    </div>
+      </Spin>
+    </>
   )
 }

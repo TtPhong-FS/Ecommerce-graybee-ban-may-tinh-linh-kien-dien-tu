@@ -25,7 +25,6 @@ export const decreaseQuantityToCartItem = createAsyncThunk(
   'cart/decreaseQuantityToCartItem',
   async ({ request }, { rejectWithValue }) => {
     try {
-      debugger
       if (!navigator.connection) {
         return rejectWithValue('No internet connection')
       }

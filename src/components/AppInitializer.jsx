@@ -13,23 +13,30 @@ export const AppInitializer = () => {
   const dispatch = useDispatch()
   const token = getToken()
   const user = useSelector((state) => state.account.user)
-  const initialized = React.useRef(false)
+  const isPrivate = React.useRef(false)
+  const isPublic = React.useRef(false)
 
   React.useEffect(() => {
-    if (!initialized.current) {
+    if (!isPrivate.current) {
       if (token && (!user || user == null)) {
         dispatch(getProfileByToken())
       }
       if (token) {
+        dispatch(findCartByUserUidOrSessionId())
         dispatch(getAddressesByToken())
         dispatch(getFavourites())
       }
+    }
+    isPrivate.current = true
+  }, [token, user])
 
+  React.useEffect(() => {
+    if (!isPublic.current) {
       dispatch(getSidebar())
       dispatch(preLoadCarousel())
       dispatch(findCartByUserUidOrSessionId())
     }
-    initialized.current = true
+    isPublic.current = true
   }, [])
 
   return null
