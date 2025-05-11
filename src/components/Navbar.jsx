@@ -50,7 +50,7 @@ const Navbar = () => {
   }
 
   const debouncedSearch = useCallback(
-    debounce((value) => handleSearch(value), 300),
+    debounce((value) => handleSearch(value), 500),
     []
   )
 

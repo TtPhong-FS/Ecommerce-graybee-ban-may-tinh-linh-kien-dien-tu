@@ -57,7 +57,7 @@ export const ProfileLayout = () => {
                       : 'border-transparent hover:border-red-500'
                   } hover:bg-gradient-to-r from-[#fff1f2] to-red-0 hover:text-red-600`}
                 >
-                  <span>{item.icon}</span>
+                  <item.icon />
                   <span>{item.title}</span>
                 </Link>
               ))}
