@@ -1,15 +1,14 @@
 import { PhoneOutlined } from '@ant-design/icons'
 import { Avatar, Divider, Grid2 } from '@mui/material'
-import { Button, Typography } from 'antd'
-import React from 'react'
+
+import { Button } from '@/components/ui/button'
+import { Link } from 'react-router-dom'
 import { orderHistories } from '../../../data/orderHistory'
 import { deliveryType, paymentMethod } from '../../../en-vi/orderHistory'
 import { colorMap, iconMap, orderStatus, paymentStatus } from '../../../en-vi/orderStatus'
-import { useActionAddToCartAndFavourite, useToDetail } from '../../../hooks'
+import { useToDetail } from '../../../hooks'
 
-const { Text, Link } = Typography
 export const OrderDetail = () => {
-  const { handleAddItemToCart } = useActionAddToCartAndFavourite()
   const onRepurchase = (products) => {
     console.log('product', products)
   }
@@ -31,7 +30,9 @@ export const OrderDetail = () => {
               <div className="flex gap-2 items-center">
                 <span className="text-xs text-gray-500 font-medium">{orderHistories.paymentMethod}</span>
                 {iconMap[orderHistories.status]}
-                <Text type={colorMap[orderHistories.status]}>{orderStatus[orderHistories.status]}</Text>
+                <label className="text-muted-foreground" type={colorMap[orderHistories.status]}>
+                  {orderStatus[orderHistories.status]}
+                </label>
               </div>
             </div>
             <Divider />
@@ -81,19 +82,21 @@ export const OrderDetail = () => {
                   <div className="flex justify-between py-6 ">
                     <div className="flex-2">
                       <div className="flex gap-4">
-                        <div
+                        <Link
+                          to={`/products/${oDetail?.productName}`}
                           onClick={() => toDetail({ id: oDetail.productId, name: oDetail.productName })}
                           className="w-[60px] h-[60px] border-1 border-gray-300 rounded-md cursor-pointer"
                         >
                           <img className="p-1" width={60} height={60} src={oDetail.thumbnail} />
-                        </div>
+                        </Link>
                         <div className="flex flex-col">
-                          <span
+                          <Link
+                            to={`/products/${oDetail?.productName}`}
                             onClick={() => toDetail({ id: oDetail.productId, name: oDetail.productName })}
                             className="font-medium text-base cursor-pointer"
                           >
                             {oDetail.productName}
-                          </span>
+                          </Link>
                           <span className="text-gray-500">Số lượng: {oDetail.quantity}</span>
                         </div>
                       </div>
@@ -203,16 +206,14 @@ export const OrderDetail = () => {
             <div className="mt-4">
               <Button
                 onClick={() => {
-                  debugger
                   const products = orderHistories.orderDetails.map((o) => ({
                     productId: o.productId,
                     quantity: o.quantity
                   }))
                   onRepurchase(products)
                 }}
-                type="primary"
-                htmlType="button"
-                style={{ width: '100%', height: '2.7rem' }}
+                type="button"
+                className="cursor-pointer h-[38px] select-none"
               >
                 Mua lại
               </Button>

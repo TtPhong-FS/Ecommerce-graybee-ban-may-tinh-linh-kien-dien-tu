@@ -17,6 +17,7 @@ export const RHFDateTimePicker = ({ label, name }) => {
         <FormControl error={!!error} fullWidth>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
+              sx={{ height: '40px' }}
               {...field}
               value={field.value ? new Date(field.value) : null}
               label={label}

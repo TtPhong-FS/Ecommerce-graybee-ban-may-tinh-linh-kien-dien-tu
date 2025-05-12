@@ -1,8 +1,8 @@
-import { Switch } from 'antd'
 import PropTypes from 'prop-types'
 import React from 'react'
 
 import { Controller, useFormContext } from 'react-hook-form'
+import { Switch } from '../ui/switch'
 
 export const RHFSwitch = React.memo(({ name }) => {
   const { control } = useFormContext()
@@ -11,9 +11,7 @@ export const RHFSwitch = React.memo(({ name }) => {
     <Controller
       control={control}
       name={name}
-      render={({ field }) => (
-        <Switch style={{ backgroundColor: field.value ? '#dc2f2f' : '' }} {...field} checked={field.value || false} />
-      )}
+      render={({ field }) => <Switch onCheckedChange={field.onChange} checked={field.value || false} />}
     />
   )
 })

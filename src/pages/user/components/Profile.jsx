@@ -1,68 +1,45 @@
 import { Avatar } from '@mui/material'
-import { Button, Spin } from 'antd'
+import { Spin } from 'antd'
 
+import { handleAsyncSubmit } from '@/components/func'
+import { Button } from '@/components/ui/button'
+import useAppContext from '@/hooks/useAppContext'
 import { omit } from 'lodash'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
+import { toast } from 'sonner'
 import { RHFDateTimePicker, RHFInputField, RHFRadioGroup } from '../../../components/fields'
-import { useMessage } from '../../../hooks'
 import { updateProfile } from '../features'
-import { defaultValues } from '../types/schema'
 export const Profile = ({ handleCancel }) => {
   const {
     handleSubmit,
     setError,
-    reset,
     formState: { isSubmitting }
   } = useFormContext()
-  const { contextHolder, messageApi } = useMessage()
-  const [loading, setLoading] = useState()
-  const dispatch = useDispatch()
+
+  const { dispatch } = useAppContext()
 
   const onSubmit = async (values) => {
-    try {
-      setLoading(true)
-      const formatDateOfBirth = new Date(values?.dateOfBirth).toLocaleDateString('en-CA')
-      const filtedValues = omit(values, ['uid'])
-      const request = { ...filtedValues, dateOfBirth: formatDateOfBirth }
-      const response = await dispatch(updateProfile({ request: request })).unwrap()
-      if (response.status === 200) {
-        messageApi.open({ type: 'success', content: response.message, duration: 0.5 })
-        reset(defaultValues)
+    const formatDateOfBirth = new Date(values?.dateOfBirth).toLocaleDateString('en-CA')
+    const filtedValues = omit(values, ['uid'])
+    const dataToSend = { ...filtedValues, dateOfBirth: formatDateOfBirth }
+    await handleAsyncSubmit({
+      asyncAction: (vals) => dispatch(updateProfile(vals)).unwrap(),
+      onSuccess: (res) => {
+        toast.success(res?.message)
         handleCancel()
-      }
-    } catch (error) {
-      if (error && typeof error === 'object') {
-        Object.entries(error).forEach(([field, message]) => {
-          setError(field, { type: 'server', message })
-        })
-        if (error.general) {
-          messageApi.error(error.general)
-        }
-        if (error.unconnect) {
-          messageApi.warning(error.unconnect)
-        }
-      }
-    } finally {
-      setLoading(false)
-    }
+      },
+      toast,
+      setError,
+      values: dataToSend
+    })
   }
   return (
     <>
-      {contextHolder}
       <Spin spinning={isSubmitting}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className=" bg-white p-4 rounded-lg">
-            <Button
-              disabled={loading}
-              onClick={handleCancel}
-              className="mb-4"
-              style={{ height: '2.7rem' }}
-              type="primary"
-              htmlType="button"
-            >
+            <Button variant="outline" onClick={handleCancel} className="mb-4 cursor-pointer h-[38px]" type="button">
               Quay lại
             </Button>
             <div className="place-items-center">
@@ -93,11 +70,10 @@ export const Profile = ({ handleCancel }) => {
                 />
                 <RHFDateTimePicker name="dateOfBirth" label="Ngày sinh" />
                 <Button
-                  disabled={loading}
-                  className="mt-4 font-semibold text-[1rem] "
-                  style={{ backgroundColor: '#dc2f2f', color: 'white', height: '2.7rem' }}
-                  type="primary"
-                  htmlType="submit"
+                  variant="secondary"
+                  disabled={isSubmitting}
+                  className="mt-4  cursor-pointer h-[38px]"
+                  type="submit"
                 >
                   Cập nhật
                 </Button>

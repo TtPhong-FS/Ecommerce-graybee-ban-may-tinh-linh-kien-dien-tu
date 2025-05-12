@@ -5,7 +5,7 @@ export const BreadCrumbs = () => {
   const matches = useMatches()
   const location = useLocation()
 
-  const hiddenPaths = ['/', '/login', '/signup']
+  const hiddenPaths = ['/', '/home', '/login', '/signup']
 
   if (hiddenPaths.includes(location.pathname)) {
     return null

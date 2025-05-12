@@ -29,7 +29,11 @@ export const FavouritePage = () => {
       <div className="flex items-center py-3 mb-4">
         <h1>Sản phẩm yêu thích</h1>
         <div className="ml-12">
-          <Button variant="secondary" className="select-none h-[38px] cursor-pointer" onClick={handleReloadFavourites}>
+          <Button
+            variant="outline"
+            className="select-none h-[38px] cursor-pointer bg-primary-foreground"
+            onClick={handleReloadFavourites}
+          >
             {isLoading('reload') ? (
               <span className="flex items-center">
                 <LoaderCircle className="animate-spin mr-2" />

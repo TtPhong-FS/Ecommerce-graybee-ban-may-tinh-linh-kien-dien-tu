@@ -17,7 +17,7 @@ const RootLayout = () => {
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <AppInitializer />
         <Navbar />
-        <main className="">
+        <main className="py-6">
           <div className="min-h-screen">
             <div className="w-full max-w-[88rem] mx-auto pb-12 px-[1.25rem] gap-6 relative ">
               <BreadCrumbs />
@@ -29,7 +29,7 @@ const RootLayout = () => {
           </div>
           <Toaster position="top-right" />
         </main>
-        <div className="bg-secondary">
+        <div className="bg-primary-foreground">
           <Footer />
         </div>
       </ThemeProvider>

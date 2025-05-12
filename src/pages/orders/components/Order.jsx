@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { RHFInputField, RHFRadioGroup, RHFTextArea } from '../../../components/fields'
 import { paymentMethod } from '../../../components/options/paymentMethod'
-import { useNotification } from '../../../hooks'
 
 import { Button } from '@/components/ui/button'
 import CartItem from '../../../components/cart/components/CartItem'
@@ -20,7 +19,6 @@ export const Order = () => {
 
   const cartItems = useSelector((state) => state.cart.cartItems)
   const [confirm, setConfirm] = useState(false)
-  const { contextHolder, openNotificationWithIcon } = useNotification()
 
   const {
     handleSubmit,
@@ -61,7 +59,6 @@ export const Order = () => {
   }
   return (
     <div className="">
-      {contextHolder}
       {cartItems.length > 0 ? (
         <div>
           {confirm && (
@@ -98,12 +95,7 @@ export const Order = () => {
                             type="text"
                             placeholder="Nhập số điện thoại..."
                           />
-                          <RHFInputField
-                            name="email"
-                            label="Email (Không bắt buộc)"
-                            type="text"
-                            placeholder="Nhập email..."
-                          />
+                          <RHFInputField name="email" label="Email (Không bắt buộc)" type="text" />
                         </div>
                       </Grid2>
                       <AddressExistingSelector />
@@ -114,42 +106,37 @@ export const Order = () => {
                             name="deliveryType"
                             options={[
                               {
-                                id: 1,
                                 value: 'HOME_DELIVERY',
                                 label: 'Giao hàng tận nhà'
                               },
                               {
-                                id: 2,
                                 value: 'STORE_PICKUP',
                                 label: 'Nhận tại cửa hàng'
                               }
                             ]}
                           />
-                          {deliveryType === 'HOME_DELIVERY' ? (
+                          {deliveryType === 'HOME_DELIVERY' && (
                             <>
                               <h2 className="mt-2 sub-title">Phương thức giao hàng</h2>
                               <RHFRadioGroup
                                 name="shippingMethod"
                                 options={[
                                   {
-                                    id: 1,
                                     value: 'STANDARD_SHIPPING',
                                     label: 'Tiêu chuẩn'
                                   },
                                   {
-                                    id: 2,
                                     value: 'ECONOMY_SHIPPING',
                                     label: 'Tiết kiệm'
                                   },
                                   {
-                                    id: 3,
                                     value: 'FAST_DELIVERY',
                                     label: 'Nhanh'
                                   }
                                 ]}
                               />
                             </>
-                          ) : null}
+                          )}
                         </div>
                         <div className="flex flex-col gap-4">
                           <h2 className="sub-title">Địa chỉ nhận hàng</h2>
@@ -163,7 +150,11 @@ export const Order = () => {
                             type="text"
                             placeholder="Ví dụ: Số nhà 65 xóm..."
                           />
-                          <RHFTextArea name="note" placeholder="Ghi chú (Ví dụ: Hãy gọi tôi khi chuẩn bị giao hàng)" />
+                          <RHFTextArea
+                            name="note"
+                            label="Ghi chú"
+                            placeholder="Ghi chú (Ví dụ: Hãy gọi tôi khi chuẩn bị giao hàng)"
+                          />
                         </div>
                       </Grid2>
                       <div className="box">
@@ -185,7 +176,7 @@ export const Order = () => {
       ) : (
         <div className="place-items-center bg-white p-4 rounded-md">
           <p className="mb-8 mt-2 text-muted-foreground">Bạn chưa có sản phẩm nào trong giỏ hàng!</p>
-          <Button className="cursor-pointer h-[38px]" variant="secondary" type="button" onClick={() => navigate('/')}>
+          <Button className="cursor-pointer h-[40px]" variant="secondary" type="button" onClick={() => navigate('/')}>
             Tiếp tục mua hàng
           </Button>
         </div>

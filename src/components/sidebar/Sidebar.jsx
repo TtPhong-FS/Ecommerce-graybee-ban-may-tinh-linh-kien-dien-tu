@@ -81,13 +81,13 @@ const Sidebar = () => {
           <nav className="flex flex-col bg-white h-full cursor-pointer rounded-md">
             {menus.map((category) => (
               <div key={category.id}>
-                <li
+                <h4
                   onClick={() => handleFindByCategory(category.name)}
-                  className="flex font-semibold items-center justify-between p-2 rounded-md  text-gray-800 hover:bg-secondary/90 hover:text-white cursor-pointer"
+                  className="flex font-semibold text-sm items-center justify-between p-2 rounded-md  text-gray-800 hover:bg-secondary/90 hover:text-white cursor-pointer"
                   onMouseEnter={() => setActiveCategory(category.id)}
                 >
                   {category.name}
-                </li>
+                </h4>
               </div>
             ))}
           </nav>
@@ -111,7 +111,7 @@ const Sidebar = () => {
                             <li
                               onClick={() => handleFindByCateogryAndManufacturer(category.name, manufacturer.name)}
                               key={manufacturer.id}
-                              className="text-gray-800 font-medium hover:text-secondary/80 cursor-pointer"
+                              className="text-gray-800 text-sm font-medium hover:text-secondary/80 cursor-pointer"
                             >
                               {manufacturer.name}
                             </li>
@@ -128,7 +128,7 @@ const Sidebar = () => {
                                   handleFindByCategoryAndSubcategoryAndTag(category.name, sub.name, tag.name)
                                 }
                                 key={tag.id}
-                                className="text-gray-800 font-medium hover:text-secondary/80 cursor-pointer"
+                                className="text-gray-800 text-sm font-medium hover:text-secondary/80 cursor-pointer"
                               >
                                 {tag.name}
                               </li>

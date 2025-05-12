@@ -1,10 +1,10 @@
-import { Button } from 'antd'
 import { format } from 'date-fns'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
 import { handleAsyncSubmit } from '@/components/func'
+import { Button } from '@/components/ui/button'
 import useAppContext from '@/hooks/useAppContext'
 import { saveAuthToken } from '@/utils'
 import { jwtDecode } from 'jwt-decode'
@@ -85,11 +85,10 @@ export const SignUp = () => {
           <RHFDateTimePicker label="Ngày sinh (tuỳ chọn)" name="dateOfBirth" />
         </div>
         <Button
-          loading={isSubmitting}
+          variant="secondary"
           disabled={isSubmitting}
-          style={{ height: '2.7rem', width: '100%', backgroundColor: '#dc2f2f' }}
-          type="primary"
-          htmlType="submit"
+          type="submit"
+          className="cursor-pointer h-[40px] w-full text-base"
         >
           Tạo tài khoản
         </Button>

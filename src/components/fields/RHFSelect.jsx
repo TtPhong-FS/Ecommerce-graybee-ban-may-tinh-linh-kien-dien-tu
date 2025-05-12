@@ -19,11 +19,9 @@ export const RHFSelect = ({ name, label, options, showSearch, disabled, mode }) 
             disabled={disabled}
             showSearch={showSearch}
             allowClear
-            style={{ width: '100%', height: '3rem' }}
+            style={{ width: '100%', height: '38px' }}
             placeholder="Vui lòng chọn"
-            value={field.value}
             options={options}
-            onChange={(value) => field.onChange(value)}
           />
           {error && <span className="error-message">{error?.message}</span>}
         </FormControl>

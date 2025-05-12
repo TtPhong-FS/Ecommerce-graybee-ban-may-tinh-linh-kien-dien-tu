@@ -1,8 +1,8 @@
-import { Checkbox, FormControlLabel } from '@mui/material'
 import PropTypes from 'prop-types'
 import { Controller, useFormContext } from 'react-hook-form'
+import { Checkbox } from '../ui/checkbox'
 
-export function RHFCheckBox({ name, label }) {
+export function RHFCheckBox({ name }) {
   const { control } = useFormContext()
 
   return (
@@ -10,10 +10,7 @@ export function RHFCheckBox({ name, label }) {
       control={control}
       name={name}
       render={({ field }) => (
-        <FormControlLabel
-          control={<Checkbox checked={field.value || false} onChange={(e) => field.onChange(e.target.checked)} />}
-          label={label}
-        />
+        <Checkbox className="w-4 h-4 cursor-pointer" checked={field.value || false} onCheckedChange={field.onChange} />
       )}
     />
   )

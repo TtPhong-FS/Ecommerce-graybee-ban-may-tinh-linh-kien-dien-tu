@@ -1,32 +1,24 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { parse } from 'date-fns'
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { Loading } from '../../../components/Loading'
 import { defaultValues, Schema } from '../types/schema'
 import { Profile } from './Profile'
 
 export const ProfileProvider = ({ handleCancel, initialData, isUpdate }) => {
-  const [loading, setLoading] = useState(true)
-
   const methods = useForm({ resolver: yupResolver(Schema), defaultValues, mode: 'all', shouldUnregister: false })
 
   useEffect(() => {
-    if (initialData) {
+    if (initialData !== null && isUpdate) {
       methods.reset({
         ...initialData,
         dateOfBirth: parse(initialData.dateOfBirth, 'MM/dd/yyyy', new Date())
       })
     }
-    setLoading(false)
-  }, [initialData, methods])
+  }, [initialData, methods, isUpdate])
 
-  return loading ? (
-    <Loading />
-  ) : (
-    <FormProvider {...methods}>{isUpdate && <Profile handleCancel={handleCancel} />}</FormProvider>
-  )
+  return <FormProvider {...methods}>{isUpdate && <Profile handleCancel={handleCancel} />}</FormProvider>
 }
 
 ProfileProvider.propTypes = {

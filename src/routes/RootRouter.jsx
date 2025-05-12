@@ -47,7 +47,7 @@ const RootRouter = [
         handle: { crumb: () => 'Liên hệ' }
       },
       {
-        path: 'product/details/:slugId',
+        path: 'products/:slugId',
         element: <ProductDetail />,
         handle: { crumb: ({ params }) => `${params.slugId.toUpperCase()}` }
       },

@@ -82,13 +82,13 @@ export const ManageAddressPage = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center">
-        <div className="flex items-center py-3 pb-6">
+      <div className="flex justify-between items-center py-3 pb-6">
+        <div className="flex items-center ">
           <h1>Địa chỉ cá nhân</h1>
           <div className="ml-12">
             <Button
-              variant="secondary"
-              className="select-none h-[38px] cursor-pointer"
+              variant="outline"
+              className="select-none h-[38px] cursor-pointer bg-primary-foreground"
               type="button"
               disabled={isLoading('reload')}
               onClick={handleReloadAddress}
@@ -105,7 +105,12 @@ export const ManageAddressPage = () => {
           </div>
         </div>
         <div className="flex content-center items-center gap-6">
-          <Button className="select-none h-[38px] cursor-pointer" onClick={() => showDrawer()} type="button">
+          <Button
+            variant="secondary"
+            className="select-none h-[38px] cursor-pointer"
+            onClick={() => showDrawer()}
+            type="button"
+          >
             Thêm địa chỉ
           </Button>
         </div>
