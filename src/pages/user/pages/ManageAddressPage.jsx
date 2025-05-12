@@ -1,24 +1,28 @@
 import { HomeFilled } from '@ant-design/icons'
-import { DeleteOutline } from '@mui/icons-material'
+
+import { Button } from '@/components/ui/button'
+import useLoading from '@/hooks/useLoading'
 import { Chip, IconButton } from '@mui/material'
-import { Avatar, Button, Drawer, Spin } from 'antd'
+import { Avatar, Drawer } from 'antd'
+import { Delete, LoaderCircle } from 'lucide-react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { toast } from 'sonner'
 import { handleAsync } from '../../../components/func'
-import { useNotification } from '../../../hooks'
 import { AddressProvider } from '../components/AddressProvider'
 import useAddressData from '../components/data/useAddressData'
 import { deleteAddressByIdAndUserUidFromToken, getAddressesByToken, updateDefaultAddress } from '../features'
 
 export const ManageAddressPage = () => {
-  const { deliveryAddress, loading } = useAddressData()
+  const { deliveryAddress } = useAddressData()
+
+  const { isLoading, start, stop } = useLoading()
 
   const [open, setOpen] = useState(false)
 
   const [initialData, setInitialData] = useState(null)
   const [isUpdate, setIsUpdate] = useState(false)
   const [visible, setVisible] = useState(false)
-  const { openNotificationWithIcon, contextHolder } = useNotification()
 
   const dispatch = useDispatch()
 
@@ -45,9 +49,9 @@ export const ManageAddressPage = () => {
     await handleAsync({
       asyncAction: (id) => dispatch(deleteAddressByIdAndUserUidFromToken({ id: id })).unwrap(),
       onSuccess: (res) => {
-        openNotificationWithIcon('success', 'Thành công', res.message)
+        toast.success(res.message)
       },
-      openNotificationWithIcon,
+      toast,
       values: id
     })
   }
@@ -56,9 +60,9 @@ export const ManageAddressPage = () => {
     await handleAsync({
       asyncAction: (id) => dispatch(updateDefaultAddress({ id: id })).unwrap(),
       onSuccess: (res) => {
-        openNotificationWithIcon('success', 'Thành công', res.message)
+        toast.success(res.message)
       },
-      openNotificationWithIcon,
+      toast,
       values: id
     })
   }
@@ -66,43 +70,47 @@ export const ManageAddressPage = () => {
   const handleReloadAddress = async () => {
     await handleAsync({
       asyncAction: () => dispatch(getAddressesByToken()).unwrap(),
-      openNotificationWithIcon
+      toast,
+      loadingKey: 'reload',
+      startLoading: start,
+      stopLoading: stop,
+      onSuccess: (res) => {
+        toast.success(res.message)
+      }
     })
   }
 
   return (
     <div>
-      {contextHolder}
       <div className="flex justify-between items-center">
-        <div className="flex items-center">
+        <div className="flex items-center py-3 pb-6">
           <h1>Địa chỉ cá nhân</h1>
           <div className="ml-12">
             <Button
-              loading={loading}
-              style={{ height: '2.7rem' }}
-              type="default"
-              htmlType="button"
-              disabled={loading}
+              variant="secondary"
+              className="select-none h-[38px] cursor-pointer"
+              type="button"
+              disabled={isLoading('reload')}
               onClick={handleReloadAddress}
             >
-              {loading ? 'Đang  tải' : 'Làm mới'}
+              {isLoading('reload') ? (
+                <span className="flex items-center">
+                  <LoaderCircle className="animate-spin mr-2" />
+                  Đang tải
+                </span>
+              ) : (
+                'Làm mới'
+              )}
             </Button>
           </div>
         </div>
-        <div className="flex content-center items-center gap-6 mb-6">
-          <Button
-            disabled={loading}
-            onClick={() => showDrawer()}
-            type="primary"
-            htmlType="button"
-            style={{ height: '2.7rem', backgroundColor: '#dc2f2f' }}
-          >
+        <div className="flex content-center items-center gap-6">
+          <Button className="select-none h-[38px] cursor-pointer" onClick={() => showDrawer()} type="button">
             Thêm địa chỉ
           </Button>
         </div>
       </div>
-
-      <Spin spinning={loading}>
+      {deliveryAddress.length > 0 ? (
         <div>
           {deliveryAddress.map((address) => (
             <div key={address?.id} className="box flex items-center justify-between not-last:mb-6">
@@ -129,25 +137,32 @@ export const ManageAddressPage = () => {
                 <span onClick={() => handleSetDefailtAddress(address?.id)} className="cursor-pointer text-[#dc2f2f]">
                   Chọn làm mặc định
                 </span>
-                <IconButton disabled={loading} onClick={() => handleDeleteAddressById(address?.id)}>
-                  <DeleteOutline />
+                <IconButton
+                  disabled={isLoading(`delete:${address?.id}`)}
+                  onClick={() => handleDeleteAddressById(address?.id)}
+                >
+                  <Delete />
                 </IconButton>
               </div>
             </div>
           ))}
         </div>
-        {visible && (
-          <Drawer
-            styles={{ body: { padding: 0 } }}
-            style={{ backgroundColor: '#eeeeee' }}
-            closeIcon={null}
-            open={open}
-            onClose={onClose}
-          >
-            <AddressProvider isUpdate={isUpdate} initialData={initialData} onClose={onClose} />
-          </Drawer>
-        )}
-      </Spin>
+      ) : (
+        <div className="p-4 rounded-md text-center select-none bg-white text-muted-foreground">
+          Chưa có địa chỉ cá nhân nào!
+        </div>
+      )}
+      {visible && (
+        <Drawer
+          styles={{ body: { padding: 0 } }}
+          style={{ backgroundColor: '#eeeeee' }}
+          closeIcon={null}
+          open={open}
+          onClose={onClose}
+        >
+          <AddressProvider isUpdate={isUpdate} initialData={initialData} onClose={onClose} />
+        </Drawer>
+      )}
     </div>
   )
 }

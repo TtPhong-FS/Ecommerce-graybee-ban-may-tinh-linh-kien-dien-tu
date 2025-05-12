@@ -2,18 +2,20 @@ export const handleAsyncSubmit = async ({
   asyncAction,
   values,
   onSuccess,
-  setError,
-  openNotificationWithIcon,
   reset,
-  defaultValues
+  toast,
+  defaultValues,
+  setError,
+  loadingKey,
+  startLoading,
+  stopLoading
 }) => {
-  debugger
+  if (loadingKey && startLoading) startLoading(loadingKey)
+
   try {
     const res = await asyncAction(values)
-    if (res.status === 201) {
-      onSuccess?.(res)
-      reset?.(defaultValues)
-    }
+    onSuccess?.(res)
+    reset?.(defaultValues)
   } catch (error) {
     if (error && typeof error === 'object') {
       Object.entries(error).forEach(([field, message]) => {
@@ -21,9 +23,11 @@ export const handleAsyncSubmit = async ({
           setError?.(field, { type: 'server', message })
         }
       })
-      if (error.general) openNotificationWithIcon?.('error', 'Thất bại', error.general)
-      else if (error.unconnect) openNotificationWithIcon?.('warning', 'Lỗi kết nối', error.unconnect)
-      else openNotificationWithIcon?.('error', error.title, error.detail)
+      if (error.general) return toast?.error(error.general)
+      if (error.unconnect) return toast?.warning(error.unconnect)
+      else if (error.detail) toast?.error(error.detail)
     }
+  } finally {
+    if (loadingKey && stopLoading) stopLoading(loadingKey)
   }
 }

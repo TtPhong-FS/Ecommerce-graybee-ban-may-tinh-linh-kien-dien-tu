@@ -1,5 +1,5 @@
 import { Grid2 } from '@mui/material'
-import { Button, Spin } from 'antd'
+import { Spin } from 'antd'
 import { useState } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,12 +8,9 @@ import { RHFInputField, RHFRadioGroup, RHFTextArea } from '../../../components/f
 import { paymentMethod } from '../../../components/options/paymentMethod'
 import { useNotification } from '../../../hooks'
 
+import { Button } from '@/components/ui/button'
 import CartItem from '../../../components/cart/components/CartItem'
-import { removeItemsByIds } from '../../../components/cart/features/slice'
-import { handleAsyncSubmit } from '../../../components/func/handleAsyncSubmit'
 import { AddressSelector } from '../../user/components/AddressSelector'
-import { createOrder } from '../features/slice'
-import { defaultValues } from '../types/schema'
 import { AddressExistingSelector } from './AddressExistingSelector'
 import { ConfirmOrder } from './ConfirmOrder'
 
@@ -43,45 +40,24 @@ export const Order = () => {
   }
 
   const onSubmit = async (values) => {
-    if (values.cartItemIds.length < 1) {
-      openNotificationWithIcon('warning', 'Lời nhắc', 'Hãy chọn ít nhất 1 sản phẩm để đặt hàng!')
-      return
-    }
-    await handleAsyncSubmit({
-      asyncAction: (vals) => dispatch(createOrder({ request: vals })).unwrap(),
-      values,
-      onSuccess: async (res) => {
-        console.log(res)
-        dispatch(removeItemsByIds(res.data))
-        openNotificationWithIcon('success', 'Thành công', res.message)
-      },
-      openNotificationWithIcon,
-      reset,
-      defaultValues,
-      setError
-    })
-    // try {
-    //   console.log('submit', values)
-    //   const res = await dispatch(createOrder({ request: values })).unwrap()
-    //   if (res.status === 201) {
+    console.log('values', values)
+    // if (values.cartItemIds.length < 1) {
+    //   openNotificationWithIcon('warning', 'Lời nhắc', 'Hãy chọn ít nhất 1 sản phẩm để đặt hàng!')
+    //   return
+    // }
+    // await handleAsyncSubmit({
+    //   asyncAction: (vals) => dispatch(createOrder({ request: vals })).unwrap(),
+    //   values,
+    //   onSuccess: async (res) => {
     //     console.log(res)
     //     dispatch(removeItemsByIds(res.data))
-    //     messageApi(res.message)
-    //     reset(defaultValues)
-    //   }
-    // } catch (error) {
-    //   if (error && typeof error === 'object') {
-    //     Object.entries(error).forEach(([field, message]) => {
-    //       setError(field, { type: 'server', message })
-    //     })
-    //     if (error.general) {
-    //       messageApi.error(error.general)
-    //     }
-    //     if (error.unconnect) {
-    //       messageApi.warning(error.unconnect)
-    //     }
-    //   }
-    // }
+    //     openNotificationWithIcon('success', 'Thành công', res.message)
+    //   },
+    //   openNotificationWithIcon,
+    //   reset,
+    //   defaultValues,
+    //   setError
+    // })
   }
   return (
     <div className="">
@@ -208,13 +184,8 @@ export const Order = () => {
         </div>
       ) : (
         <div className="place-items-center bg-white p-4 rounded-md">
-          <p className="mb-8 mt-2">Bạn chưa có sản phẩm nào trong giỏ hàng</p>
-          <Button
-            style={{ height: '2.5rem', width: '100%' }}
-            type="primary"
-            htmlType="button"
-            onClick={() => navigate('/')}
-          >
+          <p className="mb-8 mt-2 text-muted-foreground">Bạn chưa có sản phẩm nào trong giỏ hàng!</p>
+          <Button className="cursor-pointer h-[38px]" variant="secondary" type="button" onClick={() => navigate('/')}>
             Tiếp tục mua hàng
           </Button>
         </div>

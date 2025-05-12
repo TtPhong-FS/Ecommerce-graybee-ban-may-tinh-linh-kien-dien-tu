@@ -4,11 +4,15 @@ import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
+import { handleAsyncSubmit } from '@/components/func'
+import useAppContext from '@/hooks/useAppContext'
+import { saveAuthToken } from '@/utils'
+import { jwtDecode } from 'jwt-decode'
+import { toast } from 'sonner'
 import { RHFDateTimePicker, RHFInputField, RHFRadioGroup } from '../../../components/fields'
-import { useNotification } from '../../../hooks'
+import { handleSignUp } from '../features'
 import { defaultValues } from '../types/signup'
 import { AuthContext } from './AuthProvider'
-
 export const SignUp = () => {
   const {
     handleSubmit,
@@ -17,35 +21,37 @@ export const SignUp = () => {
     formState: { isSubmitting }
   } = useFormContext()
 
-  const { handleSignUp } = React.useContext(AuthContext)
-  const { contextHolder, openNotificationWithIcon } = useNotification()
+  const { dispatch, navigate } = useAppContext()
+
+  const { setUser, setLoading } = React.useContext(AuthContext)
+
   const onSubmit = async (values) => {
     const formatDateOfBirth = format(values.dateOfBirth, 'MM/dd/yyyy')
     const request = { ...values, dateOfBirth: formatDateOfBirth }
 
-    try {
-      await handleSignUp(request)
-      reset(defaultValues)
-    } catch (error) {
-      if (error && typeof error === 'object') {
-        Object.entries(error).forEach(([field, message]) => {
-          setError(field, {
-            type: 'server',
-            message
-          })
-        })
-        if (error.general) {
-          openNotificationWithIcon('error', 'Thất bại', error.general)
+    await handleAsyncSubmit({
+      asyncAction: (vals) => dispatch(handleSignUp(vals)).unwrap(),
+      onSuccess: (res) => {
+        const { token } = res.data
+        saveAuthToken(token)
+        const decodedToken = jwtDecode(token)
+        setUser(decodedToken)
+        setLoading(false)
+        if (decodedToken?.role === 'SUPER_ADMIN' || decodedToken?.role === 'ADMIN' || decodedToken?.role === 'MANAGE') {
+          navigate('/home')
+        } else {
+          navigate('/unauthorized')
         }
-        if (error.unconnect) {
-          openNotificationWithIcon('error', 'Lỗi kết nối', error.unconnect)
-        }
-      }
-    }
+      },
+      values: request,
+      toast,
+      setError,
+      defaultValues: defaultValues,
+      reset
+    })
   }
   return (
     <>
-      {contextHolder}
       <div className="flex items-center justify-center w-full">
         <h1>Tạo tài khoản hoặc đăng nhập</h1>
       </div>

@@ -1,39 +1,63 @@
-import { faBars } from '@fortawesome/free-solid-svg-icons/faBars'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined'
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined'
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
-import { Badge, IconButton } from '@mui/material'
-import { Button, Input } from 'antd'
 import { debounce } from 'lodash'
 import PropTypes from 'prop-types'
-import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import logo from '../assets/vite.svg'
 
 import { searchProductByName } from '../pages/product/features'
-import { AuthContext } from './auth/components/AuthProvider'
+
+import useLoading from '@/hooks/useLoading'
+import { Headset, MapPin, Menu, Moon, ScrollText, ShoppingCart, Sun, X } from 'lucide-react'
 
 import useUserData from '../pages/user/components/data/useUserData'
 import { ProductSearchCard } from './cards'
 import { onFocusSidebar } from './sidebar/features/slice'
+import { useTheme } from './theme-provider'
+import { Button } from './ui/button'
+import { Input } from './ui/input'
+
+const navigation = [
+  {
+    path: '/contact',
+    icon: Headset,
+    badge: false
+  },
+  {
+    path: '/shop-location',
+    icon: MapPin,
+    badge: false
+  },
+  {
+    path: '/account/order-history',
+    icon: ScrollText,
+    badge: false
+  },
+  {
+    path: '/cart/cart-buy-order-box',
+    icon: ShoppingCart,
+    badge: true
+  }
+]
 
 const Navbar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  const { setTheme, theme } = useTheme()
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light')
+  }
+
   const { user } = useUserData()
 
   const listProductSearch = useSelector((state) => state.product.listProductSearch, shallowEqual)
   const cartItems = useSelector((state) => state.cart?.cartItems)
-  const quantity = cartItems?.reduce((sum, cartItem) => sum + cartItem.quantity, 0)
+  const totalQuantity = cartItems?.reduce((sum, cartItem) => sum + cartItem.quantity, 0)
 
-  const { handleLogout } = useContext(AuthContext)
   const { isLogin } = useSelector((state) => state.auth)
   const [isSearch, setIsSearch] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [keyword, setKeyword] = useState('')
+  const { isLoading, start, stop } = useLoading()
 
   const containerRef = useRef(null)
 
@@ -43,10 +67,11 @@ const Navbar = () => {
 
   const handleSearch = (value) => {
     setIsSearch(value?.length > 0)
-    setLoading(false)
+
     if (value?.length > 0) {
       dispatch(searchProductByName({ keyword: value }))
     }
+    stop('searching')
   }
 
   const debouncedSearch = useCallback(
@@ -55,12 +80,14 @@ const Navbar = () => {
   )
 
   const onChange = (e) => {
-    setLoading(true)
+    start('searching')
     const value = e.target.value
+    setKeyword(value)
     debouncedSearch(value)
   }
 
   const onClear = () => {
+    setKeyword('')
     setIsSearch(false)
   }
 
@@ -85,47 +112,38 @@ const Navbar = () => {
 
   return (
     <div className="sticky top-0 z-50">
-      <header className=" bg-secondary h-[5rem] flex items-center justify-center md:px-4 px-2">
-        <div className="flex container mx-auto h-[2.8rem] gap-2 items-center">
+      <header className="bg-secondary h-[5rem] flex items-center justify-center md:px-4 px-2">
+        <div className="flex w-full max-w-[88rem] mx-auto h-[2.8rem] gap-2 items-center">
           <div className="flex h-full items-center md:gap-3">
             <div className="hidden md:flex gap-1 items-center">
-              <img className="hidden md:block size-6 md:size-10" src={logo} alt="Logo Image" />
-              <h1 className="text-white uppercase hidden lg:flex cursor-pointer" onClick={() => navigate('/')}>
+              <span
+                className="text-2xl font-semibold text-secondary-foreground uppercase hidden lg:flex cursor-pointer"
+                onClick={() => navigate('/')}
+              >
                 Graybee
-              </h1>
+              </span>
             </div>
             <div
               onClick={handleFocusSidebar}
               className="cursor-pointer flex items-center gap-2 h-[2.8rem] rounded-[0.4rem] px-2"
             >
               <Link href="#">
-                <FontAwesomeIcon icon={faBars} size="lg" style={{ color: '#ffffff' }} />
+                <Menu className="text-secondary-foreground" size={20} />
               </Link>
-              <span className="hidden lg:inline text-[1rem] font-medium text-white">Danh Mục</span>
+              <span className="hidden lg:inline text-[1rem] font-medium text-secondary-foreground">Danh Mục</span>
             </div>
           </div>
           <div className="flex flex-1 basis-auto items-center gap-2">
             <div className="relative flex-1 basis-auto">
               <div className="relative">
-                <FontAwesomeIcon
-                  className="absolute top-3.5 left-3 z-10"
-                  icon={faMagnifyingGlass}
-                  size="md"
-                  style={{ color: '#000000' }}
-                />
                 <Input
-                  onClear={onClear}
+                  value={keyword}
                   onChange={onChange}
-                  allowClear={true}
-                  style={{
-                    color: 'black',
-                    padding: '0.5rem 1.5rem 0.518rem 2.5rem',
-                    borderRadius: '0.4rem',
-                    width: '100%',
-                    height: '2.8rem'
-                  }}
-                  placeholder="Search"
+                  type="search"
+                  className="h-[40px] bg-white dark:bg-white"
+                  placeholder="Tìm kiếm sản phẩm..."
                 />
+                {keyword && <X onClick={onClear} className="absolute right-0 top-1/2 -translate-1/2" size={16} />}
                 {isSearch && (
                   <>
                     {!listProductSearch || listProductSearch?.length === 0 ? (
@@ -135,7 +153,7 @@ const Navbar = () => {
                     ) : (
                       <div ref={containerRef} className="rounded-md absolute top-12 z-50 bg-white w-full h-[30rem]">
                         <div className="w-full h-[30rem]">
-                          <ProductSearchCard loading={loading} setIsSearch={setIsSearch} />
+                          <ProductSearchCard loading={isLoading('searching')} setIsSearch={setIsSearch} />
                         </div>
                       </div>
                     )}
@@ -144,34 +162,34 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-end gap-4 font-medium">
-            <div className="">
-              <IconButton onClick={() => navigate('/contact')}>
-                <HeadsetMicOutlinedIcon sx={{ fontSize: '1.3rem', color: 'white' }} />
-              </IconButton>
-            </div>
-            <div className="">
-              <IconButton onClick={() => navigate('/account/order-history')}>
-                <LocalMallOutlinedIcon sx={{ fontSize: '1.3rem', color: 'white' }} />
-              </IconButton>
-            </div>
-            <div className="hidden md:block">
-              <IconButton onClick={() => navigate('/cart/cart-buy-order-box')}>
-                <Badge color="secondary" badgeContent={quantity}>
-                  <ShoppingCartOutlinedIcon sx={{ fontSize: '1.3rem', color: 'white' }} />
-                </Badge>
-              </IconButton>
-            </div>
+          <div className="flex justify-end gap-4 font-medium ml-2">
+            {navigation.map((item, index) => (
+              <Link to={item.path} className="relative hidden md:inline-flex items-center" key={index}>
+                <item.icon className="cursor-pointer text-secondary-foreground" size={20} />
+                {item.badge && (
+                  <span className="text-red-500 cursor-pointer select-none absolute w-5 h-5 justify-center text-xs flex items-center rounded-full top-0 -right-2  bg-secondary-foreground">
+                    {totalQuantity}
+                  </span>
+                )}
+              </Link>
+            ))}
+
             <div className="hidden lg:block">
               {isLogin ? (
-                <Button style={{ height: '2.7rem' }} onClick={() => navigate('/account')}>
+                <Button variant="outline" className="cursor-pointer h-[40px]" onClick={() => navigate('/account')}>
                   Hi, {user?.fullName}
                 </Button>
               ) : (
-                <Button style={{ height: '2.7rem' }} onClick={() => navigate('/login')}>
+                <Button
+                  className="cursor-pointer h-[40px] bg-secondary-foreground text-primary dark:bg-secondary-foreground dark:hover:bg-secondary-foreground/90 dark:text-primary-foreground hover:bg-secondary-foreground/90 select-none"
+                  onClick={() => navigate('/login')}
+                >
                   Đăng nhập
                 </Button>
               )}
+            </div>
+            <div className="cursor-pointer flex items-center " onClick={toggleTheme}>
+              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </div>
           </div>
         </div>

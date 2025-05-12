@@ -1,4 +1,4 @@
-import { Breadcrumbs, Typography } from '@mui/material'
+import { Breadcrumbs } from '@mui/material'
 
 import { Link, useLocation, useMatches } from 'react-router-dom'
 export const BreadCrumbs = () => {
@@ -23,11 +23,11 @@ export const BreadCrumbs = () => {
       {crumbs.map((item, index) => {
         const lastItem = index === crumbs.length - 1
         return lastItem ? (
-          <Typography key={index} color="textDisabled">
+          <label key={index} className="text-muted-foreground">
             {item.label}
-          </Typography>
+          </label>
         ) : (
-          <Link className="text-blue-600 hover:underline decoration-solid " to={item.path} key={index}>
+          <Link className="text-secondary hover:underline decoration-solid " to={item.path} key={index}>
             {item.label}
           </Link>
         )

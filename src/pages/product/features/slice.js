@@ -4,9 +4,7 @@ import { getDetailById, searchProductByName } from './thunk'
 const initialState = {
   listProductSearch: [],
   details: null,
-  error: null,
-  productId: null,
-  status: 'idle'
+  productId: null
 }
 
 export const productSlice = createSlice({
@@ -22,30 +20,13 @@ export const productSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getDetailById.pending, (state) => {
-        state.error = null
-        state.status = 'loading'
-      })
+
       .addCase(getDetailById.fulfilled, (state, action) => {
-        state.status = 'success'
         state.details = action.payload?.data || null
       })
-      .addCase(getDetailById.rejected, (state, action) => {
-        state.error = action.error.message
-        state.status = 'failed'
-      })
 
-      .addCase(searchProductByName.pending, (state) => {
-        state.error = null
-        state.status = 'loading'
-      })
       .addCase(searchProductByName.fulfilled, (state, action) => {
-        state.status = 'success'
         state.listProductSearch = action.payload?.data || []
-      })
-      .addCase(searchProductByName.rejected, (state, action) => {
-        state.error = action.error.message
-        state.status = 'failed'
       })
   }
 })

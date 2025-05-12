@@ -22,12 +22,12 @@ export const ProfileLayout = () => {
       >
         <Grid2 height={200} size={12} sx={{ bgcolor: 'white', padding: '0.5rem', borderRadius: '0.8rem' }}>
           <div className="flex gap-2 items-center">
-            <a href="/account/profile" className="cursor-pointer">
+            <Link href="/account" className="cursor-pointer">
               <Avatar
                 src="https://img.icons8.com/?size=100&id=NPW07SMh7Aco&format=png&color=000000"
                 sx={{ width: 50, height: 50 }}
               />
-            </a>
+            </Link>
             <div className="w-full">
               <p className="select-text">{user?.fullName}</p>
               <div className="flex justify-between ">
@@ -51,13 +51,13 @@ export const ProfileLayout = () => {
                   onClick={item.key === 'logout' ? () => handleLogout() : undefined}
                   key={index}
                   to={item.path}
-                  className={`p-2 flex gap-2 transition-all hover:pl-4 w-full border-l-2 ${
+                  className={`flex items-center gap-2 transition-all hover:pl-4 w-full border-l-2 text-gray-800 p-2 ${
                     location.pathname === item.path
                       ? 'border-red-500 text-red-600 bg-gradient-to-r from-[#fff1f2] to-red-0'
                       : 'border-transparent hover:border-red-500'
-                  } hover:bg-gradient-to-r from-[#fff1f2] to-red-0 hover:text-red-600`}
+                  } hover:bg-gradient-to-r from-[#fff1f2] to-red-0  hover:text-red-600 `}
                 >
-                  <item.icon />
+                  <item.icon size={20} />
                   <span>{item.title}</span>
                 </Link>
               ))}

@@ -56,7 +56,7 @@ export function AddressExistingSelector() {
           <label>Chọn địa chỉ</label>
           <Select
             showSearch
-            onDropdownVisibleChange={handleDropdownVisibleChange}
+            onOpenChange={handleDropdownVisibleChange}
             value={selectedId}
             placeholder="Chọn địa chỉ"
             style={{ width: '100%', height: '3rem' }}

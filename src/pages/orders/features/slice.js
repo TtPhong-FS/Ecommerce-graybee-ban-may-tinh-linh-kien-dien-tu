@@ -1,30 +1,18 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { handleCreateAsyncThunk } from '@/components/func'
+import { createSlice } from '@reduxjs/toolkit'
 import { privateAPI } from '../../../config/axiosServer'
 
 const order_endpoint = '/api/v1/public/order'
 
 const createOrderApi = (request) => privateAPI.post(`${order_endpoint}/create`, request, {})
 
-export const createOrder = createAsyncThunk('order/createOrder', async ({ request }, { dispatch, rejectWithValue }) => {
-  try {
-    const res = await createOrderApi(request)
+export const createOrder = handleCreateAsyncThunk('order/createOrder', async (request) => {
+  const res = await createOrderApi(request)
 
-    return res.data
-  } catch (error) {
-    if (error.code === 'EER_NETWORK' || error.message === 'Network Error') {
-      return rejectWithValue({
-        unconnect: 'Không thể kết nối đến server. Vui lòng kiểm tra mạng và thử lại!'
-      })
-    }
-    if (error.response && error.response.data) {
-      return rejectWithValue(error.response.data)
-    }
-  }
+  return res.data
 })
 
 const initialState = {
-  error: null,
-  status: 'idle',
   customerOrder: null
 }
 
@@ -33,19 +21,9 @@ const orderSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(createOrder.pending, (state) => {
-        state.error = null
-        state.status = 'loading'
-      })
-      .addCase(createOrder.fulfilled, (state, action) => {
-        state.status = 'success'
-        state.customerOrder = action.payload?.data || null
-      })
-      .addCase(createOrder.rejected, (state, action) => {
-        state.error = action.error.message
-        state.status = 'failed'
-      })
+    builder.addCase(createOrder.fulfilled, (state, action) => {
+      state.customerOrder = action.payload?.data || null
+    })
   }
 })
 

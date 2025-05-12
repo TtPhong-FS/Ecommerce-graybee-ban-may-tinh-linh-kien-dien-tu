@@ -1,16 +1,15 @@
 import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 import PropTypes from 'prop-types'
-import React, { createContext, useCallback, useEffect, useMemo } from 'react'
+import React, { createContext, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { logout, refreshLogin } from '../features/slice'
 
 import { clearAllToLogout } from '../../../pages/user/features/slice'
-import { clearAuthToken, getToken, saveAuthToken } from '../../../utils'
+import { clearAuthToken, getToken } from '../../../utils'
 import { clearAll } from '../../cart/features/slice'
-import { Login, SignUp } from '../features'
 
 export const AuthContext = createContext()
 
@@ -28,94 +27,24 @@ export const AuthProvider = ({ children }) => {
         setUser(extractToken)
         dispatch(refreshLogin())
       } catch (error) {
-        console.error('Invalid token:', error)
         Cookies.remove('token')
       }
     }
     setLoading(false)
-  }, [])
+  }, [token])
 
-  const handleLogin = useCallback(async (request) => {
-    try {
-      const res = await dispatch(Login({ request: request })).unwrap()
-      const { token } = res.data
-      if (res.status === 200) {
-        const extractToken = jwtDecode(token)
-        setUser(extractToken)
-        saveAuthToken(token)
-        setLoading(false)
-
-        // dispatch(getFavourites())
-        // dispatch(getProfileByToken())
-        // dispatch(getAddressesByToken())
-        // dispatch(findCartByUserUidOrSessionId())
-
-        navigate('/')
-      }
-      return res.status
-    } catch (error) {
-      console.error('Login failed:', error)
-
-      throw error
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  const handleSignUp = useCallback(async (request) => {
-    try {
-      const response = await dispatch(SignUp({ request: request })).unwrap()
-      const data = response.data
-      console.log('Sign up success: ', response)
-      if (response.status === 201) {
-        const extractToken = jwtDecode(data?.token)
-        setUser(extractToken)
-        saveAuthToken(data?.token, data?.role)
-        setLoading(false)
-        // dispatch(getFavourites())
-        // dispatch(getProfileByToken())
-        // dispatch(getAddressesByToken())
-        // dispatch(findCartByUserUidOrSessionId())
-
-        navigate('/')
-      }
-      return response.status
-    } catch (error) {
-      console.error('Login failed:', error)
-
-      throw error
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  const handleLogout = useCallback(() => {
+  const handleLogout = () => {
     clearAuthToken()
     dispatch(logout())
     dispatch(clearAll())
     dispatch(clearAllToLogout())
     setUser(null)
     navigate('/home')
-  }, [])
+  }
 
-  console.log(user)
-
-  // if (loading) {
-  //   return <Loading />
-  // }
-
-  const memorize = useMemo(
-    () => ({
-      user,
-      handleLogin,
-      loading,
-      handleLogout,
-      handleSignUp
-    }),
-    [user, loading, handleLogin, handleLogout, handleSignUp]
+  return (
+    <AuthContext.Provider value={{ user, loading, handleLogout, setUser, setLoading }}>{children}</AuthContext.Provider>
   )
-
-  return <AuthContext.Provider value={memorize}>{children}</AuthContext.Provider>
 }
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired

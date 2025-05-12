@@ -10,7 +10,7 @@ const content = <div style={contentStyle} />
 
 export const Loading = () => {
   return (
-    <Spin tip="Loading" size="small">
+    <Spin tip="Đang tải" className="text-secondary shadow-none dark:bg-secondary-foreground" size="small">
       {content}
     </Spin>
   )

@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import { addItemToCart } from '../components/cart/features'
 import { handleAsync, handleAsyncSubmit } from '../components/func'
 import { addToFavourite } from '../pages/user/features'
 import { getToken } from '../utils'
-export const useActionAddToCartAndFavourite = (openNotificationWithIcon) => {
+export const useActionAddToCartAndFavourite = () => {
   const token = getToken()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -16,24 +17,33 @@ export const useActionAddToCartAndFavourite = (openNotificationWithIcon) => {
     }
 
     await handleAsync({
-      asyncAction: (id) => dispatch(addToFavourite({ productId: id })).unwrap(),
+      asyncAction: (id) => dispatch(addToFavourite(id)).unwrap(),
       onSuccess: (res) => {
-        openNotificationWithIcon('success', 'Thành công', res.message)
+        toast.success(res.message)
       },
       values: productId,
-      openNotificationWithIcon
+      toast
     })
   }
 
   const handleAddItemToCart = async (productId, quantity) => {
     const values = { productId, quantity }
-
     await handleAsyncSubmit({
-      asyncAction: (vals) => dispatch(addItemToCart({ request: vals })).unwrap(),
+      asyncAction: (vals) => dispatch(addItemToCart(vals)).unwrap(),
       onSuccess: (res) => {
-        openNotificationWithIcon('success', 'Thành công', res.message)
+        toast(null, {
+          description: (
+            <>
+              <h3 className="text-green-600 w-full block text-center mb-2">{res?.message}</h3>
+              <div className="flex items-center gap-3">
+                <img className="w-20 h-20 border border-input p-2" src={res?.data.product?.thumbnail} />
+                <span className="">{res?.data?.product?.name}</span>
+              </div>
+            </>
+          )
+        })
       },
-      openNotificationWithIcon,
+      toast,
       values
     })
   }

@@ -1,15 +1,15 @@
-export const handleAsync = async ({ asyncAction, values, onSuccess, openNotificationWithIcon }) => {
-  debugger
+export const handleAsync = async ({ asyncAction, values, onSuccess, toast, loadingKey, startLoading, stopLoading }) => {
+  if (loadingKey && startLoading) startLoading(loadingKey)
   try {
     const res = await asyncAction(values)
-    if (res.status === 200) {
-      onSuccess?.(res)
-    }
+    onSuccess?.(res)
   } catch (error) {
     if (error && typeof error === 'object') {
-      if (error.general) openNotificationWithIcon?.('error', 'Thất bại', error.general)
-      else if (error.unconnect) openNotificationWithIcon?.('warning', 'Lỗi kết nối', error.unconnect)
-      else openNotificationWithIcon?.('error', error.title, error.detail)
+      if (error.general) toast?.error(error.general)
+      else if (error.unconnect) toast?.warning(error.unconnect)
+      else if (error.detail) toast?.error(error.detail)
     }
+  } finally {
+    if (loadingKey && stopLoading) stopLoading(loadingKey)
   }
 }

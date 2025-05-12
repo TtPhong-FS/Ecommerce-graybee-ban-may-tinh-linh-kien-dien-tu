@@ -3,11 +3,15 @@ import { useContext } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
+import { handleAsyncSubmit } from '@/components/func'
+import useAppContext from '@/hooks/useAppContext'
+import { saveAuthToken } from '@/utils'
+import { jwtDecode } from 'jwt-decode'
+import { toast } from 'sonner'
 import { RHFInputField } from '../../../components/fields'
-import { useNotification } from '../../../hooks'
+import { handleLogin } from '../features'
 import { defaultValues } from '../types/login'
 import { AuthContext } from './AuthProvider'
-
 export const Login = () => {
   const {
     handleSubmit,
@@ -16,34 +20,34 @@ export const Login = () => {
     formState: { isSubmitting }
   } = useFormContext()
 
-  const { handleLogin } = useContext(AuthContext)
-  const { contextHolder, openNotificationWithIcon } = useNotification()
+  const { dispatch, navigate } = useAppContext()
+
+  const { setUser, setLoading } = useContext(AuthContext)
+
   const onSubmit = async (values) => {
-    try {
-      await handleLogin(values)
-      reset(defaultValues)
-    } catch (error) {
-      if (error && typeof error === 'object') {
-        Object.entries(error).forEach(([field, message]) => {
-          setError(field, {
-            type: 'server',
-            message
-          })
-        })
-        if (error.general) {
-          openNotificationWithIcon('error', 'Thất bại', error.general)
-        }
-        if (error.unconnect) {
-          openNotificationWithIcon('error', 'Lỗi kết nối', error.unconnect)
+    await handleAsyncSubmit({
+      asyncAction: (vals) => dispatch(handleLogin(vals)).unwrap(),
+      onSuccess: (res) => {
+        const { token } = res.data
+        saveAuthToken(token)
+        const decodedToken = jwtDecode(token)
+        setUser(decodedToken)
+        setLoading(false)
+        if (decodedToken?.role === 'SUPER_ADMIN' || decodedToken?.role === 'ADMIN' || decodedToken?.role === 'MANAGE') {
+          navigate('/home')
         } else {
-          openNotificationWithIcon('error', error.title, error.detail)
+          navigate('/unauthorized')
         }
-      }
-    }
+      },
+      values,
+      toast,
+      setError,
+      defaultValues: defaultValues,
+      reset
+    })
   }
   return (
     <>
-      {contextHolder}
       <div className="flex items-center justify-center w-full">
         <h1>Đăng nhập hoặc tạo tài khoản</h1>
       </div>

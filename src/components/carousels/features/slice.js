@@ -1,4 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { handleCreateAsyncThunk } from '@/components/func'
+import { createSlice } from '@reduxjs/toolkit'
 import { publicAPI } from '../../../config'
 import { categoryMap } from '../data/load'
 
@@ -14,26 +15,22 @@ const fetchProductByCategory = (category, page, size, sortBy, order) =>
     }
   })
 
-export const fetchCarousel = createAsyncThunk(
+export const fetchCarousel = handleCreateAsyncThunk(
   'carousel/fetchProductsByCategoryForCarousel',
-  async ({ category, page = 0, size = 20, sortBy = 'createdAt', order = 'desc' }, { rejectWithValue }) => {
-    if (!navigator.onLine) {
-      return rejectWithValue('No internet connection')
-    }
+  async ({ category, page = 0, size = 20, sortBy = 'createdAt', order = 'desc' }) => {
     const response = await fetchProductByCategory(category, page, size, sortBy, order)
     return { category: category, data: response.data }
   }
 )
 
-export const preLoadCarousel = createAsyncThunk('carousel/preloadCarousel', async (_, { dispatch }) => {
+export const preLoadCarousel = handleCreateAsyncThunk('carousel/preloadCarousel', async ({ dispatch }) => {
   for (const categoryName of categoryMap) {
     await dispatch(fetchCarousel({ category: categoryName }))
   }
 })
 
 const initialState = {
-  carousels: {},
-  loading: false
+  carousels: {}
 }
 
 export const carouselSlice = createSlice({
@@ -41,18 +38,10 @@ export const carouselSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchCarousel.pending, (state) => {
-      state.loading = true
-    })
     builder.addCase(fetchCarousel.fulfilled, (state, action) => {
       const { category, data } = action.payload
-      state.loading = false
       if (!state.carousels[category]) state.carousels[category] = {}
       state.carousels[category] = data.data
-    })
-    builder.addCase(fetchCarousel.rejected, (state, action) => {
-      state.loading = false
-      state.error = action.error.message
     })
   }
 })

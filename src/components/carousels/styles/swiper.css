@@ -45,17 +45,6 @@
   cursor: pointer;
 }
 
-.carousel-container-info {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.carousel-content-text {
-  font-weight: 600;
-  font-size: 1rem;
-}
-
 .carousel-container-button {
   display: flex;
   justify-content: space-between;

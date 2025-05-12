@@ -70,7 +70,7 @@ const Sidebar = () => {
     <div className={`${active ? 'sticky top-25 z-40' : ''} mb-10`}>
       {active && <div className="fixed inset-0 bg-black opacity-70" onClick={() => handleUnFocus()}></div>}
 
-      <div className="flex h-100 gap-2 relative" onMouseLeave={onLeave}>
+      <div className="flex min-h-100 gap-2 relative" onMouseLeave={onLeave}>
         {/* Sidebar 15% */}
         <div
           className={`w-[15%] rounded-md overflow-y-auto scroll-smooth transition-all duration-300 ${
@@ -81,13 +81,13 @@ const Sidebar = () => {
           <nav className="flex flex-col bg-white h-full cursor-pointer rounded-md">
             {menus.map((category) => (
               <div key={category.id}>
-                <h3
+                <li
                   onClick={() => handleFindByCategory(category.name)}
-                  className="flex items-center justify-between p-2 rounded-md  hover:bg-red-500 hover:text-white cursor-pointer"
+                  className="flex font-semibold items-center justify-between p-2 rounded-md  text-gray-800 hover:bg-secondary/90 hover:text-white cursor-pointer"
                   onMouseEnter={() => setActiveCategory(category.id)}
                 >
                   {category.name}
-                </h3>
+                </li>
               </div>
             ))}
           </nav>
@@ -105,13 +105,13 @@ const Sidebar = () => {
                   activeCategory === category.id && (
                     <div key={category.id} className="w-full flex flex-wrap">
                       <div className="w-1/3 p-2">
-                        <h3 className=" text-red-500">Thương hiệu</h3>
+                        <h3 className="text-secondary">Thương hiệu</h3>
                         <ul className="mt-2">
                           {category.manufacturers?.map((manufacturer) => (
                             <li
                               onClick={() => handleFindByCateogryAndManufacturer(category.name, manufacturer.name)}
                               key={manufacturer.id}
-                              className="text-gray-700 font-medium hover:text-red-500 cursor-pointer"
+                              className="text-gray-800 font-medium hover:text-secondary/80 cursor-pointer"
                             >
                               {manufacturer.name}
                             </li>
@@ -120,7 +120,7 @@ const Sidebar = () => {
                       </div>
                       {category.subcategories?.map((sub) => (
                         <div key={sub.id} className="w-1/3 p-2">
-                          <h3 className=" text-red-500">{sub.name}</h3>
+                          <h3 className="text-secondary">{sub.name}</h3>
                           <ul className="mt-2">
                             {sub.tags.map((tag) => (
                               <li
@@ -128,7 +128,7 @@ const Sidebar = () => {
                                   handleFindByCategoryAndSubcategoryAndTag(category.name, sub.name, tag.name)
                                 }
                                 key={tag.id}
-                                className="text-gray-700 font-medium hover:text-red-500 cursor-pointer"
+                                className="text-gray-800 font-medium hover:text-secondary/80 cursor-pointer"
                               >
                                 {tag.name}
                               </li>

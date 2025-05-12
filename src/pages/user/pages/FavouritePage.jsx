@@ -1,47 +1,44 @@
-import { LoadingOutlined, RedoOutlined } from '@ant-design/icons'
-import { IconButton } from '@mui/material'
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useMessage } from '../../../hooks'
+import { handleAsync } from '@/components/func'
+import { Button } from '@/components/ui/button'
+import useAppContext from '@/hooks/useAppContext'
+import useLoading from '@/hooks/useLoading'
+import { LoaderCircle } from 'lucide-react'
+import { toast } from 'sonner'
 import { Favourite } from '../components/Favourite'
 import { getFavourites } from '../features/thunk'
 export const FavouritePage = () => {
-  const dispatch = useDispatch()
+  const { dispatch } = useAppContext()
 
-  const [loading, setLoading] = useState(false)
-  const { contextHolder, messageApi } = useMessage()
+  const { isLoading, stop, start } = useLoading()
 
   const handleReloadFavourites = async () => {
-    try {
-      setLoading(true)
-      const res = await dispatch(getFavourites()).unwrap()
-      if (res.status === 200) {
-        messageApi.success(res.message)
-        setLoading(false)
-      }
-    } catch (error) {
-      if (error && typeof error === 'object') {
-        if (error.general) {
-          messageApi.error(error.general)
-        }
-        if (error.unconnect) {
-          messageApi.error(error.unconnect)
-        }
-      }
-    } finally {
-      setLoading(false)
-    }
+    await handleAsync({
+      asyncAction: () => dispatch(getFavourites()).unwrap(),
+      toast,
+      onSuccess: (res) => {
+        toast.success(res.message)
+      },
+      loadingKey: 'reload',
+      startLoading: start,
+      stopLoading: stop
+    })
   }
 
   return (
     <div>
-      {contextHolder}
       <div className="flex items-center py-3 mb-4">
         <h1>Sản phẩm yêu thích</h1>
         <div className="ml-12">
-          <IconButton onClick={handleReloadFavourites}>
-            {loading ? <LoadingOutlined spin /> : <RedoOutlined />}
-          </IconButton>
+          <Button variant="secondary" className="select-none h-[38px] cursor-pointer" onClick={handleReloadFavourites}>
+            {isLoading('reload') ? (
+              <span className="flex items-center">
+                <LoaderCircle className="animate-spin mr-2" />
+                Đang tải
+              </span>
+            ) : (
+              'Làm mới'
+            )}
+          </Button>
         </div>
       </div>
       <Favourite />

@@ -1,7 +1,6 @@
 import { Divider } from '@mui/material'
 import { Image, Typography } from 'antd'
 import PropTypes from 'prop-types'
-import React from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import { deliveryType } from '../../../en-vi/orderHistory'
 import { colorMap, iconMap, orderStatus } from '../../../en-vi/orderStatus'

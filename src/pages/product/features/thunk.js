@@ -1,12 +1,12 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import { handleCreateAsyncThunk } from '@/components/func'
 import { productApi } from './api'
 
-export const findByCategory = createAsyncThunk('product/findByCategory', async ({ category }) => {
+export const findByCategory = handleCreateAsyncThunk('product/findByCategory', async (category) => {
   const response = await productApi.findByCategory(category)
   return response.data
 })
 
-export const findByCategoryAndSubcategoryAndTag = createAsyncThunk(
+export const findByCategoryAndSubcategoryAndTag = handleCreateAsyncThunk(
   'product/findByCategoryAndSubcategoryAndTag',
   async ({ category, subcategory, tag }) => {
     const response = await productApi.findByCategoryAndSubcategoryAndTag(category, subcategory, tag)
@@ -14,7 +14,7 @@ export const findByCategoryAndSubcategoryAndTag = createAsyncThunk(
   }
 )
 
-export const findByCategoryAndManufacturer = createAsyncThunk(
+export const findByCategoryAndManufacturer = handleCreateAsyncThunk(
   'product/findByCategoryAndManufacturer',
   async ({ category, manufacturer }) => {
     const response = await productApi.findByCategoryAndManufacturer(category, manufacturer)
@@ -22,12 +22,12 @@ export const findByCategoryAndManufacturer = createAsyncThunk(
   }
 )
 
-export const searchProductByName = createAsyncThunk('product/searchProductByName', async ({ keyword }) => {
+export const searchProductByName = handleCreateAsyncThunk('product/searchProductByName', async (keyword) => {
   const response = await productApi.searchProductByName(keyword)
   return response.data
 })
 
-export const getDetailById = createAsyncThunk('product/getDetailById', async ({ id }) => {
+export const getDetailById = handleCreateAsyncThunk('product/getDetailById', async (id) => {
   const response = await productApi.getDetailById(id)
   return response.data
 })

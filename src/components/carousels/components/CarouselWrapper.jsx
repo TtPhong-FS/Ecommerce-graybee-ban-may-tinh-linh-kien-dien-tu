@@ -1,3 +1,4 @@
+import { useMediaQuery } from '@mui/material'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useSelector } from 'react-redux'
@@ -13,6 +14,8 @@ import '../styles/swiper.css'
 const CarouselWrapper = ({ category }) => {
   const carousels = useSelector((state) => state.carousel.carousels[category])
 
+  const isMobile = useMediaQuery('(max-width: 640px)')
+
   if (!carousels || carousels.length === 0) return <Loading />
 
   return (
@@ -20,7 +23,7 @@ const CarouselWrapper = ({ category }) => {
       <h1>{category?.toUpperCase()} bán chạy</h1>
       <Swiper
         modules={[Navigation, Autoplay, Pagination]}
-        slidesPerView={5}
+        slidesPerView={isMobile ? 3 : 6}
         spaceBetween={10}
         navigation
         autoplay={{ delay: 3000 }}

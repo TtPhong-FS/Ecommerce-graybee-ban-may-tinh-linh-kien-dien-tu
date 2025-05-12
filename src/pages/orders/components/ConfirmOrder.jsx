@@ -1,4 +1,5 @@
-import { Button } from 'antd'
+import { Button } from '@/components/ui/button'
+import { LoaderCircle } from 'lucide-react'
 import PropTypes from 'prop-types'
 import { useFormContext, useWatch } from 'react-hook-form'
 
@@ -48,14 +49,15 @@ export const ConfirmOrder = ({ confirm, setConfirm }) => {
         </div>
         <div className="mt-4">
           {confirm ? (
-            <Button
-              disabled={isSubmitting}
-              loading={isSubmitting}
-              type="primary"
-              htmlType="submit"
-              style={{ width: '100%', height: '2.5rem' }}
-            >
-              Đặt hàng
+            <Button disabled={isSubmitting} type="submit" className="cursor-pointer bg-secondary">
+              {isSubmitting ? (
+                <span>
+                  <LoaderCircle className="animate-spin mr-2" />
+                  Đang xử lý
+                </span>
+              ) : (
+                'Đặt hàng'
+              )}
             </Button>
           ) : (
             <Button
@@ -63,9 +65,8 @@ export const ConfirmOrder = ({ confirm, setConfirm }) => {
                 e.preventDefault()
                 setConfirm(true)
               }}
-              type="primary"
-              htmlType="button"
-              style={{ width: '100%', height: '2.5rem' }}
+              type="button"
+              className="cursor-pointer bg-secondary"
             >
               Xác nhận đơn
             </Button>
