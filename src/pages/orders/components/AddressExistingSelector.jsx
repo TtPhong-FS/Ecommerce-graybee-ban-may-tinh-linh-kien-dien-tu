@@ -59,7 +59,7 @@ export function AddressExistingSelector() {
             onOpenChange={handleDropdownVisibleChange}
             value={selectedId}
             placeholder="Chọn địa chỉ"
-            style={{ width: '100%', height: '3rem' }}
+            style={{ width: '100%', height: '38px' }}
             onChange={handleSelect}
           >
             {addressExisting?.map((addr) => (

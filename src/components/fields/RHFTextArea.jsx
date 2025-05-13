@@ -12,7 +12,9 @@ export const RHFTextArea = ({ name, label, placeholder }) => {
       name={name}
       render={({ field }) => (
         <div className="flex flex-col">
-          <Label htmlFor="textarea">{label}</Label>
+          <Label className="mb-2" htmlFor="textarea">
+            {label}
+          </Label>
           <Textarea id="textarea" {...field} placeholder={placeholder} className="resize-none" />
         </div>
       )}

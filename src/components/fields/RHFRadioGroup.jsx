@@ -17,8 +17,8 @@ export const RHFRadioGroup = ({ name, options, label }) => {
           <RadioGroup className="flex gap-2 items-center" onValueChange={field.onChange} defaultValue={field.value}>
             {options?.map((item, index) => (
               <div key={index} className="flex items-center space-x-2">
-                <RadioGroupItem value={item.value} id={index} />
-                <Label htmlFor={index}>{item.label}</Label>
+                <RadioGroupItem value={item.value} />
+                <Label className="font-normal">{item.label}</Label>
               </div>
             ))}
           </RadioGroup>

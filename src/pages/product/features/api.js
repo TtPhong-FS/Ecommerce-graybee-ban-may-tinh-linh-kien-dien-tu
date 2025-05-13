@@ -3,17 +3,13 @@ import { publicAPI } from '../../../config/axiosServer'
 const product_endpoint = 'api/v1/public/products'
 
 export const productApi = {
-  findByCategory: (category) => publicAPI.get(`${product_endpoint}/by-category?category=${category}`, {}),
+  findByCategory: (category) => publicAPI.get(`${product_endpoint}/by-category?category=${category}`),
   findByCategoryAndManufacturer: (category, manufacturer) =>
-    publicAPI.get(
-      `${product_endpoint}/by-category-and-manufacturer?category=${category}&manufacturer=${manufacturer}`,
-      {}
-    ),
+    publicAPI.get(`${product_endpoint}/by-category-and-manufacturer?category=${category}&manufacturer=${manufacturer}`),
   findByCategoryAndSubcategoryAndTag: (category, subcategory, tag) =>
     publicAPI.get(
-      `${product_endpoint}/by-category-and-subcategory-and-tag?category=${category}&subcategory=${subcategory}&tag=${tag}`,
-      {}
+      `${product_endpoint}/by-category-and-subcategory-and-tag?category=${category}&subcategory=${subcategory}&tag=${tag}`
     ),
-  getDetailById: (id) => publicAPI.get(`${product_endpoint}/detail?id=${id}`, {}),
-  searchProductByName: (keyword) => publicAPI.get(`${product_endpoint}/search?keyword=${keyword}`, {})
+  getDetailById: (id) => publicAPI.get(`${product_endpoint}/detail/${id}`),
+  searchProductByName: (keyword) => publicAPI.get(`${product_endpoint}/search?keyword=${keyword}`)
 }

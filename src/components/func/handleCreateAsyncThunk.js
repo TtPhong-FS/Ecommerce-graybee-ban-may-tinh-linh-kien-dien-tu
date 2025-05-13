@@ -7,6 +7,7 @@ export function handleCreateAsyncThunk(typePrefix, asyncCallback) {
       const res = await asyncCallback(arg)
       return res
     } catch (error) {
+      console.log(error)
       if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
         return rejectWithValue({
           unconnect: 'Không thể kết nối đến server. Vui lòng kiểm tra mạng và thử lại!'

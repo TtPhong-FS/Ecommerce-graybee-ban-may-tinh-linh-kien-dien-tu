@@ -66,7 +66,8 @@ export const ConfirmOrder = ({ confirm, setConfirm }) => {
                 setConfirm(true)
               }}
               type="button"
-              className="cursor-pointer bg-secondary"
+              variant="secondary"
+              className="cursor-pointer h-[38px]"
             >
               Xác nhận đơn
             </Button>

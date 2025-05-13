@@ -77,7 +77,7 @@ export const Order = () => {
                 <Grid2 size={{ mobile: 12, tablet: 12, laptop: 8 }}>
                   <CartItem />
                   {confirm && (
-                    <Grid2 container spacing={2}>
+                    <Grid2 container spacing={2} mt={2}>
                       <Grid2 sx={{ bgcolor: 'white', padding: '1rem', borderRadius: '0.7rem' }} size={12}>
                         <h2 className="mb-4 sub-title">Người đặt hàng</h2>
                         <div className="flex flex-col gap-3">
@@ -99,9 +99,15 @@ export const Order = () => {
                         </div>
                       </Grid2>
                       <AddressExistingSelector />
-                      <Grid2 sx={{ bgcolor: 'white', padding: '1rem', borderRadius: '0.7rem' }} size={12}>
-                        <h2 className="mb-1 sub-title">Hình thức nhận hàng</h2>
-                        <div className="mb-3">
+                      <Grid2
+                        display="flex"
+                        flexDirection="column"
+                        gap={2}
+                        sx={{ bgcolor: 'white', padding: '1rem', borderRadius: '0.7rem' }}
+                        size={12}
+                      >
+                        <div>
+                          <h2 className="mb-2 sub-title">Hình thức nhận hàng</h2>
                           <RHFRadioGroup
                             name="deliveryType"
                             options={[
@@ -115,46 +121,47 @@ export const Order = () => {
                               }
                             ]}
                           />
-                          {deliveryType === 'HOME_DELIVERY' && (
-                            <>
-                              <h2 className="mt-2 sub-title">Phương thức giao hàng</h2>
-                              <RHFRadioGroup
-                                name="shippingMethod"
-                                options={[
-                                  {
-                                    value: 'STANDARD_SHIPPING',
-                                    label: 'Tiêu chuẩn'
-                                  },
-                                  {
-                                    value: 'ECONOMY_SHIPPING',
-                                    label: 'Tiết kiệm'
-                                  },
-                                  {
-                                    value: 'FAST_DELIVERY',
-                                    label: 'Nhanh'
-                                  }
-                                ]}
-                              />
-                            </>
-                          )}
                         </div>
-                        <div className="flex flex-col gap-4">
+                        {deliveryType === 'HOME_DELIVERY' && (
+                          <div>
+                            <h2 className="mb-2 sub-title">Phương thức giao hàng</h2>
+                            <RHFRadioGroup
+                              name="shippingMethod"
+                              options={[
+                                {
+                                  value: 'STANDARD_SHIPPING',
+                                  label: 'Tiêu chuẩn'
+                                },
+                                {
+                                  value: 'ECONOMY_SHIPPING',
+                                  label: 'Tiết kiệm'
+                                },
+                                {
+                                  value: 'FAST_DELIVERY',
+                                  label: 'Nhanh'
+                                }
+                              ]}
+                            />
+                          </div>
+                        )}
+
+                        <div className="flex flex-col gap-2">
                           <h2 className="sub-title">Địa chỉ nhận hàng</h2>
-                          <Grid2 container spacing={1}>
+                          <div className="flex flex-col gap-2">
                             <AddressSelector />
-                          </Grid2>
-                          <RHFInputField
-                            disabled={useExistingAddress}
-                            name="streetAddress"
-                            label="Địa chỉ cụ thể"
-                            type="text"
-                            placeholder="Ví dụ: Số nhà 65 xóm..."
-                          />
-                          <RHFTextArea
-                            name="note"
-                            label="Ghi chú"
-                            placeholder="Ghi chú (Ví dụ: Hãy gọi tôi khi chuẩn bị giao hàng)"
-                          />
+                            <RHFInputField
+                              disabled={useExistingAddress}
+                              name="streetAddress"
+                              label="Địa chỉ cụ thể"
+                              type="text"
+                              placeholder="Ví dụ: Số nhà 65 xóm..."
+                            />
+                            <RHFTextArea
+                              name="note"
+                              label="Ghi chú"
+                              placeholder="Ghi chú (Ví dụ: Hãy gọi tôi khi chuẩn bị giao hàng)"
+                            />
+                          </div>
                         </div>
                       </Grid2>
                       <div className="box">

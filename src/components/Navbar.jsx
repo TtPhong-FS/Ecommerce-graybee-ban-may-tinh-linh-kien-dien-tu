@@ -73,7 +73,7 @@ const Navbar = () => {
     setIsSearch(value?.length > 0)
 
     if (value?.length > 0) {
-      dispatch(searchProductByName({ keyword: value }))
+      dispatch(searchProductByName(value))
     }
     stop('searching')
   }

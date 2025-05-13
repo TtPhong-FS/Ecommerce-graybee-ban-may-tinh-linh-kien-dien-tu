@@ -19,11 +19,12 @@ export const fetchCarousel = handleCreateAsyncThunk(
   'carousel/fetchProductsByCategoryForCarousel',
   async ({ category, page = 0, size = 20, sortBy = 'createdAt', order = 'desc' }) => {
     const response = await fetchProductByCategory(category, page, size, sortBy, order)
+    console.log(response)
     return { category: category, data: response.data }
   }
 )
 
-export const preLoadCarousel = handleCreateAsyncThunk('carousel/preloadCarousel', async ({ dispatch }) => {
+export const preLoadCarousel = handleCreateAsyncThunk('carousel/preloadCarousel', async (_, { dispatch }) => {
   for (const categoryName of categoryMap) {
     await dispatch(fetchCarousel({ category: categoryName }))
   }

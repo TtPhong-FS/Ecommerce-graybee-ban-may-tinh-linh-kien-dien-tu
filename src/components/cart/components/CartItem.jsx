@@ -104,7 +104,7 @@ const CartItem = () => {
                     alt="Anh san pham"
                   />
                   <Link
-                    target="_blank"
+                    to={`/products/${cartItem.product.name}`}
                     onClick={() => toDetail({ id: cartItem.product.id, name: cartItem.product.name })}
                     className="cursor-pointer text-sm font-medium max-w-[20rem] decoration-solid text-blue-600 line-clamp-3 hover:underline"
                   >
@@ -131,7 +131,7 @@ const CartItem = () => {
                   </span>
                   <del className="font-medium text-sm text-gray-500">{formattedPrice(cartItem.product.price)}</del>
                 </div>
-                <div className="ml-4">
+                <div className="flex items-center justify-center ml-4 w-8 h-8 hover:bg-background rounded-full cursor-pointer">
                   <Popconfirm
                     title="Xoá giỏ hàng"
                     description="Bạn muốn xoá sản phẩm này khỏi giỏ hàng?"
@@ -139,8 +139,8 @@ const CartItem = () => {
                     okText={'Xoá'}
                     cancelText={'Huỷ bỏ'}
                   >
-                    <span className="rounded-full cursor-pointer">
-                      <Trash className="text-muted-foreground" size={16} />
+                    <span className=" ">
+                      <Trash className=" text-muted-foreground" size={16} />
                     </span>
                   </Popconfirm>
                 </div>

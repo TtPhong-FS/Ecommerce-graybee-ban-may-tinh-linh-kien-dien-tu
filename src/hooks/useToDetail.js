@@ -9,7 +9,7 @@ export const useToDetail = () => {
 
   const toDetail = ({ id, name }) => {
     const pathName = toSlug(name)
-    navigate(`/product/details/${pathName}`)
+    navigate(`/products/${pathName}`)
     dispatch(saveIdToState(id))
   }
 

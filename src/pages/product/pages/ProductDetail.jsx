@@ -1,18 +1,25 @@
-import { HeartFilled, HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons'
-import { Grid2, IconButton } from '@mui/material'
-import { Button, Image, Spin, Tabs, Tag } from 'antd'
+import { HeartFilled } from '@ant-design/icons'
+import { Grid2 } from '@mui/material'
+import { Image, Spin, Tabs, Tag } from 'antd'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { Button } from '@/components/ui/button'
 import { useActionAddToCartAndFavourite } from '../../../hooks'
 import { isPresentInFavorites } from '../../../utils'
 import { formattedPrice } from '../../../utils/format'
 import useUserData from '../../user/components/data/useUserData'
 import { Description } from '../components/Description'
 import { ReviewComment } from '../components/ReviewComment'
+import Specification from '../components/Specification'
 import { getDetailById } from '../features/thunk'
 
 const items = [
+  {
+    key: 'specifications',
+    label: 'Thông số sản phẩm',
+    children: <Specification />
+  },
   {
     key: 'description',
     label: 'Mô tả sản phẩm',
@@ -31,7 +38,7 @@ export const ProductDetail = () => {
 
   const id = useSelector((state) => state.product.productId)
 
-  const details = useSelector((state) => state.product?.details)
+  const details = useSelector((state) => state.product.details)
 
   const { favourites } = useUserData()
 
@@ -40,7 +47,7 @@ export const ProductDetail = () => {
   useEffect(() => {
     if (id) {
       if (!details || details?.id !== id) {
-        dispatch(getDetailById({ id }))
+        dispatch(getDetailById(id))
       }
     }
     setLoading(false)
@@ -104,21 +111,27 @@ export const ProductDetail = () => {
                 </div>
                 <div className="flex gap-10 justify-center items-center mt-10">
                   <div className="block">
-                    <IconButton onClick={() => handleAddToFavourites(details?.id)}>
+                    <Button
+                      variant="outline"
+                      className="cursor-pointer h-[45px]"
+                      onClick={() => handleAddToFavourites(details?.id)}
+                    >
                       {isPresentInFavorites(favourites, details?.id) ? (
                         <HeartFilled style={{ fontSize: '1.8rem', color: '#fb2c36' }} />
                       ) : (
-                        <HeartOutlined style={{ fontSize: '1.8rem' }} />
+                        'Thêm vào yêu thích'
                       )}
-                    </IconButton>
+                    </Button>
                   </div>
                   <div className="w-maxs">
                     <Button
-                      icon={<ShoppingCartOutlined style={{ fontSize: '1.7rem' }} />}
-                      style={{ width: '10rem', height: '2.8rem' }}
                       onClick={() => handleAddItemToCart(details?.id, 1)}
-                      type="primary"
-                    />
+                      type="button"
+                      variant="secondary"
+                      className="cursor-pointer h-[45px]"
+                    >
+                      Thêm vào giỏ hàng
+                    </Button>
                   </div>
                 </div>
               </Grid2>

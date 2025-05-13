@@ -38,7 +38,7 @@ export const AddressSelector = () => {
               placeholder="Chọn Tỉnh/Thành phố"
               value={field.value}
               disabled={useExistingAddress}
-              style={{ width: '100%', height: '3rem' }}
+              style={{ width: '100%', height: '38px' }}
               showSearch
               options={citiesOption}
               onChange={(value) => {
@@ -59,7 +59,7 @@ export const AddressSelector = () => {
             <Select
               disabled={useExistingAddress}
               value={field.value}
-              style={{ width: '100%', height: '3rem' }}
+              style={{ width: '100%', height: '38px' }}
               placeholder="Chọn Huyện/Quận"
               showSearch
               onChange={(value) => {
@@ -85,7 +85,7 @@ export const AddressSelector = () => {
             <Select
               disabled={useExistingAddress}
               value={field.value}
-              style={{ width: '100%', height: '3rem' }}
+              style={{ width: '100%', height: '38px' }}
               placeholder="Chọn Xã/Phường"
               onChange={(value) => field.onChange(value)}
               showSearch
