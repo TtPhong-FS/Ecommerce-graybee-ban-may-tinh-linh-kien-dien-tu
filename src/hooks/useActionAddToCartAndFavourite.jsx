@@ -13,7 +13,10 @@ export const useActionAddToCartAndFavourite = () => {
 
   const handleAddToFavourites = async (productId) => {
     if (!isLogin || !token) {
-      return navigate('/login')
+      return toast({
+        title: 'Oh! no',
+        description: 'Bạn phải đăng nhập mới có thể dùng tính năng này'
+      })
     }
 
     await handleAsync({

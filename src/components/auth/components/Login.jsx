@@ -2,9 +2,11 @@ import { useContext } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
+import { findCartByUserUidOrSessionId } from '@/components/cart/features'
 import { handleAsyncSubmit } from '@/components/func'
 import { Button } from '@/components/ui/button'
 import useAppContext from '@/hooks/useAppContext'
+import { getAddressesByToken, getFavourites, getProfileByToken } from '@/pages/user/features'
 import { saveAuthToken } from '@/utils'
 import { jwtDecode } from 'jwt-decode'
 import { toast } from 'sonner'
@@ -33,6 +35,14 @@ export const Login = () => {
         const decodedToken = jwtDecode(token)
         setUser(decodedToken)
         setLoading(false)
+
+        if (token) {
+          dispatch(getAddressesByToken())
+          dispatch(getProfileByToken())
+          dispatch(getFavourites())
+          dispatch(findCartByUserUidOrSessionId())
+        }
+
         if (decodedToken?.role === 'SUPER_ADMIN' || decodedToken?.role === 'ADMIN' || decodedToken?.role === 'MANAGE') {
           navigate('/home')
         } else {
@@ -57,7 +67,7 @@ export const Login = () => {
           <RHFInputField label="Mật khẩu" name="password" placeholder="Nhập mật khẩu..." type="password" />
         </div>
         <div className="flex justify-end mb-8">
-          <Link to="/reset-password" className="text-blue-500 hover:underline decoration-solid">
+          <Link to="/reset-password" className="text-blue-500 text-sm hover:underline decoration-solid">
             Quên mật khẩu?
           </Link>
         </div>
@@ -65,14 +75,14 @@ export const Login = () => {
           variant="secondary"
           disabled={isSubmitting}
           type="submit"
-          className="cursor-pointer h-[40px] w-full text-base"
+          className="cursor-pointer h-[40px]  w-full text-sm"
         >
           Đăng nhập
         </Button>
       </form>
       <div className="flex items-center justify-center mt-6 gap-1">
-        <p>Bạn chưa có tài khoản?</p>
-        <Link className="text-blue-500 hover:underline decoration-solid" to="/signup">
+        <p className="text-sm">Bạn chưa có tài khoản?</p>
+        <Link className="text-blue-500 hover:underline text-sm decoration-solid" to="/signup">
           Đăng ký
         </Link>
       </div>

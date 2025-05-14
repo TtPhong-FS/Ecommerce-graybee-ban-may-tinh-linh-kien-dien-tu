@@ -26,10 +26,11 @@ export const FavouritePage = () => {
 
   return (
     <div>
-      <div className="flex items-center py-3 mb-4">
+      <div className="flex items-center justify-between py-3 mb-4">
         <h1>Sản phẩm yêu thích</h1>
         <div className="ml-12">
           <Button
+            disabled={isLoading('reload')}
             variant="outline"
             className="select-none h-[38px] cursor-pointer bg-primary-foreground"
             onClick={handleReloadFavourites}

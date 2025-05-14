@@ -56,26 +56,26 @@ export const ProfilePage = () => {
             </div>
             <div className="flex items-center justify-center mt-2 mb-4">
               <span className="space-x-1 text-muted-foreground">
-                <span>UID:</span>
+                <span className="text-sm">UID:</span>
                 <span className="text-primary font-semibold">{user?.uid}</span>
               </span>
             </div>
-            <div className="mb-8">
+            <div className="mb-8 text-sm">
               <span className="flex justify-between border-b-1 border-gray-300 py-3 select-text">
-                <span className="text-muted-foreground text-[1.1rem]">Họ và tên</span>
-                <span className="font-semibold  text-[1.1rem] uppercase">{user?.fullName}</span>
+                <span className="text-muted-foreground ">Họ và tên</span>
+                <span className="font-semibold  uppercase">{user?.fullName}</span>
               </span>
               <span className="flex justify-between border-b-1 border-gray-300 py-3 select-text">
-                <span className="text-muted-foreground  text-[1.1rem]">Số điện thoại</span>
-                <span className="font-semibold  text-[1.1rem]">{user?.phoneNumber}</span>
+                <span className="text-muted-foreground ">Số điện thoại</span>
+                <span className="font-semibold ">{user?.phoneNumber}</span>
               </span>
               <span className="flex justify-between border-b-1 border-gray-300 py-3 select-text">
-                <span className="text-muted-foreground  text-[1.1rem]">Email</span>
-                <span className="font-semibold  text-[1.1rem]">{user?.email}</span>
+                <span className="text-muted-foreground ">Email</span>
+                <span className="font-semibold ">{user?.email}</span>
               </span>
               <span className="flex justify-between border-b-1 border-gray-300 py-3 select-text">
-                <span className="text-muted-foreground  text-[1.1rem]">Ngày sinh</span>
-                <span className="font-semibold  text-[1.1rem]">{user?.dateOfBirth}</span>
+                <span className="text-muted-foreground ">Ngày sinh</span>
+                <span className="font-semibold ">{user?.dateOfBirth}</span>
               </span>
             </div>
             <Button

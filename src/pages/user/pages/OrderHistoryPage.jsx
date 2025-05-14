@@ -95,7 +95,7 @@ export const OrderHistoryPage = () => {
           onChange={handleFindOrderByStatus}
         />
       ) : (
-        <div className="p-4 rounded-md text-center select-none bg-white text-muted-foreground">
+        <div className="p-4 text-sm rounded-md text-center select-none bg-primary-foreground text-muted-foreground">
           Chưa có đơn hàng nào!
         </div>
       )}

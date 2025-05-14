@@ -67,23 +67,22 @@ const Sidebar = () => {
   }
 
   return (
-    <div className={`${active ? 'sticky top-25 z-40' : ''} mb-10`}>
-      {active && <div className="fixed inset-0 bg-black opacity-70" onClick={() => handleUnFocus()}></div>}
-
+    <div className={`${active ? 'sticky top-25 z-40' : ''}`}>
+      {active && <div className="fixed inset-0 bg-foreground/80 opacity-80" onClick={() => handleUnFocus()}></div>}
       <div className="flex min-h-100 gap-2 relative" onMouseLeave={onLeave}>
         {/* Sidebar 15% */}
         <div
-          className={`w-[15%] rounded-md overflow-y-auto scroll-smooth transition-all duration-300 ${
+          className={`hidden md:block w-[15%] rounded-sm overflow-y-auto scroll-smooth transition-all duration-300 ${
             active ? 'shadow-lg z-40 bg-white' : ''
           }`}
           onMouseEnter={onMouse}
         >
-          <nav className="flex flex-col bg-white h-full cursor-pointer rounded-md">
+          <nav className="flex flex-col bg-white h-full cursor-pointer rounded-sm">
             {menus.map((category) => (
               <div key={category.id}>
                 <h4
                   onClick={() => handleFindByCategory(category.name)}
-                  className="flex font-semibold text-sm items-center justify-between p-2 rounded-md  text-gray-800 hover:bg-secondary/90 hover:text-white cursor-pointer"
+                  className="flex font-semibold text-sm items-center justify-between p-2   text-gray-800 hover:bg-secondary/90 rounded-sm hover:text-primary-foreground cursor-pointer"
                   onMouseEnter={() => setActiveCategory(category.id)}
                 >
                   {category.name}
@@ -93,12 +92,12 @@ const Sidebar = () => {
           </nav>
         </div>
         {show && (
-          <div className="w-[85%] rounded-e-md rounded-s-md" onMouseEnter={onMouse} onMouseLeave={onLeave}>
+          <div className="w-[85%] rounded-e-sm rounded-s-sm" onMouseEnter={onMouse} onMouseLeave={onLeave}>
             {/* Mega Menu 85% */}
             <div
               className={`mega-menu ${
                 isMegaMenuVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
-              } rounded-e-md `}
+              } rounded-e-sm `}
             >
               {menus.map(
                 (category) =>

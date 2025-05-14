@@ -83,28 +83,25 @@ export const ManageAddressPage = () => {
   return (
     <div>
       <div className="flex justify-between items-center py-3 pb-6">
-        <div className="flex items-center ">
-          <h1>Địa chỉ cá nhân</h1>
-          <div className="ml-12">
-            <Button
-              variant="outline"
-              className="select-none h-[38px] cursor-pointer bg-primary-foreground"
-              type="button"
-              disabled={isLoading('reload')}
-              onClick={handleReloadAddress}
-            >
-              {isLoading('reload') ? (
-                <span className="flex items-center">
-                  <LoaderCircle className="animate-spin mr-2" />
-                  Đang tải
-                </span>
-              ) : (
-                'Làm mới'
-              )}
-            </Button>
-          </div>
-        </div>
-        <div className="flex content-center items-center gap-6">
+        <h1 className="select-text">Địa chỉ cá nhân</h1>
+
+        <div className="flex justify-between items-center gap-6">
+          <Button
+            variant="outline"
+            className="select-none h-[38px] cursor-pointer "
+            type="button"
+            disabled={isLoading('reload')}
+            onClick={handleReloadAddress}
+          >
+            {isLoading('reload') ? (
+              <span className="flex items-center">
+                <LoaderCircle className="animate-spin mr-2" />
+                Đang tải
+              </span>
+            ) : (
+              'Làm mới'
+            )}
+          </Button>
           <Button
             variant="secondary"
             className="select-none h-[38px] cursor-pointer"
@@ -153,7 +150,7 @@ export const ManageAddressPage = () => {
           ))}
         </div>
       ) : (
-        <div className="p-4 rounded-md text-center select-none bg-white text-muted-foreground">
+        <div className="p-4 text-sm rounded-md text-center select-none bg-primary-foreground text-muted-foreground">
           Chưa có địa chỉ cá nhân nào!
         </div>
       )}

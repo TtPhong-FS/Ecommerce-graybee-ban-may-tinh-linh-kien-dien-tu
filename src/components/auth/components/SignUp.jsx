@@ -3,9 +3,11 @@ import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
+import { findCartByUserUidOrSessionId } from '@/components/cart/features'
 import { handleAsyncSubmit } from '@/components/func'
 import { Button } from '@/components/ui/button'
 import useAppContext from '@/hooks/useAppContext'
+import { getAddressesByToken, getFavourites, getProfileByToken } from '@/pages/user/features'
 import { saveAuthToken } from '@/utils'
 import { jwtDecode } from 'jwt-decode'
 import { toast } from 'sonner'
@@ -37,6 +39,13 @@ export const SignUp = () => {
         const decodedToken = jwtDecode(token)
         setUser(decodedToken)
         setLoading(false)
+
+        if (token) {
+          dispatch(getAddressesByToken())
+          dispatch(getProfileByToken())
+          dispatch(getFavourites())
+          dispatch(findCartByUserUidOrSessionId())
+        }
         if (decodedToken?.role === 'SUPER_ADMIN' || decodedToken?.role === 'ADMIN' || decodedToken?.role === 'MANAGE') {
           navigate('/home')
         } else {

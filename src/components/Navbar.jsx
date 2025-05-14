@@ -9,11 +9,14 @@ import { searchProductByName } from '../pages/product/features'
 import useLoading from '@/hooks/useLoading'
 import { Headset, MapPin, Menu, Moon, ScrollText, ShoppingCart, Sun, X } from 'lucide-react'
 
+import { useMediaQuery } from '@mui/material'
 import useUserData from '../pages/user/components/data/useUserData'
 import { ProductSearchCard } from './cards'
 import { onFocusSidebar } from './sidebar/features/slice'
+import Sidebar from './sidebar/Sidebar'
 import { useTheme } from './theme-provider'
 import { Button } from './ui/button'
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from './ui/drawer'
 import { Input } from './ui/input'
 
 const navigation = [
@@ -48,6 +51,9 @@ const Navbar = () => {
   const dispatch = useDispatch()
 
   const { setTheme, theme } = useTheme()
+  const isMobile = useMediaQuery('(max-width: 640px)')
+  const [open, setOpen] = useState(false)
+
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
   }
@@ -66,7 +72,11 @@ const Navbar = () => {
   const containerRef = useRef(null)
 
   const handleFocusSidebar = () => {
-    dispatch(onFocusSidebar())
+    if (isMobile) {
+      alert('mobile')
+    } else {
+      dispatch(onFocusSidebar())
+    }
   }
 
   const handleSearch = (value) => {
@@ -124,27 +134,41 @@ const Navbar = () => {
           </span>
         </div>
       </nav>
-      <div className="sticky top-0 z-50 shadow-lg shadow-border">
+      <div className="select-none sticky top-0 z-50 shadow-lg shadow-border">
         <header className="bg-primary-foreground h-[5rem] flex items-center justify-center md:px-4 px-2">
           <div className="flex w-full max-w-[88rem] mx-auto h-[2.8rem] gap-2 items-center">
             <div className="flex h-full items-center md:gap-3">
               <div className="hidden md:flex gap-1 items-center">
-                <Link
-                  className="text-2xl font-semibold text-muted-foreground uppercase hidden lg:flex cursor-pointer"
-                  to="/"
-                >
+                <Link className="text-2xl font-semibold text-primary uppercase hidden lg:flex cursor-pointer" to="/">
                   Graybee
                 </Link>
               </div>
-              <div
-                onClick={handleFocusSidebar}
-                className="cursor-pointer flex items-center gap-2 h-[2.8rem] rounded-[0.4rem] px-2"
-              >
-                <Link href="#">
+              {isMobile && (
+                <Drawer open={open} onOpenChange={setOpen}>
+                  <DrawerTrigger asChild>
+                    <Menu className="text-primary" size={20} />
+                  </DrawerTrigger>
+                  <DrawerHeader className="text-left">
+                    <DrawerTitle></DrawerTitle>
+                    <DrawerDescription></DrawerDescription>
+                  </DrawerHeader>
+                  <DrawerContent>
+                    <Sidebar />
+                  </DrawerContent>
+                </Drawer>
+              )}
+              {!isMobile && (
+                <Link
+                  to="/"
+                  onClick={handleFocusSidebar}
+                  className="cursor-pointer flex items-center gap-2 h-[2.8rem] rounded-[0.4rem] px-2"
+                >
                   <Menu className="text-primary" size={20} />
+                  <span className="hidden uppercase lg:inline text-[1rem] font-medium text-muted-foreground">
+                    Danh Mục
+                  </span>
                 </Link>
-                <span className="hidden lg:inline text-[1rem] font-medium text-muted-foreground">Danh Mục</span>
-              </div>
+              )}
             </div>
             <div className="flex flex-1 basis-auto items-center gap-2">
               <div className="relative flex-1 basis-auto">
@@ -156,7 +180,14 @@ const Navbar = () => {
                     className="h-[40px] bg-white dark:bg-white"
                     placeholder="Tìm kiếm sản phẩm..."
                   />
-                  {keyword && <X onClick={onClear} className="absolute right-0 top-1/2 -translate-1/2" size={16} />}
+                  {keyword && (
+                    <span
+                      className="bg-primary flex items-center justify-center rounded-full w-4 h-4 absolute right-0 top-1/2 -translate-1/2 cursor-pointer"
+                      onClick={onClear}
+                    >
+                      <X className="text-background" size={12} />
+                    </span>
+                  )}
                   {isSearch && (
                     <>
                       {!listProductSearch || listProductSearch?.length === 0 ? (

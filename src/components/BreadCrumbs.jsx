@@ -19,15 +19,15 @@ export const BreadCrumbs = () => {
     }))
 
   return (
-    <Breadcrumbs aria-label="breadcrumb" py={2}>
+    <Breadcrumbs className="select-none" aria-label="breadcrumb" py={2}>
       {crumbs.map((item, index) => {
         const lastItem = index === crumbs.length - 1
         return lastItem ? (
-          <label key={index} className="text-muted-foreground">
+          <label key={index} className=" text-muted-foreground text-sm">
             {item.label}
           </label>
         ) : (
-          <Link className="text-secondary hover:underline decoration-solid " to={item.path} key={index}>
+          <Link className="text-secondary  text-sm hover:underline decoration-solid " to={item.path} key={index}>
             {item.label}
           </Link>
         )

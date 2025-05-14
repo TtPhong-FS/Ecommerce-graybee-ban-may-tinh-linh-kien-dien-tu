@@ -11,7 +11,9 @@ import RootRouter from './routes/RootRouter.jsx'
 
 const router = createBrowserRouter(RootRouter)
 
-createRoot(document.getElementById('root')).render(
+const elem = document.getElementById('root')
+
+const app = (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ThemeProvider theme={Theme}>
@@ -20,3 +22,10 @@ createRoot(document.getElementById('root')).render(
     </PersistGate>
   </Provider>
 )
+
+if (import.meta.hot) {
+  const root = (import.meta.hot.data.root ??= createRoot(elem))
+  root.render(app)
+} else {
+  createRoot(elem).render(app)
+}

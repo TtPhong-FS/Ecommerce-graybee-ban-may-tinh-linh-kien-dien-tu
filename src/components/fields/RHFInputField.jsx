@@ -14,9 +14,9 @@ export const RHFInputField = ({ name, label, type, placeholder, disabled }) => {
       defaultValue=""
       render={({ field, fieldState: { error } }) => (
         <FormControl fullWidth error={!!error}>
-          <label className="title-form">{label}</label>
+          <label className="title-form text-sm">{label}</label>
           <Input className="h-[40px]" {...field} disabled={disabled} type={type} placeholder={placeholder} />
-          {error && <span className="error-message">{error.message}</span>}
+          {error && <span className="error-message text-sm">{error.message}</span>}
         </FormControl>
       )}
     />

@@ -21,9 +21,10 @@ export const ProfileLayout = () => {
         sx={{ position: 'sticky', top: 80 }}
       >
         <Grid2 height={200} size={12} sx={{ bgcolor: 'white', padding: '0.5rem', borderRadius: '0.8rem' }}>
-          <div className="flex gap-2 items-center">
-            <Link href="/account" className="cursor-pointer">
+          <div className="flex gap-2 items-center ">
+            <Link href="/account" className="cursor-pointer ">
               <Avatar
+                className="select-none"
                 src="https://img.icons8.com/?size=100&id=NPW07SMh7Aco&format=png&color=000000"
                 sx={{ width: 50, height: 50 }}
               />
@@ -34,7 +35,7 @@ export const ProfileLayout = () => {
                 <span className="select-text">{user?.phoneNumber}</span>
                 <Link
                   to="/account/profile"
-                  className="text-blue-500 hover:underline
+                  className="text-blue-500 text-sm hover:underline
                 decoration-solid"
                 >
                   Xem hồ sơ
@@ -51,7 +52,7 @@ export const ProfileLayout = () => {
                   onClick={item.key === 'logout' ? () => handleLogout() : undefined}
                   key={index}
                   to={item.path}
-                  className={`flex items-center gap-2 transition-all hover:pl-4 w-full border-l-2 text-gray-800 p-2 ${
+                  className={`flex text-sm items-center gap-2 transition-all hover:pl-4 w-full border-l-2 text-gray-800 p-2 ${
                     location.pathname === item.path
                       ? 'border-red-500 text-red-600 bg-gradient-to-r from-[#fff1f2] to-red-0'
                       : 'border-transparent hover:border-red-500'
