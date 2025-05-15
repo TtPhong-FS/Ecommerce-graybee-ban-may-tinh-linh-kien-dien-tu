@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigationTracker } from '../hooks'
 import { getAddressesByToken, getFavourites, getProfileByToken } from '../pages/user/features'
 import { getToken, useSession } from '../utils'
-import { preLoadCarousel } from './carousels/features/slice'
+import { categoryMap } from './carousels/data/load'
+import { fetchCarousel } from './carousels/features/slice'
 import { findCartByUserUidOrSessionId } from './cart/features'
 import { getSidebar } from './sidebar/features/slice'
 
@@ -15,6 +16,12 @@ export const AppInitializer = () => {
   const user = useSelector((state) => state.account.user)
   const isPrivate = React.useRef(false)
   const isPublic = React.useRef(false)
+
+  const handlePrefetchCarousel = () => {
+    for (const categoryName of categoryMap) {
+      dispatch(fetchCarousel({ category: categoryName }))
+    }
+  }
 
   React.useEffect(() => {
     if (!isPrivate.current) {
@@ -33,7 +40,7 @@ export const AppInitializer = () => {
   React.useEffect(() => {
     if (!isPublic.current) {
       dispatch(getSidebar())
-      dispatch(preLoadCarousel())
+      handlePrefetchCarousel()
       dispatch(findCartByUserUidOrSessionId())
     }
     isPublic.current = true

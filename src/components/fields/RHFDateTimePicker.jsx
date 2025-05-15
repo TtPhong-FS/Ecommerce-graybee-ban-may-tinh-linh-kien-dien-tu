@@ -2,6 +2,7 @@ import { FormControl } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
+import { CircleAlert } from 'lucide-react'
 
 import PropTypes from 'prop-types'
 import { Controller, useFormContext } from 'react-hook-form'
@@ -17,13 +18,16 @@ export const RHFDateTimePicker = ({ label, name }) => {
         <FormControl error={!!error} fullWidth>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
-              sx={{ height: '40px' }}
               {...field}
               value={field.value ? new Date(field.value) : null}
               label={label}
               onChange={(value) => field.onChange(value)}
             />
-            {error && <span className="error-message">{error.message}</span>}
+            {error && (
+              <span className="error-message flex gap-1 items-center">
+                <CircleAlert size={16} /> {error.message}
+              </span>
+            )}
           </LocalizationProvider>
         </FormControl>
       )}

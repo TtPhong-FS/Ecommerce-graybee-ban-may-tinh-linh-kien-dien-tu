@@ -1,5 +1,6 @@
 import { FormControl } from '@mui/material'
 import { Select } from 'antd'
+import { CircleAlert } from 'lucide-react'
 import PropTypes from 'prop-types'
 import { Controller, useFormContext } from 'react-hook-form'
 
@@ -23,7 +24,11 @@ export const RHFSelect = ({ name, label, options, showSearch, disabled, mode }) 
             placeholder="Vui lòng chọn"
             options={options}
           />
-          {error && <span className="error-message">{error?.message}</span>}
+          {error && (
+            <span className="error-message flex gap-1 items-center">
+              <CircleAlert size={16} /> {error.message}
+            </span>
+          )}
         </FormControl>
       )}
     />

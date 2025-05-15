@@ -67,19 +67,21 @@ const CartItem = () => {
       <div className="select-none flex justify-between items-center bg-white pl-4 py-1 pr-4 rounded-[0.7rem] mb-4">
         <div className="flex items-center gap-2 py-2">
           <Checkbox className="mr-4 w-4.5 h-4.5 cursor-pointer" checked={selectAll} onCheckedChange={handleSelectAll} />
-          <h2>Chọn tất cả ({totalItem})</h2>
+          <h3>Chọn tất cả ({totalItem})</h3>
         </div>
-        <Popconfirm
-          title="Xoá giỏ hàng"
-          description="Bạn muốn xoá sản phẩm này khỏi giỏ hàng?"
-          onConfirm={handleClearItems}
-          okText={'Xoá'}
-          cancelText={'Huỷ bỏ'}
-        >
-          <span className="rounded-full cursor-pointer">
-            <Trash className="text-muted-foreground" size={16} />
-          </span>
-        </Popconfirm>
+        <div className="flex items-center justify-center ml-4 w-8 h-8 hover:bg-background rounded-full cursor-pointer">
+          <Popconfirm
+            title="Xoá giỏ hàng"
+            description="Bạn muốn xoá sản phẩm này khỏi giỏ hàng?"
+            onConfirm={handleClearItems}
+            okText="Xoá"
+            cancelText="Huỷ bỏ"
+          >
+            <span className="">
+              <Trash className=" text-muted-foreground" size={16} />
+            </span>
+          </Popconfirm>
+        </div>
       </div>
       <div className="w-auto flex flex-col gap-4">
         {cartItems.map((cartItem, index) => (
@@ -106,7 +108,7 @@ const CartItem = () => {
                   <Link
                     to={`/products/${cartItem.product.name}`}
                     onClick={() => toDetail({ id: cartItem.product.id, name: cartItem.product.name })}
-                    className="cursor-pointer text-sm font-medium max-w-[20rem] decoration-solid text-blue-600 line-clamp-3 hover:underline"
+                    className="cursor-pointer text-xs md:text-sm font-medium max-w-[20rem] link line-clamp-2"
                   >
                     {cartItem.product.name}
                   </Link>
@@ -114,24 +116,31 @@ const CartItem = () => {
                 <div className="flex mr-2 gap-2 items-center justify-center">
                   <Button
                     variant="outline"
+                    className="w-8 h-8 cursor-pointer"
                     disabled={cartItem.quantity === 1 ? true : false}
                     onClick={() => handleDecreaseQuantity(cartItem.product.id, 1)}
                   >
                     <Minus size={16} />
                   </Button>
 
-                  <span className="select-none p-2 text-[1rem]">{cartItem.quantity}</span>
-                  <Button variant="outline" onClick={() => handleIncreaseQuantity(cartItem.product.id, 1)}>
+                  <span className="select-none p-2 text-xs">{cartItem.quantity}</span>
+                  <Button
+                    className="w-8 h-8 cursor-pointer"
+                    variant="outline"
+                    onClick={() => handleIncreaseQuantity(cartItem.product.id, 1)}
+                  >
                     <Plus size={16} />
                   </Button>
                 </div>
                 <div className="inline-flex w-[8rem] ml-8 flex-col items-start ">
-                  <span className="font-medium text-[16px] font-sans text-red-500">
+                  <span className="font-medium text-xs md:text-sm font-sans text-red-500">
                     {formattedPrice(cartItem.product.finalPrice)}
                   </span>
-                  <del className="font-medium text-sm text-gray-500">{formattedPrice(cartItem.product.price)}</del>
+                  <del className="font-medium text-[0.65rem] md:text-[0.8rem] text-gray-500">
+                    {formattedPrice(cartItem.product.price)}
+                  </del>
                 </div>
-                <div className="flex items-center justify-center ml-4 w-8 h-8 hover:bg-background rounded-full cursor-pointer">
+                <div className="flex items-center justify-center ml-4 w-10 h-8 hover:bg-background rounded-full cursor-pointer">
                   <Popconfirm
                     title="Xoá giỏ hàng"
                     description="Bạn muốn xoá sản phẩm này khỏi giỏ hàng?"

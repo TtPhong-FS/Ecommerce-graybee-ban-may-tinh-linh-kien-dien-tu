@@ -97,14 +97,14 @@ export const SignUp = () => {
           variant="secondary"
           disabled={isSubmitting}
           type="submit"
-          className="cursor-pointer h-[40px] w-full text-base"
+          className="cursor-pointer h-[40px] w-full select-none"
         >
           Tạo tài khoản
         </Button>
       </form>
       <div className="flex items-center justify-center mt-6 gap-1">
         <p>Bạn đã có tài khoản?</p>
-        <Link className="text-blue-500 hover:underline decoration-solid" to="/login">
+        <Link className="text-sm link" to="/login">
           Đăng nhập
         </Link>
       </div>

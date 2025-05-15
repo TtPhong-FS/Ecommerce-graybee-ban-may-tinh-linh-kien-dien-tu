@@ -26,15 +26,15 @@ const ProductCard = ({ data }) => {
         </div>
         <div className="flex flex-col gap-4">
           <div onClick={() => toDetail({ id: data?.id, name: data?.name })} className="cursor-pointer">
-            <span className="font-medium hover:underline decoration-solid text-blue-600 max-sm:text-[12.8px] line-clamp-2">
+            <span className="font-medium hover:underline decoration-solid text-blue-600 text-xs md:text-sm line-clamp-2">
               {data?.name}
             </span>
           </div>
           <div className="flex flex-col justify-center h-[1.5rem]">
-            <del className="font-medium text-[13px] max-sm:text-[11px] text-gray-500">
+            <del className="font-medium md:text-[0.8rem] text-[0.65rem] text-gray-500">
               {formattedPrice(data?.price)}
             </del>
-            <span className="font-medium text-[16px] font-sans text-red-500 max-sm:text-[14px]">
+            <span className="font-medium text-sx md:text-sm font-sans text-red-500">
               {formattedPrice(data?.finalPrice)}
             </span>
           </div>

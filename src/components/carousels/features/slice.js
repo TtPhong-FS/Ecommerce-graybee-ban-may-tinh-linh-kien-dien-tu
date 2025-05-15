@@ -1,7 +1,6 @@
 import { handleCreateAsyncThunk } from '@/components/func'
 import { createSlice } from '@reduxjs/toolkit'
 import { publicAPI } from '../../../config'
-import { categoryMap } from '../data/load'
 
 const carousel_endpoint = '/api/v1/public/carousel'
 const product_endpoint = '/api/v1/public/products'
@@ -23,12 +22,6 @@ export const fetchCarousel = handleCreateAsyncThunk(
     return { category: category, data: response.data }
   }
 )
-
-export const preLoadCarousel = handleCreateAsyncThunk('carousel/preloadCarousel', async (_, { dispatch }) => {
-  for (const categoryName of categoryMap) {
-    await dispatch(fetchCarousel({ category: categoryName }))
-  }
-})
 
 const initialState = {
   carousels: {}

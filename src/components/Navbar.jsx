@@ -1,14 +1,15 @@
 import { debounce } from 'lodash'
 import PropTypes from 'prop-types'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { shallowEqual, useSelector } from 'react-redux'
+import { Link, useLocation } from 'react-router-dom'
 
 import { searchProductByName } from '../pages/product/features'
 
 import useLoading from '@/hooks/useLoading'
 import { Headset, MapPin, Menu, Moon, ScrollText, ShoppingCart, Sun, X } from 'lucide-react'
 
+import useAppContext from '@/hooks/useAppContext'
 import { useMediaQuery } from '@mui/material'
 import useUserData from '../pages/user/components/data/useUserData'
 import { ProductSearchCard } from './cards'
@@ -47,8 +48,8 @@ const navigation = [
 ]
 
 const Navbar = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const { dispatch, navigate } = useAppContext()
+  const location = useLocation()
 
   const { setTheme, theme } = useTheme()
   const isMobile = useMediaQuery('(max-width: 640px)')
@@ -230,7 +231,11 @@ const Navbar = () => {
                   <Button
                     variant="secondary"
                     className="cursor-pointer h-[40px]   select-none"
-                    onClick={() => navigate('/login')}
+                    onClick={() => {
+                      navigate('/login', {
+                        state: { modal: true, backgroundLocation: location }
+                      })
+                    }}
                   >
                     Đăng nhập
                   </Button>

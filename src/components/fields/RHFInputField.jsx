@@ -1,6 +1,7 @@
 import { FormControl } from '@mui/material'
 import PropTypes from 'prop-types'
 
+import { CircleAlert } from 'lucide-react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { Input } from '../ui/input'
 
@@ -15,8 +16,21 @@ export const RHFInputField = ({ name, label, type, placeholder, disabled }) => {
       render={({ field, fieldState: { error } }) => (
         <FormControl fullWidth error={!!error}>
           <label className="title-form text-sm">{label}</label>
-          <Input className="h-[40px]" {...field} disabled={disabled} type={type} placeholder={placeholder} />
-          {error && <span className="error-message text-sm">{error.message}</span>}
+          <Input
+            value={field.value}
+            onChange={(value) => field.onChange(value)}
+            disabled={disabled}
+            className={`h-[40px] ${
+              error && 'border-error focus-visible:border-error focus-visible:ring-error/20 focus-visible:ring-[3px]'
+            }`}
+            type={type}
+            placeholder={placeholder}
+          />
+          {error && (
+            <span className="error-message flex gap-1 items-center">
+              <CircleAlert size={16} /> {error.message}
+            </span>
+          )}
         </FormControl>
       )}
     />

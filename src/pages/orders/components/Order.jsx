@@ -147,7 +147,7 @@ export const Order = () => {
 
                         <div className="flex flex-col gap-2">
                           <h2 className="sub-title">Địa chỉ nhận hàng</h2>
-                          <div className="flex flex-col gap-2">
+                          <div className="flex flex-col gap-3">
                             <AddressSelector />
                             <RHFInputField
                               disabled={useExistingAddress}

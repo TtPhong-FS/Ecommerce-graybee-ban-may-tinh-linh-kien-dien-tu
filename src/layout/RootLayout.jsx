@@ -1,16 +1,26 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation, useNavigationType } from 'react-router-dom'
 
 import { ThemeProvider } from '@/components/theme-provider.tsx'
-import { Suspense } from 'react'
+import { Suspense, useEffect, useRef } from 'react'
 import { Toaster } from 'sonner'
 import { AppInitializer } from '../components/AppInitializer'
-import { AuthPage } from '../components/auth/pages/AuthPage'
 import { BreadCrumbs } from '../components/BreadCrumbs'
 import Footer from '../components/Footer'
 import { Loading } from '../components/Loading'
 import Navbar from '../components/Navbar'
 const RootLayout = () => {
   console.log('render')
+  const location = useLocation()
+  const navigationType = useNavigationType()
+  const previousLocation = useRef(location)
+
+  const isModal = location.state?.modal === true
+
+  useEffect(() => {
+    if (navigationType === 'PUSH') {
+      previousLocation.current = location
+    }
+  }, [location, navigationType])
 
   return (
     <div className="">
@@ -22,8 +32,8 @@ const RootLayout = () => {
             <div className="w-full max-w-[88rem] mx-auto pb-12 px-[1.25rem] gap-6 relative ">
               <BreadCrumbs />
               <Suspense fallback={<Loading />}>
-                <Outlet />
-                <AuthPage />
+                <Outlet context={{ previousLocation }} />
+                {isModal && <Outlet />}
               </Suspense>
             </div>
           </div>

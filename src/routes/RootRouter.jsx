@@ -1,5 +1,6 @@
 import { AuthProvider } from '@/components/auth/components/AuthProvider'
 import { ProtectedRoute } from '@/components/auth/components/ProtectedRoute'
+import { AuthPage } from '@/components/auth/pages'
 import { ProfileLayout, RootLayout } from '@/layout'
 import Contact from '@/pages/Contact'
 import { HomePage } from '@/pages/HomePage'
@@ -32,12 +33,12 @@ const RootRouter = [
       },
       {
         path: 'login',
-        element: <HomePage />,
+        element: <AuthPage />,
         handle: { crumb: () => 'Đăng nhập' }
       },
       {
         path: 'signup',
-        element: <HomePage />,
+        element: <AuthPage />,
         handle: { crumb: () => 'Đăng ký' }
       },
       {

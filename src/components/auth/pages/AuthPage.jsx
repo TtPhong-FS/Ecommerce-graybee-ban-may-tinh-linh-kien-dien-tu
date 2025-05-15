@@ -1,6 +1,6 @@
 import { Box, Modal } from '@mui/material'
-import { Suspense } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Suspense, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Loading } from '../../../components/Loading'
 import { LoginProvider } from '../components/LoginProvider'
 import { SignUpProvider } from '../components/SignUpProvider'
@@ -19,13 +19,15 @@ const style = {
 
 export const AuthPage = () => {
   const navigate = useNavigate()
-  const location = useLocation()
+
+  const [open, setOpen] = useState(true)
 
   const handleClose = () => {
-    navigate('/')
+    setOpen(false)
   }
+
   return (
-    <Modal onClose={handleClose} open={location.pathname === '/login' || location.pathname === '/signup'}>
+    <Modal onClose={handleClose} open={open}>
       <Box sx={style}>
         <Suspense fallback={<Loading />}>
           {location.pathname === '/signup' ? <SignUpProvider /> : <LoginProvider />}
