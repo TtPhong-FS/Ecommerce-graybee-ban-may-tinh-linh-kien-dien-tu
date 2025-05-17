@@ -1,18 +1,17 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
-import { addItemToCart } from '../components/cart/features'
+import { addItemToCartAsync } from '../components/cart/features'
 import { handleAsync, handleAsyncSubmit } from '../components/func'
-import { addToFavourite } from '../pages/user/features'
+import { addToFavouriteAsync } from '../pages/user/features'
 import { getToken } from '../utils'
+import useAppContext from './useAppContext'
 export const useActionAddToCartAndFavourite = () => {
   const token = getToken()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const { dispatch } = useAppContext()
   const { isLogin } = useSelector((state) => state.auth)
 
   const handleAddToFavourites = async (productId) => {
-    if (!isLogin || !token) {
+    if (!isLogin && !token) {
       return toast({
         title: 'Oh! no',
         description: 'Bạn phải đăng nhập mới có thể dùng tính năng này'
@@ -20,7 +19,7 @@ export const useActionAddToCartAndFavourite = () => {
     }
 
     await handleAsync({
-      asyncAction: (id) => dispatch(addToFavourite(id)).unwrap(),
+      asyncAction: (id) => dispatch(addToFavouriteAsync(id)).unwrap(),
       onSuccess: (res) => {
         toast.success(res.message)
       },
@@ -32,7 +31,7 @@ export const useActionAddToCartAndFavourite = () => {
   const handleAddItemToCart = async (productId, quantity) => {
     const values = { productId, quantity }
     await handleAsyncSubmit({
-      asyncAction: (vals) => dispatch(addItemToCart(vals)).unwrap(),
+      asyncAction: (vals) => dispatch(addItemToCartAsync(vals)).unwrap(),
       onSuccess: (res) => {
         toast(null, {
           description: (

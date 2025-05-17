@@ -2,15 +2,16 @@ import { Avatar } from '@mui/material'
 
 import { handleAsync } from '@/components/func'
 import { Button } from '@/components/ui/button'
+import useAppContext from '@/hooks/useAppContext'
 import useLoading from '@/hooks/useLoading'
 import { Spin } from 'antd'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { ProfileProvider } from '../components/ProfileProvider'
-import { getProfileByToken } from '../features'
+import { getProfileByTokenAsync } from '../features'
 export const ProfilePage = () => {
-  const dispatch = useDispatch()
+  const { dispatch } = useAppContext()
 
   const { isLoading, start, stop } = useLoading()
 
@@ -22,7 +23,7 @@ export const ProfilePage = () => {
 
   const handleUpdate = async () => {
     await handleAsync({
-      asyncAction: () => dispatch(getProfileByToken()).unwrap(),
+      asyncAction: () => dispatch(getProfileByTokenAsync()).unwrap(),
       onSuccess: (res) => {
         setInitialData(res?.data)
         setIsEdit(true)

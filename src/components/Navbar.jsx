@@ -1,23 +1,21 @@
 import { debounce } from 'lodash'
 import PropTypes from 'prop-types'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-import { searchProductByName } from '../pages/product/features'
+import { searchProductByNameAsync } from '../pages/product/features'
 
 import useLoading from '@/hooks/useLoading'
-import { Headset, MapPin, Menu, Moon, ScrollText, ShoppingCart, Sun, X } from 'lucide-react'
+import { Headset, LogOut, MapPin, Menu, Moon, ScrollText, ShoppingCart, Sun, UserRound, X } from 'lucide-react'
 
 import useAppContext from '@/hooks/useAppContext'
 import { useMediaQuery } from '@mui/material'
 import useUserData from '../pages/user/components/data/useUserData'
+import { AuthContext } from './auth/components/AuthProvider'
 import { ProductSearchCard } from './cards'
 import { onFocusSidebar } from './sidebar/features/slice'
-import Sidebar from './sidebar/Sidebar'
 import { useTheme } from './theme-provider'
-import { Button } from './ui/button'
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from './ui/drawer'
 import { Input } from './ui/input'
 
 const navigation = [
@@ -49,7 +47,6 @@ const navigation = [
 
 const Navbar = () => {
   const { dispatch, navigate } = useAppContext()
-  const location = useLocation()
 
   const { setTheme, theme } = useTheme()
   const isMobile = useMediaQuery('(max-width: 640px)')
@@ -59,6 +56,7 @@ const Navbar = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
   }
 
+  const { handleLogout } = useContext(AuthContext)
   const { user } = useUserData()
 
   const listProductSearch = useSelector((state) => state.product.listProductSearch, shallowEqual)
@@ -84,7 +82,7 @@ const Navbar = () => {
     setIsSearch(value?.length > 0)
 
     if (value?.length > 0) {
-      dispatch(searchProductByName(value))
+      dispatch(searchProductByNameAsync(value))
     }
     stop('searching')
   }
@@ -128,8 +126,11 @@ const Navbar = () => {
   return (
     <>
       <nav className="bg-secondary/90">
-        <div className="w-full max-w-[88rem] flex  mx-auto gap-2 items-center justify-end py-1.5">
-          {isLogin && <Link to="/account">Hi, {user?.fullName}</Link>}
+        <div className="w-full max-w-[88rem] flex text-sm mx-auto gap-2 items-center justify-end py-1.5">
+          <div className="flex items-center gap-2 ">
+            {isLogin && <LogOut size={20} className="cursor-pointer" onClick={() => handleLogout()} />}
+            {isLogin && <Link to="/account">Hi, {user?.fullName}</Link>}
+          </div>
           <span className="cursor-pointer flex items-center" onClick={toggleTheme}>
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </span>
@@ -138,38 +139,22 @@ const Navbar = () => {
       <div className="select-none sticky top-0 z-50 shadow-lg shadow-border">
         <header className="bg-primary-foreground h-[5rem] flex items-center justify-center md:px-4 px-2">
           <div className="flex w-full max-w-[88rem] mx-auto h-[2.8rem] gap-2 items-center">
-            <div className="flex h-full items-center md:gap-3">
+            <div className="flex h-full items-center lg:gap-3">
               <div className="hidden md:flex gap-1 items-center">
                 <Link className="text-2xl font-semibold text-primary uppercase hidden lg:flex cursor-pointer" to="/">
                   Graybee
                 </Link>
               </div>
-              {isMobile && (
-                <Drawer open={open} onOpenChange={setOpen}>
-                  <DrawerTrigger asChild>
-                    <Menu className="text-primary" size={20} />
-                  </DrawerTrigger>
-                  <DrawerHeader className="text-left">
-                    <DrawerTitle></DrawerTitle>
-                    <DrawerDescription></DrawerDescription>
-                  </DrawerHeader>
-                  <DrawerContent>
-                    <Sidebar />
-                  </DrawerContent>
-                </Drawer>
-              )}
-              {!isMobile && (
-                <Link
-                  to="/"
-                  onClick={handleFocusSidebar}
-                  className="cursor-pointer flex items-center gap-2 h-[2.8rem] rounded-[0.4rem] px-2"
-                >
-                  <Menu className="text-primary" size={20} />
-                  <span className="hidden uppercase lg:inline text-[1rem] font-medium text-muted-foreground">
-                    Danh Mục
-                  </span>
-                </Link>
-              )}
+              <Link
+                to="/"
+                onClick={handleFocusSidebar}
+                className="cursor-pointer flex items-center gap-2 h-[2.8rem] rounded-[0.4rem] px-2"
+              >
+                <Menu className="text-primary" size={20} />
+                <span className="hidden uppercase lg:inline text-[1rem] font-medium text-muted-foreground">
+                  Danh Mục
+                </span>
+              </Link>
             </div>
             <div className="flex flex-1 basis-auto items-center gap-2">
               <div className="relative flex-1 basis-auto">
@@ -178,7 +163,7 @@ const Navbar = () => {
                     value={keyword}
                     onChange={onChange}
                     type="search"
-                    className="h-[40px] bg-white dark:bg-white"
+                    className="h-[40px] bg-white dark:bg-white max-sm:text-sm"
                     placeholder="Tìm kiếm sản phẩm..."
                   />
                   {keyword && (
@@ -207,38 +192,46 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-end gap-4 font-medium ml-2">
-              {navigation.map((item, index) => (
-                <Link
-                  to={item.path}
-                  className="w-[100px] text-center  relative hidden md:inline-flex gap-2 items-center"
-                  key={index}
-                >
-                  <span className="relative">
-                    <item.icon className="cursor-pointer text-primary" size={20} />
-                    {item.badge && (
-                      <span className="text-red-500 cursor-pointer select-none absolute w-5 h-5 justify-center text-xs flex items-center rounded-full -top-1/2 -right-2  bg-secondary-foreground">
-                        {totalQuantity}
-                      </span>
-                    )}
-                  </span>
-                  <span className="text-[13px] text-muted-foreground font-medium">{item.title}</span>
-                </Link>
-              ))}
-
-              <div className="hidden lg:block">
-                {!isLogin && (
-                  <Button
-                    variant="secondary"
-                    className="cursor-pointer h-[40px]   select-none"
-                    onClick={() => {
-                      navigate('/login', {
-                        state: { modal: true, backgroundLocation: location }
-                      })
-                    }}
+            <div className="flex w-max gap-6 lg:gap-3 font-medium ml-2">
+              {navigation.map((item, index) => {
+                const lastItem = index === navigation.length - 1
+                return (
+                  <Link
+                    to={item.path}
+                    className={`${
+                      !lastItem ? 'hidden sm:inline-flex' : 'inline-flex'
+                    } w-min text-center relative gap-2 items-center`}
+                    key={index}
                   >
-                    Đăng nhập
-                  </Button>
+                    <span className="relative">
+                      <item.icon className="cursor-pointer text-primary" size={20} />
+                      {item.badge && (
+                        <span className="text-secondary-foreground cursor-pointer select-none absolute w-4 h-4 justify-center text-xs flex items-center rounded-full -top-1/3 -right-2 bg-error">
+                          {totalQuantity}
+                        </span>
+                      )}
+                    </span>
+                    <span className="text-[13px] text-muted-foreground font-medium hidden lg:block w-[4rem]">
+                      {item.title}
+                    </span>
+                  </Link>
+                )
+              })}
+
+              <div className="inline-flex items-center  ">
+                {isMobile ? (
+                  <Link to={'/login'} className="cursor-pointer">
+                    <UserRound size={20} />
+                  </Link>
+                ) : (
+                  !isLogin && (
+                    <Link
+                      className="cursor-pointer inline-flex items-center justify-center text-sm h-[38px] min-w-24 bg-secondary p-3 rounded-sm text-secondary-foreground dark:text-secondary-foreground select-none"
+                      to={'/login'}
+                    >
+                      Đăng nhập
+                    </Link>
+                  )
                 )}
               </div>
             </div>

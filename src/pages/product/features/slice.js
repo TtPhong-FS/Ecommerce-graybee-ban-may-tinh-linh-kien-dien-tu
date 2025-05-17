@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getDetailById, searchProductByName } from './thunk'
+import { findProductDetailByIdAsync, searchProductByNameAsync } from './thunk'
 
 const initialState = {
   listProductSearch: [],
@@ -21,11 +21,11 @@ export const productSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      .addCase(getDetailById.fulfilled, (state, action) => {
+      .addCase(findProductDetailByIdAsync.fulfilled, (state, action) => {
         state.details = action.payload?.data || null
       })
 
-      .addCase(searchProductByName.fulfilled, (state, action) => {
+      .addCase(searchProductByNameAsync.fulfilled, (state, action) => {
         state.listProductSearch = action.payload?.data || []
       })
   }

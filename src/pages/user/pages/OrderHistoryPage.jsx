@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { OrderCard } from '../components/OrderCard'
-import { findOrdersByStatusOptional } from '../features'
+import { findOrdersByStatusOptionalAsync } from '../features'
 
 const items = [
   {
@@ -44,7 +44,7 @@ export const OrderHistoryPage = () => {
 
   useEffect(() => {
     if (!isFetch.current && (!data || data.length === 0)) {
-      dispatch(findOrdersByStatusOptional('all'))
+      dispatch(findOrdersByStatusOptionalAsync('all'))
       isFetch.current = true
     }
   }, [])
@@ -53,7 +53,7 @@ export const OrderHistoryPage = () => {
     setActiveKey(key)
     if (key === 'all') {
       await handleAsync({
-        asyncAction: () => dispatch(findOrdersByStatusOptional('all')).unwrap(),
+        asyncAction: () => dispatch(findOrdersByStatusOptionalAsync('all')).unwrap(),
         toast,
         onSuccess: (res) => {
           toast.success(res.message)
@@ -61,7 +61,7 @@ export const OrderHistoryPage = () => {
       })
     } else {
       await handleAsync({
-        asyncAction: () => dispatch(findOrdersByStatusOptional(key)).unwrap(),
+        asyncAction: () => dispatch(findOrdersByStatusOptionalAsync(key)).unwrap(),
         toast,
         onSuccess: (res) => {
           toast.success(res.message)

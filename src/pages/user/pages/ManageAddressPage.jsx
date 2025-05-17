@@ -2,16 +2,20 @@ import { HomeFilled } from '@ant-design/icons'
 
 import { Button } from '@/components/ui/button'
 import useLoading from '@/hooks/useLoading'
-import { Chip, IconButton } from '@mui/material'
+import { Chip } from '@mui/material'
 import { Avatar, Drawer } from 'antd'
-import { Delete, LoaderCircle } from 'lucide-react'
+import { LoaderCircle, Trash } from 'lucide-react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { toast } from 'sonner'
 import { handleAsync } from '../../../components/func'
 import { AddressProvider } from '../components/AddressProvider'
 import useAddressData from '../components/data/useAddressData'
-import { deleteAddressByIdAndUserUidFromToken, getAddressesByToken, updateDefaultAddress } from '../features'
+import {
+  deleteAddressByIdAndUserUidFromTokenAsync,
+  getAddressesByTokenAsync,
+  updateDefaultAddressAsync
+} from '../features'
 
 export const ManageAddressPage = () => {
   const { deliveryAddress } = useAddressData()
@@ -47,29 +51,35 @@ export const ManageAddressPage = () => {
 
   const handleDeleteAddressById = async (id) => {
     await handleAsync({
-      asyncAction: (id) => dispatch(deleteAddressByIdAndUserUidFromToken({ id: id })).unwrap(),
+      asyncAction: (id) => dispatch(deleteAddressByIdAndUserUidFromTokenAsync(id)).unwrap(),
       onSuccess: (res) => {
         toast.success(res.message)
       },
       toast,
-      values: id
+      values: id,
+      loadingKey: `delete:${id}`,
+      startLoading: start,
+      stopLoading: stop
     })
   }
 
   const handleSetDefailtAddress = async (id) => {
     await handleAsync({
-      asyncAction: (id) => dispatch(updateDefaultAddress({ id: id })).unwrap(),
+      asyncAction: (id) => dispatch(updateDefaultAddressAsync(id)).unwrap(),
       onSuccess: (res) => {
         toast.success(res.message)
       },
       toast,
-      values: id
+      values: id,
+      loadingKey: `updateDefault:${id}`,
+      startLoading: start,
+      stopLoading: stop
     })
   }
 
   const handleReloadAddress = async () => {
     await handleAsync({
-      asyncAction: () => dispatch(getAddressesByToken()).unwrap(),
+      asyncAction: () => dispatch(getAddressesByTokenAsync()).unwrap(),
       toast,
       loadingKey: 'reload',
       startLoading: start,
@@ -105,7 +115,7 @@ export const ManageAddressPage = () => {
           <Button
             variant="secondary"
             className="select-none h-[38px] cursor-pointer"
-            onClick={() => showDrawer()}
+            onClick={showDrawer}
             type="button"
           >
             Thêm địa chỉ
@@ -115,7 +125,7 @@ export const ManageAddressPage = () => {
       {deliveryAddress.length > 0 ? (
         <div>
           {deliveryAddress.map((address) => (
-            <div key={address?.id} className="box flex items-center justify-between not-last:mb-6">
+            <div key={address?.id} className="box flex items-center justify-between not-last:mb-6 text-sm">
               <div className="flex flex-4 gap-2 items-center select-text">
                 <div>
                   <Avatar size={48} style={{ backgroundColor: '#ffcbcb', color: '#dc2f2f' }} icon={<HomeFilled />} />
@@ -133,18 +143,25 @@ export const ManageAddressPage = () => {
                 </div>
               </div>
               <div className="flex flex-2 items-center gap-4 justify-between">
-                <span onClick={() => onUpdate(address)} className="cursor-pointer text-[#dc2f2f]">
+                <span onClick={() => onUpdate(address)} className="cursor-pointer text-error">
                   Sửa
                 </span>
-                <span onClick={() => handleSetDefailtAddress(address?.id)} className="cursor-pointer text-[#dc2f2f]">
+                <span
+                  onClick={() => handleSetDefailtAddress(address?.id)}
+                  className={`${
+                    isLoading(`updateDefault:${address?.id}`) ? 'pointer-events-none' : 'cursor-pointer '
+                  } text-error`}
+                >
                   Chọn làm mặc định
                 </span>
-                <IconButton
-                  disabled={isLoading(`delete:${address?.id}`)}
+                <span
+                  className={`${
+                    isLoading(`delete:${address?.id}`) ? 'pointer-events-none' : 'cursor-pointer '
+                  } hover:bg-muted-foreground/10 w-8 h-8 rounded-full place-items-center place-content-center  `}
                   onClick={() => handleDeleteAddressById(address?.id)}
                 >
-                  <Delete />
-                </IconButton>
+                  <Trash size={16} />
+                </span>
               </div>
             </div>
           ))}

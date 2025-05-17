@@ -5,7 +5,7 @@ import useLoading from '@/hooks/useLoading'
 import { LoaderCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import { Favourite } from '../components/Favourite'
-import { getFavourites } from '../features/thunk'
+import { getFavouritesAsync } from '../features/thunk'
 export const FavouritePage = () => {
   const { dispatch } = useAppContext()
 
@@ -13,7 +13,7 @@ export const FavouritePage = () => {
 
   const handleReloadFavourites = async () => {
     await handleAsync({
-      asyncAction: () => dispatch(getFavourites()).unwrap(),
+      asyncAction: () => dispatch(getFavouritesAsync()).unwrap(),
       toast,
       onSuccess: (res) => {
         toast.success(res.message)

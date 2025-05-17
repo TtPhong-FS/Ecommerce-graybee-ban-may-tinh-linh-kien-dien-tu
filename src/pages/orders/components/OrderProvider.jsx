@@ -8,13 +8,35 @@ export const OrderProvider = () => {
   const methods = useForm({
     resolver: yupResolver(Schema),
     defaultValues: defaultValues,
-
     shouldUnregister: false
+  })
+
+  const onSubmit = methods.handleSubmit(async (values) => {
+    console.log('values', values)
+    // if (values.cartItemIds.length < 1) {
+    //   openNotificationWithIcon('warning', 'Lời nhắc', 'Hãy chọn ít nhất 1 sản phẩm để đặt hàng!')
+    //   return
+    // }
+    // await handleAsyncSubmit({
+    //   asyncAction: (vals) => dispatch(createOrder({ request: vals })).unwrap(),
+    //   values,
+    //   onSuccess: async (res) => {
+    //     console.log(res)
+    //     dispatch(removeItemsByIds(res.data))
+    //     openNotificationWithIcon('success', 'Thành công', res.message)
+    //   },
+    //   openNotificationWithIcon,
+    //   reset,
+    //   defaultValues,
+    //   setError
+    // })
   })
 
   return (
     <FormProvider {...methods}>
-      <Order />
+      <form onSubmit={onSubmit}>
+        <Order />
+      </form>
     </FormProvider>
   )
 }

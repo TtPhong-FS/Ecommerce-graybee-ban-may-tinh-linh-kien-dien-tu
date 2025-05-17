@@ -1,17 +1,18 @@
+import useAppContext from '@/hooks/useAppContext'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigationTracker } from '../hooks'
-import { getAddressesByToken, getFavourites, getProfileByToken } from '../pages/user/features'
+import { getAddressesByTokenAsync, getFavouritesAsync, getProfileByTokenAsync } from '../pages/user/features'
 import { getToken, useSession } from '../utils'
 import { categoryMap } from './carousels/data/load'
 import { fetchCarousel } from './carousels/features/slice'
-import { findCartByUserUidOrSessionId } from './cart/features'
+import { findCartByUserUidOrSessionIdAsync } from './cart/features'
 import { getSidebar } from './sidebar/features/slice'
 
 export const AppInitializer = () => {
   useSession()
   useNavigationTracker()
-  const dispatch = useDispatch()
+  const { dispatch } = useAppContext()
   const token = getToken()
   const user = useSelector((state) => state.account.user)
   const isPrivate = React.useRef(false)
@@ -26,12 +27,12 @@ export const AppInitializer = () => {
   React.useEffect(() => {
     if (!isPrivate.current) {
       if (token && (!user || user == null)) {
-        dispatch(getProfileByToken())
+        dispatch(getProfileByTokenAsync())
       }
       if (token) {
-        dispatch(findCartByUserUidOrSessionId())
-        dispatch(getAddressesByToken())
-        dispatch(getFavourites())
+        dispatch(findCartByUserUidOrSessionIdAsync())
+        dispatch(getAddressesByTokenAsync())
+        dispatch(getFavouritesAsync())
       }
     }
     isPrivate.current = true
@@ -41,7 +42,7 @@ export const AppInitializer = () => {
     if (!isPublic.current) {
       dispatch(getSidebar())
       handlePrefetchCarousel()
-      dispatch(findCartByUserUidOrSessionId())
+      dispatch(findCartByUserUidOrSessionIdAsync())
     }
     isPublic.current = true
   }, [])

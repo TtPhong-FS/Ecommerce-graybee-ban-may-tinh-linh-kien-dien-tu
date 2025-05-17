@@ -29,7 +29,7 @@ export const ProfileLayout = () => {
                 sx={{ width: 50, height: 50 }}
               />
             </Link>
-            <div className="w-full">
+            <div className="w-full text-sm">
               <p className="select-text">{user?.fullName}</p>
               <div className="flex justify-between ">
                 <span className="select-text">{user?.phoneNumber}</span>

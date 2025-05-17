@@ -1,33 +1,55 @@
+import { handleAsyncSubmit } from '@/components/func'
+import useAppContext from '@/hooks/useAppContext'
+import useLoading from '@/hooks/useLoading'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { omit } from 'lodash'
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { Loading } from '../../../components/Loading'
+import { toast } from 'sonner'
+import { createAddressAsync, updateAddressAsync } from '../features'
 import { defaultValues, Schema } from '../types/address'
 import { Address } from './Address'
 
 export const AddressProvider = ({ isUpdate, initialData, onClose }) => {
-  const [loading, setLoading] = useState(true)
+  const { isLoading, start, stop } = useLoading()
   const methods = useForm({ resolver: yupResolver(Schema), defaultValues, mode: 'all', shouldUnregister: false })
-
+  const { dispatch } = useAppContext()
   useEffect(() => {
-    if (initialData) {
+    if (initialData !== null && isUpdate) {
       methods.reset({
         ...initialData
       })
     } else {
-      methods.reset(defaultValues)
+      methods.reset(methods.formState.defaultValues)
     }
-    setLoading(false)
-  }, [initialData, methods])
+  }, [initialData, methods, isUpdate])
 
-  if (loading) {
-    return <Loading />
-  }
+  const onSubmit = methods.handleSubmit(async (values) => {
+    console.log(values)
+    const request = omit(values, ['id'])
+    await handleAsyncSubmit({
+      asyncAction: (vals) =>
+        dispatch(
+          isUpdate ? updateAddressAsync({ request: request, id: values.id }) : createAddressAsync(vals)
+        ).unwrap(),
+      onSuccess: (res) => {
+        toast.success(res?.message)
+      },
+      setError: methods.setError,
+      toast,
+      values: request,
+      loadingKey: 'updating',
+      startLoading: start,
+      stopLoading: stop
+    })
+  })
 
   return (
     <FormProvider {...methods}>
-      <Address isUpdate={isUpdate} onClose={onClose} />
+      <form onSubmit={onSubmit}>
+        <Address isUpdate={isUpdate} isLoading={isLoading} />
+      </form>
     </FormProvider>
   )
 }

@@ -125,7 +125,6 @@
   --error: oklch(0.83 0.0677 22.01);
 }
 
-
 * {
   box-sizing: border-box;
 }
@@ -191,6 +190,14 @@ h3 {
   margin-inline-end: 0.3rem !important;
 }
 
+.custom-select .ant-select-selector {
+  @apply bg-input dark:bg-input/30;
+}
+
+.custom-select .ant-select-status-error .ant-select-selector {
+  @apply border-error border-2 focus-visible:border-error focus-visible:ring-error/20 focus-visible:ring-[3px];
+}
+
 ::-webkit-scrollbar {
   width: 0.3rem !important;
 }
@@ -207,7 +214,6 @@ h3 {
 .MuiBreadcrumbs-separator {
   color: var(--muted-foreground);
 }
-
 
 @layer base {
   * {

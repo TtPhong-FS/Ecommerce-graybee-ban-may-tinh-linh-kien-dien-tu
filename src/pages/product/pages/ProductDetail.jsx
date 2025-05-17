@@ -12,7 +12,7 @@ import useUserData from '../../user/components/data/useUserData'
 import { Description } from '../components/Description'
 import { ReviewComment } from '../components/ReviewComment'
 import Specification from '../components/Specification'
-import { getDetailById } from '../features/thunk'
+import { findProductDetailByIdAsync } from '../features/thunk'
 
 const items = [
   {
@@ -42,12 +42,12 @@ export const ProductDetail = () => {
 
   const { favourites } = useUserData()
 
-  const { contextHolder, handleAddItemToCart, handleAddToFavourites } = useActionAddToCartAndFavourite()
+  const { handleAddItemToCart, handleAddToFavourites } = useActionAddToCartAndFavourite()
 
   useEffect(() => {
     if (id) {
       if (!details || details?.id !== id) {
-        dispatch(getDetailById(id))
+        dispatch(findProductDetailByIdAsync(id))
       }
     }
     setLoading(false)
@@ -59,7 +59,6 @@ export const ProductDetail = () => {
 
   return (
     <>
-      {contextHolder}
       <Spin spinning={loading}>
         <div className="select-text">
           <Grid2 width={'100%'} container>

@@ -1,15 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
-  addToFavourite,
-  createAddress,
-  deleteAddressByIdAndUserUidFromToken,
-  findOrdersByStatusOptional,
-  getAddressesByToken,
-  getFavourites,
-  getProfileByToken,
-  updateAddress,
-  updateDefaultAddress,
-  updateProfile
+  addToFavouriteAsync,
+  createAddressAsync,
+  deleteAddressByIdAndUserUidFromTokenAsync,
+  findOrdersByStatusOptionalAsync,
+  getAddressesByTokenAsync,
+  getFavouritesAsync,
+  getProfileByTokenAsync,
+  updateAddressAsync,
+  updateDefaultAddressAsync,
+  updateProfileAsync
 } from './thunk'
 
 const initialState = {
@@ -30,22 +30,22 @@ const accountSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      .addCase(findOrdersByStatusOptional.fulfilled, (state, action) => {
+      .addCase(findOrdersByStatusOptionalAsync.fulfilled, (state, action) => {
         const { status, data } = action.payload
         state.orders[status] = data.data || []
       })
 
-      .addCase(getProfileByToken.fulfilled, (state, action) => {
+      .addCase(getProfileByTokenAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         state.user = data || null
       })
 
-      .addCase(updateProfile.fulfilled, (state, action) => {
+      .addCase(updateProfileAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         state.user = data || null
       })
 
-      .addCase(addToFavourite.fulfilled, (state, action) => {
+      .addCase(addToFavouriteAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         const isExisting = state.favourites?.find((item) => item.id === data)
         if (isExisting) {
@@ -55,17 +55,17 @@ const accountSlice = createSlice({
         }
       })
 
-      .addCase(getFavourites.fulfilled, (state, action) => {
+      .addCase(getFavouritesAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         state.favourites = data || []
       })
 
-      .addCase(getAddressesByToken.fulfilled, (state, action) => {
+      .addCase(getAddressesByTokenAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         state.deliveryAddress = data || []
       })
 
-      .addCase(createAddress.fulfilled, (state, action) => {
+      .addCase(createAddressAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         if (data?.id && data?.default) {
           state.deliveryAddress = state.deliveryAddress?.map((address) =>
@@ -75,14 +75,14 @@ const accountSlice = createSlice({
         state.deliveryAddress.push(data)
       })
 
-      .addCase(deleteAddressByIdAndUserUidFromToken.fulfilled, (state, action) => {
+      .addCase(deleteAddressByIdAndUserUidFromTokenAsync.fulfilled, (state, action) => {
         const id = action.payload?.data
         if (id) {
           state.deliveryAddress = state.deliveryAddress.filter((address) => address.id !== id)
         }
       })
 
-      .addCase(updateDefaultAddress.fulfilled, (state, action) => {
+      .addCase(updateDefaultAddressAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         if (data?.id) {
           state.deliveryAddress = state.deliveryAddress.map((address) => {
@@ -97,7 +97,7 @@ const accountSlice = createSlice({
         }
       })
 
-      .addCase(updateAddress.fulfilled, (state, action) => {
+      .addCase(updateAddressAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         if (data?.id) {
           state.deliveryAddress = state.deliveryAddress.map((address) => {

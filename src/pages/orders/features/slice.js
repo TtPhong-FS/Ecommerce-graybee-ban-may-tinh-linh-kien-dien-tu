@@ -6,7 +6,7 @@ const order_endpoint = '/api/v1/public/order'
 
 const createOrderApi = (request) => privateAPI.post(`${order_endpoint}/create`, request, {})
 
-export const createOrder = handleCreateAsyncThunk('order/createOrder', async (request) => {
+export const createOrderAsync = handleCreateAsyncThunk('order/createOrder', async (request) => {
   const res = await createOrderApi(request)
 
   return res.data
@@ -21,7 +21,7 @@ const orderSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(createOrder.fulfilled, (state, action) => {
+    builder.addCase(createOrderAsync.fulfilled, (state, action) => {
       state.customerOrder = action.payload?.data || null
     })
   }

@@ -1,33 +1,33 @@
 import { handleCreateAsyncThunk } from '@/components/func'
 import { productApi } from './api'
 
-export const findByCategory = handleCreateAsyncThunk('product/findByCategory', async (category) => {
-  const response = await productApi.findByCategory(category)
+export const findByCategoryAsync = handleCreateAsyncThunk('product/findByCategory', async (category) => {
+  const response = await productApi.findByCategoryApi(category)
   return response.data
 })
 
-export const findByCategoryAndSubcategoryAndTag = handleCreateAsyncThunk(
+export const findByCategoryAndSubcategoryAndTagAsync = handleCreateAsyncThunk(
   'product/findByCategoryAndSubcategoryAndTag',
   async ({ category, subcategory, tag }) => {
-    const response = await productApi.findByCategoryAndSubcategoryAndTag(category, subcategory, tag)
+    const response = await productApi.findByCategoryAndSubcategoryAndTagApi(category, subcategory, tag)
     return response.data
   }
 )
 
-export const findByCategoryAndManufacturer = handleCreateAsyncThunk(
+export const findByCategoryAndManufacturerAsync = handleCreateAsyncThunk(
   'product/findByCategoryAndManufacturer',
   async ({ category, manufacturer }) => {
-    const response = await productApi.findByCategoryAndManufacturer(category, manufacturer)
+    const response = await productApi.findByCategoryAndManufacturerApi(category, manufacturer)
     return response.data
   }
 )
 
-export const searchProductByName = handleCreateAsyncThunk('product/searchProductByName', async (keyword) => {
-  const response = await productApi.searchProductByName(keyword)
+export const searchProductByNameAsync = handleCreateAsyncThunk('product/searchProductByName', async (keyword) => {
+  const response = await productApi.searchProductByNameApi(keyword)
   return response.data
 })
 
-export const getDetailById = handleCreateAsyncThunk('product/getDetailById', async (id) => {
-  const response = await productApi.getDetailById(id)
+export const findProductDetailByIdAsync = handleCreateAsyncThunk('product/getDetailById', async (id) => {
+  const response = await productApi.findProductDetailByIdApi(id)
   return response.data
 })

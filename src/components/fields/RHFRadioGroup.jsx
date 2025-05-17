@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
 
 import { CircleAlert } from 'lucide-react'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { Label } from '../ui/label'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 
-export const RHFRadioGroup = ({ name, options, label }) => {
-  const { control } = useFormContext()
+export const RHFRadioGroup = ({ control, name, options, label }) => {
+  console.log('render')
 
   return (
     <Controller
@@ -36,6 +36,7 @@ export const RHFRadioGroup = ({ name, options, label }) => {
 
 RHFRadioGroup.propTypes = {
   name: PropTypes.string.isRequired,
+  control: PropTypes.object,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,

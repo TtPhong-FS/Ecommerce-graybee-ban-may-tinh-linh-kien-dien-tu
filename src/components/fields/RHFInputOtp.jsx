@@ -1,10 +1,9 @@
 import { CircleAlert } from 'lucide-react'
 import PropTypes from 'prop-types'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '../ui/input-otp'
 
-export default function RHFInputOtp({ name, label }) {
-  const { control } = useFormContext()
+export default function RHFInputOtp({ control, name, label }) {
   return (
     <Controller
       control={control}
@@ -38,5 +37,6 @@ export default function RHFInputOtp({ name, label }) {
 
 RHFInputOtp.propTypes = {
   name: PropTypes.string,
-  label: PropTypes.string
+  label: PropTypes.string,
+  control: PropTypes.object
 }

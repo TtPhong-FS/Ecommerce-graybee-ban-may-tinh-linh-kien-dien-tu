@@ -1,5 +1,5 @@
-import { FormControl } from '@mui/material'
 import { Select } from 'antd'
+import { CircleAlert } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import { citiesOption, districtsOption } from '../../../components/options'
@@ -33,12 +33,16 @@ export const AddressSelector = () => {
         control={control}
         name="city"
         render={({ field, fieldState: { error } }) => (
-          <FormControl fullWidth error={!!error}>
+          <div className="flex flex-col">
             <Select
               placeholder="Chọn Tỉnh/Thành phố"
               value={field.value}
               disabled={useExistingAddress}
-              style={{ width: '100%', height: '38px' }}
+              className="custom-select"
+              style={{
+                minHeight: '40px',
+                width: '100%'
+              }}
               showSearch
               options={citiesOption}
               onChange={(value) => {
@@ -46,8 +50,12 @@ export const AddressSelector = () => {
                 handleCityChange(value)
               }}
             />
-            {error && <span className="error-message">{error.message}</span>}
-          </FormControl>
+            {error && (
+              <span className="error-message flex gap-1 items-center">
+                <CircleAlert size={16} /> {error.message}
+              </span>
+            )}
+          </div>
         )}
       />
 
@@ -55,11 +63,15 @@ export const AddressSelector = () => {
         control={control}
         name="district"
         render={({ field, fieldState: { error } }) => (
-          <FormControl fullWidth error={!!error}>
+          <div className="flex flex-col">
             <Select
               disabled={useExistingAddress}
               value={field.value}
-              style={{ width: '100%', height: '38px' }}
+              className="custom-select"
+              style={{
+                minHeight: '40px',
+                width: '100%'
+              }}
               placeholder="Chọn Huyện/Quận"
               showSearch
               onChange={(value) => {
@@ -73,19 +85,27 @@ export const AddressSelector = () => {
                 </Select.Option>
               ))}
             </Select>
-            {error && <span className="error-message">{error.message}</span>}
-          </FormControl>
+            {error && (
+              <span className="error-message flex gap-1 items-center">
+                <CircleAlert size={16} /> {error.message}
+              </span>
+            )}
+          </div>
         )}
       />
       <Controller
         control={control}
         name="commune"
         render={({ field, fieldState: { error } }) => (
-          <FormControl fullWidth error={!!error}>
+          <div className="flex flex-col">
             <Select
+              className="custom-select"
+              style={{
+                minHeight: '40px',
+                width: '100%'
+              }}
               disabled={useExistingAddress}
               value={field.value}
-              style={{ width: '100%', height: '38px' }}
               placeholder="Chọn Xã/Phường"
               onChange={(value) => field.onChange(value)}
               showSearch
@@ -96,8 +116,12 @@ export const AddressSelector = () => {
                 </Select.Option>
               ))}
             </Select>
-            {error && <span className="error-message">{error.message}</span>}
-          </FormControl>
+            {error && (
+              <span className="error-message flex gap-1 items-center">
+                <CircleAlert size={16} /> {error.message}
+              </span>
+            )}
+          </div>
         )}
       />
     </div>

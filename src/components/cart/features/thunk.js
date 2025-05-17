@@ -1,27 +1,33 @@
 import { handleCreateAsyncThunk } from '@/components/func'
 import { cartApi } from './api'
 
-export const addItemToCart = handleCreateAsyncThunk('cart/addItemToCart', async (request) => {
-  const response = await cartApi.addItemToCart(request)
+export const addItemToCartAsync = handleCreateAsyncThunk('cart/addItemToCart', async (request) => {
+  const response = await cartApi.addItemToCartApi(request)
   return response.data
 })
 
-export const decreaseQuantityToCartItem = handleCreateAsyncThunk('cart/decreaseQuantityToCartItem', async (request) => {
-  const response = await cartApi.decreaseQuantityToCartItem(request)
+export const decreaseQuantityToCartItemAsync = handleCreateAsyncThunk(
+  'cart/decreaseQuantityToCartItem',
+  async (request) => {
+    const response = await cartApi.decreaseQuantityToCartItemApi(request)
+    return response.data
+  }
+)
+
+export const findCartByUserUidOrSessionIdAsync = handleCreateAsyncThunk(
+  'cart/findCartByUserUidOrSessionId',
+  async () => {
+    const response = await cartApi.findCartByUserUidOrSessionIdApi()
+    return response.data
+  }
+)
+
+export const deleteItemToCartAsync = handleCreateAsyncThunk('cart/deleteItemToCart', async (cartItemId) => {
+  const response = await cartApi.deleteItemToCartApi(cartItemId)
   return response.data
 })
 
-export const findCartByUserUidOrSessionId = handleCreateAsyncThunk('cart/findCartByUserUidOrSessionId', async () => {
-  const response = await cartApi.findCartByUserUidOrSessionId()
-  return response.data
-})
-
-export const deleteItemToCart = handleCreateAsyncThunk('cart/deleteItemToCart', async (cartItemId) => {
-  const response = await cartApi.deleteItemToCart(cartItemId)
-  return response.data
-})
-
-export const clearItemsToCart = handleCreateAsyncThunk('cart/clearItemsToCart', async () => {
-  const response = await cartApi.clearItemsToCart()
+export const clearItemsToCartAsync = handleCreateAsyncThunk('cart/clearItemsToCart', async () => {
+  const response = await cartApi.clearItemsToCartApi()
   return response.data
 })

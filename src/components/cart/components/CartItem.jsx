@@ -10,7 +10,12 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useToDetail } from '../../../hooks'
 import { formattedPrice } from '../../../utils'
-import { addItemToCart, clearItemsToCart, decreaseQuantityToCartItem, deleteItemToCart } from '../features/thunk'
+import {
+  addItemToCartAsync,
+  clearItemsToCartAsync,
+  decreaseQuantityToCartItemAsync,
+  deleteItemToCartAsync
+} from '../features/thunk'
 
 const CartItem = () => {
   const { dispatch } = useAppContext()
@@ -41,19 +46,19 @@ const CartItem = () => {
 
   const handleDecreaseQuantity = (productId, quantity) => {
     const values = { productId, quantity }
-    dispatch(decreaseQuantityToCartItem({ request: values }))
+    dispatch(decreaseQuantityToCartItemAsync(values))
   }
   const handleIncreaseQuantity = (productId, quantity) => {
     const values = { productId, quantity }
-    dispatch(addItemToCart({ request: values }))
+    dispatch(addItemToCartAsync(values))
   }
 
   const handleRemoveItem = (cartItemId) => {
-    dispatch(deleteItemToCart({ cartItemId: cartItemId }))
+    dispatch(deleteItemToCartAsync(cartItemId))
   }
 
   const handleClearItems = () => {
-    dispatch(clearItemsToCart())
+    dispatch(clearItemsToCartAsync())
   }
 
   const { setValue } = useFormContext()

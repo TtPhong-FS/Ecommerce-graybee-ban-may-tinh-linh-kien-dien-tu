@@ -1,13 +1,11 @@
-import { FormControl } from '@mui/material'
 import PropTypes from 'prop-types'
 
 import { CircleAlert } from 'lucide-react'
-import { Controller, useFormContext } from 'react-hook-form'
-import { Input } from '../ui/input'
 import React from 'react'
+import { Controller } from 'react-hook-form'
+import { Input } from '../ui/input'
 
-const RHFInputField = ({ name, label, type, placeholder, disabled }) => {
-  const {control} = useFormContext()
+const RHFInputField = ({ control, name, label, type, placeholder, disabled }) => {
   console.log('render', name)
 
   return (
@@ -20,7 +18,7 @@ const RHFInputField = ({ name, label, type, placeholder, disabled }) => {
           <Input
             {...field}
             disabled={disabled}
-            className={`h-[40px] ${
+            className={`h-[40px] max-sm:text-sm ${
               error && 'border-error focus-visible:border-error focus-visible:ring-error/20 focus-visible:ring-[3px]'
             }`}
             type={type}
