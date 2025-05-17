@@ -7,18 +7,17 @@ import { Input } from '../ui/input'
 
 export const RHFInputField = ({ name, label, type, placeholder, disabled }) => {
   const { control } = useFormContext()
-  console.log('render')
+  console.log('render', name)
+
   return (
     <Controller
       control={control}
       name={name}
-      defaultValue=""
       render={({ field, fieldState: { error } }) => (
-        <FormControl fullWidth error={!!error}>
+        <FormControl className="select-none" fullWidth error={!!error}>
           <label className="title-form text-sm">{label}</label>
           <Input
-            value={field.value}
-            onChange={(value) => field.onChange(value)}
+            {...field}
             disabled={disabled}
             className={`h-[40px] ${
               error && 'border-error focus-visible:border-error focus-visible:ring-error/20 focus-visible:ring-[3px]'

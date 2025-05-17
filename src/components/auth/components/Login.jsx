@@ -11,7 +11,7 @@ import { saveAuthToken } from '@/utils'
 import { jwtDecode } from 'jwt-decode'
 import { toast } from 'sonner'
 import { RHFInputField } from '../../../components/fields'
-import { handleLogin } from '../features'
+import { loginUserAsync } from '../features'
 import { defaultValues } from '../types/login'
 import { AuthContext } from './AuthProvider'
 export const Login = () => {
@@ -28,7 +28,7 @@ export const Login = () => {
 
   const onSubmit = async (values) => {
     await handleAsyncSubmit({
-      asyncAction: (vals) => dispatch(handleLogin(vals)).unwrap(),
+      asyncAction: (vals) => dispatch(loginUserAsync(vals)).unwrap(),
       onSuccess: (res) => {
         const { token } = res.data
         saveAuthToken(token)
@@ -67,7 +67,7 @@ export const Login = () => {
           <RHFInputField label="Mật khẩu" name="password" placeholder="Nhập mật khẩu..." type="password" />
         </div>
         <div className="flex justify-end mb-8">
-          <Link to="/reset-password" className="text-blue-500 text-sm hover:underline decoration-solid">
+          <Link to="/forgot-password" className="text-blue-500 text-sm hover:underline decoration-solid">
             Quên mật khẩu?
           </Link>
         </div>

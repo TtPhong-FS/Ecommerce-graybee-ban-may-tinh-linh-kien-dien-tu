@@ -18,6 +18,37 @@ export const RHFDateTimePicker = ({ label, name }) => {
         <FormControl error={!!error} fullWidth>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
+              slotProps={{
+                textField: {
+                  variant: 'outlined',
+                  fullWidth: true,
+                  sx: {
+                    '& .MuiInputBase-root': {
+                      height: '40px',
+                      alignItems: 'center',
+                      fontSize: '12.8px',
+                      color: 'var(--text-primary)',
+                      border: '1px solid var(--border-input)',
+                      borderRadius: 'var(--radius-md)',
+                      backgroundColor: 'var(--bg-transparent)'
+                    },
+                    // label nằm giữa khi chưa focus
+                    '& .MuiInputLabel-root': {
+                      top: '50%',
+                      transform: 'translate(14px, -50%) scale(1)',
+                      transformOrigin: 'top left',
+                      fontSize: '12.8px'
+                    },
+                    // label khi shrink (focus hoặc có giá trị)
+                    '& .MuiInputLabel-shrink': {
+                      transform: 'translate(12px, -25px) scale(0.85)',
+                      color: 'var(--secondary)'
+                    },
+                    // bo viền
+                    '& .MuiOutlinedInput-notchedOutline': {}
+                  }
+                }
+              }}
               {...field}
               value={field.value ? new Date(field.value) : null}
               label={label}

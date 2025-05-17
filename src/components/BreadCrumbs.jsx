@@ -1,11 +1,11 @@
-import { Breadcrumbs } from '@mui/material'
-
 import { Link, useLocation, useMatches } from 'react-router-dom'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from './ui/breadcrumb'
+
 export const BreadCrumbs = () => {
   const matches = useMatches()
   const location = useLocation()
 
-  const hiddenPaths = ['/', '/home', '/login', '/signup']
+  const hiddenPaths = ['/', '/home']
 
   if (hiddenPaths.includes(location.pathname)) {
     return null
@@ -19,19 +19,24 @@ export const BreadCrumbs = () => {
     }))
 
   return (
-    <Breadcrumbs className="select-none" aria-label="breadcrumb" py={2}>
-      {crumbs.map((item, index) => {
-        const lastItem = index === crumbs.length - 1
-        return lastItem ? (
-          <label key={index} className=" text-muted-foreground text-sm">
-            {item.label}
-          </label>
-        ) : (
-          <Link className="text-secondary  text-sm hover:underline decoration-solid " to={item.path} key={index}>
-            {item.label}
-          </Link>
-        )
-      })}
-    </Breadcrumbs>
+    <Breadcrumb>
+      <BreadcrumbList>
+        {crumbs.map((item, index) => {
+          const isLast = index === crumbs.length - 1
+          return isLast ? (
+            <BreadcrumbItem>
+              <BreadcrumbPage>{item.label}</BreadcrumbPage>
+            </BreadcrumbItem>
+          ) : (
+            <>
+              <BreadcrumbItem>
+                <Link to={item.path}>{item.label}</Link>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+            </>
+          )
+        })}
+      </BreadcrumbList>
+    </Breadcrumb>
   )
 }

@@ -1,5 +1,10 @@
 import { AuthProvider } from '@/components/auth/components/AuthProvider'
+import { LoginProvider } from '@/components/auth/components/LoginProvider'
 import { ProtectedRoute } from '@/components/auth/components/ProtectedRoute'
+import ResetPassword from '@/components/auth/components/ResetPassword'
+import { SignUpProvider } from '@/components/auth/components/SignUpProvider'
+import VerifyEmail from '@/components/auth/components/VerifyEmail'
+import VerifyOtp from '@/components/auth/components/VerifyOtp'
 import { AuthPage } from '@/components/auth/pages'
 import { ProfileLayout, RootLayout } from '@/layout'
 import Contact from '@/pages/Contact'
@@ -33,14 +38,61 @@ const RootRouter = [
       },
       {
         path: 'login',
-        element: <AuthPage />,
+        element: (
+          <AuthPage>
+            <LoginProvider />
+          </AuthPage>
+        ),
         handle: { crumb: () => 'Đăng nhập' }
       },
       {
         path: 'signup',
-        element: <AuthPage />,
+        element: (
+          <AuthPage>
+            <SignUpProvider />
+          </AuthPage>
+        ),
         handle: { crumb: () => 'Đăng ký' }
       },
+      {
+        path: 'forgot-password/',
+        element: (
+          <AuthPage>
+            <VerifyEmail />
+          </AuthPage>
+        ),
+        handle: { crumb: () => 'Quên mật khẩu' },
+        children: [
+          {
+            path: 'verify-email',
+            element: (
+              <AuthPage>
+                <VerifyEmail />
+              </AuthPage>
+            ),
+            handle: { crumb: () => 'Xác thực Email' }
+          },
+          {
+            path: 'verify-otp',
+            element: (
+              <AuthPage>
+                <VerifyOtp />
+              </AuthPage>
+            ),
+            handle: { crumb: () => 'Xác thực OTP' }
+          },
+          {
+            path: 'reset-password',
+            element: (
+              <AuthPage>
+                <ResetPassword />
+              </AuthPage>
+            ),
+            handle: { crumb: () => 'Đặt lại mật khẩu' }
+          }
+        ]
+      },
+
       {
         path: 'contact',
         element: <Contact />,

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { handleLogin, handleSignUp } from './thunk'
+import { loginUserAsync, registerUserAsync } from './thunk'
 
 const initialState = {
   isLogin: false,
@@ -21,17 +21,17 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(handleLogin.fulfilled, (state) => {
+      .addCase(loginUserAsync.fulfilled, (state) => {
         state.isLogin = true
       })
-      .addCase(handleLogin.rejected, (state) => {
+      .addCase(loginUserAsync.rejected, (state) => {
         state.isLogin = false
       })
 
-      .addCase(handleSignUp.fulfilled, (state) => {
+      .addCase(registerUserAsync.fulfilled, (state) => {
         state.isLogin = true
       })
-      .addCase(handleSignUp.rejected, (state) => {
+      .addCase(registerUserAsync.rejected, (state) => {
         state.isLogin = false
       })
   }
