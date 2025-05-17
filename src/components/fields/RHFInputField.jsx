@@ -4,9 +4,10 @@ import PropTypes from 'prop-types'
 import { CircleAlert } from 'lucide-react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { Input } from '../ui/input'
+import React from 'react'
 
-export const RHFInputField = ({ name, label, type, placeholder, disabled }) => {
-  const { control } = useFormContext()
+const RHFInputField = ({ name, label, type, placeholder, disabled }) => {
+  const {control} = useFormContext()
   console.log('render', name)
 
   return (
@@ -14,8 +15,8 @@ export const RHFInputField = ({ name, label, type, placeholder, disabled }) => {
       control={control}
       name={name}
       render={({ field, fieldState: { error } }) => (
-        <FormControl className="select-none" fullWidth error={!!error}>
-          <label className="title-form text-sm">{label}</label>
+        <div className=" flex flex-col">
+          <label className="title-form">{label}</label>
           <Input
             {...field}
             disabled={disabled}
@@ -30,7 +31,7 @@ export const RHFInputField = ({ name, label, type, placeholder, disabled }) => {
               <CircleAlert size={16} /> {error.message}
             </span>
           )}
-        </FormControl>
+        </div>
       )}
     />
   )
@@ -38,8 +39,10 @@ export const RHFInputField = ({ name, label, type, placeholder, disabled }) => {
 
 RHFInputField.propTypes = {
   name: PropTypes.string.isRequired,
+  control: PropTypes.object,
   label: PropTypes.string,
   type: PropTypes.string,
   disabled: PropTypes.bool,
   placeholder: PropTypes.string
 }
+export default React.memo(RHFInputField)

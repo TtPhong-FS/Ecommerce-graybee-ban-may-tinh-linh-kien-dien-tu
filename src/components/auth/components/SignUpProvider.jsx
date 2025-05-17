@@ -4,6 +4,10 @@ import { todayMinus18 } from '@/constants'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { SignUp } from './SignUp'
+import { format } from 'date-fns'
+import useAppContext from '@/hooks/useAppContext'
+import { useContext } from 'react'
+import { AuthContext } from './AuthProvider'
 const schema = yup.object({
   fullName: yup.string().max(100, 'Tên quá dài').nullable().notRequired(),
   phoneNumber: yup
@@ -23,6 +27,12 @@ const schema = yup.object({
 })
 
 export const SignUpProvider = () => {
+
+  const { dispatch, navigate } = useAppContext()
+
+  const { setUser, setLoading } = useContext(AuthContext)
+
+
   const methods = useForm({
     defaultValues: {
       fullName: '',
@@ -36,13 +46,46 @@ export const SignUpProvider = () => {
     shouldUnregister: false
   })
 
-  const onSubmit = methods.handleSubmit((values) => {
-    console.log(values)
+  const onSubmit = methods.handleSubmit( async (values) => {
+    const formatDateOfBirth = format(values.dateOfBirth, 'MM/dd/yyyy')
+    const request = { ...values, dateOfBirth: formatDateOfBirth }
+    console.log(request)
+
+    // await handleAsyncSubmit({
+    //   asyncAction: (vals) => dispatch(registerUserAsync(vals)).unwrap(),
+    //   onSuccess: (res) => {
+    //     const { token } = res.data
+    //     saveAuthToken(token)
+    //     const decodedToken = jwtDecode(token)
+    //     setUser(decodedToken)
+    //     setLoading(false)
+
+    //     if (token) {
+    //       dispatch(getAddressesByToken())
+    //       dispatch(getProfileByToken())
+    //       dispatch(getFavourites())
+    //       dispatch(findCartByUserUidOrSessionId())
+    //     }
+    //     if (decodedToken?.role === 'SUPER_ADMIN' || decodedToken?.role === 'ADMIN' || decodedToken?.role === 'MANAGE') {
+    //       navigate('/home')
+    //     } else {
+    //       navigate('/unauthorized')
+    //     }
+    //   },
+    //   values: request,
+    //   toast,
+    //   setError,
+    //   defaultValues: defaultValues,
+    //   reset
+    // })
   })
 
   return (
     <FormProvider {...methods}>
-      <SignUp onSubmit={onSubmit} />
+      <form onSubmit={onSubmit}>
+
+        <SignUp />
+      </form>
     </FormProvider>
   )
 }

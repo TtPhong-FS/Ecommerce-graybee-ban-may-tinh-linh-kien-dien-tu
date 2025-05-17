@@ -181,7 +181,7 @@ export const Order = () => {
           </Spin>
         </div>
       ) : (
-        <div className="place-items-center bg-white p-4 rounded-md">
+        <div className="place-items-center text-center bg-white p-4 rounded-md">
           <p className="mb-8 mt-2 text-muted-foreground">Bạn chưa có sản phẩm nào trong giỏ hàng!</p>
           <Button className="cursor-pointer h-[40px]" variant="secondary" type="button" onClick={() => navigate('/')}>
             Tiếp tục mua hàng

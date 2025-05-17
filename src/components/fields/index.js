@@ -1,6 +1,6 @@
 export * from './RHFCheckbox'
 export * from './RHFDateTimePicker'
-export * from './RHFInputField'
+export {default as RHFInputField} from './RHFInputField'
 export * from './RHFRadioGroup'
 export * from './RHFSelect'
 export * from './RHFSwitch'
