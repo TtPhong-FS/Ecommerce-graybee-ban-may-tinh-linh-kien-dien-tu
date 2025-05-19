@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Controller } from 'react-hook-form'
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '../ui/input-otp'
 
-export default function RHFInputOtp({ control, name, label }) {
+export function RHFInputOtp({ control, name, label }) {
   return (
     <Controller
       control={control}

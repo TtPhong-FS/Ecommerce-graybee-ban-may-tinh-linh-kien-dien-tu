@@ -1,8 +1,8 @@
-import { unFocusSidebar } from '@/components/sidebar/features/slice'
-import useAppContext from '@/hooks/useAppContext'
+import { Sidebar } from '@/components'
+import { unFocusSidebar } from '@/components/sidebar/redux/slice'
+import { CarouselWrapper } from '@/features/carousels'
+import { useAppContext } from '@/hooks'
 import { useEffect } from 'react'
-import CarouselWrapper from '../components/carousels/components/CarouselWrapper'
-import Sidebar from '../components/sidebar/Sidebar'
 
 export const HomePage = () => {
   const { dispatch } = useAppContext()

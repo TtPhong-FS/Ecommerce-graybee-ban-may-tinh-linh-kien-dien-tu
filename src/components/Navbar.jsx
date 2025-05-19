@@ -11,10 +11,10 @@ import { Headset, LogOut, MapPin, Menu, Moon, ScrollText, ShoppingCart, Sun, Use
 
 import useAppContext from '@/hooks/useAppContext'
 import { useMediaQuery } from '@mui/material'
-import useUserData from '../pages/user/components/data/useUserData'
-import { AuthContext } from './auth/components/AuthProvider'
+import { AuthContext } from '../features/auth/components/AuthProvider'
+import useUserData from '../features/user/data/useUserData'
 import { ProductSearchCard } from './cards'
-import { onFocusSidebar } from './sidebar/features/slice'
+import { onFocusSidebar } from './sidebar/redux/slice'
 import { useTheme } from './theme-provider'
 import { Input } from './ui/input'
 
@@ -45,7 +45,7 @@ const navigation = [
   }
 ]
 
-const Navbar = () => {
+export const Navbar = () => {
   const { dispatch, navigate } = useAppContext()
 
   const { setTheme, theme } = useTheme()
@@ -246,5 +246,3 @@ Navbar.propTypes = {
   active: PropTypes.bool,
   handleFocusSidebar: PropTypes.func
 }
-
-export default Navbar

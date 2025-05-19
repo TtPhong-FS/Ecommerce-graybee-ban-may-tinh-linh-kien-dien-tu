@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types'
 
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { Label } from '../ui/label'
 import { Textarea } from '../ui/textarea'
 
-export const RHFTextArea = ({ name, label, placeholder }) => {
-  const { control } = useFormContext()
+export function RHFTextArea({ control, name, label, placeholder }) {
   return (
     <Controller
       control={control}
@@ -25,5 +24,6 @@ export const RHFTextArea = ({ name, label, placeholder }) => {
 RHFTextArea.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  label: PropTypes.string
+  label: PropTypes.string,
+  control: PropTypes.object
 }

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-export default function useLoading() {
+export function useLoading() {
   const [loading, setLoading] = useState({})
 
   const setLoad = useCallback((key, value) => {

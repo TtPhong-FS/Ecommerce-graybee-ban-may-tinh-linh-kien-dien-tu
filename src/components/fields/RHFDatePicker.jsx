@@ -2,13 +2,12 @@ import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import PropTypes from 'prop-types'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { Button } from '../ui/button'
 import { Calendar } from '../ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 
-export default function RHFDatePicker({ name, label }) {
-  const { control } = useFormContext()
+export function RHFDatePicker({ control, name, label }) {
   return (
     <Controller
       control={control}
@@ -41,5 +40,6 @@ export default function RHFDatePicker({ name, label }) {
 
 RHFDatePicker.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.string
+  label: PropTypes.string,
+  control: PropTypes.object
 }

@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types'
 
 import { CircleAlert } from 'lucide-react'
-import React from 'react'
 import { Controller } from 'react-hook-form'
 import { Input } from '../ui/input'
 
-const RHFInputField = ({ control, name, label, type, placeholder, disabled }) => {
+export function RHFInputField({ control, name, label, type, placeholder, disabled }) {
   console.log('render', name)
 
   return (
@@ -43,4 +42,3 @@ RHFInputField.propTypes = {
   disabled: PropTypes.bool,
   placeholder: PropTypes.string
 }
-export default React.memo(RHFInputField)

@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import '../../styles/Sidebar.css'
 import { Loading } from '../Loading'
-import { unFocusSidebar } from './features/slice'
-const Sidebar = () => {
+import { unFocusSidebar } from './redux/slice'
+export const Sidebar = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -145,5 +144,3 @@ const Sidebar = () => {
     </div>
   )
 }
-
-export default Sidebar

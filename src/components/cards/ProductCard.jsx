@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 
-import React from 'react'
 import { useSelector } from 'react-redux'
 
 import { Heart, ShoppingCart } from 'lucide-react'
@@ -10,7 +9,7 @@ import { isPresentInFavorites } from '../../utils'
 import { formattedPrice } from '../../utils/format'
 import { isPresentInCart } from '../../utils/isPresentInCart'
 import '../carousels/styles/swiper.css'
-const ProductCard = ({ data }) => {
+export const ProductCard = ({ data }) => {
   const favourites = useSelector((state) => state.account.favourites)
   const cartItems = useSelector((state) => state.cart.cartItems)
 
@@ -69,5 +68,3 @@ const ProductCard = ({ data }) => {
 ProductCard.propTypes = {
   data: PropTypes.object
 }
-
-export default React.memo(ProductCard)

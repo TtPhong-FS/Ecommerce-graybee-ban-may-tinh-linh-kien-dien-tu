@@ -1,13 +1,13 @@
 import useAppContext from '@/hooks/useAppContext'
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { getAddressesByTokenAsync, getFavouritesAsync, getProfileByTokenAsync } from '../features/user/redux'
 import { useNavigationTracker } from '../hooks'
-import { getAddressesByTokenAsync, getFavouritesAsync, getProfileByTokenAsync } from '../pages/user/features'
 import { getToken, useSession } from '../utils'
 import { categoryMap } from './carousels/data/load'
 import { fetchCarousel } from './carousels/features/slice'
 import { findCartByUserUidOrSessionIdAsync } from './cart/features'
-import { getSidebar } from './sidebar/features/slice'
+import { getSidebar } from './sidebar/redux/slice'
 
 export const AppInitializer = () => {
   useSession()

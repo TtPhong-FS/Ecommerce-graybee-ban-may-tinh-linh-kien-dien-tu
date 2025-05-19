@@ -8,7 +8,7 @@ const schema = yup.object({
   name: yup.string().required('Required')
 })
 
-const Contact = () => {
+export const Contact = () => {
   const methods = useForm({
     defaultValues: {
       name: '',
@@ -33,5 +33,3 @@ const Contact = () => {
     </div>
   )
 }
-
-export default Contact

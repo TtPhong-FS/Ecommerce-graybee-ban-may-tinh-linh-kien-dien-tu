@@ -4,10 +4,10 @@ import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import { persistor, store } from './config/persistConfig.js'
-import { Theme } from './config/theme.js'
+import { Theme } from './config'
 import './index.css'
-import RootRouter from './routes/RootRouter.jsx'
+import RootRouter from './routes/RootRouter'
+import { persistor, store } from './store/index.js'
 
 const router = createBrowserRouter(RootRouter)
 

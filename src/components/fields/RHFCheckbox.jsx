@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { Checkbox } from '../ui/checkbox'
 import { Label } from '../ui/label'
 
-export function RHFCheckBox({ name, label }) {
-  const { control } = useFormContext()
-
+export function RHFCheckBox({ control, name, label }) {
   return (
     <Controller
       control={control}
@@ -26,5 +24,6 @@ export function RHFCheckBox({ name, label }) {
 
 RHFCheckBox.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.string
+  label: PropTypes.string,
+  control: PropTypes.object
 }

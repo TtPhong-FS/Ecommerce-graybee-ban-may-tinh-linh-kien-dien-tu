@@ -1,5 +1,5 @@
+import { getToken } from '@/utils'
 import axios from 'axios'
-import { getToken } from '../utils'
 
 const BASE_URL = 'http://localhost:8080'
 

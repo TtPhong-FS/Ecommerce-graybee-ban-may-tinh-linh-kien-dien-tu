@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types'
-import React from 'react'
 
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { Switch } from '../ui/switch'
 
-export const RHFSwitch = React.memo(({ name }) => {
-  const { control } = useFormContext()
-
+export function RHFSwitch({ control, name }) {
   return (
     <Controller
       control={control}
@@ -14,10 +11,9 @@ export const RHFSwitch = React.memo(({ name }) => {
       render={({ field }) => <Switch onCheckedChange={field.onChange} checked={field.value || false} />}
     />
   )
-})
-
-RHFSwitch.propTypes = {
-  name: PropTypes.string.isRequired
 }
 
-RHFSwitch.displayName = 'RHFSwitch'
+RHFSwitch.propTypes = {
+  name: PropTypes.string.isRequired,
+  control: PropTypes.object
+}

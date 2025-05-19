@@ -5,7 +5,7 @@ import { Controller } from 'react-hook-form'
 import { Label } from '../ui/label'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 
-export const RHFRadioGroup = ({ control, name, options, label }) => {
+export function RHFRadioGroup({ control, name, options, label }) {
   console.log('render')
 
   return (

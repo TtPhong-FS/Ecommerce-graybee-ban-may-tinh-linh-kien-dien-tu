@@ -1,14 +1,9 @@
 import { Outlet } from 'react-router-dom'
 
-import { ThemeProvider } from '@/components/theme-provider.tsx'
+import { AppInitializer, BreadCrumbs, Footer, Loading, Navbar, ThemeProvider } from '@/components'
 import { Suspense } from 'react'
 import { Toaster } from 'sonner'
-import { AppInitializer } from '../components/AppInitializer'
-import { BreadCrumbs } from '../components/BreadCrumbs'
-import Footer from '../components/Footer'
-import { Loading } from '../components/Loading'
-import Navbar from '../components/Navbar'
-const RootLayout = () => {
+export const RootLayout = () => {
   console.log('render')
 
   return (
@@ -36,5 +31,3 @@ const RootLayout = () => {
     </div>
   )
 }
-
-export default RootLayout

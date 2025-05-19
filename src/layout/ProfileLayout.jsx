@@ -1,10 +1,36 @@
+import { AuthContext } from '@/features/auth'
 import { Avatar, Grid2 } from '@mui/material'
+import { Heart, LogOut, MapPinHouse, Scroll } from 'lucide-react'
 import { useContext } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 
-import { AuthContext } from '../components/auth/components/AuthProvider'
-import { profileNavigation } from '../ui/profileNavigation'
+const profileNavigation = [
+  {
+    key: 'favourites',
+    title: 'Sản phẩm yêu thích',
+    icon: Heart,
+    path: '/account/favourites'
+  },
+  {
+    key: 'order-history',
+    title: 'Lịch sử mua hàng',
+    icon: Scroll,
+    path: '/account/order-history'
+  },
+  {
+    key: 'manage-address',
+    title: 'Quản lý địa chỉ',
+    icon: MapPinHouse,
+    path: '/account/manage/address'
+  },
+  {
+    key: 'logout',
+    title: 'Đăng xuất',
+    icon: LogOut
+  }
+]
+
 export const ProfileLayout = () => {
   const location = useLocation()
   const user = useSelector((state) => state.account.user)

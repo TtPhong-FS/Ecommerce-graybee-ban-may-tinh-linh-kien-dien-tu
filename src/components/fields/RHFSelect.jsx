@@ -3,7 +3,7 @@ import { CircleAlert } from 'lucide-react'
 import PropTypes from 'prop-types'
 import { Controller } from 'react-hook-form'
 
-export const RHFSelect = ({ control, name, label, options, showSearch, disabled, mode }) => {
+export function RHFSelect({ control, name, label, options, showSearch, disabled, mode }) {
   console.log('render')
   return (
     <Controller

@@ -1,3 +1,6 @@
 export * from './cities'
+export * from './communes'
+export * from './communeTemplate'
 export * from './districts'
+export * from './districtTemplate'
 export * from './paymentMethod'

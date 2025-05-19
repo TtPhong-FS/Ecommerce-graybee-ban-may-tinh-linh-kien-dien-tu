@@ -1,0 +1,6 @@
+export * from './canthoDistricts'
+export * from './danangDistricts'
+export * from './haiphongDistricts'
+export * from './hanoiDistricts'
+export * from './hochiminhDistricts'
+export * from './hueDistricts'
