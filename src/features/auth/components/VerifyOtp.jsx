@@ -1,7 +1,7 @@
-import RHFInputOtp from '@/components/fields/RHFInputOtp'
+import { RHFInputOtp } from '@/components/fields'
 import { Button } from '@/components/ui/button'
-import useAppContext from '@/hooks/useAppContext'
-import useLoading from '@/hooks/useLoading'
+import { useAppContext } from '@/hooks'
+import { useCustomTranslate } from '@/i18n'
 import { handleAsync, handleAsyncSubmit } from '@/lib'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Cookies from 'js-cookie'
@@ -21,7 +21,9 @@ const schema = yup
   })
 
   .required()
-export default function VerifyOtp() {
+export function VerifyOtp() {
+  const { t } = useCustomTranslate()
+
   const { navigate, dispatch } = useAppContext()
 
   const methods = useForm({
@@ -31,8 +33,6 @@ export default function VerifyOtp() {
     resolver: yupResolver(schema),
     shouldUnregister: false
   })
-
-  const { isLoading, start, stop } = useLoading()
 
   const redirected = useRef(false)
 
@@ -86,10 +86,10 @@ export default function VerifyOtp() {
   return (
     <div>
       <Link className="link text-sm mb-4 block" to="/forgot-password/verify-email">
-        Quay lại
+        {t('common:back')}
       </Link>
       <p className="text-base font-medium text-center mb-6">
-        Chúng tôi đã gửi mã OTP vào email của bạn. Hãy kiểm tra Email
+
       </p>
       <FormProvider {...methods}>
         {methods.formState.errors.root && (

@@ -1,5 +1,4 @@
 export * from './AuthProvider'
-export * from './ConfirmOtp'
 export * from './ForgotPassword'
 export * from './ProtectedRoute'
 export * from './ResetPassword'

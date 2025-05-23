@@ -1,7 +1,9 @@
+import { useCustomTranslate } from '@/i18n'
 import { Link, useLocation, useMatches } from 'react-router-dom'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from './ui/breadcrumb'
 
 export const BreadCrumbs = () => {
+  const { t } = useCustomTranslate()
   const matches = useMatches()
   const location = useLocation()
 
@@ -23,14 +25,15 @@ export const BreadCrumbs = () => {
       <BreadcrumbList>
         {crumbs.map((item, index) => {
           const isLast = index === crumbs.length - 1
+          const label = t(`breadCrumb:${item.label}`)
           return isLast ? (
             <BreadcrumbItem>
-              <BreadcrumbPage>{item.label}</BreadcrumbPage>
+              <BreadcrumbPage>{label}</BreadcrumbPage>
             </BreadcrumbItem>
           ) : (
             <>
               <BreadcrumbItem>
-                <Link to={item.path}>{item.label}</Link>
+                <Link to={item.path}>{label}</Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
             </>

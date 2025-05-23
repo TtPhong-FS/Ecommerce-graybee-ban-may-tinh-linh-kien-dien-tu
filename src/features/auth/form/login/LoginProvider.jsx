@@ -1,6 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import useAppContext from '@/hooks/useAppContext'
 import { handleAsyncSubmit } from '@/lib'
 import { saveAuthToken } from '@/utils'
 import { jwtDecode } from 'jwt-decode'
@@ -8,8 +7,9 @@ import { useContext } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
+import { useAppContext } from '@/hooks'
+import { AuthContext } from '../../components'
 import { loginUserAsync } from '../../redux'
-import { AuthContext } from './AuthProvider'
 import { Login } from './Login'
 import { defaultValues, schema } from './schema'
 

@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import useAppContext from '@/hooks/useAppContext'
+import { useAppContext } from '@/hooks'
 import { handleAsyncSubmit } from '@/lib'
 import { saveAuthToken } from '@/utils'
 import { format } from 'date-fns'
@@ -8,8 +8,8 @@ import { jwtDecode } from 'jwt-decode'
 import { useContext } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { AuthContext } from '../../components'
 import { registerUserAsync } from '../../redux'
-import { AuthContext } from './AuthProvider'
 import { defaultValues, schema } from './schema'
 import { SignUp } from './SignUp'
 export const SignUpProvider = () => {
@@ -38,10 +38,10 @@ export const SignUpProvider = () => {
         setLoading(false)
 
         if (token) {
-          dispatch(getAddressesByToken())
-          dispatch(getProfileByToken())
-          dispatch(getFavourites())
-          dispatch(findCartByUserUidOrSessionId())
+          // dispatch(getAddressesByToken())
+          // dispatch(getProfileByToken())
+          // dispatch(getFavourites())
+          // dispatch(findCartByUserUidOrSessionId())
         }
         if (decodedToken?.role === 'SUPER_ADMIN' || decodedToken?.role === 'ADMIN' || decodedToken?.role === 'MANAGE') {
           navigate('/home')

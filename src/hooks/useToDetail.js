@@ -1,6 +1,6 @@
+import { saveIdToState } from '@/features/product/redux/productSlice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { saveIdToState } from '../pages/product/features/slice'
 import { toSlug } from '../utils'
 
 export const useToDetail = () => {

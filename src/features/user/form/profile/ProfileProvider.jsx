@@ -1,5 +1,4 @@
-import useAppContext from '@/hooks/useAppContext'
-import useLoading from '@/hooks/useLoading'
+import { useAppContext, useLoading } from '@/hooks'
 import { handleAsyncSubmit } from '@/lib'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { parse } from 'date-fns'
@@ -9,13 +8,18 @@ import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { updateProfileAsync } from '../../redux'
-import { defaultValues, Schema } from '../../types/schema'
 import { Profile } from './Profile'
+import { defaultValues, Schema } from './schema'
 
 export const ProfileProvider = ({ handleCancel, initialData, isUpdate }) => {
   const { dispatch } = useAppContext()
 
-  const methods = useForm({ resolver: yupResolver(Schema), defaultValues, mode: 'all', shouldUnregister: false })
+  const methods = useForm({
+    resolver: yupResolver(Schema),
+    defaultValues: defaultValues,
+    mode: 'all',
+    shouldUnregister: false
+  })
 
   const { isLoading, start, stop } = useLoading()
 

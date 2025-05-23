@@ -1,0 +1,16 @@
+{
+  "home": "Home",
+  "login": "Login",
+  "signup": "Sign Up",
+  "forgotPassword": "Forgot Password",
+  "resetPassword": "Reset Password",
+  "verifyOtp": "Verify OTP",
+  "verifyEmail": "Verify Email",
+  "contact": "Contact",
+  "cart": "Cart",
+  "personalAccount": "Personal Account",
+  "favourite": "Favourites",
+  "orderHistory": "Order History",
+  "orderDetail": "Order Detail",
+  "personalAddress": "Peronal Address"
+}

@@ -5,6 +5,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import { Theme } from './config'
+
+import './i18n/i18n'
 import './index.css'
 import RootRouter from './routes/RootRouter'
 import { persistor, store } from './store/index.js'

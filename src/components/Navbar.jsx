@@ -4,15 +4,14 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { searchProductByNameAsync } from '../pages/product/features'
-
-import useLoading from '@/hooks/useLoading'
 import { Headset, LogOut, MapPin, Menu, Moon, ScrollText, ShoppingCart, Sun, UserRound, X } from 'lucide-react'
 
-import useAppContext from '@/hooks/useAppContext'
+import { searchProductByNameAsync } from '@/features/product/redux'
+import { useUserData } from '@/features/user'
+import { useAppContext, useLoading } from '@/hooks'
+import { LanguageSwitcher, useCustomTranslate } from '@/i18n'
 import { useMediaQuery } from '@mui/material'
 import { AuthContext } from '../features/auth/components/AuthProvider'
-import useUserData from '../features/user/data/useUserData'
 import { ProductSearchCard } from './cards'
 import { onFocusSidebar } from './sidebar/redux/slice'
 import { useTheme } from './theme-provider'
@@ -23,34 +22,34 @@ const navigation = [
     path: '/contact',
     icon: Headset,
     badge: false,
-    title: 'Liên hệ 9001.4869'
+    title: 'contact'
   },
   {
     path: '/shop-location',
     icon: MapPin,
     badge: false,
-    title: 'Hệ thống cửa hàng'
+    title: 'showroom'
   },
   {
     path: '/account/order-history',
     icon: ScrollText,
     badge: false,
-    title: 'Lịch sử mua hàng'
+    title: 'orderHistory'
   },
   {
     path: '/cart/cart-buy-order-box',
     icon: ShoppingCart,
     badge: true,
-    title: 'Giỏ hàng'
+    title: 'cart'
   }
 ]
 
 export const Navbar = () => {
+  const { t } = useCustomTranslate()
   const { dispatch, navigate } = useAppContext()
 
   const { setTheme, theme } = useTheme()
   const isMobile = useMediaQuery('(max-width: 640px)')
-  const [open, setOpen] = useState(false)
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
@@ -131,6 +130,7 @@ export const Navbar = () => {
             {isLogin && <LogOut size={20} className="cursor-pointer" onClick={() => handleLogout()} />}
             {isLogin && <Link to="/account">Hi, {user?.fullName}</Link>}
           </div>
+          <LanguageSwitcher />
           <span className="cursor-pointer flex items-center" onClick={toggleTheme}>
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </span>
@@ -152,7 +152,7 @@ export const Navbar = () => {
               >
                 <Menu className="text-primary" size={20} />
                 <span className="hidden uppercase lg:inline text-[1rem] font-medium text-muted-foreground">
-                  Danh Mục
+                  {t('navbar:menu')}
                 </span>
               </Link>
             </div>
@@ -162,9 +162,9 @@ export const Navbar = () => {
                   <Input
                     value={keyword}
                     onChange={onChange}
-                    type="search"
-                    className="h-[40px] bg-white dark:bg-white max-sm:text-sm"
-                    placeholder="Tìm kiếm sản phẩm..."
+                    type="text"
+                    className="h-[40px] bg-white dark:bg-white dark:text-primary-foreground max-sm:text-sm"
+                    placeholder={`${t('common:search')}...`}
                   />
                   {keyword && (
                     <span
@@ -177,8 +177,8 @@ export const Navbar = () => {
                   {isSearch && (
                     <>
                       {!listProductSearch || listProductSearch?.length === 0 ? (
-                        <span className="rounded-md absolute top-12 z-50 bg-white w-full flex items-center justify-center py-5 description">
-                          Chưa có sản phẩm nào...
+                        <span className="rounded-md text-sm absolute top-12 z-50 bg-white w-full flex items-center justify-center py-5 description">
+                          {t('common:empty')}...
                         </span>
                       ) : (
                         <div ref={containerRef} className="rounded-md absolute top-12 z-50 bg-white w-full h-[30rem]">
@@ -192,15 +192,16 @@ export const Navbar = () => {
                 </div>
               </div>
             </div>
-            <div className="flex w-max gap-6 lg:gap-3 font-medium ml-2">
+            <div className="flex w-max gap-6 lg:gap-4 gap-2 font-medium ml-2">
               {navigation.map((item, index) => {
                 const lastItem = index === navigation.length - 1
+                const title = t(`navbar:${item.title}`)
                 return (
                   <Link
                     to={item.path}
                     className={`${
                       !lastItem ? 'hidden sm:inline-flex' : 'inline-flex'
-                    } w-min text-center relative gap-2 items-center`}
+                    } w-min text-center gap-2 relative items-center`}
                     key={index}
                   >
                     <span className="relative">
@@ -211,8 +212,8 @@ export const Navbar = () => {
                         </span>
                       )}
                     </span>
-                    <span className="text-[13px] text-muted-foreground font-medium hidden lg:block w-[4rem]">
-                      {item.title}
+                    <span className="text-[13px] text-muted-foreground font-medium hidden lg:block w-[3.8rem]">
+                      {title} {item.title === 'contact' && '9001.4869'}
                     </span>
                   </Link>
                 )
@@ -229,7 +230,7 @@ export const Navbar = () => {
                       className="cursor-pointer inline-flex items-center justify-center text-sm h-[38px] min-w-24 bg-secondary p-3 rounded-sm text-secondary-foreground dark:text-secondary-foreground select-none"
                       to={'/login'}
                     >
-                      Đăng nhập
+                      {t('navbar:login')}
                     </Link>
                   )
                 )}

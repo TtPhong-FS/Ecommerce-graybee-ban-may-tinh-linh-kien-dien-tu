@@ -1,0 +1,17 @@
+{
+  "home": "Trang chủ",
+  "login": "Đăng nhập",
+  "signup": "Đăng ký",
+  "forgotPassword": "Quên mật khẩu",
+  "resetPassword": "Đặt lại mật khẩu",
+  "verifyOtp": "Xác thực OTP",
+  "verifyEmail": "Xác thực Email",
+  "contact": "Liên hệ",
+  "cart": "Giỏ hàng",
+  "personalAccount": "Tài khoản cá nhân",
+  "favourite": "Danh sách yêu thích",
+  "orderHistory": "Lịch sử đơn hàng",
+  "orderDetail": "Chi tiết đơn hàng",
+  "personalAddress": "Địa chỉ cá nhân"
+
+}

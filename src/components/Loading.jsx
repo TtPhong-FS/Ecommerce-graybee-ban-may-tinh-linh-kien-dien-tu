@@ -1,3 +1,4 @@
+import { useCustomTranslate } from '@/i18n'
 import { Spin } from 'antd'
 
 const contentStyle = {
@@ -9,8 +10,9 @@ const contentStyle = {
 const content = <div style={contentStyle} />
 
 export const Loading = () => {
+  const { t } = useCustomTranslate()
   return (
-    <Spin tip="Đang tải" className="text-secondary shadow-none dark:bg-secondary-foreground" size="small">
+    <Spin tip={t('common:loading')} className="text-secondary shadow-none dark:bg-secondary-foreground" size="small">
       {content}
     </Spin>
   )

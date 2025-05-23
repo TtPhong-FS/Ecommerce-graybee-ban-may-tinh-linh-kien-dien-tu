@@ -1,7 +1,6 @@
 import { RHFInputField } from '@/components/fields'
 import { Button } from '@/components/ui/button'
-import useAppContext from '@/hooks/useAppContext'
-import useLoading from '@/hooks/useLoading'
+import { useAppContext } from '@/hooks'
 import { handleAsyncSubmit } from '@/lib'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Cookies from 'js-cookie'
@@ -16,7 +15,7 @@ const schema = yup.object({
   password: yup.string().required('Nhập mật khẩu!').max(100, 'Mật khẩu quá dài!'),
   repeatPassword: yup.string().required('Nhập mật khẩu xác nhận!').max(100, 'Mật khẩu quá dài!')
 })
-export default function ResetPassword() {
+export function ResetPassword() {
   const { navigate, dispatch } = useAppContext()
 
   useEffect(() => {
@@ -38,8 +37,6 @@ export default function ResetPassword() {
     resolver: yupResolver(schema),
     shouldUnregister: false
   })
-
-  const { isLoading, start, stop } = useLoading()
 
   const onSubmit = methods.handleSubmit(async (values) => {
     const email = Cookies.get('email')

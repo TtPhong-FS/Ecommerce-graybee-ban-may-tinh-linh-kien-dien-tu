@@ -1,7 +1,7 @@
 import { RHFInputField } from '@/components/fields'
 import { Button } from '@/components/ui/button'
-import useAppContext from '@/hooks/useAppContext'
-import useLoading from '@/hooks/useLoading'
+import { useAppContext } from '@/hooks'
+import { useCustomTranslate } from '@/i18n'
 import { handleAsyncSubmit } from '@/lib'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Cookies from 'js-cookie'
@@ -20,7 +20,8 @@ const schema = yup
   })
   .required()
 
-export default function VerifyEmail() {
+export function VerifyEmail() {
+  const { t } = useCustomTranslate()
   const { navigate, dispatch } = useAppContext()
   const methods = useForm({
     defaultValues: {
@@ -29,8 +30,6 @@ export default function VerifyEmail() {
     resolver: yupResolver(schema),
     shouldUnregister: false
   })
-
-  const { isLoading, start, stop } = useLoading()
 
   const onSubmit = methods.handleSubmit(async (values) => {
     await handleAsyncSubmit({
@@ -53,15 +52,15 @@ export default function VerifyEmail() {
   return (
     <div className="">
       <Link className="link text-sm mb-4 block" to="/login">
-        Quay lại
+        {t('common:back')}
       </Link>
-      <h2 className="text-center mb-6">Nhận mã OTP qua Email</h2>
+      <h2 className="text-center mb-6">{t('auth:form.verifyEmail')}</h2>
       <FormProvider {...methods}>
         <form onSubmit={onSubmit} className="flex flex-col gap-6">
           <RHFInputField name="email" label="Email" type="email" placeholder="Nhập địa chỉ email..." />
           <Button variant="secondary" type="submit" className="h-[38px] cursor-pointer select-none relative">
             <Mail />
-            Nhận OTP
+            {t('common:send')}
           </Button>
         </form>
       </FormProvider>

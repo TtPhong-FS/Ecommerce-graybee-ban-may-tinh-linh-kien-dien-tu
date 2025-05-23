@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
 import { Heart, ShoppingCart } from 'lucide-react'
-import { useActionAddToCartAndFavourite, useToDetail } from '../../hooks'
 
-import { isPresentInFavorites } from '../../utils'
-import { formattedPrice } from '../../utils/format'
-import { isPresentInCart } from '../../utils/isPresentInCart'
-import '../carousels/styles/swiper.css'
+import { useActionAddToCartAndFavourite } from '@/features/product'
+import { useToDetail } from '@/hooks'
+import { formattedPrice, isPresentInCart, isPresentInFavorites } from '@/utils'
+import '../../features/carousels/styles/swiper.css'
 export const ProductCard = ({ data }) => {
   const favourites = useSelector((state) => state.account.favourites)
   const cartItems = useSelector((state) => state.cart.cartItems)

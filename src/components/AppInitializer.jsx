@@ -1,17 +1,15 @@
-import useAppContext from '@/hooks/useAppContext'
+import { fetchCarouselAsync } from '@/features/carousels/redux/carouselSlice'
+import { categoryMap } from '@/features/carousels/utils'
+import { fetchCartByUserUidOrSessionIdAsync } from '@/features/cart/redux'
+import { fetchAddressesByTokenAsync, fetchFavouritesAsync, fetchProfileByTokenAsync } from '@/features/user'
+import { useAppContext } from '@/hooks'
+import { getToken, useSession } from '@/utils'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getAddressesByTokenAsync, getFavouritesAsync, getProfileByTokenAsync } from '../features/user/redux'
-import { useNavigationTracker } from '../hooks'
-import { getToken, useSession } from '../utils'
-import { categoryMap } from './carousels/data/load'
-import { fetchCarousel } from './carousels/features/slice'
-import { findCartByUserUidOrSessionIdAsync } from './cart/features'
-import { getSidebar } from './sidebar/redux/slice'
+import { fetchSidebar } from './sidebar/redux/slice'
 
 export const AppInitializer = () => {
   useSession()
-  useNavigationTracker()
   const { dispatch } = useAppContext()
   const token = getToken()
   const user = useSelector((state) => state.account.user)
@@ -20,19 +18,19 @@ export const AppInitializer = () => {
 
   const handlePrefetchCarousel = () => {
     for (const categoryName of categoryMap) {
-      dispatch(fetchCarousel({ category: categoryName }))
+      dispatch(fetchCarouselAsync({ category: categoryName }))
     }
   }
 
   React.useEffect(() => {
     if (!isPrivate.current) {
       if (token && (!user || user == null)) {
-        dispatch(getProfileByTokenAsync())
+        dispatch(fetchProfileByTokenAsync())
       }
       if (token) {
-        dispatch(findCartByUserUidOrSessionIdAsync())
-        dispatch(getAddressesByTokenAsync())
-        dispatch(getFavouritesAsync())
+        dispatch(fetchCartByUserUidOrSessionIdAsync())
+        dispatch(fetchAddressesByTokenAsync())
+        dispatch(fetchFavouritesAsync())
       }
     }
     isPrivate.current = true
@@ -40,12 +38,19 @@ export const AppInitializer = () => {
 
   React.useEffect(() => {
     if (!isPublic.current) {
-      dispatch(getSidebar())
+      dispatch(fetchSidebar())
       handlePrefetchCarousel()
-      dispatch(findCartByUserUidOrSessionIdAsync())
+      dispatch(fetchCartByUserUidOrSessionIdAsync())
     }
     isPublic.current = true
   }, [])
+
+  const currentLang = localStorage.getItem('language')
+  React.useEffect(() => {
+    if (currentLang === null) {
+      localStorage.setItem('language', 'vi')
+    }
+  }, [currentLang])
 
   return null
 }

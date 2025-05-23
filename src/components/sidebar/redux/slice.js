@@ -1,6 +1,6 @@
+import { publicAPI } from '@/config'
 import { handleCreateAsyncThunk } from '@/lib'
 import { createSlice } from '@reduxjs/toolkit'
-import { publicAPI } from '../../../config/axiosServer'
 
 const sidebar_endpoint = '/api/v1/public/sidebar'
 
@@ -28,7 +28,7 @@ const sidebarSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(getSidebar.fulfilled, (state, aciton) => {
+    builder.addCase(fetchSidebar.fulfilled, (state, aciton) => {
       state.menus = aciton.payload?.data
     })
   }

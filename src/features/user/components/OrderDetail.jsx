@@ -2,13 +2,15 @@ import { Avatar, Divider, Grid2 } from '@mui/material'
 
 import { paymentMethod } from '@/components/options'
 import { Button } from '@/components/ui/button'
-import { orderHistories } from '@/data'
+
 import { colorMap, deliveryType, iconMap, orderStatus, paymentStatus } from '@/features/order'
 import { useToDetail } from '@/hooks'
 import { Phone } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export const OrderDetail = () => {
+  const orderHistories = {}
+
   const onRepurchase = (products) => {
     console.log('product', products)
   }
@@ -20,18 +22,18 @@ export const OrderDetail = () => {
           <div className="bg-white  rounded-lg">
             <div className="flex justify-between mb-2 px-2 py-1">
               <div className="flex gap-2 text-sm">
-                <span>{orderHistories.orderDate}</span>
+                <span>{orderHistories?.orderDate}</span>
                 <span className="text-gray-300">|</span>
-                <span>{deliveryType[orderHistories.deliveryType]}</span>
+                <span>{deliveryType[orderHistories?.deliveryType]}</span>
                 <span className="text-gray-300">|</span>
                 <Link className="">MVB152678</Link>
-                <span>{orderHistories.totalQuantity} sản phẩm</span>
+                <span>{orderHistories?.totalQuantity} sản phẩm</span>
               </div>
               <div className="flex gap-2 items-center text-sm">
-                <span className="text-xs text-gray-500 font-medium">{orderHistories.paymentMethod}</span>
-                {iconMap[orderHistories.status]}
-                <label className="text-muted-foreground" type={colorMap[orderHistories.status]}>
-                  {orderStatus[orderHistories.status]}
+                <span className="text-xs text-gray-500 font-medium">{orderHistories?.paymentMethod}</span>
+                {iconMap[orderHistories?.status]}
+                <label className="text-muted-foreground" type={colorMap[orderHistories?.status]}>
+                  {orderStatus[orderHistories?.status]}
                 </label>
               </div>
             </div>
@@ -61,14 +63,14 @@ export const OrderDetail = () => {
                 <div className="flex-1">
                   <h2>Thông tin người nhận</h2>
                   <div>
-                    <span>{orderHistories.customerInfo.fullName}</span>
-                    <span>{orderHistories.customerInfo.phoneNumber}</span>
+                    <span>{orderHistories?.customerInfo.fullName}</span>
+                    <span>{orderHistories?.customerInfo.phoneNumber}</span>
                   </div>
                 </div>
                 <div className="flex-1">
                   <h2>Nhận hàng tại</h2>
                   <div>
-                    <span>{orderHistories.customerInfo.address}</span>
+                    <span>{orderHistories?.customerInfo.address}</span>
                   </div>
                 </div>
               </div>
@@ -151,13 +153,13 @@ export const OrderDetail = () => {
                 </span>
                 <span className="flex items-center justify-between">
                   <span>Phí vận chuyển</span>
-                  {orderHistories.shippingFax === 0 ? (
+                  {orderHistories?.shippingFax === 0 ? (
                     <span>Miễn phí</span>
                   ) : (
                     <span className="font-medium  font-sans text-red-500">
                       -{' '}
                       {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                        orderHistories.shippingFax
+                        orderHistories?.shippingFax
                       )}
                     </span>
                   )}
@@ -178,7 +180,7 @@ export const OrderDetail = () => {
                 <h2 className="sub-title">Thành tiền</h2>
                 <span className="font-medium  font-sans text-red-500">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                    orderHistories.totalAmount
+                    orderHistories?.totalAmount
                   )}
                 </span>
               </div>
@@ -186,8 +188,8 @@ export const OrderDetail = () => {
                 <div className="flex justify-between">
                   <h2 className="sub-title">Phương thức thanh toán</h2>
                   <span>
-                    {iconMap[orderHistories.status]}
-                    <span className="ml-2 text-green-700">{paymentStatus[orderHistories.paymentStatus]}</span>
+                    {iconMap[orderHistories?.status]}
+                    <span className="ml-2 text-green-700">{paymentStatus[orderHistories?.paymentStatus]}</span>
                   </span>
                 </div>
 
@@ -198,7 +200,7 @@ export const OrderDetail = () => {
                     alt=""
                   />
                   <span className="text-[1.14rem] font-normal ml-2">
-                    {orderHistories.paymentMethod} - {paymentMethod[orderHistories.paymentMethod]}
+                    {orderHistories?.paymentMethod} - {paymentMethod[orderHistories?.paymentMethod]}
                   </span>
                 </div>
               </div>
@@ -206,7 +208,7 @@ export const OrderDetail = () => {
             <div className="mt-4">
               <Button
                 onClick={() => {
-                  const products = orderHistories.orderDetails.map((o) => ({
+                  const products = orderHistories?.orderDetails.map((o) => ({
                     productId: o.productId,
                     quantity: o.quantity
                   }))

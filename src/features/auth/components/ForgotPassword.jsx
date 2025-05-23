@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
 
-export default function ForgotPassword() {
+export function ForgotPassword() {
   return <Outlet />
 }
