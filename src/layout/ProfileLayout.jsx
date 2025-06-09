@@ -1,4 +1,5 @@
 import { AuthContext } from '@/features/auth'
+import { useCustomTranslate } from '@/i18n'
 import { Avatar, Grid2 } from '@mui/material'
 import { Heart, LogOut, MapPinHouse, Scroll } from 'lucide-react'
 import { useContext } from 'react'
@@ -8,30 +9,32 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 const profileNavigation = [
   {
     key: 'favourites',
-    title: 'Sản phẩm yêu thích',
+    title: 'favourites',
     icon: Heart,
     path: '/account/favourites'
   },
   {
     key: 'order-history',
-    title: 'Lịch sử mua hàng',
+    title: 'orderHistory',
     icon: Scroll,
     path: '/account/order-history'
   },
   {
     key: 'manage-address',
-    title: 'Quản lý địa chỉ',
+    title: 'manageAddress',
     icon: MapPinHouse,
     path: '/account/manage/address'
   },
   {
     key: 'logout',
-    title: 'Đăng xuất',
+    title: 'logout',
+    path: '/logout',
     icon: LogOut
   }
 ]
 
 export const ProfileLayout = () => {
+  const { t } = useCustomTranslate()
   const location = useLocation()
   const user = useSelector((state) => state.account.user)
 
@@ -64,7 +67,7 @@ export const ProfileLayout = () => {
                   className="text-blue-500 text-sm hover:underline
                 decoration-solid"
                 >
-                  Xem hồ sơ
+                  {t('customer:nav.viewProfile')}
                 </Link>
               </div>
             </div>
@@ -73,21 +76,25 @@ export const ProfileLayout = () => {
         <Grid2 height={'max-content'} size={12} sx={{ bgcolor: 'white', padding: '0.3rem 0', borderRadius: '0.8rem' }}>
           <nav>
             <ul className="flex flex-col py-2">
-              {profileNavigation.map((item, index) => (
-                <Link
-                  onClick={item.key === 'logout' ? () => handleLogout() : undefined}
-                  key={index}
-                  to={item.path}
-                  className={`flex text-sm items-center gap-2 transition-all hover:pl-4 w-full border-l-2 text-gray-800 p-2 ${
-                    location.pathname === item.path
-                      ? 'border-red-500 text-red-600 bg-gradient-to-r from-[#fff1f2] to-red-0'
-                      : 'border-transparent hover:border-red-500'
-                  } hover:bg-gradient-to-r from-[#fff1f2] to-red-0  hover:text-red-600 `}
-                >
-                  <item.icon size={20} />
-                  <span>{item.title}</span>
-                </Link>
-              ))}
+              {profileNavigation.map((item, index) => {
+                const title = t(`customer:nav.${item.title}`)
+
+                return (
+                  <Link
+                    onClick={item.key === 'logout' ? () => handleLogout() : undefined}
+                    key={index}
+                    to={item.path}
+                    className={`flex text-sm items-center gap-2 transition-all hover:pl-4 w-full border-l-2 text-gray-800 p-2 ${
+                      location.pathname === item.path
+                        ? 'border-red-500 text-red-600 bg-gradient-to-r from-[#fff1f2] to-red-0'
+                        : 'border-transparent hover:border-red-500'
+                    } hover:bg-gradient-to-r from-[#fff1f2] to-red-0  hover:text-red-600 `}
+                  >
+                    <item.icon size={20} />
+                    <span>{title}</span>
+                  </Link>
+                )
+              })}
             </ul>
           </nav>
         </Grid2>

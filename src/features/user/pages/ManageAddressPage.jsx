@@ -2,6 +2,7 @@ import { HomeFilled } from '@ant-design/icons'
 
 import { Button } from '@/components/ui/button'
 import { useLoading } from '@/hooks'
+import { useCustomTranslate } from '@/i18n'
 import { handleAsync } from '@/lib'
 import { Chip } from '@mui/material'
 import { Avatar, Drawer } from 'antd'
@@ -18,6 +19,7 @@ import {
 } from '../redux'
 
 export const ManageAddressPage = () => {
+  const { t } = useCustomTranslate()
   const { deliveryAddress } = useAddressData()
 
   const { isLoading, start, stop } = useLoading()
@@ -93,7 +95,7 @@ export const ManageAddressPage = () => {
   return (
     <div>
       <div className="flex justify-between items-center py-3 pb-6">
-        <h1 className="select-text">Địa chỉ cá nhân</h1>
+        <h1 className="select-text">{t('customer:manageAddress.title')}</h1>
 
         <div className="flex justify-between items-center gap-6">
           <Button
@@ -106,10 +108,10 @@ export const ManageAddressPage = () => {
             {isLoading('reload') ? (
               <span className="flex items-center">
                 <LoaderCircle className="animate-spin mr-2" />
-                Đang tải
+                {t('common:loading')}
               </span>
             ) : (
-              'Làm mới'
+              t('common:refresh')
             )}
           </Button>
           <Button
@@ -118,7 +120,7 @@ export const ManageAddressPage = () => {
             onClick={showDrawer}
             type="button"
           >
-            Thêm địa chỉ
+            {t('customer:manageAddress.add')}
           </Button>
         </div>
       </div>
@@ -144,7 +146,7 @@ export const ManageAddressPage = () => {
               </div>
               <div className="flex flex-2 items-center gap-4 justify-between">
                 <span onClick={() => onUpdate(address)} className="cursor-pointer text-error">
-                  Sửa
+                  {t('common:edit')}
                 </span>
                 <span
                   onClick={() => handleSetDefailtAddress(address?.id)}
@@ -152,7 +154,7 @@ export const ManageAddressPage = () => {
                     isLoading(`updateDefault:${address?.id}`) ? 'pointer-events-none' : 'cursor-pointer '
                   } text-error`}
                 >
-                  Chọn làm mặc định
+                  {t('customer:manageAddress.setDefault')}
                 </span>
                 <span
                   className={`${
@@ -168,7 +170,7 @@ export const ManageAddressPage = () => {
         </div>
       ) : (
         <div className="p-4 text-sm rounded-md text-center select-none bg-primary-foreground text-muted-foreground">
-          Chưa có địa chỉ cá nhân nào!
+          {t('customer:manageAddress.empty')}
         </div>
       )}
       {visible && (

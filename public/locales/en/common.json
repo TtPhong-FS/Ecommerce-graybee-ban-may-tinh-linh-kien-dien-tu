@@ -3,7 +3,12 @@
   "cancel": "Cancel",
   "ok": "OK",
   "send": "Send",
-    "search": "Search for products",
-  "empty": "No product yet",
-  "loading": "Loading"
+  "refresh": "Refresh",
+  "resend": "Re send",
+  "loading": "Loading",
+  "backHome": "Back Home",
+  "notfound": "Oops! Page you looking for don't exist.",
+  "edit": "Edit",
+  "unconnect": "Cannot connect to the server. Please check your network and try again!",
+  "unknown": "An unspecified error has occurred!"
 }

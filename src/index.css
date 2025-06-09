@@ -129,8 +129,13 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 16px;
+}
+
 .link {
   cursor: pointer;
+  font-size: var(--f);
   color: var(--link) !important;
 }
 .link:hover {
@@ -154,7 +159,6 @@ h2 {
 h3 {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--primary);
 }
 
 .error-message {

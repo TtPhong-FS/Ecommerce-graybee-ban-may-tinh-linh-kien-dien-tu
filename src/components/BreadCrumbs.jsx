@@ -28,12 +28,14 @@ export const BreadCrumbs = () => {
           const label = t(`breadCrumb:${item.label}`)
           return isLast ? (
             <BreadcrumbItem>
-              <BreadcrumbPage>{label}</BreadcrumbPage>
+              <BreadcrumbPage className="text-muted-foreground text-sm">{label}</BreadcrumbPage>
             </BreadcrumbItem>
           ) : (
             <>
               <BreadcrumbItem>
-                <Link to={item.path}>{label}</Link>
+                <Link className="link text-sm" to={item.path}>
+                  {label}
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
             </>

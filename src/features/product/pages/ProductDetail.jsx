@@ -1,11 +1,15 @@
+import { Loading } from '@/components'
 import { Button } from '@/components/ui/button'
 import { useUserData } from '@/features/user/data'
+import { handleAsync } from '@/lib'
 import { formattedPrice, isPresentInFavorites } from '@/utils'
 import { HeartFilled } from '@ant-design/icons'
 import { Grid2 } from '@mui/material'
-import { Image, Spin, Tabs, Tag } from 'antd'
+import { Image, Tabs, Tag } from 'antd'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { toast } from 'sonner'
 import { Description, ReviewComment, Specification } from '../components'
 import { useActionAddToCartAndFavourite } from '../hooks'
 import { fetchProductDetailByIdAsync } from '../redux'
@@ -29,10 +33,11 @@ const items = [
 ]
 
 export const ProductDetail = () => {
-  const dispatch = useDispatch()
-  const [loading, setLoading] = useState(true)
+  const { slug } = useParams()
 
-  const id = useSelector((state) => state.product.productId)
+  const dispatch = useDispatch()
+
+  const [ready, setReady] = useState(true)
 
   const details = useSelector((state) => state.product.details)
 
@@ -41,21 +46,26 @@ export const ProductDetail = () => {
   const { handleAddItemToCart, handleAddToFavourites } = useActionAddToCartAndFavourite()
 
   useEffect(() => {
-    if (id) {
-      if (!details || details?.id !== id) {
-        dispatch(fetchProductDetailByIdAsync(id))
+    const fetch = async () => {
+      if (details?.slug !== slug) {
+        await handleAsync({
+          asyncAction: (slug) => dispatch(fetchProductDetailByIdAsync(slug)).unwrap(),
+          onSuccess: (res) => {
+            setReady(false)
+          },
+          values: slug,
+          toast: toast
+        })
       }
     }
-    setLoading(false)
-  }, [id, dispatch, details])
-
-  if (!details || details === null) {
-    return <div>Không có sản phẩm...</div>
-  }
+    fetch()
+  }, [slug, dispatch, details])
 
   return (
     <>
-      <Spin spinning={loading}>
+      {ready ? (
+        <Loading />
+      ) : (
         <div className="select-text">
           <Grid2 width={'100%'} container>
             <Grid2
@@ -136,7 +146,7 @@ export const ProductDetail = () => {
             </Grid2>
           </Grid2>
         </div>
-      </Spin>
+      )}
     </>
   )
 }

@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "favourites": "Sản phẩm yêu thích",
+    "orderHistory": "Lịch sử mua hàng",
+    "manageAddress": "Quản lý địa chỉ",
+    "logout": "Đăng xuất",
+    "viewProfile":"Xem hồ sơ"
+  },
+  "favourite": {
+    "title": "Sản phẩm yêu thích",
+    "empty": "Bạn chưa có sản phẩm nào."
+  },
+  "orderHistory": {
+
+    "title": "Lịch sử mua hàng",
+  "empty": "Bạn chưa có đơn hàng nào.",
+      "search": "Nhập mã đơn hàng hoặc tên sản phẩm để tìm kiếm..."
+},
+"manageAddress": {
+  "title": "Địa chỉ cá nhân",
+  "empty": "Bạn chưa có địa chỉ nào.",
+  "setDefault":"Chọn làm mặc định",
+"add": "Thêm địa chỉ"
+
+},
+"profile": {
+  "title":" Thông tin cá nhân",
+  "edit": "Chỉnh sửa hồ sơ",
+  "fullName": "Họ và tên",
+  "phone": "Số điện thoại",
+  "dateOfBirth": "Ngày sinh"
+}
+}

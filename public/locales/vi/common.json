@@ -3,7 +3,12 @@
   "cancel": "Huỷ",
   "ok": "OK",
   "send": "Gửi",
-  "search": "Tìm kiếm sản phẩm",
-  "empty": "Chưa có sản phẩm nào",
-  "loading": "Đang tải"
+  "refresh": "Làm mới",
+  "resend": "Gửi lại",
+  "loading": "Đang tải",
+  "backHome": "Về trang chủ",
+  "notfound": "Oops! Trang bạn đang tìm kiếm không tồn tại.",
+  "edit": "Sửa",
+    "unconnect": "Không thể kết nối đến server. Vui lòng kiểm tra mạng và thử lại!",
+  "unknown": "Đã xảy ra lỗi không xác định!"
 }

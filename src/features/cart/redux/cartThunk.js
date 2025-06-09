@@ -1,21 +1,18 @@
 import { handleCreateAsyncThunk } from '@/lib'
 import { cartApi } from './cartApi'
 
-export const createCartAsync = handleCreateAsyncThunk('cart/createCartAsync', async (request) => {
-  const response = await cartApi.postCart(request)
+export const addItemToCartAsync = handleCreateAsyncThunk('cart/addItemToCartAsync', async (request) => {
+  const response = await cartApi.addItemToCart(request)
   return response.data
 })
 
-export const updateQuantityToCartItemAsync = handleCreateAsyncThunk(
-  'cart/updateQuantityToCartItemAsync',
-  async (request) => {
-    const response = await cartApi.putQuantityToCartItem(request)
-    return response.data
-  }
-)
+export const decreaseQuantityAsync = handleCreateAsyncThunk('cart/decreaseQuantityAsync', async (request) => {
+  const response = await cartApi.decreaseQuantity(request)
+  return response.data
+})
 
-export const fetchCartByUserUidOrSessionIdAsync = handleCreateAsyncThunk(
-  'cart/fetchCartByUserUidOrSessionIdAsync',
+export const getCartByUserUidOrSessionIdAsync = handleCreateAsyncThunk(
+  'cart/getCartByUserUidOrSessionIdAsync',
   async () => {
     const response = await cartApi.getCartByUserUidOrSessionId()
     return response.data
@@ -27,7 +24,7 @@ export const deleteItemToCartAsync = handleCreateAsyncThunk('cart/deleteItemToCa
   return response.data
 })
 
-export const deleteItemsToCartAsync = handleCreateAsyncThunk('cart/deleteItemsToCartAsync', async () => {
-  const response = await cartApi.deleteItemsToCart()
+export const clearCartItemsAsync = handleCreateAsyncThunk('cart/clearCartItemsAsync', async () => {
+  const response = await cartApi.clearCartItems()
   return response.data
 })

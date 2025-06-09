@@ -5,7 +5,7 @@ import { useCustomTranslate } from '@/i18n'
 import { handleAsync, handleAsyncSubmit } from '@/lib'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Cookies from 'js-cookie'
-import { CircleAlert } from 'lucide-react'
+import { CircleAlert, LoaderCircle } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
@@ -88,9 +88,7 @@ export function VerifyOtp() {
       <Link className="link text-sm mb-4 block" to="/forgot-password/verify-email">
         {t('common:back')}
       </Link>
-      <p className="text-base font-medium text-center mb-6">
-
-      </p>
+      <p className="text-base font-medium text-center mb-6"></p>
       <FormProvider {...methods}>
         {methods.formState.errors.root && (
           <span className="error-message px-10 flex gap-1 mb-2 items-center">
@@ -104,11 +102,18 @@ export function VerifyOtp() {
           </div>
           <div className="text-end px-12">
             <span className="text-blue-600 cursor-pointer " onClick={() => onResendOtp()}>
-              Gửi lại
+              {t('common:resend')}
             </span>
           </div>
           <Button variant="secondary" type="submit" className="cursor-pointer select-none h-[38px] w-full mt-3">
-            Xác nhận
+            {methods.formState.isSubmitting ? (
+              <span className="flex items-center">
+                <LoaderCircle className="animate-spin mr-2" />
+                {t('common:loading')}
+              </span>
+            ) : (
+              <>{t('auth:verifyOtp.btnConfirm')}</>
+            )}
           </Button>
         </form>
       </FormProvider>

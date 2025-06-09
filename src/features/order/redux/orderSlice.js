@@ -1,3 +1,4 @@
+import { privateAPI } from '@/config'
 import { handleCreateAsyncThunk } from '@/lib'
 import { createSlice } from '@reduxjs/toolkit'
 

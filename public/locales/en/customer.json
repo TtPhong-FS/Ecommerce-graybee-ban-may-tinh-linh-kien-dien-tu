@@ -1,0 +1,34 @@
+{
+  "nav": {
+    "favourites": "Favourite Products",
+    "orderHistory": "Order History",
+    "manageAddress": "Address Management",
+    "logout": "Logout",
+    "viewProfile": "View profile"
+  },
+  "favourite": {
+
+      "title": "Favourite products",
+    "empty": "You have no favorite products yet."
+  },
+  "orderHistory": {
+
+      "title": "Order history",
+    "empty": "You have no order yet.",
+    "search": "Enter order code or product name to seach..."
+  }
+,"manageAddress": {
+  "title": "Peronal address",
+  "empty": "You have no address yet.",
+  "setDefault":"Set default",
+  "add": "Add new address"
+
+},
+"profile": {
+  "title":" Peronal information",
+  "edit": "Edit profile",
+  "fullName": "FullName",
+  "phone": "Phone",
+  "dateOfBirth": "Date Of Birth"
+}
+}

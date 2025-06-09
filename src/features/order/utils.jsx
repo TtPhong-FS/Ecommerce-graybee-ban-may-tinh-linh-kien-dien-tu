@@ -25,6 +25,9 @@ export const deliveryType = {
   STORE_PICKUP: 'Nhận tại cửa hàng'
 }
 
-export const paymentMethod = {
-  COD: 'Thanh toán khi nhận hàng'
-}
+export const paymentMethod = [
+  {
+    value: 'COD',
+    label: 'Thanh toán khi nhận hàng'
+  }
+]

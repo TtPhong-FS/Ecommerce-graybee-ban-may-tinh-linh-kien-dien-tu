@@ -37,12 +37,6 @@ export function RHFRadioGroup({ control, name, options, label }) {
 RHFRadioGroup.propTypes = {
   name: PropTypes.string.isRequired,
   control: PropTypes.object,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired
-    })
-  ),
+  options: PropTypes.array,
   label: PropTypes.string
 }

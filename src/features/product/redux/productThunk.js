@@ -27,7 +27,10 @@ export const searchProductByNameAsync = handleCreateAsyncThunk('product/searchPr
   return response.data
 })
 
-export const fetchProductDetailByIdAsync = handleCreateAsyncThunk('product/fetchProductDetailByIdAsync', async (id) => {
-  const response = await productApi.getProductDetailById(id)
-  return response.data
-})
+export const fetchProductDetailByIdAsync = handleCreateAsyncThunk(
+  'product/fetchProductDetailByIdAsync',
+  async (slug) => {
+    const response = await productApi.getProductDetailById(slug)
+    return response.data
+  }
+)

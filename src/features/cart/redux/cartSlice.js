@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
-  createCartAsync,
-  deleteItemsToCartAsync,
+  addItemToCartAsync,
+  clearCartItemsAsync,
+  decreaseQuantityAsync,
   deleteItemToCartAsync,
-  fetchCartByUserUidOrSessionIdAsync,
-  updateQuantityToCartItemAsync
+  getCartByUserUidOrSessionIdAsync
 } from './cartThunk'
 
 const initialState = {
@@ -29,7 +29,7 @@ export const cartSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      .addCase(fetchCartByUserUidOrSessionIdAsync.fulfilled, (state, action) => {
+      .addCase(getCartByUserUidOrSessionIdAsync.fulfilled, (state, action) => {
         const data = action.payload?.data || []
         if (data) {
           state.cartItems = data
@@ -37,7 +37,7 @@ export const cartSlice = createSlice({
         }
       })
 
-      .addCase(createCartAsync.fulfilled, (state, action) => {
+      .addCase(addItemToCartAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         const currentItem = state.cartItems?.findIndex((i) => i.id === data?.id)
         if (currentItem === -1) {
@@ -50,7 +50,7 @@ export const cartSlice = createSlice({
         state.totalAmount = state.cartItems?.reduce((sum, cartItem) => sum + cartItem.total, 0)
       })
 
-      .addCase(updateQuantityToCartItemAsync.fulfilled, (state, action) => {
+      .addCase(decreaseQuantityAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         console.log(data)
         if (data?.id) {
@@ -69,7 +69,7 @@ export const cartSlice = createSlice({
         }
       })
 
-      .addCase(deleteItemsToCartAsync.fulfilled, (state, action) => {
+      .addCase(clearCartItemsAsync.fulfilled, (state, action) => {
         const empty = action.payload.data
         state.cartItems = empty
         state.totalAmount = 0

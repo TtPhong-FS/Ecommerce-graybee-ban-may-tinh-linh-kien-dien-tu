@@ -9,8 +9,7 @@ i18n
   .init({
     lng: localStorage.getItem('language') || 'vi',
     fallbackLng: 'vi',
-    debug: true,
-    ns: ['auth', 'common', 'breadCrumb', 'navbar'],
+    ns: ['auth', 'common', 'breadCrumb', 'navbar', 'order', 'customer', 'product'],
     defaultNS: 'common',
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json'

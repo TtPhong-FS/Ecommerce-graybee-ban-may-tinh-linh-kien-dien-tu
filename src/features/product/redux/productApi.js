@@ -10,6 +10,6 @@ export const productApi = {
     publicAPI.get(
       `${product_endpoint}/by-category-and-subcategory-and-tag?category=${category}&subcategory=${subcategory}&tag=${tag}`
     ),
-  getProductDetailById: (id) => publicAPI.get(`${product_endpoint}/detail/${id}`),
+  getProductDetailById: (slug) => publicAPI.get(`${product_endpoint}/detail/${slug}`),
   searchProductByName: (keyword) => publicAPI.get(`${product_endpoint}/search?keyword=${keyword}`)
 }

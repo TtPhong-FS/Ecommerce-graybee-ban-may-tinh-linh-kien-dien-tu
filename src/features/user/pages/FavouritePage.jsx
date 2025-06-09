@@ -1,11 +1,13 @@
 import { Button } from '@/components/ui/button'
 import { useAppContext, useLoading } from '@/hooks'
+import { useCustomTranslate } from '@/i18n'
 import { handleAsync } from '@/lib'
 import { LoaderCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import { Favourite } from '../components'
 import { fetchFavouritesAsync } from '../redux'
 export const FavouritePage = () => {
+  const { t } = useCustomTranslate()
   const { dispatch } = useAppContext()
 
   const { isLoading, stop, start } = useLoading()
@@ -26,7 +28,7 @@ export const FavouritePage = () => {
   return (
     <div>
       <div className="flex items-center justify-between py-3 mb-4">
-        <h1>Sản phẩm yêu thích</h1>
+        <h1> {t('customer:favourite.title')}</h1>
         <div className="ml-12">
           <Button
             disabled={isLoading('reload')}
@@ -37,10 +39,10 @@ export const FavouritePage = () => {
             {isLoading('reload') ? (
               <span className="flex items-center">
                 <LoaderCircle className="animate-spin mr-2" />
-                Đang tải
+                {t('common:loading')}
               </span>
             ) : (
-              'Làm mới'
+              t('common:refresh')
             )}
           </Button>
         </div>

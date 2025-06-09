@@ -13,6 +13,7 @@ import { ProductDetail, ProductPage } from '@/features/product'
 import { FavouritePage, ManageAddressPage, OrderDetail, OrderHistoryPage, ProfilePage } from '@/features/user'
 import { ProfileLayout, RootLayout } from '@/layout'
 import { Contact, HomePage, NotFoundPage } from '@/pages'
+import { Navigate } from 'react-router-dom'
 
 const RootRouter = [
   {
@@ -34,6 +35,10 @@ const RootRouter = [
       {
         path: 'home',
         element: <HomePage />
+      },
+      {
+        path: 'logout',
+        element: <Navigate replace to="/home" />
       },
       {
         path: 'login',
@@ -98,9 +103,9 @@ const RootRouter = [
         handle: { crumb: () => 'contact' }
       },
       {
-        path: 'products/:slugId',
+        path: 'products/:slug',
         element: <ProductDetail />,
-        handle: { crumb: ({ params }) => `${params.slugId.toUpperCase()}` }
+        handle: { crumb: ({ params }) => `${params.slug}` }
       },
       {
         path: 'pages/:category',

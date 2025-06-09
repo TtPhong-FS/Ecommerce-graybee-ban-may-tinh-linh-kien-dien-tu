@@ -1,7 +1,7 @@
 import { Sidebar } from '@/components'
-import { unFocusSidebar } from '@/components/sidebar/redux/slice'
 import { CarouselWrapper } from '@/features/carousels'
 import { useAppContext } from '@/hooks'
+import { unFocusSidebar } from '@/store/redux/homeSlice'
 import { useEffect } from 'react'
 
 export const HomePage = () => {

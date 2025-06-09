@@ -1,4 +1,4 @@
-import { createCartAsync } from '@/features/cart'
+import { addItemToCartAsync } from '@/features/cart'
 import { createFavouriteAsync } from '@/features/user/redux'
 import { useAppContext } from '@/hooks'
 import { handleAsync, handleAsyncSubmit } from '@/lib'
@@ -14,7 +14,7 @@ export const useActionAddToCartAndFavourite = () => {
     if (!isLogin && !token) {
       return toast({
         title: 'Oh! no',
-        description: 'Bạn phải đăng nhập mới có thể dùng tính năng này'
+        description: 'Bạn phải đăng nhập mới có thể dùng tính năng này.'
       })
     }
 
@@ -31,7 +31,7 @@ export const useActionAddToCartAndFavourite = () => {
   const handleAddItemToCart = async (productId, quantity) => {
     const values = { productId, quantity }
     await handleAsyncSubmit({
-      asyncAction: (vals) => dispatch(createCartAsync(vals)).unwrap(),
+      asyncAction: (vals) => dispatch(addItemToCartAsync(vals)).unwrap(),
       onSuccess: (res) => {
         toast(null, {
           description: (

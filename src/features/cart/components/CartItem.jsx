@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { useAppContext, useToDetail } from '@/hooks'
+import { useAppContext } from '@/hooks'
 import { formattedPrice } from '@/utils'
 import { Image, Popconfirm } from 'antd'
 import { Minus, Plus, Trash } from 'lucide-react'
@@ -8,15 +8,13 @@ import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { createCartAsync, deleteItemsToCartAsync, deleteItemToCartAsync, updateQuantityToCartItemAsync } from '../redux'
+import { addItemToCartAsync, clearCartItemsAsync, decreaseQuantityAsync, deleteItemToCartAsync } from '../redux'
 
 export const CartItem = () => {
   const { dispatch } = useAppContext()
 
   const [selectedItems, setSelectedItems] = useState([])
   const [selectAll, setSelectAll] = useState(false)
-
-  const toDetail = useToDetail()
 
   const cartItems = useSelector((state) => state.cart.cartItems)
 
@@ -39,11 +37,12 @@ export const CartItem = () => {
 
   const handleDecreaseQuantity = (productId, quantity) => {
     const values = { productId, quantity }
-    dispatch(updateQuantityToCartItemAsync(values))
+    dispatch(decreaseQuantityAsync(values))
   }
-  const handleIncreaseQuantity = (productId, quantity) => {
+
+  const handleAddItemToCart = (productId, quantity) => {
     const values = { productId, quantity }
-    dispatch(createCartAsync(values))
+    dispatch(addItemToCartAsync(values))
   }
 
   const handleRemoveItem = (cartItemId) => {
@@ -51,7 +50,7 @@ export const CartItem = () => {
   }
 
   const handleClearItems = () => {
-    dispatch(deleteItemsToCartAsync())
+    dispatch(clearCartItemsAsync())
   }
 
   const { setValue } = useFormContext()
@@ -102,8 +101,7 @@ export const CartItem = () => {
                     alt="Anh san pham"
                   />
                   <Link
-                    to={`/products/${cartItem.product.name}`}
-                    onClick={() => toDetail({ id: cartItem.product.id, name: cartItem.product.name })}
+                    to={`/products/${cartItem?.product?.slug}`}
                     className="cursor-pointer text-xs md:text-sm font-medium max-w-[20rem] link line-clamp-2"
                   >
                     {cartItem.product.name}
@@ -123,7 +121,7 @@ export const CartItem = () => {
                   <Button
                     className="w-8 h-8 cursor-pointer"
                     variant="outline"
-                    onClick={() => handleIncreaseQuantity(cartItem.product.id, 1)}
+                    onClick={() => handleAddItemToCart(cartItem.product.id, 1)}
                   >
                     <Plus size={16} />
                   </Button>

@@ -1,14 +1,17 @@
+import i18n from '@/i18n/i18n'
 import { getToken } from '@/utils'
 import axios from 'axios'
 
 const BASE_URL = 'http://localhost:8080'
+const currentLang = i18n.language || 'vi'
 
 export const publicAPI = axios.create({
   baseURL: BASE_URL,
   timeout: 30000,
   withCredentials: true,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Accept-Language': currentLang
   }
 })
 
@@ -17,7 +20,8 @@ export const privateAPI = axios.create({
   timeout: 30000,
   withCredentials: true,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Accept-Language': currentLang
   }
 })
 

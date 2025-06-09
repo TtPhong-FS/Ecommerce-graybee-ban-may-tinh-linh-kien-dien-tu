@@ -4,7 +4,7 @@ import { CircleAlert } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { Input } from '../ui/input'
 
-export function RHFInputField({ control, name, label, type, placeholder, disabled }) {
+export function RHFInputField({ control, name, label, type, isRequired, placeholder, disabled }) {
   console.log('render', name)
 
   return (
@@ -13,7 +13,10 @@ export function RHFInputField({ control, name, label, type, placeholder, disable
       name={name}
       render={({ field, fieldState: { error } }) => (
         <div className=" flex flex-col">
-          <label className="title-form">{label}</label>
+          <div className="title-form">
+            <label>{label}</label>
+            {isRequired && <sup>*</sup>}
+          </div>
           <Input
             {...field}
             disabled={disabled}
@@ -37,6 +40,7 @@ export function RHFInputField({ control, name, label, type, placeholder, disable
 RHFInputField.propTypes = {
   name: PropTypes.string.isRequired,
   control: PropTypes.object,
+  isRequired: PropTypes.bool,
   label: PropTypes.string,
   type: PropTypes.string,
   disabled: PropTypes.bool,

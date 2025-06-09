@@ -1,0 +1,214 @@
+[
+  {
+    "slug": "laptop",
+    "name": "Laptop",
+    "children": [
+      {
+        "slug": "laptop-gaming",
+        "name": "Laptop Gaming",
+        "children": []
+      },
+      {
+        "slug": "laptop-hoc-tap",
+        "name": "Laptop Học tập - Văn phòng",
+        "children": []
+      },
+      {
+        "slug": "laptop-do-hoa",
+        "name": "Laptop Đồ họa - Kỹ thuật",
+        "children": []
+      },
+      {
+        "slug": "laptop-mong-nhe",
+        "name": "Laptop Mỏng nhẹ",
+        "children": []
+      }
+    ]
+  },
+  {
+    "slug": "pc-gvn",
+    "name": "PC GVN",
+    "children": [
+      {
+        "slug": "pc-gaming",
+        "name": "PC Gaming",
+        "children": []
+      },
+      {
+        "slug": "pc-do-hoa",
+        "name": "PC Đồ họa",
+        "children": []
+      },
+      {
+        "slug": "pc-van-phong",
+        "name": "PC Văn phòng",
+        "children": []
+      }
+    ]
+  },
+  {
+    "slug": "linh-kien",
+    "name": "Linh kiện",
+    "children": [
+      {
+        "slug": "cpu",
+        "name": "CPU",
+        "children": []
+      },
+      {
+        "slug": "mainboard",
+        "name": "Mainboard",
+        "children": []
+      },
+      {
+        "slug": "ram",
+        "name": "RAM",
+        "children": []
+      },
+      {
+        "slug": "vga",
+        "name": "Card đồ họa (VGA)",
+        "children": []
+      },
+      {
+        "slug": "ssd",
+        "name": "Ổ cứng SSD",
+        "children": []
+      },
+      {
+        "slug": "hdd",
+        "name": "Ổ cứng HDD",
+        "children": []
+      },
+      {
+        "slug": "psu",
+        "name": "Nguồn (PSU)",
+        "children": []
+      },
+      {
+        "slug": "case",
+        "name": "Vỏ Case",
+        "children": []
+      },
+      {
+        "slug": "tan-nhiet",
+        "name": "Tản nhiệt",
+        "children": []
+      }
+    ]
+  },
+  {
+    "slug": "man-hinh",
+    "name": "Màn hình",
+    "children": [
+      {
+        "slug": "man-hinh-gaming",
+        "name": "Màn hình Gaming",
+        "children": []
+      },
+      {
+        "slug": "man-hinh-do-hoa",
+        "name": "Màn hình Đồ họa",
+        "children": []
+      },
+      {
+        "slug": "man-hinh-van-phong",
+        "name": "Màn hình Văn phòng",
+        "children": []
+      }
+    ]
+  },
+  {
+    "slug": "phu-kien",
+    "name": "Phụ kiện",
+    "children": [
+      {
+        "slug": "ban-phim",
+        "name": "Bàn phím",
+        "children": []
+      },
+      {
+        "slug": "chuot",
+        "name": "Chuột",
+        "children": []
+      },
+      {
+        "slug": "tai-nghe",
+        "name": "Tai nghe",
+        "children": []
+      },
+      {
+        "slug": "loa",
+        "name": "Loa",
+        "children": []
+      },
+      {
+        "slug": "webcam",
+        "name": "Webcam",
+        "children": []
+      },
+      {
+        "slug": "micro",
+        "name": "Micro",
+        "children": []
+      },
+      {
+        "slug": "ghe-ban",
+        "name": "Ghế - Bàn",
+        "children": []
+      },
+      {
+        "slug": "phu-kien-khac",
+        "name": "Phụ kiện khác",
+        "children": []
+      }
+    ]
+  },
+  {
+    "slug": "phan-mem",
+    "name": "Phần mềm",
+    "children": [
+      {
+        "slug": "windows",
+        "name": "Windows bản quyền",
+        "children": []
+      },
+      {
+        "slug": "office",
+        "name": "Office 365 bản quyền",
+        "children": []
+      },
+      {
+        "slug": "phan-mem-khac",
+        "name": "Phần mềm khác",
+        "children": []
+      }
+    ]
+  },
+  {
+    "slug": "dich-vu",
+    "name": "Dịch vụ",
+    "children": [
+      {
+        "slug": "sua-chua",
+        "name": "Dịch vụ sửa chữa",
+        "children": []
+      },
+      {
+        "slug": "ky-thuat-tai-nha",
+        "name": "Dịch vụ kỹ thuật tại nhà",
+        "children": []
+      },
+      {
+        "slug": "thu-cu-doi-moi",
+        "name": "Thu cũ đổi mới",
+        "children": []
+      },
+      {
+        "slug": "tra-cuu-bao-hanh",
+        "name": "Tra cứu bảo hành",
+        "children": []
+      }
+    ]
+  }
+]

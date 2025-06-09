@@ -1,4 +1,5 @@
 import { Input } from '@/components/ui/input'
+import { useCustomTranslate } from '@/i18n'
 import { handleAsync } from '@/lib'
 import { Tabs } from 'antd'
 import { useEffect, useRef, useState } from 'react'
@@ -35,6 +36,7 @@ const items = [
 ]
 
 export const OrderHistoryPage = () => {
+  const { t } = useCustomTranslate()
   const [activeKey, setActiveKey] = useState('all')
   const dispatch = useDispatch()
 
@@ -73,12 +75,12 @@ export const OrderHistoryPage = () => {
   return (
     <div>
       <div className="grid grid-cols-2 py-3 pb-6">
-        <h1>Lịch sử mua hàng</h1>
+        <h1>{t('customer:orderHistory.title')}</h1>
         <div>
           <Input
             type="search"
             className="h-[38px] bg-primary-foreground"
-            placeholder="Nhập mã đơn hàng hoặc tên sản phẩm để tìm kiếm..."
+            placeholder={`${t('customer:orderHistory.search')}`}
           />
         </div>
       </div>
@@ -96,7 +98,7 @@ export const OrderHistoryPage = () => {
         />
       ) : (
         <div className="p-4 text-sm rounded-md text-center select-none bg-primary-foreground text-muted-foreground">
-          Chưa có đơn hàng nào!
+          {t('customer:orderHistory.empty')}
         </div>
       )}
     </div>

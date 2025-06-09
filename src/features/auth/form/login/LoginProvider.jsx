@@ -11,17 +11,20 @@ import { useAppContext } from '@/hooks'
 import { AuthContext } from '../../components'
 import { loginUserAsync } from '../../redux'
 import { Login } from './Login'
-import { defaultValues, schema } from './schema'
+import { useValidationSchema } from './useValidationSchema'
 
 export const LoginProvider = () => {
   const { dispatch, navigate } = useAppContext()
 
   const { setUser, setLoading } = useContext(AuthContext)
-
+  const { schema } = useValidationSchema()
   const methods = useForm({
     resolver: yupResolver(schema),
 
-    defaultValues: defaultValues,
+    defaultValues: {
+      phone: '',
+      password: ''
+    },
     shouldUnregister: false
   })
 
@@ -36,12 +39,12 @@ export const LoginProvider = () => {
         setUser(decodedToken)
         setLoading(false)
 
-        if (token) {
-          dispatch(getAddressesByTokenAsync())
-          dispatch(getProfileByTokenAsync())
-          dispatch(getFavouritesAsync())
-          dispatch(findCartByUserUidOrSessionIdAsync())
-        }
+        // if (token) {
+        //   dispatch(getAddressesByTokenAsync())
+        //   dispatch(getProfileByTokenAsync())
+        //   dispatch(getFavouritesAsync())
+        //   dispatch(findCartByUserUidOrSessionIdAsync())
+        // }
 
         if (decodedToken?.role === 'SUPER_ADMIN' || decodedToken?.role === 'ADMIN' || decodedToken?.role === 'MANAGE') {
           navigate('/home')

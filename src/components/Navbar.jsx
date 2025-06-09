@@ -4,16 +4,16 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { Headset, LogOut, MapPin, Menu, Moon, ScrollText, ShoppingCart, Sun, UserRound, X } from 'lucide-react'
+import { Headset, LogOut, MapPin, Menu, ScrollText, ShoppingCart, UserRound, X } from 'lucide-react'
 
 import { searchProductByNameAsync } from '@/features/product/redux'
 import { useUserData } from '@/features/user'
 import { useAppContext, useLoading } from '@/hooks'
 import { LanguageSwitcher, useCustomTranslate } from '@/i18n'
+import { onFocusSidebar } from '@/store/redux/homeSlice'
 import { useMediaQuery } from '@mui/material'
 import { AuthContext } from '../features/auth/components/AuthProvider'
 import { ProductSearchCard } from './cards'
-import { onFocusSidebar } from './sidebar/redux/slice'
 import { useTheme } from './theme-provider'
 import { Input } from './ui/input'
 
@@ -131,9 +131,9 @@ export const Navbar = () => {
             {isLogin && <Link to="/account">Hi, {user?.fullName}</Link>}
           </div>
           <LanguageSwitcher />
-          <span className="cursor-pointer flex items-center" onClick={toggleTheme}>
+          {/* <span className="cursor-pointer flex items-center" onClick={toggleTheme}>
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-          </span>
+          </span> */}
         </div>
       </nav>
       <div className="select-none sticky top-0 z-50 shadow-lg shadow-border">
@@ -164,7 +164,7 @@ export const Navbar = () => {
                     onChange={onChange}
                     type="text"
                     className="h-[40px] bg-white dark:bg-white dark:text-primary-foreground max-sm:text-sm"
-                    placeholder={`${t('common:search')}...`}
+                    placeholder={`${t('product:search')}`}
                   />
                   {keyword && (
                     <span
@@ -178,7 +178,7 @@ export const Navbar = () => {
                     <>
                       {!listProductSearch || listProductSearch?.length === 0 ? (
                         <span className="rounded-md text-sm absolute top-12 z-50 bg-white w-full flex items-center justify-center py-5 description">
-                          {t('common:empty')}...
+                          {t('product:empty')}
                         </span>
                       ) : (
                         <div ref={containerRef} className="rounded-md absolute top-12 z-50 bg-white w-full h-[30rem]">
@@ -192,7 +192,7 @@ export const Navbar = () => {
                 </div>
               </div>
             </div>
-            <div className="flex w-max gap-6 lg:gap-4 gap-2 font-medium ml-2">
+            <div className="flex w-max gap-6 lg:gap-4 font-medium ml-2">
               {navigation.map((item, index) => {
                 const lastItem = index === navigation.length - 1
                 const title = t(`navbar:${item.title}`)
