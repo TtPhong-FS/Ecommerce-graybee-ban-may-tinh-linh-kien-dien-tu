@@ -28,8 +28,7 @@ export const useActionAddToCartAndFavourite = () => {
     })
   }
 
-  const handleAddItemToCart = async (productId, quantity) => {
-    const values = { productId, quantity }
+  const handleAddItemToCart = async (productId) => {
     await handleAsyncSubmit({
       asyncAction: (vals) => dispatch(addItemToCartAsync(vals)).unwrap(),
       onSuccess: (res) => {
@@ -46,7 +45,7 @@ export const useActionAddToCartAndFavourite = () => {
         })
       },
       toast,
-      values
+      values: productId
     })
   }
   return {

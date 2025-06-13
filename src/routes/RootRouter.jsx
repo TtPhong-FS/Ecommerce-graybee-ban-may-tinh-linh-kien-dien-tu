@@ -9,10 +9,10 @@ import {
   VerifyOtp
 } from '@/features/auth'
 import { OrderPage } from '@/features/order'
-import { ProductDetail, ProductPage } from '@/features/product'
+import { ProductDetail } from '@/features/product'
 import { FavouritePage, ManageAddressPage, OrderDetail, OrderHistoryPage, ProfilePage } from '@/features/user'
 import { ProfileLayout, RootLayout } from '@/layout'
-import { Contact, HomePage, NotFoundPage } from '@/pages'
+import { CollectionPage, Contact, HomePage, NotFoundPage } from '@/pages'
 import { Navigate } from 'react-router-dom'
 
 const RootRouter = [
@@ -108,17 +108,10 @@ const RootRouter = [
         handle: { crumb: ({ params }) => `${params.slug}` }
       },
       {
-        path: 'pages/:category',
-        element: <ProductPage />,
+        path: 'collections/:slug',
+        element: <CollectionPage />,
         handle: {
-          crumb: ({ params }) => `${params.category.toUpperCase()}`
-        }
-      },
-      {
-        path: 'pages/:category/:manufacturer',
-        element: <ProductPage />,
-        handle: {
-          crumb: ({ params }) => `${params.category.toUpperCase()} ${params.manufacturer.toUpperCase()}`
+          crumb: ({ params }) => `${params.slug}`
         }
       },
       {
