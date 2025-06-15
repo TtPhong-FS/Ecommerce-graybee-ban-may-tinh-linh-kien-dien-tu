@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
+  addToFavoriteByProductIdAsync,
   createAddressAsync,
-  createFavouriteAsync,
   deleteAddressByIdAndUserUidFromTokenAsync,
   fetchAddressesByTokenAsync,
   fetchFavouritesAsync,
@@ -14,6 +14,7 @@ import {
 
 const initialState = {
   user: null,
+  profile: null,
   favourites: [],
   orders: {},
   deliveryAddress: []
@@ -25,6 +26,9 @@ const accountSlice = createSlice({
   reducers: {
     clearAllToLogout: (state) => {
       ;(state.deliveryAddress = []), (state.favourites = []), (state.user = null)
+    },
+    setProfile: (state, action) => {
+      state.profile = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -45,7 +49,7 @@ const accountSlice = createSlice({
         state.user = data || null
       })
 
-      .addCase(createFavouriteAsync.fulfilled, (state, action) => {
+      .addCase(addToFavoriteByProductIdAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         const isExisting = state.favourites?.find((item) => item.id === data)
         if (isExisting) {
@@ -114,6 +118,6 @@ const accountSlice = createSlice({
   }
 })
 
-export const { clearAllToLogout } = accountSlice.actions
+export const { clearAllToLogout, setProfile } = accountSlice.actions
 
 export default accountSlice.reducer

@@ -22,7 +22,7 @@ export const CartItem = () => {
 
   const handleSelectItem = (cartItemId) => {
     setSelectedItems((prev) =>
-      prev.includes(cartItemId) ? prev.filter((id) => id !== cartItemId) : [...prev, cartItemId]
+      prev.includes(cartItemId) ? prev.filter((cartItemId) => cartItemId !== cartItemId) : [...prev, cartItemId]
     )
   }
 
@@ -30,19 +30,17 @@ export const CartItem = () => {
     if (selectAll) {
       setSelectedItems([])
     } else {
-      setSelectedItems(cartItems.map((item) => item.id))
+      setSelectedItems(cartItems.map((item) => item.cartItemId))
     }
     setSelectAll(!selectAll)
   }
 
-  const handleDecreaseQuantity = (productId, quantity) => {
-    const values = { productId, quantity }
-    dispatch(decreaseQuantityAsync(values))
+  const handleDecreaseQuantity = (productId) => {
+    dispatch(decreaseQuantityAsync(productId))
   }
 
-  const handleAddItemToCart = (productId, quantity) => {
-    const values = { productId, quantity }
-    dispatch(addItemToCartAsync(values))
+  const handleAddItemToCart = (productId) => {
+    dispatch(addItemToCartAsync(productId))
   }
 
   const handleRemoveItem = (cartItemId) => {
@@ -85,9 +83,9 @@ export const CartItem = () => {
               <div className="mr-6 select-none">
                 <Checkbox
                   className="w-4.5 h-4.5 cursor-pointer"
-                  checked={selectedItems.includes(cartItem.id)}
-                  onCheckedChange={() => handleSelectItem(cartItem.id)}
-                  value={cartItem.id}
+                  checked={selectedItems.includes(cartItem.cartItemId)}
+                  onCheckedChange={() => handleSelectItem(cartItem.cartItemId)}
+                  value={cartItem.cartItemId}
                 />
               </div>
               <div className="select-none flex justify-between items-center w-full">
@@ -112,7 +110,7 @@ export const CartItem = () => {
                     variant="outline"
                     className="w-8 h-8 cursor-pointer"
                     disabled={cartItem.quantity === 1 ? true : false}
-                    onClick={() => handleDecreaseQuantity(cartItem.product.id, 1)}
+                    onClick={() => handleDecreaseQuantity(cartItem.product.id)}
                   >
                     <Minus size={16} />
                   </Button>
@@ -121,16 +119,16 @@ export const CartItem = () => {
                   <Button
                     className="w-8 h-8 cursor-pointer"
                     variant="outline"
-                    onClick={() => handleAddItemToCart(cartItem.product.id, 1)}
+                    onClick={() => handleAddItemToCart(cartItem.product.id)}
                   >
                     <Plus size={16} />
                   </Button>
                 </div>
                 <div className="inline-flex w-[8rem] ml-8 flex-col items-start ">
-                  <span className="font-medium text-xs md:text-sm font-sans text-red-500">
+                  <span className="font-medium text-sm lg:text-base font-sans text-red-500">
                     {formattedPrice(cartItem.product.finalPrice)}
                   </span>
-                  <del className="font-medium text-[0.65rem] md:text-[0.8rem] text-gray-500">
+                  <del className="font-medium text-xs lg:text-sm text-gray-500">
                     {formattedPrice(cartItem.product.price)}
                   </del>
                 </div>
@@ -138,7 +136,7 @@ export const CartItem = () => {
                   <Popconfirm
                     title="Xoá giỏ hàng"
                     description="Bạn muốn xoá sản phẩm này khỏi giỏ hàng?"
-                    onConfirm={() => handleRemoveItem(cartItem.id)}
+                    onConfirm={() => handleRemoveItem(cartItem.cartItemId)}
                     okText={'Xoá'}
                     cancelText={'Huỷ bỏ'}
                   >

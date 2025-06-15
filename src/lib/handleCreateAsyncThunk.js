@@ -8,7 +8,6 @@ export function handleCreateAsyncThunk(typePrefix, asyncCallback) {
       const res = await asyncCallback(arg)
       return res
     } catch (error) {
-      console.log(error)
       if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
         return rejectWithValue({
           unconnect: t('common:unconnect')

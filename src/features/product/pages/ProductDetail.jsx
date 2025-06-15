@@ -1,11 +1,11 @@
-import { Loading } from '@/components'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { useUserData } from '@/features/user/data'
+import { useLoading } from '@/hooks'
 import { handleAsync } from '@/lib'
-import { formattedPrice, isPresentInFavorites } from '@/utils'
-import { HeartFilled } from '@ant-design/icons'
+import { formattedPrice } from '@/utils'
 import { Grid2 } from '@mui/material'
-import { Image, Tabs, Tag } from 'antd'
+import { Image, Spin, Tabs } from 'antd'
+import { Heart, ShoppingCart } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -37,13 +37,13 @@ export const ProductDetail = () => {
 
   const dispatch = useDispatch()
 
-  const [ready, setReady] = useState(true)
+  const [ready, setReady] = useState(false)
 
   const details = useSelector((state) => state.product.details)
 
-  const { favourites } = useUserData()
+  const { isLoading, start, stop } = useLoading()
 
-  const { handleAddItemToCart, handleAddToFavourites } = useActionAddToCartAndFavourite()
+  const { handleAddItemToCart, handleAddToFavourites } = useActionAddToCartAndFavourite(start, stop)
 
   useEffect(() => {
     const fetch = async () => {
@@ -51,21 +51,20 @@ export const ProductDetail = () => {
         await handleAsync({
           asyncAction: (slug) => dispatch(fetchProductDetailByIdAsync(slug)).unwrap(),
           onSuccess: (res) => {
-            setReady(false)
+            setReady(true)
           },
           values: slug,
           toast: toast
         })
       }
     }
+    setReady(true)
     fetch()
   }, [slug, dispatch, details])
 
   return (
     <>
-      {ready ? (
-        <Loading />
-      ) : (
+      <Spin spinning={!ready}>
         <div className="select-text">
           <Grid2 width={'100%'} container>
             <Grid2
@@ -92,50 +91,36 @@ export const ProductDetail = () => {
                     {formattedPrice(details?.price)}
                   </del>
                   <span>
-                    <Tag
-                      style={{
-                        borderColor: '#fb2c36',
-                        fontWeight: 600,
-                        color: '#fb2c36',
-                        fontSize: '0.9rem',
-                        height: '2rem',
-                        width: '3rem',
-                        placeContent: 'center'
-                      }}
-                    >
-                      -{details?.discountPercent}%
-                    </Tag>
+                    <Badge variant="destructive">-{details?.discountPercent}%</Badge>
                   </span>
                 </div>
                 <div className="text-base box">
-                  <p className="content">Thương hiệu: {details?.manufacturerName}</p>
-                  <p className="content">Tình trạng: {details?.conditions}</p>
+                  {details?.brandName !== null && details?.brandName !== '' && (
+                    <p className="content">Thương hiệu: {details?.brandName}</p>
+                  )}
+                  <p className="content">Tình trạng: {details?.conditions === 'NEW' ? 'Mới' : 'Cũ'}</p>
                   <p className="content">Bảo hàng: {details?.warranty} tháng</p>
-                  {details?.weight !== 0 ? <p className="content">Cân nặng: {details?.weight}kg</p> : null}
-                  {details?.color && <p className="content">Màu: {details?.color}</p>}
                 </div>
                 <div className="flex gap-10 justify-center items-center mt-10">
-                  <div className="block">
+                  <div>
                     <Button
+                      disabled={isLoading(`addFavorite:${details?.productId}`)}
+                      onClick={() => handleAddToFavourites(details?.productId)}
                       variant="outline"
-                      className="cursor-pointer h-[45px]"
-                      onClick={() => handleAddToFavourites(details?.id)}
+                      className="py-5 cursor-pointer "
                     >
-                      {isPresentInFavorites(favourites, details?.id) ? (
-                        <HeartFilled style={{ fontSize: '1.8rem', color: '#fb2c36' }} />
-                      ) : (
-                        'Thêm vào yêu thích'
-                      )}
+                      <Heart /> Yêu thích
                     </Button>
                   </div>
-                  <div className="w-maxs">
+                  <div>
                     <Button
-                      onClick={() => handleAddItemToCart(details?.id, 1)}
-                      type="button"
+                      disabled={isLoading(`addItemToCart:${details?.productId}`)}
+                      onClick={() => handleAddItemToCart(details?.productId)}
                       variant="secondary"
-                      className="cursor-pointer h-[45px]"
+                      className="py-5 cursor-pointer"
                     >
-                      Thêm vào giỏ hàng
+                      <ShoppingCart />
+                      Thêm vào giỏ
                     </Button>
                   </div>
                 </div>
@@ -146,7 +131,7 @@ export const ProductDetail = () => {
             </Grid2>
           </Grid2>
         </div>
-      )}
+      </Spin>
     </>
   )
 }

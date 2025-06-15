@@ -29,7 +29,7 @@ const homeSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSidebar.fulfilled, (state, aciton) => {
-      state.sidebar = aciton.payload?.data
+      state.sidebar = aciton.payload.data || []
     })
   }
 })

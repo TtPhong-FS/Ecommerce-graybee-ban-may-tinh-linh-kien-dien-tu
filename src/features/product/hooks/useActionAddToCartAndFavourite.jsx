@@ -1,36 +1,39 @@
 import { addItemToCartAsync } from '@/features/cart'
-import { createFavouriteAsync } from '@/features/user/redux'
+import { addToFavoriteByProductIdAsync } from '@/features/user/redux'
 import { useAppContext } from '@/hooks'
 import { handleAsync, handleAsyncSubmit } from '@/lib'
 import { getToken } from '@/utils'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
-export const useActionAddToCartAndFavourite = () => {
+export const useActionAddToCartAndFavourite = (start, stop) => {
   const token = getToken()
   const { dispatch } = useAppContext()
+
   const { isLogin } = useSelector((state) => state.auth)
 
   const handleAddToFavourites = async (productId) => {
     if (!isLogin && !token) {
-      return toast({
-        title: 'Oh! no',
-        description: 'Bạn phải đăng nhập mới có thể dùng tính năng này.'
+      return toast.message('Oh no!', {
+        description: 'Bạn phải đăng nhập mới có thể dùng tính năng này'
       })
     }
 
     await handleAsync({
-      asyncAction: (id) => dispatch(createFavouriteAsync(id)).unwrap(),
+      asyncAction: (productId) => dispatch(addToFavoriteByProductIdAsync(productId)).unwrap(),
       onSuccess: (res) => {
         toast.success(res.message)
       },
       values: productId,
-      toast
+      toast,
+      loadingKey: `addFavorite:${productId}`,
+      startLoading: start,
+      stopLoading: stop
     })
   }
 
   const handleAddItemToCart = async (productId) => {
     await handleAsyncSubmit({
-      asyncAction: (vals) => dispatch(addItemToCartAsync(vals)).unwrap(),
+      asyncAction: (productId) => dispatch(addItemToCartAsync(productId)).unwrap(),
       onSuccess: (res) => {
         toast(null, {
           description: (
@@ -45,7 +48,10 @@ export const useActionAddToCartAndFavourite = () => {
         })
       },
       toast,
-      values: productId
+      values: productId,
+      loadingKey: `addItemToCart:${productId}`,
+      startLoading: start,
+      stopLoading: stop
     })
   }
   return {

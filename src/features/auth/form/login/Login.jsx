@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 
 import { RHFInputField } from '@/components/fields'
-import { Button } from '@/components/ui/button'
 import { useCustomTranslate } from '@/i18n'
 
 export const Login = () => {
@@ -15,9 +14,9 @@ export const Login = () => {
       <div>
         <div className="flex flex-col gap-4 mb-2 mt-6">
           <RHFInputField
-            label={`${t('auth:login.form.phone')}`}
-            name="phone"
-            placeholder={`${t('auth:login.form.phone')}`}
+            label={`${t('auth:login.form.email')}`}
+            name="email"
+            placeholder={`${t('auth:login.form.email')}`}
             type="text"
           />
           <RHFInputField
@@ -32,13 +31,10 @@ export const Login = () => {
             {t('auth:login.btnForgotPassword')}
           </Link>
         </div>
-        <Button variant="secondary" type="submit" className="cursor-pointer h-[40px]  w-full text-sm">
-          {t('auth:login.btnLogin')}
-        </Button>
       </div>
       <div className="flex items-center justify-center mt-6 gap-1">
-        <p className="text-sm">{t('auth:login.noAccountYet')}</p>
-        <Link className="text-blue-500 hover:underline text-sm decoration-solid" to="/signup">
+        <p className="text-base">{t('auth:login.noAccountYet')}</p>
+        <Link className="text-blue-500 hover:underline text-base decoration-solid" to="/signup">
           {t('auth:login.btnSignUp')}
         </Link>
       </div>

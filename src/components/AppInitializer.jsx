@@ -1,9 +1,10 @@
 import { getCartByUserUidOrSessionIdAsync } from '@/features/cart/redux'
+import { getAllProductAsync } from '@/features/product'
 import { fetchAddressesByTokenAsync, fetchFavouritesAsync, fetchProfileByTokenAsync } from '@/features/user'
 import { useAppContext } from '@/hooks'
 import { fetchSidebar } from '@/store/redux/homeSlice'
 import { getToken, useSession } from '@/utils'
-import React from 'react'
+import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 
 export const AppInitializer = () => {
@@ -11,10 +12,10 @@ export const AppInitializer = () => {
   const { dispatch } = useAppContext()
   const token = getToken()
   const user = useSelector((state) => state.account.user)
-  const isPrivate = React.useRef(false)
-  const isPublic = React.useRef(false)
+  let isPrivate = useRef(false)
+  let isPublic = useRef(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isPrivate.current) {
       if (token && (!user || user == null)) {
         dispatch(fetchProfileByTokenAsync())
@@ -26,10 +27,11 @@ export const AppInitializer = () => {
       }
     }
     isPrivate.current = true
-  }, [token, user])
+  }, [token, user, dispatch])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isPublic.current) {
+      dispatch(getAllProductAsync())
       dispatch(fetchSidebar())
       dispatch(getCartByUserUidOrSessionIdAsync())
     }
@@ -38,7 +40,7 @@ export const AppInitializer = () => {
 
   const currentLang = localStorage.getItem('language')
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (currentLang === null) {
       localStorage.setItem('language', 'vi')
     }

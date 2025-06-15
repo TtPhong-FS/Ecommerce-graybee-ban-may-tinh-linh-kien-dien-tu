@@ -5,7 +5,7 @@ export const handleAsync = async ({ asyncAction, values, onSuccess, toast, loadi
     onSuccess?.(res)
   } catch (error) {
     if (error && typeof error === 'object') {
-      if (error.general) toast?.error(error.general)
+      if (error.global) toast?.error(error.global)
       else if (error.unconnect) toast?.warning(error.unconnect)
       else if (error.detail) toast?.error(error.detail)
     }

@@ -8,6 +8,7 @@ import {
   VerifyEmail,
   VerifyOtp
 } from '@/features/auth'
+import ForgotPasswordLayout from '@/features/auth/layout/ForgotPasswordLayout'
 import { OrderPage } from '@/features/order'
 import { ProductDetail } from '@/features/product'
 import { FavouritePage, ManageAddressPage, OrderDetail, OrderHistoryPage, ProfilePage } from '@/features/user'
@@ -62,7 +63,7 @@ const RootRouter = [
         path: 'forgot-password/',
         element: (
           <AuthPage>
-            <VerifyEmail />
+            <ForgotPasswordLayout />
           </AuthPage>
         ),
         handle: { crumb: () => 'forgotPassword' },

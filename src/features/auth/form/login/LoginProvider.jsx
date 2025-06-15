@@ -7,14 +7,21 @@ import { useContext } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-import { useAppContext } from '@/hooks'
+import { Button } from '@/components/ui/button'
+import { useAppContext, useLoading } from '@/hooks'
+import { useCustomTranslate } from '@/i18n'
+import { LoaderCircle } from 'lucide-react'
 import { AuthContext } from '../../components'
 import { loginUserAsync } from '../../redux'
+import { setRole } from '../../redux/authSlice'
 import { Login } from './Login'
 import { useValidationSchema } from './useValidationSchema'
 
 export const LoginProvider = () => {
   const { dispatch, navigate } = useAppContext()
+
+  const { t } = useCustomTranslate()
+  const { isLoading, start, stop } = useLoading()
 
   const { setUser, setLoading } = useContext(AuthContext)
   const { schema } = useValidationSchema()
@@ -22,48 +29,40 @@ export const LoginProvider = () => {
     resolver: yupResolver(schema),
 
     defaultValues: {
-      phone: '',
+      email: '',
       password: ''
     },
     shouldUnregister: false
   })
 
   const onSubmit = methods.handleSubmit(async (values) => {
-    console.log(values)
+    start('submitting')
     await handleAsyncSubmit({
       asyncAction: (vals) => dispatch(loginUserAsync(vals)).unwrap(),
       onSuccess: (res) => {
-        const { token } = res.data
-        saveAuthToken(token)
-        const decodedToken = jwtDecode(token)
+        const data = res.data
+        saveAuthToken(data.auth.token)
+        const decodedToken = jwtDecode(data.auth.token)
+        dispatch(setRole(decodedToken.role))
         setUser(decodedToken)
         setLoading(false)
 
-        // if (token) {
-        //   dispatch(getAddressesByTokenAsync())
-        //   dispatch(getProfileByTokenAsync())
-        //   dispatch(getFavouritesAsync())
-        //   dispatch(findCartByUserUidOrSessionIdAsync())
-        // }
-
-        if (decodedToken?.role === 'SUPER_ADMIN' || decodedToken?.role === 'ADMIN' || decodedToken?.role === 'MANAGE') {
-          navigate('/home')
-        } else {
-          navigate('/unauthorized')
-        }
+        navigate('/home')
       },
       values,
       toast,
-      setError: methods.setError,
-      defaultValues: methods.formState.defaultValues,
-      reset: methods.reset
+      setError: methods.setError
     })
+    stop('submitting')
   })
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={onSubmit}>
         <Login />
+        <Button variant="secondary" type="submit" className="py-5 cursor-pointer w-full mt-6 text-base">
+          {isLoading('submitting') ? <LoaderCircle size={26} className="animate-spin" /> : t('common:login')}
+        </Button>
       </form>
     </FormProvider>
   )

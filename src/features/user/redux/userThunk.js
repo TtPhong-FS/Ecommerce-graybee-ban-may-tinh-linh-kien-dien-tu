@@ -1,10 +1,13 @@
 import { handleCreateAsyncThunk } from '@/lib'
 import { accountApi } from './userApi'
 
-export const createFavouriteAsync = handleCreateAsyncThunk('account/createFavouriteAsync', async (productId) => {
-  const response = await accountApi.postFavourite(productId)
-  return response.data
-})
+export const addToFavoriteByProductIdAsync = handleCreateAsyncThunk(
+  'account/addToFavoriteByProductIdAsync',
+  async (productId) => {
+    const response = await accountApi.addToFavoriteByProductId(productId)
+    return response.data
+  }
+)
 
 export const fetchFavouritesAsync = handleCreateAsyncThunk('account/fetchFavouritesAsync', async () => {
   const response = await accountApi.getFavourites()

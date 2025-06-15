@@ -35,9 +35,8 @@ export function VerifyEmail() {
     await handleAsyncSubmit({
       asyncAction: (vals) => dispatch(verifyEmailAsync(vals?.email)).unwrap(),
       onSuccess: (res) => {
-        toast.success(res?.message)
-
         if (res?.status === 200) {
+          toast.success(res?.message)
           Cookies.set('emailVerified', 'true')
           Cookies.set('email', values?.email)
           navigate('/forgot-password/verify-otp')

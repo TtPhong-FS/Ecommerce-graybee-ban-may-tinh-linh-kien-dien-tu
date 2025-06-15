@@ -1,13 +1,13 @@
 import { handleCreateAsyncThunk } from '@/lib'
 import { cartApi } from './cartApi'
 
-export const addItemToCartAsync = handleCreateAsyncThunk('cart/addItemToCartAsync', async (request) => {
-  const response = await cartApi.addItemToCart(request)
+export const addItemToCartAsync = handleCreateAsyncThunk('cart/addItemToCartAsync', async (productId) => {
+  const response = await cartApi.addItemToCart(productId)
   return response.data
 })
 
-export const decreaseQuantityAsync = handleCreateAsyncThunk('cart/decreaseQuantityAsync', async (request) => {
-  const response = await cartApi.decreaseQuantity(request)
+export const decreaseQuantityAsync = handleCreateAsyncThunk('cart/decreaseQuantityAsync', async (productId) => {
+  const response = await cartApi.decreaseQuantity(productId)
   return response.data
 })
 

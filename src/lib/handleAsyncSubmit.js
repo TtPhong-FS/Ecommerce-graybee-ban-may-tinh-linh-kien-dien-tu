@@ -19,11 +19,11 @@ export const handleAsyncSubmit = async ({
   } catch (error) {
     if (error && typeof error === 'object') {
       Object.entries(error).forEach(([field, message]) => {
-        if (field !== 'general' && field !== 'unconnect') {
+        if (field !== 'global' && field !== 'unconnect') {
           setError?.(field, { type: 'server', message })
         }
       })
-      if (error.general) return toast?.error(error.general)
+      if (error.global) return toast?.error(error.global)
       if (error.unconnect) return toast?.warning(error.unconnect)
       else if (error.detail) toast?.error(error.detail)
     }

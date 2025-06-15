@@ -3,7 +3,8 @@ import { loginUserAsync, registerUserAsync } from './authThunk'
 
 const initialState = {
   isLogin: false,
-  isLogout: false
+  isLogout: false,
+  role: null
 }
 
 const authSlice = createSlice({
@@ -14,28 +15,29 @@ const authSlice = createSlice({
       state.isLogin = false
       state.isLogout = true
     },
-    refreshLogin: (state) => {
+    refreshLogin: (state, action) => {
+      state.role = action.payload
+      state.isLogin = true
+      state.isLogout = false
+    },
+    setRole: (state, action) => {
+      state.role = action.payload
       state.isLogin = true
       state.isLogout = false
     }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginUserAsync.fulfilled, (state) => {
-        state.isLogin = true
-      })
       .addCase(loginUserAsync.rejected, (state) => {
         state.isLogin = false
-      })
-
-      .addCase(registerUserAsync.fulfilled, (state) => {
-        state.isLogin = true
+        state.role = null
       })
       .addCase(registerUserAsync.rejected, (state) => {
         state.isLogin = false
+        state.role = null
       })
   }
 })
 
-export const { logout, refreshLogin } = authSlice.actions
+export const { logout, refreshLogin, setRole } = authSlice.actions
 export default authSlice.reducer

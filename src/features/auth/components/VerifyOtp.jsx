@@ -1,6 +1,6 @@
 import { RHFInputOtp } from '@/components/fields'
 import { Button } from '@/components/ui/button'
-import { useAppContext } from '@/hooks'
+import { useAppContext, useLoading } from '@/hooks'
 import { useCustomTranslate } from '@/i18n'
 import { handleAsync, handleAsyncSubmit } from '@/lib'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -25,6 +25,8 @@ export function VerifyOtp() {
   const { t } = useCustomTranslate()
 
   const { navigate, dispatch } = useAppContext()
+
+  const { isLoading, start, stop } = useLoading()
 
   const methods = useForm({
     defaultValues: {
@@ -78,17 +80,19 @@ export function VerifyOtp() {
       onSuccess: (res) => {
         toast.success(res?.message)
       },
+      loadingKey: 'resendOtp',
+      startLoading: start,
+      stopLoading: stop,
       toast,
       values: email
     })
   }
-
   return (
     <div>
       <Link className="link text-sm mb-4 block" to="/forgot-password/verify-email">
         {t('common:back')}
       </Link>
-      <p className="text-base font-medium text-center mb-6"></p>
+      <p className="text-base font-medium text-center mb-6">{t('auth:verifyOtp.title')}</p>
       <FormProvider {...methods}>
         {methods.formState.errors.root && (
           <span className="error-message px-10 flex gap-1 mb-2 items-center">
@@ -102,7 +106,7 @@ export function VerifyOtp() {
           </div>
           <div className="text-end px-12">
             <span className="text-blue-600 cursor-pointer " onClick={() => onResendOtp()}>
-              {t('common:resend')}
+              {isLoading('resendOtp') ? <LoaderCircle size={20} className="animate-spin" /> : t('common:resend')}
             </span>
           </div>
           <Button variant="secondary" type="submit" className="cursor-pointer select-none h-[38px] w-full mt-3">
