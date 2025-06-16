@@ -22,7 +22,7 @@ export const RootLayout = () => {
               </Suspense>
             </div>
           </div>
-          <Toaster position="top-right" />
+          <Toaster closeButton position="top-right" />
         </main>
         <div className="bg-primary-foreground">
           <Footer />

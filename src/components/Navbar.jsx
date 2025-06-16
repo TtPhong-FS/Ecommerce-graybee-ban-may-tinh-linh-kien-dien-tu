@@ -4,28 +4,29 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { Headset, LogOut, MapPin, Menu, ScrollText, ShoppingCart, UserRound, X } from 'lucide-react'
+import { Headset, LogOutIcon, MapPin, Menu, ScrollText, ShoppingCart, UserRound, X } from 'lucide-react'
 
 import { searchProductByNameAsync } from '@/features/product/redux'
-import { useUserData } from '@/features/user'
+import { selectProfile } from '@/features/user/redux/userSelector'
 import { useAppContext, useLoading } from '@/hooks'
 import { LanguageSwitcher, useCustomTranslate } from '@/i18n'
 import { onFocusSidebar } from '@/store/redux/homeSlice'
 import { useMediaQuery } from '@mui/material'
 import { AuthContext } from '../features/auth/components/AuthProvider'
 import { ProductSearchCard } from './cards'
-import { useTheme } from './theme-provider'
+import { Avatar, AvatarImage } from './ui/avatar'
+import { Button } from './ui/button'
 import { Input } from './ui/input'
 
 const navigation = [
   {
-    path: '/contact',
+    path: '#',
     icon: Headset,
     badge: false,
     title: 'contact'
   },
   {
-    path: '/shop-location',
+    path: '#',
     icon: MapPin,
     badge: false,
     title: 'showroom'
@@ -48,15 +49,11 @@ export const Navbar = () => {
   const { t } = useCustomTranslate()
   const { dispatch, navigate } = useAppContext()
 
-  const { setTheme, theme } = useTheme()
   const isMobile = useMediaQuery('(max-width: 640px)')
 
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light')
-  }
-
   const { handleLogout } = useContext(AuthContext)
-  const { user } = useUserData()
+
+  const profile = useSelector(selectProfile)
 
   const listProductSearch = useSelector((state) => state.product.listProductSearch, shallowEqual)
   const cartItems = useSelector((state) => state.cart?.cartItems)
@@ -127,10 +124,22 @@ export const Navbar = () => {
       <nav className="bg-secondary/90">
         <div className="w-full max-w-[88rem] flex text-sm mx-auto gap-2 items-center justify-end py-1.5">
           <div className="flex items-center gap-2 ">
-            {isLogin && <LogOut size={20} className="cursor-pointer" onClick={() => handleLogout()} />}
-            {isLogin && <Link to="/account">Hi, {user?.fullName}</Link>}
+            {isLogin && (
+              <Link to="/account">
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                </Avatar>
+                {profile?.fullName !== null && profile?.fullName !== '' && <>Hi, {profile?.fullName}</>}
+              </Link>
+            )}
           </div>
           <LanguageSwitcher />
+          {isLogin && (
+            <Button variant="outline" className="cursor-pointer" onClick={() => handleLogout()}>
+              <LogOutIcon /> Đăng xuất
+            </Button>
+          )}
+
           {/* <span className="cursor-pointer flex items-center" onClick={toggleTheme}>
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </span> */}

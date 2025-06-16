@@ -135,7 +135,6 @@ html {
 
 .link {
   cursor: pointer;
-  font-size: var(--f);
   color: var(--link) !important;
 }
 .link:hover {
@@ -179,9 +178,9 @@ h3 {
   color: #6a7282;
 }
 
-.box {
+.card {
   background-color: white;
-  padding: 1rem;
+  padding: 1.3rem;
   width: 100%;
   border-radius: 0.7rem;
 }
@@ -226,4 +225,23 @@ h3 {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted-foreground) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background) !important;
+}
+
+::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background: var(--muted-foreground) !important;
+  border-radius: 6px !important;
 }

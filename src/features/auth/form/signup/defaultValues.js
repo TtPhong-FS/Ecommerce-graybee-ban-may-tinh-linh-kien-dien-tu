@@ -2,7 +2,12 @@ export const defaultValues = {
   fullName: '',
   phone: '',
   email: '',
-  dateOfBirth: '',
+  birthday: {
+    day: null,
+    month: null,
+    year: null
+  },
   password: '',
-  gender: ''
+  repeatPassword: '',
+  gender: 'ORTHER'
 }

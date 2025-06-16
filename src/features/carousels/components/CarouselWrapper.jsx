@@ -1,5 +1,5 @@
-import { Loading } from '@/components'
 import { ProductCard } from '@/components/cards'
+import { selectProducts } from '@/features/product/redux/productSelector'
 import { useMediaQuery } from '@mui/material'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
@@ -11,15 +11,13 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import '../styles/swiper.css'
 
 export const CarouselWrapper = ({ category }) => {
-  const carousels = useSelector((state) => state.carousel.carousels[category])
-
   const isMobile = useMediaQuery('(max-width: 640px)')
 
-  if (!carousels || carousels.length === 0) return <Loading />
+  const products = useSelector(selectProducts)
 
   return (
-    <div className="box">
-      <h1>{category?.toUpperCase()} bán chạy</h1>
+    <div className="card">
+      <h1 className="mb-6">{category?.toUpperCase()} bán chạy</h1>
       <Swiper
         modules={[Navigation, Autoplay, Pagination]}
         slidesPerView={isMobile ? 3 : 6}
@@ -29,9 +27,9 @@ export const CarouselWrapper = ({ category }) => {
         loop={true}
         className="relative"
       >
-        {carousels?.map((product, index) => (
+        {products?.map((product, index) => (
           <SwiperSlide key={index}>
-            <ProductCard data={product} />
+            <ProductCard product={product} />
           </SwiperSlide>
         ))}
       </Swiper>

@@ -1,12 +1,11 @@
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { LoaderCircle } from 'lucide-react'
+import { ArrowLeft, LoaderCircle, ShoppingCart } from 'lucide-react'
 import PropTypes from 'prop-types'
 import { useFormContext, useWatch } from 'react-hook-form'
 
 import { useSelector } from 'react-redux'
 
-export const ConfirmOrder = ({ confirm, setConfirm }) => {
+export const ConfirmOrder = ({ confirm, setConfirm, onUnConfirm }) => {
   const {
     control,
     formState: { isSubmitting }
@@ -16,49 +15,58 @@ export const ConfirmOrder = ({ confirm, setConfirm }) => {
 
   const cartItems = useSelector((state) => state.cart.cartItems)
 
-  const tolal = cartItems?.filter((item) => cartItemIds.includes(item.id)).reduce((sum, item) => sum + item.total, 0)
+  const tolal = cartItems
+    ?.filter((item) => cartItemIds.includes(item.cartItemId))
+    .reduce((sum, item) => sum + item.totalAmount, 0)
 
   return (
     <div className="sticky top-24">
-      <Card>
-        <CardContent>
-          <div className="text-[1rem]">
-            <h2 className="mb-2">Thông tin đơn hàng</h2>
-            <div className="flex flex-col gap-2">
-              <span className="flex items-center text-sm justify-between border-b-1 border-gray-400 pb-2">
-                <span>Tổng tiền</span>
-                <span className="font-medium text-base font-sans ">
-                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tolal)}
-                </span>
+      <div className="card">
+        <div className="text-[1rem]">
+          <h2 className="mb-2">Thông tin đơn hàng</h2>
+          <div className="flex flex-col gap-2">
+            <span className="flex items-center text-sm justify-between border-b-1 border-gray-400 pb-2">
+              <span>Tổng tiền</span>
+              <span className="font-medium text-base font-sans ">
+                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tolal)}
               </span>
-              <span className="flex items-center text-sm justify-between border-b-1 border-dashed border-gray-400 pb-2">
-                <span>Tổng khuyến mãi</span>
-                <span className="font-medium  font-sans ">
-                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(0)}
-                </span>
+            </span>
+            <span className="flex items-center text-sm justify-between border-b-1 border-dashed border-gray-400 pb-2">
+              <span>Tổng khuyến mãi</span>
+              <span className="font-medium  font-sans ">
+                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(0)}
               </span>
-              <span className="flex items-center text-sm justify-between">
-                <span>Tiền thanh toán</span>
-                <span className="font-medium  font-sans text-red-500">
-                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tolal)}
-                </span>
+            </span>
+            <span className="flex items-center text-sm justify-between">
+              <span>Tiền thanh toán</span>
+              <span className="font-medium  font-sans text-red-500">
+                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tolal)}
               </span>
-              <span className="flex items-center text-sm justify-between">
-                <span>Điểm thưởng</span>
-                <span className="font-medium  font-sans ">0</span>
-              </span>
-            </div>
+            </span>
+            <span className="flex items-center text-sm justify-between">
+              <span>Điểm thưởng</span>
+              <span className="font-medium  font-sans ">0</span>
+            </span>
           </div>
-          <div className="mt-4">
+        </div>
+        <div className="flex gap-3 items-center mt-4">
+          <div className="w-full">
+            <Button variant="outline" className="py-5 w-full" onClick={onUnConfirm}>
+              <ArrowLeft size={16} /> Quay lại giỏ hàng
+            </Button>
+          </div>
+          <div className="w-full">
             {confirm ? (
-              <Button disabled={isSubmitting} type="submit" className="cursor-pointer bg-secondary w-full">
+              <Button variant="secondary" disabled={isSubmitting} type="submit" className="cursor-pointer w-full py-5">
                 {isSubmitting ? (
-                  <span>
+                  <>
                     <LoaderCircle className="animate-spin mr-2" />
                     Đang xử lý
-                  </span>
+                  </>
                 ) : (
-                  'Đặt hàng'
+                  <>
+                    <ShoppingCart size={16} /> Đặt hàng
+                  </>
                 )}
               </Button>
             ) : (
@@ -69,16 +77,16 @@ export const ConfirmOrder = ({ confirm, setConfirm }) => {
                 }}
                 type="button"
                 variant="secondary"
-                className="cursor-pointer h-[38px] w-full select-none"
+                className="cursor-pointer py-5 w-full select-none"
               >
                 Xác nhận đơn
               </Button>
             )}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   )
 }
 
-ConfirmOrder.propTypes = { confirm: PropTypes.bool, setConfirm: PropTypes.func }
+ConfirmOrder.propTypes = { confirm: PropTypes.bool, setConfirm: PropTypes.func, onUnConfirm: PropTypes.func }

@@ -3,7 +3,7 @@ import { CartItem } from '@/features/cart'
 import { useAppContext } from '@/hooks'
 import { useCustomTranslate } from '@/i18n'
 import { Grid2 } from '@mui/material'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { CustomerInfo } from '../components'
@@ -16,6 +16,9 @@ export const Order = () => {
   const { navigate } = useAppContext()
 
   const cartItems = useSelector((state) => state.cart.cartItems)
+
+  const cartItemsMemo = useMemo(() => cartItems, [cartItems])
+
   const [confirm, setConfirm] = useState(false)
 
   const { clearErrors } = useFormContext()
@@ -27,18 +30,8 @@ export const Order = () => {
 
   return (
     <>
-      {cartItems.length > 0 ? (
+      {cartItemsMemo?.length > 0 ? (
         <div>
-          {confirm && (
-            <div className="mb-4">
-              <span
-                onClick={() => onUnConfirm()}
-                className="text-blue-500 text-[1rem] hover:decoration-solid hover:underline cursor-pointer"
-              >
-                Quay trở về giỏ hàng
-              </span>
-            </div>
-          )}
           <Grid2 container spacing={2}>
             <Grid2 size={{ mobile: 12, tablet: 12, laptop: 8 }}>
               <CartItem />
@@ -51,7 +44,7 @@ export const Order = () => {
               )}
             </Grid2>
             <Grid2 sx={{ position: 'relative' }} size={{ mobile: 12, tablet: 12, laptop: 4 }}>
-              <ConfirmOrder confirm={confirm} setConfirm={setConfirm} />
+              <ConfirmOrder confirm={confirm} setConfirm={setConfirm} onUnConfirm={onUnConfirm} />
             </Grid2>
           </Grid2>
         </div>

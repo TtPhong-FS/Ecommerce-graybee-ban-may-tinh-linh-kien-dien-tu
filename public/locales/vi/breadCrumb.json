@@ -8,10 +8,10 @@
   "verifyEmail": "Xác thực Email",
   "contact": "Liên hệ",
   "cart": "Giỏ hàng",
-  "personalAccount": "Tài khoản cá nhân",
+  "personalAccount": "Tài khoản",
+  "personalInformation": "Thông tin cá nhân",
   "favourite": "Danh sách yêu thích",
   "orderHistory": "Lịch sử đơn hàng",
   "orderDetail": "Chi tiết đơn hàng",
   "personalAddress": "Địa chỉ cá nhân"
-
 }

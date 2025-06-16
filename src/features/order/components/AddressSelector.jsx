@@ -11,7 +11,6 @@ export const AddressSelector = () => {
 
   const watchCity = useWatch({ control, name: 'city' })
   const watchDistrict = useWatch({ control, name: 'district' })
-  const useExistingAddress = useWatch({ control, name: 'useExistingAddress' })
 
   useEffect(() => {
     if (watchCity) setSelectedCity(watchCity)
@@ -30,13 +29,12 @@ export const AddressSelector = () => {
     <div className="flex flex-col gap-2 w-full">
       <Controller
         control={control}
-        name="city"
+        name="shippingInfo.city"
         render={({ field, fieldState: { error } }) => (
           <div className="flex flex-col">
             <Select
               placeholder="Chọn Tỉnh/Thành phố"
               value={field.value}
-              disabled={useExistingAddress}
               className="custom-select"
               style={{
                 minHeight: '40px',
@@ -60,11 +58,10 @@ export const AddressSelector = () => {
 
       <Controller
         control={control}
-        name="district"
+        name="shippingInfo.district"
         render={({ field, fieldState: { error } }) => (
           <div className="flex flex-col">
             <Select
-              disabled={useExistingAddress}
               value={field.value}
               className="custom-select"
               style={{
@@ -94,7 +91,7 @@ export const AddressSelector = () => {
       />
       <Controller
         control={control}
-        name="commune"
+        name="shippingInfo.commune"
         render={({ field, fieldState: { error } }) => (
           <div className="flex flex-col">
             <Select
@@ -103,7 +100,6 @@ export const AddressSelector = () => {
                 minHeight: '40px',
                 width: '100%'
               }}
-              disabled={useExistingAddress}
               value={field.value}
               placeholder="Chọn Xã/Phường"
               onChange={(value) => field.onChange(value)}

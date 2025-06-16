@@ -1,7 +1,5 @@
-import { Link } from 'react-router-dom'
-
-import { RHFDateTimePicker, RHFInputField, RHFRadioGroup } from '@/components/fields'
-import { Button } from '@/components/ui/button'
+import { RHFInputField, RHFRadioGroup, RHFSelect } from '@/components/fields'
+import { days, months, years } from '@/constants'
 import { useCustomTranslate } from '@/i18n'
 import PropTypes from 'prop-types'
 export const SignUp = () => {
@@ -22,7 +20,6 @@ export const SignUp = () => {
         <RHFInputField
           label={`${t('auth:signup.form.phone')}`}
           name="phone"
-          isRequired
           type="text"
           placeholder={`${t('auth:signup.form.phone')}`}
         />
@@ -33,32 +30,37 @@ export const SignUp = () => {
           type="password"
           placeholder={`${t('auth:signup.form.password')}`}
         />
-        <RHFInputField label="Email" isRequired name="email" type="email" placeholder="Email" />
+        <RHFInputField
+          label={`${t('auth:signup.form.repeatPassword')}`}
+          isRequired
+          name="repeatPassword"
+          type="password"
+          placeholder={`${t('auth:signup.form.repeatPassword')}`}
+        />
+        <RHFInputField label="Email" isRequired name="email" type="text" placeholder="Email" />
         <RHFRadioGroup
           label={`${t('auth:signup.form.gender.label')}`}
           name="gender"
           options={[
             {
               value: 'MALE',
-              label: t('auth:signup.form.gender.option.male')
+              label: 'Nam'
             },
             {
               value: 'FEMALE',
-              label: t('auth:signup.form.gender.option.female')
+              label: 'Nữ'
+            },
+            {
+              value: 'OTHER',
+              label: 'Khác'
             }
           ]}
         />
-        <RHFDateTimePicker label={`${t('auth:signup.form.dateOfBirth')}`} name="dateOfBirth" />
-      </div>
-      <Button variant="secondary" type="submit" className="cursor-pointer h-[40px] w-full select-none">
-        {t('auth:signup.btnRegister')}
-      </Button>
-
-      <div className="flex items-center text-sm justify-center mt-6 gap-1">
-        <p>{t('auth:signup.alreadyAccount')}</p>
-        <Link className="text-sm link" to="/login">
-          {t('auth:signup.btnLogin')}
-        </Link>
+        <div className="grid grid-cols-3 gap-6">
+          <RHFSelect name="birthday.day" label="Ngày" showSearch options={days} />
+          <RHFSelect name="birthday.month" label="Tháng" options={months} />
+          <RHFSelect name="birthday.year" label="Năm" showSearch options={years} />
+        </div>
       </div>
     </>
   )

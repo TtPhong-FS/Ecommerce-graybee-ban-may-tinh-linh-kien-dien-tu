@@ -1,5 +1,4 @@
-import { Avatar } from '@mui/material'
-
+import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { useAppContext, useLoading } from '@/hooks'
 import { useCustomTranslate } from '@/i18n'
@@ -8,8 +7,10 @@ import { Spin } from 'antd'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
+import { genderMap } from '../constants'
 import { ProfileProvider } from '../form/profile'
 import { fetchProfileByTokenAsync } from '../redux'
+import { selectProfile } from '../redux/userSelector'
 export const ProfilePage = () => {
   const { t } = useCustomTranslate()
   const { dispatch } = useAppContext()
@@ -20,7 +21,7 @@ export const ProfilePage = () => {
   const [isUpdate, setIsUpdate] = useState(false)
   const [initialData, setInitialData] = useState(null)
 
-  const user = useSelector((state) => state.account.user)
+  const profile = useSelector(selectProfile)
 
   const handleUpdate = async () => {
     await handleAsync({
@@ -51,33 +52,40 @@ export const ProfilePage = () => {
         <div className="flex justify-center items-center bg-white p-4 rounded-lg">
           <div className="w-[50%]">
             <div className="place-items-center">
-              <Avatar
-                src="https://img.icons8.com/?size=100&id=NPW07SMh7Aco&format=png&color=000000"
-                sx={{ width: 100, height: 100 }}
-              />
+              <Avatar className="w-28 h-28">
+                <AvatarImage src="https://github.com/shadcn.png" />
+              </Avatar>
             </div>
-            <div className="flex items-center justify-center mt-2 mb-4">
-              <span className="space-x-1 text-muted-foreground">
-                <span className="text-sm">UID</span>
-                <span className="text-primary font-semibold">{user?.uid}</span>
-              </span>
-            </div>
+            <div className="flex items-center justify-center mt-2 mb-4"></div>
             <div className="mb-8 text-sm">
               <span className="flex justify-between border-b-1 border-gray-300 py-3 select-text">
                 <span className="text-muted-foreground ">{t('customer:profile.fullName')}</span>
-                <span className="font-semibold  uppercase">{user?.fullName}</span>
+                <div>
+                  {profile?.fullName === null || profile?.fullName === '' ? (
+                    <span className="text-muted-foreground italic "> không có dữ liệu</span>
+                  ) : (
+                    profile?.fullName
+                  )}
+                </div>
               </span>
               <span className="flex justify-between border-b-1 border-gray-300 py-3 select-text">
                 <span className="text-muted-foreground ">{t('customer:profile.phone')}</span>
-                <span className="font-semibold ">{user?.phoneNumber}</span>
+                <div>
+                  {profile?.phone === null || profile?.phone === '' ? (
+                    <span className="text-muted-foreground italic "> không có dữ liệu</span>
+                  ) : (
+                    profile?.phone
+                  )}
+                </div>
               </span>
-              <span className="flex justify-between border-b-1 border-gray-300 py-3 select-text">
-                <span className="text-muted-foreground ">Email</span>
-                <span className="font-semibold ">{user?.email}</span>
-              </span>
+
               <span className="flex justify-between border-b-1 border-gray-300 py-3 select-text">
                 <span className="text-muted-foreground ">{t('customer:profile.dateOfBirth')}</span>
-                <span className="font-semibold ">{user?.dateOfBirth}</span>
+                <span className="font-semibold ">{profile?.birthday}</span>
+              </span>
+              <span className="flex justify-between border-b-1 border-gray-300 py-3 select-text">
+                <span className="text-muted-foreground ">Giới tính</span>
+                <span className="font-semibold ">{genderMap[profile?.gender]}</span>
               </span>
             </div>
             <Button

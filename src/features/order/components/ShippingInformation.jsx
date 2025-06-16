@@ -1,13 +1,25 @@
 import { RHFInputField, RHFRadioGroup, RHFTextArea } from '@/components/fields'
 import { Grid2 } from '@mui/material'
+import { useEffect } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
+import { useSelector } from 'react-redux'
+import { selectShippingInfo } from '../redux/orderSelector'
 import { AddressSelector } from './AddressSelector'
 
 export function ShippingInformation() {
-  const { control } = useFormContext()
-  const useExistingAddress = useWatch({ control, name: 'useExistingAddress' })
+  const { control, setValue } = useFormContext()
 
-  const deliveryType = useWatch({ control, name: 'deliveryType' })
+  const deliveryType = useWatch({ control, name: 'shippingInfo.deliveryType' })
+  const shippingInfo = useSelector(selectShippingInfo)
+
+  useEffect(() => {
+    if (shippingInfo) {
+      setValue('shippingInfo.city', shippingInfo.city)
+      setValue('shippingInfo.district', shippingInfo.district)
+      setValue('shippingInfo.commune', shippingInfo.commune)
+      setValue('shippingInfo.streetAddress', shippingInfo.streetAddress)
+    }
+  }, [shippingInfo, setValue])
 
   return (
     <>
@@ -21,7 +33,7 @@ export function ShippingInformation() {
         <div>
           <h2 className="mb-2 sub-title">Hình thức nhận hàng</h2>
           <RHFRadioGroup
-            name="deliveryType"
+            name="shippingInfo.deliveryType"
             options={[
               {
                 value: 'HOME_DELIVERY',
@@ -38,18 +50,18 @@ export function ShippingInformation() {
           <div>
             <h2 className="mb-2 sub-title">Phương thức giao hàng</h2>
             <RHFRadioGroup
-              name="shippingMethod"
+              name="shippingInfo.deliveryMethod"
               options={[
                 {
-                  value: 'STANDARD_SHIPPING',
+                  value: 'STANDARD',
                   label: 'Tiêu chuẩn'
                 },
                 {
-                  value: 'ECONOMY_SHIPPING',
+                  value: 'ECONOMY',
                   label: 'Tiết kiệm'
                 },
                 {
-                  value: 'FAST_DELIVERY',
+                  value: 'FAST',
                   label: 'Nhanh'
                 }
               ]}
@@ -62,14 +74,13 @@ export function ShippingInformation() {
           <div className="flex flex-col gap-3">
             <AddressSelector />
             <RHFInputField
-              disabled={useExistingAddress}
-              name="streetAddress"
+              name="shippingInfo.streetAddress"
               label="Địa chỉ cụ thể"
               type="text"
               placeholder="Ví dụ: Số nhà 65 xóm..."
             />
             <RHFTextArea
-              name="note"
+              name="customerInfo.note"
               label="Ghi chú"
               placeholder="Ghi chú (Ví dụ: Hãy gọi tôi khi chuẩn bị giao hàng)"
             />

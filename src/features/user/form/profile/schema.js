@@ -1,18 +1,25 @@
-import { patterns } from '@/constants'
 import * as yup from 'yup'
 export const Schema = yup.object({
   fullName: yup.string().max(100, 'Tên quá dài').nullable().notRequired(),
-  email: yup.string().max(50, 'Email quá dài').matches(patterns.email, 'Email không xác định').nullable().notRequired(),
-  dateOfBirth: yup.date(),
   gender: yup
     .string()
-    .max(6, 'Vui lòng chọn MALE hoặc FEMALE')
-    .matches(/^(male|female)$/i)
+    .required('Vui lòng chọn giới tính')
+    .matches(/^(MALE|FEMALE|ORTHER)$/i),
+  birthday: yup.object({
+    day: yup.number().nullable().required('Vui lòng chọn ngày sinh'),
+    month: yup.number().nullable().required('Vui lòng chọn tháng sinh'),
+    year: yup.number().nullable().required('Vui lòng chọn năm sinh')
+  })
 })
 
 export const defaultValues = {
   fullName: '',
-  email: '',
+  phone: '',
+  avatarUrl: '',
   gender: '',
-  dateOfBirth: ''
+  birthday: {
+    day: null,
+    month: null,
+    year: null
+  }
 }

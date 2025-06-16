@@ -31,14 +31,14 @@ export const BreadCrumbs = () => {
               <BreadcrumbPage className="text-muted-foreground text-sm">{label}</BreadcrumbPage>
             </BreadcrumbItem>
           ) : (
-            <>
+            <div key={index} className="flex items-center gap-2">
               <BreadcrumbItem>
                 <Link className="link text-sm" to={item.path}>
                   {label}
                 </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
-            </>
+            </div>
           )
         })}
       </BreadcrumbList>

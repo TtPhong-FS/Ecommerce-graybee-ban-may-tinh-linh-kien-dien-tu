@@ -1,0 +1,202 @@
+[
+  {
+    "code": "ORD0001",
+    "status": "COMPLETED",
+    "totalAmount": 1590000,
+    "orderDate": "2025-06-15 14:23:11",
+    "deliveryType": "HOME_DELIVERY",
+    "paymentMethod": "VNPAY",
+    "paymentStatus": "PAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0002",
+    "status": "PENDING",
+    "totalAmount": 890000,
+    "orderDate": "2025-06-14 09:10:32",
+    "deliveryType": "PICKUP",
+    "paymentMethod": "COD",
+    "paymentStatus": "UNPAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0003",
+    "status": "SHIPPING",
+    "totalAmount": 249000,
+    "orderDate": "2025-06-13 17:45:00",
+    "deliveryType": "HOME_DELIVERY",
+    "paymentMethod": "MOMO",
+    "paymentStatus": "PAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0004",
+    "status": "CANCELLED",
+    "totalAmount": 599000,
+    "orderDate": "2025-06-12 10:12:58",
+    "deliveryType": "PICKUP",
+    "paymentMethod": "VNPAY",
+    "paymentStatus": "REFUNDED",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0005",
+    "status": "COMPLETED",
+    "totalAmount": 399000,
+    "orderDate": "2025-06-11 08:33:21",
+    "deliveryType": "HOME_DELIVERY",
+    "paymentMethod": "COD",
+    "paymentStatus": "PAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0006",
+    "status": "RETURNED",
+    "totalAmount": 1290000,
+    "orderDate": "2025-06-10 19:21:44",
+    "deliveryType": "HOME_DELIVERY",
+    "paymentMethod": "MOMO",
+    "paymentStatus": "REFUNDED",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0007",
+    "status": "PENDING",
+    "totalAmount": 749000,
+    "orderDate": "2025-06-09 11:54:02",
+    "deliveryType": "PICKUP",
+    "paymentMethod": "VNPAY",
+    "paymentStatus": "UNPAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0008",
+    "status": "SHIPPING",
+    "totalAmount": 990000,
+    "orderDate": "2025-06-08 13:48:27",
+    "deliveryType": "HOME_DELIVERY",
+    "paymentMethod": "COD",
+    "paymentStatus": "UNPAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0009",
+    "status": "COMPLETED",
+    "totalAmount": 349000,
+    "orderDate": "2025-06-07 15:22:11",
+    "deliveryType": "HOME_DELIVERY",
+    "paymentMethod": "MOMO",
+    "paymentStatus": "PAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0010",
+    "status": "CANCELLED",
+    "totalAmount": 650000,
+    "orderDate": "2025-06-06 16:33:58",
+    "deliveryType": "PICKUP",
+    "paymentMethod": "VNPAY",
+    "paymentStatus": "REFUNDED",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0011",
+    "status": "PENDING",
+    "totalAmount": 820000,
+    "orderDate": "2025-06-05 09:40:10",
+    "deliveryType": "HOME_DELIVERY",
+    "paymentMethod": "MOMO",
+    "paymentStatus": "UNPAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0012",
+    "status": "COMPLETED",
+    "totalAmount": 275000,
+    "orderDate": "2025-06-04 12:15:36",
+    "deliveryType": "PICKUP",
+    "paymentMethod": "COD",
+    "paymentStatus": "PAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0013",
+    "status": "RETURNED",
+    "totalAmount": 459000,
+    "orderDate": "2025-06-03 18:20:05",
+    "deliveryType": "HOME_DELIVERY",
+    "paymentMethod": "VNPAY",
+    "paymentStatus": "REFUNDED",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0014",
+    "status": "SHIPPING",
+    "totalAmount": 1190000,
+    "orderDate": "2025-06-02 07:50:41",
+    "deliveryType": "HOME_DELIVERY",
+    "paymentMethod": "MOMO",
+    "paymentStatus": "PAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0015",
+    "status": "COMPLETED",
+    "totalAmount": 530000,
+    "orderDate": "2025-06-01 14:00:00",
+    "deliveryType": "PICKUP",
+    "paymentMethod": "VNPAY",
+    "paymentStatus": "PAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0016",
+    "status": "CANCELLED",
+    "totalAmount": 289000,
+    "orderDate": "2025-05-31 10:10:10",
+    "deliveryType": "HOME_DELIVERY",
+    "paymentMethod": "COD",
+    "paymentStatus": "CANCELLED",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0017",
+    "status": "SHIPPING",
+    "totalAmount": 940000,
+    "orderDate": "2025-05-30 13:22:33",
+    "deliveryType": "HOME_DELIVERY",
+    "paymentMethod": "MOMO",
+    "paymentStatus": "PAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0018",
+    "status": "PENDING",
+    "totalAmount": 345000,
+    "orderDate": "2025-05-29 09:29:29",
+    "deliveryType": "PICKUP",
+    "paymentMethod": "VNPAY",
+    "paymentStatus": "UNPAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0019",
+    "status": "COMPLETED",
+    "totalAmount": 780000,
+    "orderDate": "2025-05-28 17:45:45",
+    "deliveryType": "HOME_DELIVERY",
+    "paymentMethod": "COD",
+    "paymentStatus": "PAID",
+    "shippingMethod": "STANDARD"
+  },
+  {
+    "code": "ORD0020",
+    "status": "RETURNED",
+    "totalAmount": 605000,
+    "orderDate": "2025-05-27 08:08:08",
+    "deliveryType": "HOME_DELIVERY",
+    "paymentMethod": "MOMO",
+    "paymentStatus": "REFUNDED",
+    "shippingMethod": "STANDARD"
+  }
+]

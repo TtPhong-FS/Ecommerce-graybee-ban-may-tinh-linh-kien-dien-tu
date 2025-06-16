@@ -8,6 +8,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
+import { setProfile } from '@/features/user/redux/userSlice'
 import { useAppContext, useLoading } from '@/hooks'
 import { useCustomTranslate } from '@/i18n'
 import { LoaderCircle } from 'lucide-react'
@@ -45,6 +46,7 @@ export const LoginProvider = () => {
         const decodedToken = jwtDecode(data.auth.token)
         dispatch(setRole(decodedToken.role))
         setUser(decodedToken)
+        dispatch(setProfile(data?.profile))
         setLoading(false)
 
         navigate('/home')
@@ -61,7 +63,7 @@ export const LoginProvider = () => {
       <form onSubmit={onSubmit}>
         <Login />
         <Button variant="secondary" type="submit" className="py-5 cursor-pointer w-full mt-6 text-base">
-          {isLoading('submitting') ? <LoaderCircle size={26} className="animate-spin" /> : t('common:login')}
+          {isLoading('submitting') ? <LoaderCircle size={26} className="animate-spin" /> : t('auth:login.btnLogin')}
         </Button>
       </form>
     </FormProvider>

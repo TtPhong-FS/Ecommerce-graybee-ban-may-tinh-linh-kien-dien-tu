@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types'
 
-import { Controller } from 'react-hook-form'
+import { Controller, useFormContext } from 'react-hook-form'
 import { Label } from '../ui/label'
 import { Textarea } from '../ui/textarea'
 
-export function RHFTextArea({ control, name, label, placeholder }) {
+export function RHFTextArea({ name, label, placeholder }) {
+  const { control } = useFormContext()
+
   return (
     <Controller
       control={control}
@@ -14,7 +16,7 @@ export function RHFTextArea({ control, name, label, placeholder }) {
           <Label className="mb-2" htmlFor="textarea">
             {label}
           </Label>
-          <Textarea id="textarea" {...field} placeholder={placeholder} className="resize-none" />
+          <Textarea id="textarea" {...field} placeholder={placeholder} className="resize-none min-h-40" />
         </div>
       )}
     />

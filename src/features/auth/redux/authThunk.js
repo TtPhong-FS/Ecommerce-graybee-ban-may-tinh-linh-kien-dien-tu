@@ -18,7 +18,7 @@ export const resetPasswordAsync = handleCreateAsyncThunk('auth/resetPasswordApi'
   return response.data
 })
 
-export const registerUserAsync = handleCreateAsyncThunk('auth/signUpApi', async (request) => {
+export const registerUserAsync = handleCreateAsyncThunk('auth/registerUserAsync', async (request) => {
   const response = await signUpApi(request)
   return response.data
 })

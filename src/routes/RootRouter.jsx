@@ -137,12 +137,12 @@ const RootRouter = [
           {
             index: true,
             element: <ProfilePage />,
-            handle: { crumb: () => 'information' }
+            handle: { crumb: () => 'personalInformation' }
           },
           {
             path: 'profile',
             element: <ProfilePage />,
-            handle: { crumb: () => 'information' }
+            handle: { crumb: () => 'personalInformation' }
           },
           {
             path: 'favourites',

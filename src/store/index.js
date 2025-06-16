@@ -8,7 +8,7 @@ const persistConfig = {
   key: 'root',
   storage,
   version: 1,
-  whitelist: ['sidebar', 'product', 'general']
+  whitelist: ['sidebar', 'product', 'general', 'order']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

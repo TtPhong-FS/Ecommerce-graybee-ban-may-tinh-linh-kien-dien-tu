@@ -1,10 +1,12 @@
 import { Select } from 'antd'
 import { CircleAlert } from 'lucide-react'
 import PropTypes from 'prop-types'
-import { Controller } from 'react-hook-form'
+import { Controller, useFormContext } from 'react-hook-form'
 
-export function RHFSelect({ control, name, label, options, showSearch, disabled, mode }) {
+export function RHFSelect({ name, label, options, showSearch, disabled, mode }) {
   console.log('render')
+  const { control } = useFormContext()
+
   return (
     <Controller
       name={name}

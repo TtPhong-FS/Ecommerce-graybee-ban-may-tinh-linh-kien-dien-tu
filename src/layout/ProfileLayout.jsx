@@ -1,6 +1,7 @@
+import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { AuthContext } from '@/features/auth'
 import { useCustomTranslate } from '@/i18n'
-import { Avatar, Grid2 } from '@mui/material'
+import { Grid2 } from '@mui/material'
 import { Heart, LogOut, MapPinHouse, Scroll } from 'lucide-react'
 import { useContext } from 'react'
 import { useSelector } from 'react-redux'
@@ -52,11 +53,9 @@ export const ProfileLayout = () => {
         <Grid2 height={200} size={12} sx={{ bgcolor: 'white', padding: '0.5rem', borderRadius: '0.8rem' }}>
           <div className="flex gap-2 items-center ">
             <Link href="/account" className="cursor-pointer ">
-              <Avatar
-                className="select-none"
-                src="https://img.icons8.com/?size=100&id=NPW07SMh7Aco&format=png&color=000000"
-                sx={{ width: 50, height: 50 }}
-              />
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+              </Avatar>
             </Link>
             <div className="w-full text-sm">
               <p className="select-text">{user?.fullName}</p>

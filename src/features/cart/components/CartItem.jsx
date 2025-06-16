@@ -1,10 +1,13 @@
+import CustomDialog from '@/components/custom/CustomDialog'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Input } from '@/components/ui/input'
 import { useAppContext } from '@/hooks'
 import { formattedPrice } from '@/utils'
-import { Image, Popconfirm } from 'antd'
+import { Image } from 'antd'
+import { debounce } from 'lodash'
 import { Minus, Plus, Trash } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -18,13 +21,15 @@ export const CartItem = () => {
 
   const cartItems = useSelector((state) => state.cart.cartItems)
 
-  const totalItem = cartItems.length
+  const totalItem = cartItems?.length
 
-  const handleSelectItem = (cartItemId) => {
+  const handleSelectItem = (currentCartItemId) => {
     setSelectedItems((prev) =>
-      prev.includes(cartItemId) ? prev.filter((cartItemId) => cartItemId !== cartItemId) : [...prev, cartItemId]
+      prev.includes(currentCartItemId) ? prev.filter((id) => id !== currentCartItemId) : [...prev, currentCartItemId]
     )
   }
+
+  const isAllSelected = selectedItems.length === cartItems.length && cartItems.length > 0
 
   const handleSelectAll = () => {
     if (selectAll) {
@@ -57,29 +62,47 @@ export const CartItem = () => {
     setValue('cartItemIds', selectedItems)
   }, [selectedItems, setValue])
 
+  const [quantity, setQuantity] = useState('1')
+  const onChangeQuantity = (e, cartItemId) => {
+    const value = Math.max(1, Number(e.target.value))
+    setQuantity(value)
+    debouncedUpdate(cartItemId, value)
+  }
+
+  const debouncedUpdate = useMemo(
+    () =>
+      debounce((cartItemId, value) => {
+        console.log('Update after debounce:', cartItemId, value)
+      }, 1000),
+    []
+  )
+
   return (
     <>
-      <div className="select-none flex justify-between items-center bg-white pl-4 py-1 pr-4 rounded-[0.7rem] mb-4">
-        <div className="flex items-center gap-2 py-2">
-          <Checkbox className="mr-4 w-4.5 h-4.5 cursor-pointer" checked={selectAll} onCheckedChange={handleSelectAll} />
+      <div className="select-none bg-white rounded-md p-2 grid grid-cols-12 mb-4">
+        <div className="flex items-center gap-2 py-2 ml-3 col-span-11">
+          <Checkbox
+            className="mr-3 w-4.5 h-4.5 cursor-pointer"
+            checked={isAllSelected}
+            onCheckedChange={handleSelectAll}
+          />
           <h3>Chọn tất cả ({totalItem})</h3>
         </div>
-        <div className="flex items-center justify-center ml-4 w-8 h-8 hover:bg-background rounded-full cursor-pointer">
-          <Popconfirm
-            title="Xoá giỏ hàng"
-            description="Bạn muốn xoá sản phẩm này khỏi giỏ hàng?"
+        <div className="flex items-center justify-center cursor-pointer col-span-1">
+          <CustomDialog
+            triggerElement={<Trash className=" text-muted-foreground" size={16} />}
+            title="Xoá tất cả mặt hàng"
+            description="Bạn có chắc chắn muốn xoá tất cả không?"
+            titleCancel="Huỷ xoá"
+            titleOk="Tiếp tục xoá"
             onConfirm={handleClearItems}
-            okText="Xoá"
-            cancelText="Huỷ bỏ"
-          >
-            <Trash className=" text-muted-foreground" size={16} />
-          </Popconfirm>
+          />
         </div>
       </div>
       <div className="w-auto flex flex-col gap-4">
         {cartItems.map((cartItem, index) => (
           <div key={index}>
-            <div className="flex items-center not-first:mt-4 box">
+            <div className="flex items-center not-first:mt-4 card">
               <div className="mr-6 select-none">
                 <Checkbox
                   className="w-4.5 h-4.5 cursor-pointer"
@@ -88,7 +111,7 @@ export const CartItem = () => {
                   value={cartItem.cartItemId}
                 />
               </div>
-              <div className="select-none flex justify-between items-center w-full">
+              <div className="select-none grid grid-cols-3 place-items-center place-content-center">
                 <div className="flex items-center gap-3 mr-6">
                   <Image
                     className="border-1 p-2 border-gray-300 rounded-md"
@@ -115,7 +138,14 @@ export const CartItem = () => {
                     <Minus size={16} />
                   </Button>
 
-                  <span className="select-none p-2 text-xs">{cartItem.quantity}</span>
+                  <Input
+                    type="number"
+                    className="select-none p-2 text-xs max-w-20 h-8"
+                    min={1}
+                    value={quantity}
+                    onChange={(e) => onChangeQuantity(e)}
+                  />
+
                   <Button
                     className="w-8 h-8 cursor-pointer"
                     variant="outline"
@@ -124,26 +154,25 @@ export const CartItem = () => {
                     <Plus size={16} />
                   </Button>
                 </div>
-                <div className="inline-flex w-[8rem] ml-8 flex-col items-start ">
-                  <span className="font-medium text-sm lg:text-base font-sans text-red-500">
-                    {formattedPrice(cartItem.product.finalPrice)}
-                  </span>
-                  <del className="font-medium text-xs lg:text-sm text-gray-500">
-                    {formattedPrice(cartItem.product.price)}
-                  </del>
-                </div>
-                <div className="flex items-center justify-center ml-4 w-10 h-8 hover:bg-background rounded-full cursor-pointer">
-                  <Popconfirm
-                    title="Xoá giỏ hàng"
-                    description="Bạn muốn xoá sản phẩm này khỏi giỏ hàng?"
-                    onConfirm={() => handleRemoveItem(cartItem.cartItemId)}
-                    okText={'Xoá'}
-                    cancelText={'Huỷ bỏ'}
-                  >
-                    <span className=" ">
-                      <Trash className=" text-muted-foreground" size={16} />
+                <div className="grid grid-cols-7 place-items-center w-full">
+                  <div className="flex flex-col justify-start col-span-6">
+                    <span className="font-medium text-sm lg:text-base font-sans text-red-500">
+                      {formattedPrice(cartItem.product.finalPrice)}
                     </span>
-                  </Popconfirm>
+                    <del className="font-medium text-xs lg:text-sm text-gray-500">
+                      {formattedPrice(cartItem.product.price)}
+                    </del>
+                  </div>
+                  <div className="cursor-pointer col-span-1">
+                    <CustomDialog
+                      triggerElement={<Trash className=" text-muted-foreground" size={16} />}
+                      title="Xoá mặt hàng"
+                      description="Bạn có chắc chắn muốn xoá mục này không?"
+                      titleCancel="Huỷ xoá"
+                      titleOk="Tiếp tục xoá"
+                      onConfirm={() => handleRemoveItem(cartItem.cartItemId)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,56 +1,43 @@
 import { Avatar } from '@mui/material'
 
-import { Button } from '@/components/ui/button'
-import PropTypes from 'prop-types'
-import { RHFDateTimePicker, RHFInputField, RHFRadioGroup } from '../../../../components/fields'
-export const Profile = ({ handleCancel, isLoading }) => {
+import { RHFInputField, RHFRadioGroup, RHFSelect } from '@/components/fields'
+import { AvatarImage } from '@/components/ui/avatar'
+import { days, months, years } from '@/constants'
+export const Profile = () => {
   return (
-    <>
-      <div className=" bg-white p-4 rounded-lg">
-        <Button variant="link" onClick={handleCancel} className="mb-4 cursor-pointer link" type="button">
-          Quay lại
-        </Button>
-        <div className="place-items-center">
-          <div className="place-items-center mb-2">
-            <Avatar
-              src="https://img.icons8.com/?size=100&id=NPW07SMh7Aco&format=png&color=000000"
-              sx={{ width: 100, height: 100 }}
-            />
-          </div>
-          <div className="w-[50%] flex flex-col gap-4 mb-4">
-            <RHFInputField name="fullName" type="text" label="Họ và tên" />
-            <RHFInputField name="email" type="email" label="Email" />
-            <RHFRadioGroup
-              name="gender"
-              label="Giới tính"
-              options={[
-                {
-                  value: 'MALE',
-                  label: 'Nam'
-                },
-                {
-                  value: 'FEMALE',
-                  label: 'Nữ'
-                }
-              ]}
-            />
-            <RHFDateTimePicker name="dateOfBirth" label="Ngày sinh" />
-            <Button
-              disabled={isLoading('updating')}
-              variant="secondary"
-              className="mt-4  cursor-pointer h-[38px]"
-              type="submit"
-            >
-              Cập nhật
-            </Button>
-          </div>
+    <div className="place-items-center">
+      <div className="place-items-center mb-2">
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" />
+        </Avatar>
+      </div>
+      <div className="w-[50%] flex flex-col gap-4 mb-4">
+        <RHFInputField name="fullName" type="text" label="Họ và tên" />
+        <RHFInputField name="phone" type="text" label="Số điện thoại" />
+        <RHFRadioGroup
+          name="gender"
+          label="Giới tính"
+          options={[
+            {
+              value: 'MALE',
+              label: 'Nam'
+            },
+            {
+              value: 'FEMALE',
+              label: 'Nữ'
+            },
+            {
+              value: 'ORTHER',
+              label: 'Khác'
+            }
+          ]}
+        />
+        <div className="grid grid-cols-3 gap-6">
+          <RHFSelect name="birthday.day" label="Ngày" showSearch options={days} />
+          <RHFSelect name="birthday.month" label="Tháng" options={months} />
+          <RHFSelect name="birthday.year" label="Năm" showSearch options={years} />
         </div>
       </div>
-    </>
+    </div>
   )
-}
-
-Profile.propTypes = {
-  handleCancel: PropTypes.func,
-  isLoading: PropTypes.func
 }

@@ -1,4 +1,4 @@
-import { publicAPI } from '../../../config/axiosServer'
+import { publicAPI } from '@/config'
 
 const product_endpoint = 'api/v1/public/products'
 

@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types'
-import { Controller } from 'react-hook-form'
+import { Controller, useFormContext } from 'react-hook-form'
 import { Checkbox } from '../ui/checkbox'
 import { Label } from '../ui/label'
 
-export function RHFCheckBox({ control, name, label }) {
+export function RHFCheckBox({ name, label }) {
+  const { control } = useFormContext()
+
   return (
     <Controller
       control={control}

@@ -20,7 +20,7 @@ export const fetchProfileByTokenAsync = handleCreateAsyncThunk('account/fetchPro
 })
 
 export const updateProfileAsync = handleCreateAsyncThunk('account/updateProfileAsync', async (request) => {
-  const response = await accountApi.putProfile(request)
+  const response = await accountApi.updateProfile(request)
   return response.data
 })
 
@@ -36,6 +36,7 @@ export const updateDefaultAddressAsync = handleCreateAsyncThunk('account/updateD
   const response = await accountApi.putDefaultAddress(id)
   return response.data
 })
+
 export const deleteAddressByIdAndUserUidFromTokenAsync = handleCreateAsyncThunk(
   'account/deleteAddressByIdAndUserUidFromTokenAsync',
   async (id) => {
@@ -49,10 +50,12 @@ export const updateAddressAsync = handleCreateAsyncThunk('account/updateAddressA
   return response.data
 })
 
-export const fetchOrdersByStatusOptionalAsync = handleCreateAsyncThunk(
-  'account/findOrdersByStatusOptional',
-  async (status) => {
-    const response = await accountApi.getOrdersByStatusOptional(status)
-    return { status: status, data: response.data }
-  }
-)
+export const fetchAllOrderHistoryAsync = handleCreateAsyncThunk('account/fetchAllOrderHistoryAsync', async () => {
+  const response = await accountApi.fetchAllOrderHistory()
+  return response.data
+})
+
+export const cancelOrderByCodeAsync = handleCreateAsyncThunk('account/cancelOrderByCodeAsync', async (code) => {
+  const response = await accountApi.cancelOrderByCode(code)
+  return response.data
+})

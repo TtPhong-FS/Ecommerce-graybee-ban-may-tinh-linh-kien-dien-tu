@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types'
 
-import { Controller } from 'react-hook-form'
+import { Controller, useFormContext } from 'react-hook-form'
 import { Switch } from '../ui/switch'
 
-export function RHFSwitch({ control, name }) {
+export function RHFSwitch({ name }) {
+  const { control } = useFormContext()
+
   return (
     <Controller
       control={control}

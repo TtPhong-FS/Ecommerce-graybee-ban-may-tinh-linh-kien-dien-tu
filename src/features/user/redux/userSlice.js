@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   addToFavoriteByProductIdAsync,
+  cancelOrderByCodeAsync,
   createAddressAsync,
   deleteAddressByIdAndUserUidFromTokenAsync,
   fetchAddressesByTokenAsync,
+  fetchAllOrderHistoryAsync,
   fetchFavouritesAsync,
-  fetchOrdersByStatusOptionalAsync,
   fetchProfileByTokenAsync,
   updateAddressAsync,
   updateDefaultAddressAsync,
@@ -16,7 +17,7 @@ const initialState = {
   user: null,
   profile: null,
   favourites: [],
-  orders: {},
+  orderHistory: [],
   deliveryAddress: []
 }
 
@@ -34,19 +35,30 @@ const accountSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      .addCase(fetchOrdersByStatusOptionalAsync.fulfilled, (state, action) => {
-        const { status, data } = action.payload
-        state.orders[status] = data.data || []
+      .addCase(fetchAllOrderHistoryAsync.fulfilled, (state, action) => {
+        state.orderHistory = action.payload.data || []
+      })
+
+      .addCase(cancelOrderByCodeAsync.fulfilled, (state, action) => {
+        const cancelOrder = action.payload.data
+        if (cancelOrder.code) {
+          const index = state.orderHistory.findIndex((o) => o.code === cancelOrder.code)
+
+          state.orderHistory[index] = {
+            ...state.orderHistory[index],
+            orderStatus: cancelOrder.status
+          }
+        }
       })
 
       .addCase(fetchProfileByTokenAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
-        state.user = data || null
+        state.profile = data || null
       })
 
       .addCase(updateProfileAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
-        state.user = data || null
+        state.profile = data || null
       })
 
       .addCase(addToFavoriteByProductIdAsync.fulfilled, (state, action) => {

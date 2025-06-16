@@ -9,7 +9,7 @@ export const Favourite = () => {
       {favourites?.length > 0 ? (
         <div className="grid grid-cols-4 gap-2">
           {favourites?.map((product, index) => (
-            <ProductCard data={product} key={index} />
+            <ProductCard product={product} key={index} />
           ))}
         </div>
       ) : (

@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types'
 
 import { CircleAlert } from 'lucide-react'
-import { Controller } from 'react-hook-form'
+import { Controller, useFormContext } from 'react-hook-form'
 import { Input } from '../ui/input'
 
-export function RHFInputField({ control, name, label, type, isRequired, placeholder, disabled }) {
+export function RHFInputField({ name, label, type, isRequired, placeholder, disabled }) {
   console.log('render', name)
 
+  const { control } = useFormContext()
   return (
     <Controller
       control={control}
@@ -39,7 +40,6 @@ export function RHFInputField({ control, name, label, type, isRequired, placehol
 
 RHFInputField.propTypes = {
   name: PropTypes.string.isRequired,
-  control: PropTypes.object,
   isRequired: PropTypes.bool,
   label: PropTypes.string,
   type: PropTypes.string,

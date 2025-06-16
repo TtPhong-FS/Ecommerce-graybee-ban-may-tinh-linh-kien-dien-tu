@@ -18,5 +18,6 @@ export const accountApi = {
   deleteAddressByIdAndUserUidFromToken: (id) => privateAPI.delete(`${account_endpoint}/address/delete?id=${id}`),
   updateAddressById: (request, id) => privateAPI.put(`${account_endpoint}/address/update?id=${id}`, request),
   toggleAddressDefault: (id) => privateAPI.put(`${account_endpoint}/address/update-default?id=${id}`),
-  getOrdersByStatusOptional: (status) => privateAPI.get(`${account_endpoint}/orders-history/${status}`)
+  fetchAllOrderHistory: () => privateAPI.get(`${account_endpoint}/orders/history`),
+  cancelOrderByCode: (code) => privateAPI.put(`${account_endpoint}/orders/cancel/${code}`)
 }
