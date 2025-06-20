@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, LoaderCircle, ShoppingCart } from 'lucide-react'
+import { ArrowLeft, LoaderCircle, Send, ShoppingCart } from 'lucide-react'
 import PropTypes from 'prop-types'
 import { useFormContext, useWatch } from 'react-hook-form'
 
@@ -50,11 +50,13 @@ export const ConfirmOrder = ({ confirm, setConfirm, onUnConfirm }) => {
           </div>
         </div>
         <div className="flex gap-3 items-center mt-4">
-          <div className="w-full">
-            <Button variant="outline" className="py-5 w-full" onClick={onUnConfirm}>
-              <ArrowLeft size={16} /> Quay lại giỏ hàng
-            </Button>
-          </div>
+          {confirm && (
+            <div className="w-full">
+              <Button variant="outline" className="cursor-pointer py-5 w-full select-none" onClick={onUnConfirm}>
+                <ArrowLeft size={16} /> Quay lại giỏ hàng
+              </Button>
+            </div>
+          )}
           <div className="w-full">
             {confirm ? (
               <Button variant="secondary" disabled={isSubmitting} type="submit" className="cursor-pointer w-full py-5">
@@ -65,7 +67,8 @@ export const ConfirmOrder = ({ confirm, setConfirm, onUnConfirm }) => {
                   </>
                 ) : (
                   <>
-                    <ShoppingCart size={16} /> Đặt hàng
+                    <Send size={16} />
+                    Xác nhận đặt hàng
                   </>
                 )}
               </Button>
@@ -77,9 +80,10 @@ export const ConfirmOrder = ({ confirm, setConfirm, onUnConfirm }) => {
                 }}
                 type="button"
                 variant="secondary"
-                className="cursor-pointer py-5 w-full select-none"
+                className="cursor-pointer py-5 select-none w-full"
               >
-                Xác nhận đơn
+                <ShoppingCart size={16} />
+                Đặt hàng
               </Button>
             )}
           </div>

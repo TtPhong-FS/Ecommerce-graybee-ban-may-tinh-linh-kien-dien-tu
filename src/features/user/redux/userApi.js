@@ -11,13 +11,17 @@ export const accountApi = {
   },
   getProfileByToken: () => privateAPI.get(`${account_endpoint}/profile`),
   updateProfile: (request) => privateAPI.put(`${account_endpoint}/profile/update`, request),
-  getAddressesByToken: () => {
+  getAllAddress: () => {
     return privateAPI.get(`${account_endpoint}/addresses`)
   },
-  createAddress: (request) => privateAPI.post(`${account_endpoint}/address/add`, request),
-  deleteAddressByIdAndUserUidFromToken: (id) => privateAPI.delete(`${account_endpoint}/address/delete?id=${id}`),
-  updateAddressById: (request, id) => privateAPI.put(`${account_endpoint}/address/update?id=${id}`, request),
-  toggleAddressDefault: (id) => privateAPI.put(`${account_endpoint}/address/update-default?id=${id}`),
+  getAddressForUpdate: (id) => privateAPI.get(`${account_endpoint}/addresses/for-update/${id}`),
+  createAddress: (request) => privateAPI.post(`${account_endpoint}/addresses`, request),
+  deleteAddressById: (addressId) => privateAPI.delete(`${account_endpoint}/addresses/${addressId}`),
+  updateAddressById: (request, addressId) => privateAPI.put(`${account_endpoint}/addresses/${addressId}`, request),
+  toggleAddressDefault: (addressId) => privateAPI.put(`${account_endpoint}/addresses/default/${addressId}`),
   fetchAllOrderHistory: () => privateAPI.get(`${account_endpoint}/orders/history`),
-  cancelOrderByCode: (code) => privateAPI.put(`${account_endpoint}/orders/cancel/${code}`)
+  cancelOrderByCode: (code) => privateAPI.put(`${account_endpoint}/orders/cancel/${code}`),
+  reviewProduct: (productSlug, request) => privateAPI.post(`${account_endpoint}/reviews/${productSlug}`, request),
+  editReviewProduct: (id, request) => privateAPI.put(`${account_endpoint}/reviews/${id}`, request),
+  deleteReviewProduct: (id) => privateAPI.delete(`${account_endpoint}/reviews/${id}`)
 }

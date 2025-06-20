@@ -14,17 +14,18 @@ export const ProductCard = ({ product }) => {
   const { handleAddItemToCart, handleAddToFavourites } = useActionAddToCartAndFavourite(start, stop)
 
   return (
-    <div className="border rounded-md px-2 py-3">
-      <div className="">
+    <div className="border rounded-md px-2 py-3 flex flex-col h-full">
+      <div className="pb-4 flex flex-col h-full">
         <Link to={`/products/${product?.slug}`}>
           <img
             className="bg-white p-2 w-[150px] h-[150px] place-self-center"
             src={product?.thumbnail}
-            alt={product?.name}
+            alt={product?.slug}
           />
         </Link>
-        <div className="flex flex-col gap-2 mt-4">
-          <div className="cursor-pointer">
+
+        <div className="flex flex-col gap-2 mt-4 flex-1">
+          <div className="cursor-pointer min-h-[3rem]">
             <Link
               to={`/products/${product?.slug}`}
               className="font-medium hover:underline decoration-solid text-blue-600 text-xs md:text-sm line-clamp-2"
@@ -32,11 +33,13 @@ export const ProductCard = ({ product }) => {
               {product?.name}
             </Link>
           </div>
+
           <div className="flex flex-col justify-center">
             <del className="font-medium text-muted-foreground text-xs lg:text-sm">{formattedPrice(product?.price)}</del>
             <span className="font-medium text-base lg:text-lg text-red-500">{formattedPrice(product?.finalPrice)}</span>
           </div>
         </div>
+
         <div className="mt-4 flex flex-col gap-4">
           <Button
             disabled={isLoading(`addFavorite:${product?.id}`)}

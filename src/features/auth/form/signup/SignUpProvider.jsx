@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { AuthContext } from '../../components'
 import { registerUserAsync } from '../../redux'
-import { setRole } from '../../redux/authSlice'
 import { defaultValues } from './defaultValues'
 import { SignUp } from './SignUp'
 import { useValidationSchema } from './useValidationSchema'
@@ -47,7 +46,6 @@ export const SignUpProvider = () => {
         const data = res.data
         saveAuthToken(data.auth.token)
         const decodedToken = jwtDecode(data.auth.token)
-        dispatch(setRole(decodedToken.role))
         dispatch(setProfile(data?.profile))
         setUser(decodedToken)
         setLoading(false)

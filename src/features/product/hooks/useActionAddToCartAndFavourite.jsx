@@ -3,16 +3,13 @@ import { addToFavoriteByProductIdAsync } from '@/features/user/redux'
 import { useAppContext } from '@/hooks'
 import { handleAsync, handleAsyncSubmit } from '@/lib'
 import { getToken } from '@/utils'
-import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 export const useActionAddToCartAndFavourite = (start, stop) => {
   const token = getToken()
   const { dispatch } = useAppContext()
 
-  const { isLogin } = useSelector((state) => state.auth)
-
   const handleAddToFavourites = async (productId) => {
-    if (!isLogin && !token) {
+    if (!token) {
       return toast.message('Oh no!', {
         description: 'Bạn phải đăng nhập mới có thể dùng tính năng này'
       })

@@ -8,21 +8,18 @@ export const Login = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center w-full">
-        <h1>{t('auth:login.title')}</h1>
-      </div>
       <div>
-        <div className="flex flex-col gap-4 mb-2 mt-6">
+        <div className="flex flex-col gap-4 mb-2 mt-2">
           <RHFInputField
             label={`${t('auth:login.form.email')}`}
             name="email"
-            placeholder={`${t('auth:login.form.email')}`}
+            placeholder="name@example.com"
             type="text"
           />
           <RHFInputField
             label={`${t('auth:login.form.password')}`}
             name="password"
-            placeholder={`${t('auth:login.form.password')}`}
+            placeholder='******'
             type="password"
           />
         </div>

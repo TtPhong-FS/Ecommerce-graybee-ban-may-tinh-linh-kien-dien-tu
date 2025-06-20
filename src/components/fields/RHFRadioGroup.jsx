@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types'
 
-import { CircleAlert } from 'lucide-react'
 import { Controller, useFormContext } from 'react-hook-form'
+import { ErrorMessage } from '../custom/ErrorMessage'
 import { Label } from '../ui/label'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 
 export function RHFRadioGroup({ name, options, label }) {
-  console.log('render')
   const { control } = useFormContext()
 
   return (
@@ -16,7 +15,7 @@ export function RHFRadioGroup({ name, options, label }) {
       render={({ field, fieldState: { error } }) => (
         <div className="flex flex-col gap-2">
           <label className="title-form">{label}</label>
-          <RadioGroup className="flex gap-2 items-center" onValueChange={field.onChange} defaultValue={field.value}>
+          <RadioGroup className="flex gap-2 items-center" onValueChange={field.onChange} value={field.value}>
             {options?.map((item, index) => (
               <div key={index} className="flex items-center space-x-2">
                 <RadioGroupItem value={item.value} />
@@ -24,11 +23,7 @@ export function RHFRadioGroup({ name, options, label }) {
               </div>
             ))}
           </RadioGroup>
-          {error && (
-            <span className="error-message flex gap-1 items-center">
-              <CircleAlert size={16} /> {error.message}
-            </span>
-          )}
+          <ErrorMessage error={error} />
         </div>
       )}
     />

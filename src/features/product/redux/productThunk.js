@@ -18,3 +18,11 @@ export const fetchProductDetailByIdAsync = handleCreateAsyncThunk(
     return response.data
   }
 )
+
+export const getProductByCategory = handleCreateAsyncThunk('product/getProductByCategory', async (category) => {
+  const response = await productApi.getProductByCategory(category)
+  return {
+    category: category,
+    products: response.data
+  }
+})

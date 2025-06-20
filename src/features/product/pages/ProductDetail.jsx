@@ -13,6 +13,7 @@ import { toast } from 'sonner'
 import { Description, ReviewComment, Specification } from '../components'
 import { useActionAddToCartAndFavourite } from '../hooks'
 import { fetchProductDetailByIdAsync } from '../redux'
+import { leaveDetailPage } from '../redux/productSlice'
 
 const items = [
   {
@@ -61,6 +62,10 @@ export const ProductDetail = () => {
     setReady(true)
     fetch()
   }, [slug, dispatch, details])
+
+  useEffect(() => {
+    dispatch(leaveDetailPage())
+  }, [])
 
   return (
     <>
@@ -126,10 +131,8 @@ export const ProductDetail = () => {
                 </div>
               </Grid2>
             </Grid2>
-            <Grid2 size={7}>
-              <Tabs defaultActiveKey="1" items={items} />
-            </Grid2>
           </Grid2>
+          <Tabs defaultActiveKey="1" items={items} />
         </div>
       </Spin>
     </>

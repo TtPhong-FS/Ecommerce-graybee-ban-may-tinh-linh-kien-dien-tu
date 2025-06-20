@@ -81,11 +81,11 @@ export const ProfilePage = () => {
 
               <span className="flex justify-between border-b-1 border-gray-300 py-3 select-text">
                 <span className="text-muted-foreground ">{t('customer:profile.dateOfBirth')}</span>
-                <span className="font-semibold ">{profile?.birthday}</span>
+                <span className="">{profile?.birthday}</span>
               </span>
               <span className="flex justify-between border-b-1 border-gray-300 py-3 select-text">
                 <span className="text-muted-foreground ">Giới tính</span>
-                <span className="font-semibold ">{genderMap[profile?.gender]}</span>
+                <span className="">{genderMap[profile?.gender]}</span>
               </span>
             </div>
             <Button

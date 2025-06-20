@@ -1,3 +1,3 @@
-const selectProducts = (state) => state.product.products
+const selectProductsMap = (state) => state.product.products
 
-export { selectProducts }
+export { selectProductsMap }

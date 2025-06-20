@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { useAppContext, useLoading } from '@/hooks'
 import { handleAsyncSubmit } from '@/lib'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Spin } from 'antd'
 import PropTypes from 'prop-types'
 import { useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -38,6 +39,7 @@ export const ProfileProvider = ({ handleCancel, initialData, isUpdate }) => {
   }, [initialData, methods, isUpdate, date])
 
   const onSubmit = methods.handleSubmit(async (values) => {
+    start('submiting')
     const formatted = `${values.birthday.year}-${String(values.birthday.month).padStart(2, '0')}-${String(
       values.birthday.day
     ).padStart(2, '0')}`
@@ -48,34 +50,33 @@ export const ProfileProvider = ({ handleCancel, initialData, isUpdate }) => {
         toast.success(res?.message)
         handleCancel()
       },
-      toast,
       setError: methods.setError,
-      values: request,
-      loadingKey: 'updating',
-      startLoading: start,
-      stopLoading: stop
+      values: request
     })
+    stop('submiting')
   })
 
   return (
     isUpdate && (
       <FormProvider {...methods}>
-        <form className="bg-white p-4 rounded-lg" onSubmit={onSubmit}>
-          <Button variant="link" onClick={handleCancel} className="mb-4 cursor-pointer link" type="button">
-            Quay lại
-          </Button>
-          <Profile isLoading={isLoading} handleCancel={handleCancel} />
-          <div className="flex items-center justify-center">
-            <Button
-              disabled={isLoading('updating')}
-              variant="secondary"
-              className=" mt-4 w-80 cursor-pointer py-5"
-              type="submit"
-            >
-              Cập nhật
+        <Spin spinning={isLoading('submiting')}>
+          <form className="bg-white p-4 rounded-lg" onSubmit={onSubmit}>
+            <Button variant="link" onClick={handleCancel} className="mb-4 cursor-pointer link" type="button">
+              Quay lại
             </Button>
-          </div>
-        </form>
+            <Profile isLoading={isLoading} handleCancel={handleCancel} />
+            <div className="flex items-center justify-center">
+              <Button
+                disabled={isLoading('updating')}
+                variant="secondary"
+                className=" mt-4 w-80 cursor-pointer py-5"
+                type="submit"
+              >
+                Cập nhật
+              </Button>
+            </div>
+          </form>
+        </Spin>
       </FormProvider>
     )
   )

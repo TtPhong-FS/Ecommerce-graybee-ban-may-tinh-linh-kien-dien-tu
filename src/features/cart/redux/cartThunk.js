@@ -11,6 +11,14 @@ export const decreaseQuantityAsync = handleCreateAsyncThunk('cart/decreaseQuanti
   return response.data
 })
 
+export const updateQuantityAsync = handleCreateAsyncThunk(
+  'cart/updateQuantityAsync',
+  async ({ cartItemId, quantity }) => {
+    const response = await cartApi.updateQuantity(cartItemId, quantity)
+    return response.data
+  }
+)
+
 export const getCartByUserUidOrSessionIdAsync = handleCreateAsyncThunk(
   'cart/getCartByUserUidOrSessionIdAsync',
   async () => {

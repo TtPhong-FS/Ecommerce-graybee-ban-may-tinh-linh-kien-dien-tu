@@ -1,3 +1,4 @@
+import Logout from '@/components/Logout'
 import {
   AuthPage,
   AuthProvider,
@@ -11,10 +12,12 @@ import {
 import ForgotPasswordLayout from '@/features/auth/layout/ForgotPasswordLayout'
 import { OrderPage } from '@/features/order'
 import { ProductDetail } from '@/features/product'
+import ReviewModal from '@/features/product/components/ReviewModal'
 import { FavouritePage, ManageAddressPage, OrderDetail, OrderHistoryPage, ProfilePage } from '@/features/user'
+import AddressModal from '@/features/user/components/AddressModal'
+import UpdateAddressPage from '@/features/user/pages/UpdateAddressPage'
 import { ProfileLayout, RootLayout } from '@/layout'
 import { CollectionPage, Contact, HomePage, NotFoundPage } from '@/pages'
-import { Navigate } from 'react-router-dom'
 
 const RootRouter = [
   {
@@ -39,7 +42,7 @@ const RootRouter = [
       },
       {
         path: 'logout',
-        element: <Navigate replace to="/home" />
+        element: <Logout />
       },
       {
         path: 'login',
@@ -106,7 +109,13 @@ const RootRouter = [
       {
         path: 'products/:slug',
         element: <ProductDetail />,
-        handle: { crumb: ({ params }) => `${params.slug}` }
+        handle: { crumb: ({ params }) => `${params.slug}` },
+        children: [
+          {
+            path: 'review',
+            element: <ReviewModal />
+          }
+        ]
       },
       {
         path: 'collections/:slug',
@@ -162,9 +171,23 @@ const RootRouter = [
             }
           },
           {
-            path: 'manage/address',
+            path: 'address/',
             element: <ManageAddressPage />,
-            handle: { crumb: () => 'personalAddress' }
+            handle: { crumb: () => 'personalAddress' },
+            children: [
+              {
+                path: 'create',
+                element: <AddressModal />
+              },
+              {
+                path: 'edit/:id',
+                element: <UpdateAddressPage />
+              },
+              {
+                path: 'delete/:id',
+                element: <AddressModal />
+              }
+            ]
           }
         ]
       }

@@ -3,30 +3,32 @@ import {
   addToFavoriteByProductIdAsync,
   cancelOrderByCodeAsync,
   createAddressAsync,
-  deleteAddressByIdAndUserUidFromTokenAsync,
-  fetchAddressesByTokenAsync,
+  deleteAddressByIdAsync,
   fetchAllOrderHistoryAsync,
   fetchFavouritesAsync,
   fetchProfileByTokenAsync,
-  updateAddressAsync,
-  updateDefaultAddressAsync,
+  getAllAddressAsync,
+  toggleAddressDefaultAsync,
+  updateAddressByIdAsync,
   updateProfileAsync
 } from './userThunk'
 
 const initialState = {
-  user: null,
   profile: null,
   favourites: [],
   orderHistory: [],
-  deliveryAddress: []
+  address: []
 }
 
 const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {
-    clearAllToLogout: (state) => {
-      ;(state.deliveryAddress = []), (state.favourites = []), (state.user = null)
+    clearAccount: (state) => {
+      state.address = []
+      state.orderHistory = []
+      state.favourites = []
+      state.profile = null
     },
     setProfile: (state, action) => {
       state.profile = action.payload
@@ -76,32 +78,30 @@ const accountSlice = createSlice({
         state.favourites = data || []
       })
 
-      .addCase(fetchAddressesByTokenAsync.fulfilled, (state, action) => {
+      .addCase(getAllAddressAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
-        state.deliveryAddress = data || []
+        state.address = data || []
       })
 
       .addCase(createAddressAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         if (data?.id && data?.default) {
-          state.deliveryAddress = state.deliveryAddress?.map((address) =>
-            address.default ? { ...address, default: false } : address
-          )
+          state.address = state.address?.map((address) => (address.default ? { ...address, default: false } : address))
         }
-        state.deliveryAddress.push(data)
+        state.address.push(data)
       })
 
-      .addCase(deleteAddressByIdAndUserUidFromTokenAsync.fulfilled, (state, action) => {
+      .addCase(deleteAddressByIdAsync.fulfilled, (state, action) => {
         const id = action.payload?.data
         if (id) {
-          state.deliveryAddress = state.deliveryAddress.filter((address) => address.id !== id)
+          state.address = state.address.filter((address) => address.id !== id)
         }
       })
 
-      .addCase(updateDefaultAddressAsync.fulfilled, (state, action) => {
+      .addCase(toggleAddressDefaultAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         if (data?.id) {
-          state.deliveryAddress = state.deliveryAddress.map((address) => {
+          state.address = state.address.map((address) => {
             if (address.id === data?.id) {
               return { ...address, default: data.default }
             }
@@ -113,10 +113,10 @@ const accountSlice = createSlice({
         }
       })
 
-      .addCase(updateAddressAsync.fulfilled, (state, action) => {
+      .addCase(updateAddressByIdAsync.fulfilled, (state, action) => {
         const data = action.payload?.data
         if (data?.id) {
-          state.deliveryAddress = state.deliveryAddress.map((address) => {
+          state.address = state.address.map((address) => {
             if (address.id === data?.id) {
               return data
             }
@@ -130,6 +130,6 @@ const accountSlice = createSlice({
   }
 })
 
-export const { clearAllToLogout, setProfile } = accountSlice.actions
+export const { clearAccount, setProfile } = accountSlice.actions
 
 export default accountSlice.reducer

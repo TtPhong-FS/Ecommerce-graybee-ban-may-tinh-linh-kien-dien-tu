@@ -1,59 +1,70 @@
+import { Button } from '@/components/ui/button'
 import { useAppContext, useLoading } from '@/hooks'
 import { handleAsyncSubmit } from '@/lib'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Spin } from 'antd'
 import { omit } from 'lodash'
 import PropTypes from 'prop-types'
 import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { createAddressAsync, updateAddressAsync } from '../../redux'
+import { createAddressAsync, updateAddressByIdAsync } from '../../redux'
 import { Address } from './Address'
 import { defaultValues, Schema } from './schema'
 
-export const AddressProvider = ({ isUpdate, initialData, onClose }) => {
+export const AddressProvider = ({ isUpdate, initialData }) => {
   const { isLoading, start, stop } = useLoading()
-  const methods = useForm({ resolver: yupResolver(Schema), defaultValues, mode: 'all', shouldUnregister: false })
-  const { dispatch } = useAppContext()
+  const methods = useForm({
+    resolver: yupResolver(Schema),
+    defaultValues: defaultValues,
+    mode: 'all',
+    shouldUnregister: false
+  })
+  const { dispatch, navigate } = useAppContext()
   useEffect(() => {
     if (initialData !== null && isUpdate) {
       methods.reset({
         ...initialData
       })
-    } else {
-      methods.reset(methods.formState.defaultValues)
     }
   }, [initialData, methods, isUpdate])
 
-  const onSubmit = methods.handleSubmit(async (values) => {
-    console.log(values)
+  const handleSubmit = methods.handleSubmit(async (values) => {
     const request = omit(values, ['id'])
+    start('submiting')
     await handleAsyncSubmit({
       asyncAction: (vals) =>
         dispatch(
-          isUpdate ? updateAddressAsync({ request: request, id: values.id }) : createAddressAsync(vals)
+          isUpdate ? updateAddressByIdAsync({ request: request, id: values.id }) : createAddressAsync(vals)
         ).unwrap(),
       onSuccess: (res) => {
         toast.success(res?.message)
+        navigate('/account/address')
       },
       setError: methods.setError,
       toast,
-      values: request,
-      loadingKey: 'updating',
-      startLoading: start,
-      stopLoading: stop
+      values: values
     })
+    stop('submiting')
   })
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={onSubmit}>
-        <Address isUpdate={isUpdate} isLoading={isLoading} />
-      </form>
+      <Spin spinning={isLoading('submiting')}>
+        <h1 className="px-4 mb-4">{isUpdate ? 'Cập nhật địa chỉ' : 'Thêm địa chỉ mới'}</h1>
+        <form onSubmit={handleSubmit}>
+          <Address />
+          <div className="px-4 mt-6">
+            <Button variant="secondary" className=" cursor-pointer w-full py-5">
+              {isUpdate ? 'Cập nhật' : 'Tạo địa chỉ'}
+            </Button>
+          </div>
+        </form>
+      </Spin>
     </FormProvider>
   )
 }
 AddressProvider.propTypes = {
   initialData: PropTypes.object,
-  isUpdate: PropTypes.bool,
-  onClose: PropTypes.func
+  isUpdate: PropTypes.bool
 }

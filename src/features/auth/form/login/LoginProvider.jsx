@@ -7,6 +7,7 @@ import { useContext } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
+import { ErrorMessage } from '@/components/custom/ErrorMessage'
 import { Button } from '@/components/ui/button'
 import { setProfile } from '@/features/user/redux/userSlice'
 import { useAppContext, useLoading } from '@/hooks'
@@ -14,7 +15,6 @@ import { useCustomTranslate } from '@/i18n'
 import { LoaderCircle } from 'lucide-react'
 import { AuthContext } from '../../components'
 import { loginUserAsync } from '../../redux'
-import { setRole } from '../../redux/authSlice'
 import { Login } from './Login'
 import { useValidationSchema } from './useValidationSchema'
 
@@ -44,7 +44,6 @@ export const LoginProvider = () => {
         const data = res.data
         saveAuthToken(data.auth.token)
         const decodedToken = jwtDecode(data.auth.token)
-        dispatch(setRole(decodedToken.role))
         setUser(decodedToken)
         dispatch(setProfile(data?.profile))
         setLoading(false)
@@ -61,6 +60,10 @@ export const LoginProvider = () => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={onSubmit}>
+        <div className="flex items-center justify-center w-full">
+          <h1 className="mb-8">{t('auth:login.title')}</h1>
+        </div>
+        {methods.formState.errors.root && <ErrorMessage error={methods.formState.errors.root} />}
         <Login />
         <Button variant="secondary" type="submit" className="py-5 cursor-pointer w-full mt-6 text-base">
           {isLoading('submitting') ? <LoaderCircle size={26} className="animate-spin" /> : t('auth:login.btnLogin')}

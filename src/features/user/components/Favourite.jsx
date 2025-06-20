@@ -5,7 +5,7 @@ export const Favourite = () => {
   const { t } = useCustomTranslate()
   const favourites = useSelector((state) => state.account.favourites)
   return (
-    <>
+    <div className="card">
       {favourites?.length > 0 ? (
         <div className="grid grid-cols-4 gap-2">
           {favourites?.map((product, index) => (
@@ -17,6 +17,6 @@ export const Favourite = () => {
           {t('customer:favourite.empty')}
         </div>
       )}
-    </>
+    </div>
   )
 }

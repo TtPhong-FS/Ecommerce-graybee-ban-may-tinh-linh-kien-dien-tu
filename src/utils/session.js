@@ -22,7 +22,7 @@ function initSession() {
 export function saveAuthToken(token) {
   if (!token) return
 
-  Cookies.set('token', token, { expires: 0.021 })
+  Cookies.set('token', token, { expires: 3 })
   Cookies.remove('sessionId')
 }
 

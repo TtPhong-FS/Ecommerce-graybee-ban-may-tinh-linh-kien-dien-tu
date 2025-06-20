@@ -27,7 +27,7 @@ export const FavouritePage = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between py-3 mb-4">
+      <div className="flex items-center justify-between mb-4 card">
         <h1> {t('customer:favourite.title')}</h1>
         <div className="ml-12">
           <Button

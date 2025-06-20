@@ -1,7 +1,5 @@
-import { Avatar } from '@mui/material'
-
 import { RHFInputField, RHFRadioGroup, RHFSelect } from '@/components/fields'
-import { AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { days, months, years } from '@/constants'
 export const Profile = () => {
   return (

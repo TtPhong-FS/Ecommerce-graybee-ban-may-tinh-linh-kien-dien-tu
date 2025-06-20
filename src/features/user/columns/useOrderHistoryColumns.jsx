@@ -90,7 +90,7 @@ export default function useOrderHistoryColumns() {
         cell: ({ row }) => {
           const code = row.original.code
           const orderStatus = row.original.status
-          const isAllowCancel = orderStatus === 'PENING' || orderStatus === 'CONFIRMED' || orderStatus === 'PROCESSING'
+          const isAllowCancel = orderStatus === 'PENDING' || orderStatus === 'CONFIRMED' || orderStatus === 'PROCESSING'
           return (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -98,15 +98,16 @@ export default function useOrderHistoryColumns() {
                   <MoreHorizontal />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {isAllowCancel && (
-                  <DropdownMenuItem asChild>
-                    <Button disabled={isLoading(`cancelOrder:${code}`)} onClick={() => handleCancelOrderById(code)}>
-                      Huỷ đơn hàng
-                    </Button>
+              {isAllowCancel && (
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem
+                    disabled={isLoading(`cancelOrder:${code}`)}
+                    onClick={() => handleCancelOrderById(code)}
+                  >
+                    Huỷ đơn hàng
                   </DropdownMenuItem>
-                )}
-              </DropdownMenuContent>
+                </DropdownMenuContent>
+              )}
             </DropdownMenu>
           )
         }

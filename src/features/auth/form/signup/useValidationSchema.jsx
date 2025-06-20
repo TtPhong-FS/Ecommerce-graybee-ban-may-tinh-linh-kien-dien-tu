@@ -6,7 +6,7 @@ export function useValidationSchema() {
 
   return {
     schema: yup.object().shape({
-      fullName: yup.string().max(100, 'Tên quá dài').nullable().notRequired(),
+      fullName: yup.string().max(100, 'Tên quá dài').required('Vui lòng nhập họ và tên'),
       phone: yup.string().max(12, t('auth:signup.form.validation.max')).nullable().notRequired(),
       email: yup
         .string()

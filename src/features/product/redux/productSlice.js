@@ -1,22 +1,22 @@
+import { deleteReviewProductAsync, editReviewProductAsync, reviewProductAsync } from '@/features/user'
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchProductDetailByIdAsync, getAllProductAsync, searchProductByNameAsync } from './productThunk'
+import { fetchProductDetailByIdAsync, getProductByCategory, searchProductByNameAsync } from './productThunk'
 
 const initialState = {
-  listProductSearch: [],
-  products: [],
-  details: null,
-  productId: null
+  search: [],
+  products: {},
+  details: null
 }
 
 export const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    saveIdToState: (state, action) => {
-      state.productId = action.payload
-    },
     leaveDetailPage: (state) => {
       state.details = null
+    },
+    setSearch: (state) => {
+      state.search = null
     }
   },
   extraReducers: (builder) => {
@@ -25,16 +25,37 @@ export const productSlice = createSlice({
         state.details = action.payload?.data || null
       })
 
-      .addCase(getAllProductAsync.fulfilled, (state, action) => {
-        state.products = action.payload?.data || []
+      .addCase(getProductByCategory.fulfilled, (state, action) => {
+        const { category, products } = action.payload
+        state.products[category] = products.data
       })
 
       .addCase(searchProductByNameAsync.fulfilled, (state, action) => {
-        state.listProductSearch = action.payload?.data || []
+        state.search = action.payload?.data || []
+      })
+
+      .addCase(reviewProductAsync.fulfilled, (state, action) => {
+        const review = action.payload.data
+        state.details.reviews.push(review)
+      })
+      .addCase(editReviewProductAsync.fulfilled, (state, action) => {
+        const review = action.payload.data
+        const index = state.details?.reviews.findIndex((r) => r.id === review.id)
+        if (index !== -1) {
+          state.details.reviews[index] = {
+            ...state.details.reviews[index],
+            ...review
+          }
+        }
+        state.details.reviews.push(review)
+      })
+      .addCase(deleteReviewProductAsync.fulfilled, (state, action) => {
+        const deletedReview = action.payload.data
+        state.details.reviews.filter((r) => r.id !== deletedReview.reviewId)
       })
   }
 })
 
-export const { leaveDetailPage, saveIdToState } = productSlice.actions
+export const { leaveDetailPage, setSearch } = productSlice.actions
 
 export default productSlice.reducer

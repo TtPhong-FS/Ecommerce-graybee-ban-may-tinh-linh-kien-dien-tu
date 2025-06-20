@@ -1,4 +1,3 @@
-import { authSlice } from '@/features/auth'
 import { carouselSlice } from '@/features/carousels'
 import { cartSlice } from '@/features/cart'
 import { orderSlice } from '@/features/order'
@@ -12,7 +11,6 @@ export const rootReducer = combineReducers({
   cart: cartSlice,
   account: accountSlice,
   carousel: carouselSlice,
-  auth: authSlice,
   home: homeSlice,
   order: orderSlice
 })

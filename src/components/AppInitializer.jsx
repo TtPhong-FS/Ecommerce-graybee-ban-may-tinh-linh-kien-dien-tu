@@ -1,17 +1,17 @@
 import { getCartByUserUidOrSessionIdAsync } from '@/features/cart'
-import { getAllProductAsync } from '@/features/product'
 import {
-  fetchAddressesByTokenAsync,
   fetchAllOrderHistoryAsync,
   fetchFavouritesAsync,
-  fetchProfileByTokenAsync
+  fetchProfileByTokenAsync,
+  getAllAddressAsync
 } from '@/features/user'
 import { fetchSidebar } from '@/store/redux/homeSlice'
-import { getToken } from '@/utils'
+import { getToken, useSession } from '@/utils'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 export const AppInitializer = () => {
+  useSession()
   const token = getToken()
 
   const dispatch = useDispatch()
@@ -20,7 +20,7 @@ export const AppInitializer = () => {
     if (token) {
       const fetchData = async () => {
         dispatch(fetchProfileByTokenAsync())
-        dispatch(fetchAddressesByTokenAsync())
+        dispatch(getAllAddressAsync())
         dispatch(fetchAllOrderHistoryAsync())
         dispatch(fetchFavouritesAsync())
         dispatch(getCartByUserUidOrSessionIdAsync())
@@ -30,7 +30,7 @@ export const AppInitializer = () => {
   }, [dispatch, token])
 
   useEffect(() => {
+    dispatch(getCartByUserUidOrSessionIdAsync())
     dispatch(fetchSidebar())
-    dispatch(getAllProductAsync())
   }, [dispatch])
 }

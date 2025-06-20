@@ -24,7 +24,7 @@ const profileNavigation = [
     key: 'manage-address',
     title: 'manageAddress',
     icon: MapPinHouse,
-    path: '/account/manage/address'
+    path: '/account/address'
   },
   {
     key: 'logout',
@@ -37,7 +37,7 @@ const profileNavigation = [
 export const ProfileLayout = () => {
   const { t } = useCustomTranslate()
   const location = useLocation()
-  const user = useSelector((state) => state.account.user)
+  const profile = useSelector((state) => state.account.profile)
 
   const { handleLogout } = useContext(AuthContext)
 
@@ -58,9 +58,9 @@ export const ProfileLayout = () => {
               </Avatar>
             </Link>
             <div className="w-full text-sm">
-              <p className="select-text">{user?.fullName}</p>
+              <p className="select-text">{profile?.fullName}</p>
               <div className="flex justify-between ">
-                <span className="select-text">{user?.phoneNumber}</span>
+                <span className="select-text">{profile?.phone}</span>
                 <Link
                   to="/account/profile"
                   className="text-blue-500 text-sm hover:underline

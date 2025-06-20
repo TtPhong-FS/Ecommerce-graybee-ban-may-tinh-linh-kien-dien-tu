@@ -4,7 +4,8 @@ import {
   clearCartItemsAsync,
   decreaseQuantityAsync,
   deleteItemToCartAsync,
-  getCartByUserUidOrSessionIdAsync
+  getCartByUserUidOrSessionIdAsync,
+  updateQuantityAsync
 } from './cartThunk'
 
 const initialState = {
@@ -21,9 +22,16 @@ export const cartSlice = createSlice({
       state.cartItems = state.cartItems?.filter((item) => !ids.includes(item.cartItemId))
       state.totalAmount = state.cartItems.reduce((sum, cartItem) => sum + cartItem.totalAmount, 0)
     },
-    clearAll: (state) => {
+    clearCart: (state) => {
       state.cartItems = []
       state.totalAmount = 0
+    },
+    updateQuantity: (state, action) => {
+      const { cartItemId, quantity } = action.payload
+      const item = state.cartItems.find((i) => i.cartItemId === cartItemId)
+      if (item) {
+        item.quantity = quantity
+      }
     }
   },
   extraReducers: (builder) => {
@@ -67,6 +75,22 @@ export const cartSlice = createSlice({
         }
       })
 
+      .addCase(updateQuantityAsync.fulfilled, (state, action) => {
+        const data = action.payload?.data
+        if (data?.cartItemId) {
+          const index = state.cartItems?.findIndex((i) => i.cartItemId === data?.cartItemId)
+
+          if (index !== -1) {
+            state.cartItems[index] = {
+              ...state.cartItems[index],
+              ...data
+            }
+          }
+
+          state.totalAmount = state.cartItems?.reduce((sum, cartItem) => sum + cartItem.totalAmount, 0)
+        }
+      })
+
       .addCase(deleteItemToCartAsync.fulfilled, (state, action) => {
         const cartItemId = action.payload?.data
         if (cartItemId) {
@@ -82,5 +106,5 @@ export const cartSlice = createSlice({
       })
   }
 })
-export const { clearAll, removeItemsByIds } = cartSlice.actions
+export const { clearCart, removeItemsByIds, updateQuantity } = cartSlice.actions
 export default cartSlice.reducer

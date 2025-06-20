@@ -1,23 +1,24 @@
 import { debounce } from 'lodash'
 import PropTypes from 'prop-types'
-import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { Headset, LogOutIcon, MapPin, Menu, ScrollText, ShoppingCart, UserRound, X } from 'lucide-react'
+import { Headset, MapPin, Menu, ScrollText, ShoppingCart, UserRound, X } from 'lucide-react'
 
+import logoTS from '@/assets/logo-techstore.png'
 import { searchProductByNameAsync } from '@/features/product/redux'
+import { setSearch } from '@/features/product/redux/productSlice'
 import { selectProfile } from '@/features/user/redux/userSelector'
 import { useAppContext, useLoading } from '@/hooks'
-import { LanguageSwitcher, useCustomTranslate } from '@/i18n'
+import { useCustomTranslate } from '@/i18n'
 import { onFocusSidebar } from '@/store/redux/homeSlice'
+import { getToken } from '@/utils'
 import { useMediaQuery } from '@mui/material'
-import { AuthContext } from '../features/auth/components/AuthProvider'
 import { ProductSearchCard } from './cards'
-import { Avatar, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Input } from './ui/input'
-
 const navigation = [
   {
     path: '#',
@@ -49,17 +50,14 @@ export const Navbar = () => {
   const { t } = useCustomTranslate()
   const { dispatch, navigate } = useAppContext()
 
+  const token = getToken()
   const isMobile = useMediaQuery('(max-width: 640px)')
-
-  const { handleLogout } = useContext(AuthContext)
 
   const profile = useSelector(selectProfile)
 
   const listProductSearch = useSelector((state) => state.product.listProductSearch, shallowEqual)
   const cartItems = useSelector((state) => state.cart?.cartItems)
   const totalQuantity = cartItems?.reduce((sum, cartItem) => sum + cartItem.quantity, 0)
-
-  const { isLogin } = useSelector((state) => state.auth)
   const [isSearch, setIsSearch] = useState(false)
   const [keyword, setKeyword] = useState('')
   const { isLoading, start, stop } = useLoading()
@@ -79,12 +77,14 @@ export const Navbar = () => {
 
     if (value?.length > 0) {
       dispatch(searchProductByNameAsync(value))
+    } else {
+      dispatch(setSearch())
     }
     stop('searching')
   }
 
   const debouncedSearch = useCallback(
-    debounce((value) => handleSearch(value), 500),
+    debounce((value) => handleSearch(value), 1000),
     []
   )
 
@@ -121,37 +121,13 @@ export const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-secondary/90">
-        <div className="w-full max-w-[88rem] flex text-sm mx-auto gap-2 items-center justify-end py-1.5">
-          <div className="flex items-center gap-2 ">
-            {isLogin && (
-              <Link to="/account">
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                </Avatar>
-                {profile?.fullName !== null && profile?.fullName !== '' && <>Hi, {profile?.fullName}</>}
-              </Link>
-            )}
-          </div>
-          <LanguageSwitcher />
-          {isLogin && (
-            <Button variant="outline" className="cursor-pointer" onClick={() => handleLogout()}>
-              <LogOutIcon /> Đăng xuất
-            </Button>
-          )}
-
-          {/* <span className="cursor-pointer flex items-center" onClick={toggleTheme}>
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-          </span> */}
-        </div>
-      </nav>
-      <div className="select-none sticky top-0 z-50 shadow-lg shadow-border">
+      <div className="select-none sticky top-0 z-50">
         <header className="bg-primary-foreground h-[5rem] flex items-center justify-center md:px-4 px-2">
           <div className="flex w-full max-w-[88rem] mx-auto h-[2.8rem] gap-2 items-center">
             <div className="flex h-full items-center lg:gap-3">
               <div className="hidden md:flex gap-1 items-center">
                 <Link className="text-2xl font-semibold text-primary uppercase hidden lg:flex cursor-pointer" to="/">
-                  Graybee
+                  <img src={logoTS} alt="" className="w-[2.8rem] h-[2.8rem] scale-250 mr-5" />
                 </Link>
               </div>
               <Link
@@ -201,7 +177,7 @@ export const Navbar = () => {
                 </div>
               </div>
             </div>
-            <div className="flex w-max gap-6 lg:gap-4 font-medium ml-2">
+            <div className="flex flex-1 w-max gap-6 lg:gap-4 font-medium ml-2">
               {navigation.map((item, index) => {
                 const lastItem = index === navigation.length - 1
                 const title = t(`navbar:${item.title}`)
@@ -233,15 +209,27 @@ export const Navbar = () => {
                   <Link to={'/login'} className="cursor-pointer">
                     <UserRound size={20} />
                   </Link>
+                ) : !token ? (
+                  <Link
+                    className="cursor-pointer inline-flex items-center justify-center text-sm h-[38px] min-w-24 bg-secondary p-3 rounded-sm text-secondary-foreground dark:text-secondary-foreground select-none"
+                    to={'/login'}
+                  >
+                    {t('navbar:login')}
+                  </Link>
                 ) : (
-                  !isLogin && (
-                    <Link
-                      className="cursor-pointer inline-flex items-center justify-center text-sm h-[38px] min-w-24 bg-secondary p-3 rounded-sm text-secondary-foreground dark:text-secondary-foreground select-none"
-                      to={'/login'}
-                    >
-                      {t('navbar:login')}
-                    </Link>
-                  )
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild className="text-sm w-[160px] py-5">
+                      <Button variant="secondary">Hi, {profile?.fullName}</Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem asChild>
+                        <Link to={'/account'}>Thông tin cá nhân</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to={'/logout'}>Đăng xuất</Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 )}
               </div>
             </div>

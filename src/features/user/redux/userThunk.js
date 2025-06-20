@@ -24,31 +24,37 @@ export const updateProfileAsync = handleCreateAsyncThunk('account/updateProfileA
   return response.data
 })
 
-export const fetchAddressesByTokenAsync = handleCreateAsyncThunk('account/fetchAddressesByTokenAsync', async () => {
-  const response = await accountApi.getAddressesByToken()
-  return response.data
-})
-export const createAddressAsync = handleCreateAsyncThunk('account/createAddressAsync', async (request) => {
-  const response = await accountApi.postAddress(request)
-  return response.data
-})
-export const updateDefaultAddressAsync = handleCreateAsyncThunk('account/updateDefaultAddressAsync', async (id) => {
-  const response = await accountApi.putDefaultAddress(id)
+export const getAllAddressAsync = handleCreateAsyncThunk('account/getAllAddressAsync', async () => {
+  const response = await accountApi.getAllAddress()
   return response.data
 })
 
-export const deleteAddressByIdAndUserUidFromTokenAsync = handleCreateAsyncThunk(
-  'account/deleteAddressByIdAndUserUidFromTokenAsync',
-  async (id) => {
-    const response = await accountApi.deleteAddressByIdAndUserUidFromToken(id)
+export const getAddressForUpdateAsync = handleCreateAsyncThunk('account/getAddressForUpdateAsync', async (id) => {
+  const response = await accountApi.getAddressForUpdate(id)
+  return response.data
+})
+
+export const createAddressAsync = handleCreateAsyncThunk('account/createAddressAsync', async (request) => {
+  const response = await accountApi.createAddress(request)
+  return response.data
+})
+export const toggleAddressDefaultAsync = handleCreateAsyncThunk('account/toggleAddressDefaultAsync', async (id) => {
+  const response = await accountApi.toggleAddressDefault(id)
+  return response.data
+})
+
+export const deleteAddressByIdAsync = handleCreateAsyncThunk('account/deleteAddressByIdAsync', async (id) => {
+  const response = await accountApi.deleteAddressById(id)
+  return response.data
+})
+
+export const updateAddressByIdAsync = handleCreateAsyncThunk(
+  'account/updateAddressByIdAsync',
+  async ({ request, id }) => {
+    const response = await accountApi.updateAddressById(request, id)
     return response.data
   }
 )
-
-export const updateAddressAsync = handleCreateAsyncThunk('account/updateAddressAsync', async ({ request, id }) => {
-  const response = await accountApi.putAddress(request, id)
-  return response.data
-})
 
 export const fetchAllOrderHistoryAsync = handleCreateAsyncThunk('account/fetchAllOrderHistoryAsync', async () => {
   const response = await accountApi.fetchAllOrderHistory()
@@ -57,5 +63,26 @@ export const fetchAllOrderHistoryAsync = handleCreateAsyncThunk('account/fetchAl
 
 export const cancelOrderByCodeAsync = handleCreateAsyncThunk('account/cancelOrderByCodeAsync', async (code) => {
   const response = await accountApi.cancelOrderByCode(code)
+  return response.data
+})
+
+export const reviewProductAsync = handleCreateAsyncThunk(
+  'account/reviewProductAsync',
+  async ({ productSlug, request }) => {
+    const response = await accountApi.reviewProduct(productSlug, request)
+    return response.data
+  }
+)
+
+export const editReviewProductAsync = handleCreateAsyncThunk(
+  'account/editReviewProductAsync',
+  async ({ id, request }) => {
+    const response = await accountApi.editReviewProduct(id, request)
+    return response.data
+  }
+)
+
+export const deleteReviewProductAsync = handleCreateAsyncThunk('account/deleteReviewProductAsync', async (id) => {
+  const response = await accountApi.deleteReviewProduct(id)
   return response.data
 })

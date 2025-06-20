@@ -5,10 +5,9 @@ import React, { createContext, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { clearAll } from '@/features/cart/redux/cartSlice'
-import { clearAllToLogout } from '@/features/user/redux/userSlice'
+import { clearCart } from '@/features/cart/redux/cartSlice'
+import { clearAccount } from '@/features/user/redux/userSlice'
 import { clearAuthToken, getToken } from '@/utils'
-import { logout, refreshLogin } from '../redux/authSlice'
 
 export const AuthContext = createContext()
 
@@ -24,7 +23,6 @@ export const AuthProvider = ({ children }) => {
       try {
         const extractToken = jwtDecode(token)
         setUser(extractToken)
-        dispatch(refreshLogin())
       } catch (error) {
         Cookies.remove('token')
       }
@@ -34,9 +32,8 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogout = () => {
     clearAuthToken()
-    dispatch(logout())
-    dispatch(clearAll())
-    dispatch(clearAllToLogout())
+    dispatch(clearCart())
+    dispatch(clearAccount())
     setUser(null)
     navigate('/home')
   }

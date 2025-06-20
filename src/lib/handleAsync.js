@@ -1,4 +1,6 @@
-export const handleAsync = async ({ asyncAction, values, onSuccess, toast, loadingKey, startLoading, stopLoading }) => {
+import { toast } from 'sonner'
+
+export const handleAsync = async ({ asyncAction, values, onSuccess, loadingKey, startLoading, stopLoading }) => {
   if (loadingKey && startLoading) startLoading(loadingKey)
   try {
     const res = await asyncAction(values)

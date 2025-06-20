@@ -1,8 +1,8 @@
+import '@/styles/antd.css'
 import { Select } from 'antd'
 import { CircleAlert } from 'lucide-react'
 import PropTypes from 'prop-types'
 import { Controller, useFormContext } from 'react-hook-form'
-
 export function RHFSelect({ name, label, options, showSearch, disabled, mode }) {
   console.log('render')
   const { control } = useFormContext()
@@ -19,6 +19,7 @@ export function RHFSelect({ name, label, options, showSearch, disabled, mode }) 
             style={{
               minHeight: '40px'
             }}
+            getPopupContainer={(triggerNode) => triggerNode.parentElement}
             {...field}
             mode={mode}
             disabled={disabled}

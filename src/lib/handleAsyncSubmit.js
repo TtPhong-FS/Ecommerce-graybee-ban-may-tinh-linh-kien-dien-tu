@@ -1,9 +1,10 @@
+import { toast } from 'sonner'
+
 export const handleAsyncSubmit = async ({
   asyncAction,
   values,
   onSuccess,
   reset,
-  toast,
   defaultValues,
   setError,
   loadingKey,

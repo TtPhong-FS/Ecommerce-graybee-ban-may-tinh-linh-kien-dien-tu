@@ -1,4 +1,4 @@
-import { fetchAddressesByTokenAsync } from '@/features/user'
+import { getAllAddressAsync } from '@/features/user'
 import { useAppContext } from '@/hooks'
 import { Select } from 'antd'
 import { useState } from 'react'
@@ -16,7 +16,7 @@ export function AddressExistingSelector() {
 
   const handleDropdownVisibleChange = (open) => {
     if (open && (!deliveryAddress || deliveryAddress?.length === 0)) {
-      dispatch(fetchAddressesByTokenAsync())
+      dispatch(getAllAddressAsync())
     }
   }
 

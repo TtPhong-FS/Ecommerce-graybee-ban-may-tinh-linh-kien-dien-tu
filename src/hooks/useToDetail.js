@@ -1,4 +1,3 @@
-import { saveIdToState } from '@/features/product/redux/productSlice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toSlug } from '../utils'
@@ -10,7 +9,6 @@ export const useToDetail = () => {
   const toDetail = ({ id, name }) => {
     const pathName = toSlug(name)
     navigate(`/products/${pathName}`)
-    dispatch(saveIdToState(id))
   }
 
   return toDetail

@@ -1,24 +1,20 @@
 import { useSelector } from 'react-redux'
 
 export function Specification() {
-  const details = useSelector((state) => state.product.details?.details)
-  if (!details) return null
+  const specifications = useSelector((state) => state.product.details?.specifications)
+  if (!specifications) return null
 
   return (
-    <div className="gap-4 p-4">
+    <div className="gap-4 p-4 bg-white">
       <h1 className="mb-3">Thông số sản phẩm</h1>
-      {details?.map((detail, index) => (
-        <div key={index} className="">
-          <table className="flex border-[1px]">
-            <thead className="min-w-[140px] bg-accent">
-              <th className="flex flex-col p-2 text-start text-accent-foreground">{detail?.label}</th>
-            </thead>
-            <tbody className="bg-background w-full">
-              <tr className="flex flex-col p-2 text-primary">{detail?.value}</tr>
-            </tbody>
-          </table>
-        </div>
-      ))}
+      <div className="flex flex-col gap-4">
+        {specifications?.map((detail) => (
+          <div key={detail.label} className="flex items-center">
+            <h3 className="min-w-[160px]">{detail.label}</h3>
+            <span>{detail.value}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
