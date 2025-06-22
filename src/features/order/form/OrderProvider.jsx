@@ -22,7 +22,6 @@ export const OrderProvider = () => {
   const { isLoading, start, stop } = useLoading()
 
   const handleSubmit = methods.handleSubmit(async (values) => {
-    console.log(values)
     start('submiting')
     if (values.cartItemIds.length < 1) {
       return toast.info('Hãy chọn ít nhất 1 sản phẩm để đặt hàng!')
@@ -42,7 +41,6 @@ export const OrderProvider = () => {
       values,
       onSuccess: async (res) => {
         toast.success(res.message)
-        console.log(res)
         dispatch(removeItemsByIds(res.data))
       },
       toast,

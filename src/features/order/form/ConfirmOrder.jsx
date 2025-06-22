@@ -1,15 +1,19 @@
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, LoaderCircle, Send, ShoppingCart } from 'lucide-react'
+import { useCustomTranslate } from '@/i18n'
+import { ArrowLeft, ChevronLeft, LoaderCircle, Send, ShoppingCart } from 'lucide-react'
 import PropTypes from 'prop-types'
 import { useFormContext, useWatch } from 'react-hook-form'
 
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 export const ConfirmOrder = ({ confirm, setConfirm, onUnConfirm }) => {
   const {
     control,
     formState: { isSubmitting }
   } = useFormContext()
+
+  const { t } = useCustomTranslate()
 
   const cartItemIds = useWatch({ control, name: 'cartItemIds' })
 
@@ -21,6 +25,11 @@ export const ConfirmOrder = ({ confirm, setConfirm, onUnConfirm }) => {
 
   return (
     <div className="sticky top-24">
+      <Button asChild className="cursor-pointer py-5 mb-4 ">
+        <Link className="link" to="/home">
+          <ChevronLeft /> {t('order:continueShopping')}
+        </Link>
+      </Button>
       <div className="card">
         <div className="text-[1rem]">
           <h2 className="mb-2">Thông tin đơn hàng</h2>

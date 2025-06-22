@@ -1,6 +1,6 @@
 import { RHFInputField } from '@/components/fields'
 import { Button } from '@/components/ui/button'
-import { useAppContext } from '@/hooks'
+import { useAppContext, useLoading } from '@/hooks'
 import { handleAsyncSubmit } from '@/lib'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Cookies from 'js-cookie'
@@ -12,11 +12,16 @@ import { toast } from 'sonner'
 import * as yup from 'yup'
 import { resetPasswordAsync } from '../redux'
 const schema = yup.object({
-  password: yup.string().required('Nhập mật khẩu!').max(100, 'Mật khẩu quá dài!'),
-  repeatPassword: yup.string().required('Nhập mật khẩu xác nhận!').max(100, 'Mật khẩu quá dài!')
+  password: yup.string().required('Nhập mật khẩu!').min(6, 'Mật khẩu ít nhất 6 ký tự').max(100, 'Mật khẩu quá dài!'),
+  repeatPassword: yup
+    .string()
+    .required('Nhập mật khẩu xác nhận!')
+    .min(6, 'Mật khẩu xác nhận ít nhất 6 ký tự')
+    .max(100, 'Mật khẩu xác nhận quá dài!')
 })
 export function ResetPassword() {
   const { navigate, dispatch } = useAppContext()
+  const { isLoading, start, stop } = useLoading()
 
   useEffect(() => {
     const emailVerified = Cookies.get('emailVerified')
@@ -39,6 +44,7 @@ export function ResetPassword() {
   })
 
   const onSubmit = methods.handleSubmit(async (values) => {
+    start('submiting')
     const email = Cookies.get('email')
     await handleAsyncSubmit({
       asyncAction: (vals) => dispatch(resetPasswordAsync({ email: email, request: vals })).unwrap(),
@@ -57,6 +63,7 @@ export function ResetPassword() {
       setError: methods.setError,
       toast
     })
+    stop('submiting')
   })
   return (
     <div>
@@ -79,7 +86,12 @@ export function ResetPassword() {
             type="password"
             placeholder="Nhập mật khẩu xác nhận..."
           />
-          <Button variant="secondary" type="submit" className="cursor-pointer select-none h-[38px] mt-4">
+          <Button
+            diabled={isLoading('submiting')}
+            variant="secondary"
+            type="submit"
+            className="cursor-pointer select-none h-[38px] mt-4"
+          >
             Đặt lại
           </Button>
         </form>

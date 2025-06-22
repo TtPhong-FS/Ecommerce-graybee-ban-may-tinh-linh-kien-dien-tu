@@ -18,7 +18,7 @@ export const useActionAddToCartAndFavourite = (start, stop) => {
     await handleAsync({
       asyncAction: (productId) => dispatch(addToFavoriteByProductIdAsync(productId)).unwrap(),
       onSuccess: (res) => {
-        toast.success(res.message)
+        toast.success(res.data.message)
       },
       values: productId,
       toast,

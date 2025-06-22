@@ -1,7 +1,7 @@
 import { RHFInputField } from '@/components/fields'
 import { Button } from '@/components/ui/button'
 import { patterns } from '@/constants'
-import { useAppContext } from '@/hooks'
+import { useAppContext, useLoading } from '@/hooks'
 import { useCustomTranslate } from '@/i18n'
 import { handleAsyncSubmit } from '@/lib'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -15,12 +15,13 @@ import { verifyEmailAsync } from '../redux'
 
 export function VerifyEmail() {
   const { t } = useCustomTranslate()
+  const { isLoading, start, stop } = useLoading()
   const schema = yup.object().shape({
     email: yup
       .string()
-      .required(t('auth:signup.form.validation.required', { field: 'Email' }))
-      .max(50, t('auth:signup.form.validation.max', { field: 'Email', max: 50 }))
-      .matches(patterns.email, t('auth:signup.form.validation.email_not_match'))
+      .required('Vui lòng nhập Email')
+      .max(100, 'Email quá dài')
+      .matches(patterns.email, 'Email không hợp lệ')
   })
   const { navigate, dispatch } = useAppContext()
   const methods = useForm({
@@ -32,6 +33,7 @@ export function VerifyEmail() {
   })
 
   const onSubmit = methods.handleSubmit(async (values) => {
+    start('submiting')
     await handleAsyncSubmit({
       asyncAction: (vals) => dispatch(verifyEmailAsync(vals?.email)).unwrap(),
       onSuccess: (res) => {
@@ -46,6 +48,7 @@ export function VerifyEmail() {
       setError: methods.setError,
       toast
     })
+    stop('submiting')
   })
 
   return (
@@ -63,8 +66,13 @@ export function VerifyEmail() {
         )}
         <form onSubmit={onSubmit} className="flex flex-col gap-6">
           <RHFInputField name="email" isRequired label="Email" type="email" placeholder="Email" />
-          <Button variant="secondary" type="submit" className="h-[38px] cursor-pointer select-none relative">
-            {methods.formState.isSubmitting ? (
+          <Button
+            disabled={isLoading('submiting')}
+            variant="secondary"
+            type="submit"
+            className="h-[38px] cursor-pointer select-none relative"
+          >
+            {isLoading('submiting') ? (
               <span className="flex items-center">
                 <LoaderCircle className="animate-spin mr-2" />
                 {t('common:loading')}

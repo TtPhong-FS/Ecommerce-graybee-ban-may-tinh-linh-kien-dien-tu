@@ -34,10 +34,17 @@ export const SignUpProvider = () => {
 
   const onSubmit = methods.handleSubmit(async (values) => {
     start('submiting')
-    const formatted = `${values.birthday.year}-${String(values.birthday.month).padStart(2, '0')}-${String(
-      values.birthday.day
-    ).padStart(2, '0')}`
-    const request = { ...values, birthday: formatted }
+    const formatBirthday = `${values.profile.birthday.year}-${String(values.profile.birthday.month).padStart(
+      2,
+      '0'
+    )}-${String(values.profile.birthday.day).padStart(2, '0')}`
+    const request = {
+      ...values,
+      profile: {
+        ...values.profile,
+        birthday: formatBirthday
+      }
+    }
 
     await handleAsyncSubmit({
       asyncAction: (vals) => dispatch(registerUserAsync(vals)).unwrap(),
@@ -50,16 +57,9 @@ export const SignUpProvider = () => {
         setUser(decodedToken)
         setLoading(false)
 
-        if (data.auth.token) {
-          // dispatch(getAddressesByToken())
-          // dispatch(getProfileByToken())
-          // dispatch(getFavourites())
-          // dispatch(findCartByUserUidOrSessionId())
-        }
         navigate('/home')
       },
       values: request,
-      toast,
       setError: methods.setError
     })
     stop('submiting')

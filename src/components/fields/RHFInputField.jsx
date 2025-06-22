@@ -5,8 +5,6 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { Input } from '../ui/input'
 
 export function RHFInputField({ name, label, type, isRequired, placeholder, disabled }) {
-  console.log('render', name)
-
   const { control } = useFormContext()
   return (
     <Controller

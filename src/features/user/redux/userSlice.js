@@ -8,6 +8,7 @@ import {
   fetchFavouritesAsync,
   fetchProfileByTokenAsync,
   getAllAddressAsync,
+  getOrderDetailByCode,
   toggleAddressDefaultAsync,
   updateAddressByIdAsync,
   updateProfileAsync
@@ -17,6 +18,7 @@ const initialState = {
   profile: null,
   favourites: [],
   orderHistory: [],
+  orderDetail: null,
   address: []
 }
 
@@ -40,15 +42,19 @@ const accountSlice = createSlice({
       .addCase(fetchAllOrderHistoryAsync.fulfilled, (state, action) => {
         state.orderHistory = action.payload.data || []
       })
+      .addCase(getOrderDetailByCode.fulfilled, (state, action) => {
+        state.orderDetail = action.payload.data || null
+      })
 
       .addCase(cancelOrderByCodeAsync.fulfilled, (state, action) => {
-        const cancelOrder = action.payload.data
-        if (cancelOrder.code) {
-          const index = state.orderHistory.findIndex((o) => o.code === cancelOrder.code)
+        const { code, data } = action.payload
+        console.log(data)
+        if (code) {
+          const index = state.orderHistory.findIndex((o) => o.code === code)
 
           state.orderHistory[index] = {
             ...state.orderHistory[index],
-            orderStatus: cancelOrder.status
+            status: data.data.status
           }
         }
       })
@@ -64,12 +70,13 @@ const accountSlice = createSlice({
       })
 
       .addCase(addToFavoriteByProductIdAsync.fulfilled, (state, action) => {
-        const data = action.payload?.data
-        const isExisting = state.favourites?.find((item) => item.id === data)
-        if (isExisting) {
-          state.favourites = state.favourites?.filter((item) => item.id !== data)
+        const { productId, data } = action.payload
+
+        const index = state.favourites.findIndex((item) => item.id === productId)
+        if (index !== -1) {
+          state.favourites = state.favourites.filter((item) => item.id !== productId)
         } else {
-          state.favourites.push(data)
+          state.favourites.push(data.data)
         }
       })
 

@@ -4,8 +4,6 @@ import { AppInitializer, BreadCrumbs, Footer, Loading, Navbar, ThemeProvider } f
 import { Suspense } from 'react'
 import { Toaster } from 'sonner'
 export const RootLayout = () => {
-  console.log('render')
-
   return (
     <div className="">
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
@@ -22,7 +20,7 @@ export const RootLayout = () => {
               </Suspense>
             </div>
           </div>
-          <Toaster closeButton position="top-right" />
+          <Toaster closeButton position="top-left" />
         </main>
         <div className="bg-primary-foreground">
           <Footer />

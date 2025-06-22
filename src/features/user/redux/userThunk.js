@@ -5,7 +5,7 @@ export const addToFavoriteByProductIdAsync = handleCreateAsyncThunk(
   'account/addToFavoriteByProductIdAsync',
   async (productId) => {
     const response = await accountApi.addToFavoriteByProductId(productId)
-    return response.data
+    return { productId: productId, data: response.data }
   }
 )
 
@@ -63,7 +63,7 @@ export const fetchAllOrderHistoryAsync = handleCreateAsyncThunk('account/fetchAl
 
 export const cancelOrderByCodeAsync = handleCreateAsyncThunk('account/cancelOrderByCodeAsync', async (code) => {
   const response = await accountApi.cancelOrderByCode(code)
-  return response.data
+  return { code: code, data: response.data }
 })
 
 export const reviewProductAsync = handleCreateAsyncThunk(
@@ -84,5 +84,13 @@ export const editReviewProductAsync = handleCreateAsyncThunk(
 
 export const deleteReviewProductAsync = handleCreateAsyncThunk('account/deleteReviewProductAsync', async (id) => {
   const response = await accountApi.deleteReviewProduct(id)
+  return response.data
+})
+export const getCommentRatingByIdAsync = handleCreateAsyncThunk('account/getCommentRatingByIdAsync', async (id) => {
+  const response = await accountApi.getCommentRatingById(id)
+  return response.data
+})
+export const getOrderDetailByCode = handleCreateAsyncThunk('account/getOrderDetailByCode', async (code) => {
+  const response = await accountApi.getOrderDetailByCode(code)
   return response.data
 })

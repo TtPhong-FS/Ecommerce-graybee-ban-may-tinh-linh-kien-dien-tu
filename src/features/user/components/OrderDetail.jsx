@@ -1,228 +1,201 @@
-import { Avatar, Divider, Grid2 } from '@mui/material'
+import { Badge } from '@/components/ui/badge'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { useAppContext } from '@/hooks'
+import { handleAsync } from '@/lib'
+import { formattedPrice } from '@/utils'
+import { Image, Spin } from 'antd'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
+import { orderStatusLabels, paymentStatusLabels } from '../constants'
+import { getOrderDetailByCode } from '../redux'
 
-import { paymentMethod } from '@/components/options'
-import { Button } from '@/components/ui/button'
-
-import { colorMap, deliveryType, iconMap, orderStatus, paymentStatus } from '@/features/order'
-import { useToDetail } from '@/hooks'
-import { Phone } from 'lucide-react'
-import { Link } from 'react-router-dom'
+const mockData = {
+  orderCode: 'I8RHJKLZUMJE',
+  orderItems: [
+    {
+      quantity: 60,
+      subtotal: 1.146054e9,
+      priceAtTime: 1.91009e7,
+      productId: 4,
+      productName: 'Laptop Asus Zenbook 14 Ux3405ca Pz368ws',
+      slug: 'laptop-asus-zenbook-14-ux3405ca-pz368ws',
+      thumbnail: 'http://res.cloudinary.com/dqntp2s9q/image/upload/v1749986574/usorcxjd7i27t4lucb0f.webp'
+    }
+  ],
+  status: 'COMPLETED',
+  delivery: {
+    shippingMethod: 'FAST',
+    deliveryType: 'STORE_PICKUP',
+    status: 'COMPLETED',
+    recipientName: 'Trần Thanh Phong',
+    recipientPhone: '0393150468',
+    shippingAddress: 'Xóm 4 xâm động, Xã Vân Tảo, Huyện Thường Tín, Hà Nội',
+    estimatedDeliveryDate: '2025-06-29'
+  },
+  payment: {
+    paymentMethod: 'COD',
+    paymentStatus: 'UNPAID'
+  }
+}
 
 export const OrderDetail = () => {
-  const orderHistories = {}
+  const { code } = useParams()
+  const { navigate, dispatch } = useAppContext()
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState(null)
 
-  const onRepurchase = (products) => {
-    console.log('product', products)
+  useEffect(() => {
+    handleAsync({
+      asyncAction: (code) => dispatch(getOrderDetailByCode(code)).unwrap(),
+      onSuccess: (res) => {
+        setLoading(false)
+        setData(res.data)
+      },
+      values: code
+    })
+  }, [code, dispatch])
+
+  const orderDetail = useSelector((state) => state.account.orderDetail)
+
+  const handleClose = () => {
+    navigate(-1)
   }
-  const toDetail = useToDetail()
+
   return (
-    <Grid2 container spacing={2}>
-      <Grid2 size={{ mobile: 12, tablet: 12, laptop: 8 }}>
-        <div className="flex flex-col gap-4">
-          <div className="bg-white  rounded-lg">
-            <div className="flex justify-between mb-2 px-2 py-1">
-              <div className="flex gap-2 text-sm">
-                <span>{orderHistories?.orderDate}</span>
-                <span className="text-gray-300">|</span>
-                <span>{deliveryType[orderHistories?.deliveryType]}</span>
-                <span className="text-gray-300">|</span>
-                <Link className="">MVB152678</Link>
-                <span>{orderHistories?.totalQuantity} sản phẩm</span>
-              </div>
-              <div className="flex gap-2 items-center text-sm">
-                <span className="text-xs text-gray-500 font-medium">{orderHistories?.paymentMethod}</span>
-                {iconMap[orderHistories?.status]}
-                <label className="text-muted-foreground" type={colorMap[orderHistories?.status]}>
-                  {orderStatus[orderHistories?.status]}
-                </label>
-              </div>
-            </div>
-            <Divider />
-            <div>
-              <div className="flex">
-                <div className="flex-1">
-                  <h1>Giao hàng thành công</h1>
-                  <span className="text-base">Rất vui vì bạn đã tin tưởng và mua hàng</span>
+    <Spin spinning={loading}>
+      <Dialog open onOpenChange={handleClose}>
+        <DialogContent className="DialogContent">
+          <DialogHeader>
+            <DialogTitle className="text-muted-foreground">Đơn hàng #{code}</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col gap-6 mt-6">
+            <div className="flex gap-6">
+              <div className="card flex-3">
+                <h2 className="mb-4">Sản phẩm</h2>
+                <div className="select-none flex ">
+                  <table className="w-full">
+                    <thead className="w-full">
+                      <tr className="grid grid-cols-5 text-center place-items-center w-full">
+                        <th className="mb-2"></th>
+                        <th className="mb-2">Sản phẩm</th>
+                        <th className="mb-2">Giá lúc mua</th>
+                        <th className="mb-2">Số lượng</th>
+                        <th className="mb-2 text-end">Tạm tính</th>
+                      </tr>
+                    </thead>
+                    <tbody className="w-full flex flex-col gap-3">
+                      {data?.orderItems?.map((item) => (
+                        <tr className="grid grid-cols-5 w-full place-items-center  text-center" key={item.id}>
+                          <td>
+                            <Image
+                              className="border-1 p-2 border-gray-300 rounded-md"
+                              style={{ minWidth: 60, minHeight: 65, maxWidth: 60, maxHeight: 65 }}
+                              width={60}
+                              height={65}
+                              src={item.thumbnail}
+                              alt="Anh san pham"
+                            />
+                          </td>
+                          <td className="">
+                            <Link
+                              to={`/products/${item.slug}`}
+                              className="cursor-pointer text-xs md:text-sm font-medium line-clamp-2 max-w-[20rem] link "
+                            >
+                              {item.productName}
+                            </Link>
+                          </td>
+                          <td>
+                            <span className="font-medium text-sm lg:text-base font-sans text-red-500">
+                              {formattedPrice(item.priceAtTime)}
+                            </span>
+                          </td>
+                          <td>
+                            <span>{item.quantity}</span>
+                          </td>
+                          <td className="text-end">
+                            <span className="font-medium text-sm lg:text-base font-sans text-red-500">
+                              {formattedPrice(item.subtotal)}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-                <div className="flex-1">
-                  <h2>Tài xế giao hàng</h2>
+              </div>
+              <div className="flex flex-col gap-4 flex-1">
+                {/* top */}
+                <div className="card">
+                  <h2 className="font-semibold mb-4">Tổng quát</h2>
                   <div>
-                    <Avatar />
-                    <span className="text-sm">
-                      <span>Nguyễn Văn A</span>
-                      <span>
-                        <span>090908979798</span>
-                        <Phone size={16} />
-                      </span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <Divider />
-              <div className="flex ">
-                <div className="flex-1">
-                  <h2>Thông tin người nhận</h2>
-                  <div>
-                    <span>{orderHistories?.customerInfo.fullName}</span>
-                    <span>{orderHistories?.customerInfo.phoneNumber}</span>
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h2>Nhận hàng tại</h2>
-                  <div>
-                    <span>{orderHistories?.customerInfo.address}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="box">
-            <h1>Danh sách sản phẩm</h1>
-            <div className="mt-4">
-              {orderHistories?.orderDetails?.map((oDetail, index) => (
-                <div key={index}>
-                  <div className="flex justify-between py-6 ">
-                    <div className="flex-2">
-                      <div className="flex gap-4 text-sm">
-                        <Link
-                          to={`/products/${oDetail?.productName}`}
-                          onClick={() => toDetail({ id: oDetail.productId, name: oDetail.productName })}
-                          className="w-[60px] h-[60px] border-1 border-gray-300 rounded-md cursor-pointer"
-                        >
-                          <img className="p-1" width={60} height={60} src={oDetail.thumbnail} />
-                        </Link>
-                        <div className="flex flex-col">
-                          <Link
-                            to={`/products/${oDetail?.productName}`}
-                            onClick={() => toDetail({ id: oDetail.productId, name: oDetail.productName })}
-                            className="font-medium text-base cursor-pointer"
-                          >
-                            {oDetail.productName}
-                          </Link>
-                          <span className="text-gray-500">Số lượng: {oDetail.quantity}</span>
-                        </div>
-                      </div>
+                    <div className="flex justify-between items-center">
+                      <Label className="text-muted-foreground">Tạm tính</Label>
+                      <span>{formattedPrice(0)}</span>
                     </div>
-                    <div className="flex-1 text-sm">
-                      <div className="flex flex-col items-end gap-1">
-                        <span className="font-medium text-base font-sans ">
-                          {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                            oDetail.priceAtTime
-                          )}
-                        </span>
-                        <span className="font-medium text-base font-sans text-red-500">
-                          Thành tiền:{' '}
-                          {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                            oDetail.subTotal
-                          )}
-                        </span>
-                      </div>
+                    <div className="flex justify-between items-center">
+                      <Label className="text-muted-foreground">Giảm giá</Label>
+                      <span className="text-red-600">-{formattedPrice(0)}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <Label className="text-muted-foreground">Tax</Label>
+                      <span>{formattedPrice(0)}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <Label className="text-muted-foreground">Tạm tính</Label>
+                      <span>{formattedPrice(20000)}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <Label className="text-muted-foreground">Phí vận chuyển</Label>
+                      <span>{formattedPrice(20000)}</span>
+                    </div>
+                    <div className="flex justify-between items-center mt-4 pt-1 border-t">
+                      <Label className="text-muted-foreground">Tổng tiền</Label>
+                      <span className="text-red-600 text-xl">{formattedPrice(data?.totalAmount - 40000)}</span>
                     </div>
                   </div>
-
-                  <Divider />
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Grid2>
-      <Grid2 size={{ mobile: 12, tablet: 12, laptop: 4 }}>
-        <div className="sticky top-0">
-          <div className="box min-w-[20rem]">
-            <div className="">
-              <h2 className="mb-2 sub-title">Thông tin thanh toán</h2>
-              <div className="flex flex-col gap-2 text-gray-500 mb-2 text-sm">
-                <span className="flex items-center justify-between">
-                  <span>Tổng tiền</span>
-                  <span className="font-medium text-base font-sans ">
-                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(1200000)}
-                  </span>
-                </span>
-                <span className="flex items-center justify-between">
-                  <span>Giảm giá trực tiếp</span>
-                  <span className="font-medium  font-sans ">
-                    - {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(45000)}
-                  </span>
-                </span>
-                <span className="flex items-center justify-between">
-                  <span>Giảm giá voucher</span>
-                  <span className="font-medium  font-sans text-red-500">
-                    - {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(20000)}
-                  </span>
-                </span>
-                <span className="flex items-center justify-between">
-                  <span>Phí vận chuyển</span>
-                  {orderHistories?.shippingFax === 0 ? (
-                    <span>Miễn phí</span>
-                  ) : (
-                    <span className="font-medium  font-sans text-red-500">
-                      -{' '}
-                      {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                        orderHistories?.shippingFax
-                      )}
-                    </span>
-                  )}
-                </span>
-                <span className="flex items-center justify-between">
-                  <span>Điểm thưởng</span>
-                  <div className="flex items-center">
-                    <img
-                      className="w-[30px] h-[30px]"
-                      src="https://img.icons8.com/?size=100&id=pHEbDnllVT05&format=png&color=000000"
-                      alt=""
-                    />
-                    <span className="font-normal text-amber-600">+457</span>
+                <div className="card">
+                  <h2 className="mb-4">Trạng thái đơn hàng</h2>
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-2">
+                      <Label>Trạng thái thanh toán</Label>
+                      <Badge variant="destructive">{paymentStatusLabels[data?.payment.paymentStatus]}</Badge>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <Label>Trạng thái đơn hàng</Label>
+                      <Badge className="bg-green-900">{orderStatusLabels[data?.status]}</Badge>
+                    </div>
                   </div>
-                </span>
-              </div>
-              <div className="flex py-4 items-center justify-between border-t-1 border-gray-400 text-sm">
-                <h2 className="sub-title">Thành tiền</h2>
-                <span className="font-medium  font-sans text-red-500">
-                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                    orderHistories?.totalAmount
-                  )}
-                </span>
-              </div>
-              <div className="py-4 border-t-1 border-gray-400  text-sm">
-                <div className="flex justify-between">
-                  <h2 className="sub-title">Phương thức thanh toán</h2>
-                  <span>
-                    {iconMap[orderHistories?.status]}
-                    <span className="ml-2 text-green-700">{paymentStatus[orderHistories?.paymentStatus]}</span>
-                  </span>
-                </div>
-
-                <div className="flex py-2 items-center">
-                  <img
-                    className="w-[55px] h-[55px]"
-                    src="https://img.icons8.com/?size=100&id=22539&format=png&color=000000"
-                    alt=""
-                  />
-                  <span className="text-[1.14rem] font-normal ml-2">
-                    {orderHistories?.paymentMethod} - {paymentMethod[orderHistories?.paymentMethod]}
-                  </span>
                 </div>
               </div>
             </div>
-            <div className="mt-4">
-              <Button
-                onClick={() => {
-                  const products = orderHistories?.orderDetails.map((o) => ({
-                    productId: o.productId,
-                    quantity: o.quantity
-                  }))
-                  onRepurchase(products)
-                }}
-                type="button"
-                className="cursor-pointer h-[40px] select-none"
-              >
-                Mua lại
-              </Button>
+
+            <div className="bg-white p-6 w-max rounded-md">
+              <h2 className="mb-4">Địa chỉ giao hàng</h2>
+              <div className="flex flex-col gap-3">
+                <div>
+                  <Label>Tên người nhận</Label>
+                  {data?.delivery.recipientName}
+                </div>
+                <div>
+                  <Label>Số điện thoại</Label>
+                  {data?.delivery.recipientPhone}
+                </div>
+                <div>
+                  <Label>Ngày giao dự kiến</Label>
+                  {data?.delivery.estimatedDeliveryDate}
+                </div>
+                <div>
+                  <Label>Địa chỉ</Label>
+                  {data?.delivery.shippingAddress}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </Grid2>
-    </Grid2>
+        </DialogContent>
+      </Dialog>
+    </Spin>
   )
 }

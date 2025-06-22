@@ -10,7 +10,6 @@ export default function useOrder(start, stop) {
     await handleAsync({
       asyncAction: () => dispatch(fetchAllOrderHistoryAsync()).unwrap(),
       onSuccess: (res) => {
-        console.log(res)
         toast.success(res.message)
       },
       toast,

@@ -55,7 +55,7 @@ export const Navbar = () => {
 
   const profile = useSelector(selectProfile)
 
-  const listProductSearch = useSelector((state) => state.product.listProductSearch, shallowEqual)
+  const search = useSelector((state) => state.product.search, shallowEqual)
   const cartItems = useSelector((state) => state.cart?.cartItems)
   const totalQuantity = cartItems?.reduce((sum, cartItem) => sum + cartItem.quantity, 0)
   const [isSearch, setIsSearch] = useState(false)
@@ -127,7 +127,7 @@ export const Navbar = () => {
             <div className="flex h-full items-center lg:gap-3">
               <div className="hidden md:flex gap-1 items-center">
                 <Link className="text-2xl font-semibold text-primary uppercase hidden lg:flex cursor-pointer" to="/">
-                  <img src={logoTS} alt="" className="w-[2.8rem] h-[2.8rem] scale-250 mr-5" />
+                  <img src={logoTS} alt="" className="w-[2.8rem] h-[2.8rem] scale-250 mx-5" />
                 </Link>
               </div>
               <Link
@@ -161,15 +161,13 @@ export const Navbar = () => {
                   )}
                   {isSearch && (
                     <>
-                      {!listProductSearch || listProductSearch?.length === 0 ? (
+                      {!search || search?.length === 0 ? (
                         <span className="rounded-md text-sm absolute top-12 z-50 bg-white w-full flex items-center justify-center py-5 description">
                           {t('product:empty')}
                         </span>
                       ) : (
-                        <div ref={containerRef} className="rounded-md absolute top-12 z-50 bg-white w-full h-[30rem]">
-                          <div className="w-full h-[30rem]">
-                            <ProductSearchCard loading={isLoading('searching')} setIsSearch={setIsSearch} />
-                          </div>
+                        <div ref={containerRef} className="rounded-md absolute top-12 z-50  w-full">
+                          <ProductSearchCard loading={isLoading('searching')} setIsSearch={setIsSearch} />
                         </div>
                       )}
                     </>

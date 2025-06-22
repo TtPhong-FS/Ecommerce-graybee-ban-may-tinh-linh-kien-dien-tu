@@ -79,7 +79,6 @@ export const CartItem = () => {
   }, [selectedItems, setValue])
 
   const [isUpdate, setIsUpdate] = useState(false)
-  console.log(isUpdate)
 
   const onChangeQuantity = async (e, cartItemId) => {
     const value = Math.max(1, Number(e.target.value))

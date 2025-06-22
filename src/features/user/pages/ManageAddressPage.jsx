@@ -2,6 +2,7 @@ import { HomeFilled } from '@ant-design/icons'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
 import { useLoading } from '@/hooks'
 import { useCustomTranslate } from '@/i18n'
 import { handleAsync } from '@/lib'
@@ -101,9 +102,16 @@ export const ManageAddressPage = () => {
                 <Link to={`edit/${address?.id}`} className="cursor-pointer text-error">
                   {t('common:edit')}
                 </Link>
-                <Checkbox checked={address.default} onCheckedChange={() => handleSetDefailtAddress(address?.id)}>
-                  Mặc định
-                </Checkbox>
+                <div className="flex gap-2 items-center">
+                  <Checkbox
+                    id="default"
+                    label="Mặc định"
+                    checked={address.default}
+                    onCheckedChange={() => handleSetDefailtAddress(address?.id)}
+                  />
+                  <Label htmlFor="default">Đặt làm mặc định</Label>
+                </div>
+
                 <Link
                   className={`${
                     isLoading(`delete:${address?.id}`) ? 'pointer-events-none' : 'cursor-pointer '

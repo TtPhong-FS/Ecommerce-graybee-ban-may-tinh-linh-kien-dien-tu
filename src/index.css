@@ -245,3 +245,7 @@ h3 {
   background: var(--muted-foreground) !important;
   border-radius: 6px !important;
 }
+
+.DialogContent {
+  min-width: 1240px;
+}

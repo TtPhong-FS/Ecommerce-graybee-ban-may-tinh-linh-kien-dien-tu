@@ -4,12 +4,15 @@ import { Heart, ShoppingCart } from 'lucide-react'
 
 import { useActionAddToCartAndFavourite } from '@/features/product'
 import { useLoading } from '@/hooks'
-import { formattedPrice } from '@/utils'
+import { formattedPrice, isPresentInFavorites } from '@/utils'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import '../../features/carousels/styles/swiper.css'
 import { Button } from '../ui/button'
 export const ProductCard = ({ product }) => {
   const { isLoading, start, stop } = useLoading()
+
+  const favorites = useSelector((state) => state.account.favourites) || []
 
   const { handleAddItemToCart, handleAddToFavourites } = useActionAddToCartAndFavourite(start, stop)
 
@@ -47,7 +50,15 @@ export const ProductCard = ({ product }) => {
             variant="outline"
             className="py-5 cursor-pointer w-full"
           >
-            <Heart /> Yêu thích
+            {isPresentInFavorites(favorites, product?.id) ? (
+              <>
+                <Heart className="text-red-500" /> Đã yêu thích
+              </>
+            ) : (
+              <>
+                <Heart /> Yêu thích
+              </>
+            )}
           </Button>
           <Button
             disabled={isLoading(`addItemToCart:${product?.id}`)}

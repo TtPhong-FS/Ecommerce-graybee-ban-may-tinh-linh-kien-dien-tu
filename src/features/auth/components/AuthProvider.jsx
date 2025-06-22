@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }) => {
     dispatch(clearCart())
     dispatch(clearAccount())
     setUser(null)
+    setLoading(false)
     navigate('/home')
   }
 

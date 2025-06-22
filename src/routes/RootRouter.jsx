@@ -72,30 +72,23 @@ const RootRouter = [
         handle: { crumb: () => 'forgotPassword' },
         children: [
           {
+            index: true,
+            element: <VerifyEmail />,
+            handle: { crumb: () => 'verifyEmail' }
+          },
+          {
             path: 'verify-email',
-            element: (
-              <AuthPage>
-                <VerifyEmail />
-              </AuthPage>
-            ),
+            element: <VerifyEmail />,
             handle: { crumb: () => 'verifyEmail' }
           },
           {
             path: 'verify-otp',
-            element: (
-              <AuthPage>
-                <VerifyOtp />
-              </AuthPage>
-            ),
+            element: <VerifyOtp />,
             handle: { crumb: () => 'verifyOtp' }
           },
           {
             path: 'reset-password',
-            element: (
-              <AuthPage>
-                <ResetPassword />
-              </AuthPage>
-            ),
+            element: <ResetPassword />,
             handle: { crumb: () => 'resetPassword' }
           }
         ]
@@ -114,11 +107,19 @@ const RootRouter = [
           {
             path: 'review',
             element: <ReviewModal />
+          },
+          {
+            path: 'edit/:id',
+            element: <ReviewModal />
+          },
+          {
+            path: 'delete/:id',
+            element: <ReviewModal />
           }
         ]
       },
       {
-        path: 'collections/:slug',
+        path: 'collections/:type/:slug',
         element: <CollectionPage />,
         handle: {
           crumb: ({ params }) => `${params.slug}`
@@ -159,16 +160,18 @@ const RootRouter = [
             handle: { crumb: () => 'favourite' }
           },
           {
-            path: 'order-history',
+            path: 'order-history/',
             element: <OrderHistoryPage />,
-            handle: { crumb: () => 'orderHistory' }
-          },
-          {
-            path: 'order/detail/:orderCode',
-            element: <OrderDetail />,
-            handle: {
-              crumb: ({ params }) => `orderDetail #${params.orderCode}`
-            }
+            handle: { crumb: () => 'orderHistory' },
+            children: [
+              {
+                path: 'detail/:code',
+                element: <OrderDetail />,
+                handle: {
+                  crumb: () => 'orderDetail'
+                }
+              }
+            ]
           },
           {
             path: 'address/',

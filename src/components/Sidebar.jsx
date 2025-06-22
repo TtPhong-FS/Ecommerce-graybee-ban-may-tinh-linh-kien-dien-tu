@@ -16,7 +16,7 @@ export const Sidebar = () => {
   return (
     <div className={`${active ? 'sticky top-25 z-40' : ''}`}>
       {active && <div className="fixed inset-0 bg-foreground opacity-70" onClick={() => handleUnFocus()}></div>}
-      <div className="overflow-y-auto relative">
+      <div className="overflow-y-auto  relative">
         <MegaSidebar categories={sidebarMemo} />
       </div>
     </div>
@@ -31,13 +31,13 @@ const MegaSidebar = ({ categories }) => {
     setIsMegaMenuVisible(true)
   }
   return (
-    <div className="flex gap-2 w-full max-h-80 overflow-hidden" onMouseLeave={() => setActiveCategory(null)}>
+    <div className="flex gap-2 w-full overflow-hidden " onMouseLeave={() => setActiveCategory(null)}>
       {/* Sidebar */}
-      <div className="w-[220px] max-h-80 min-h-80 bg-white rounded-xs">
+      <div className="w-[220px] max-h-96 bg-white overflow-y-scroll rounded-xs">
         <ul className="">
           {categories.map((cat, index) => (
             <Link
-              to={`/collections/${cat.slug === null || cat.slug === '' ? '#' : cat.slug}`}
+              to={`/collections/${cat.type}/${cat.slug === null || cat.slug === '' ? '#' : cat.slug}`}
               key={index}
               onMouseEnter={() => handleMouseEnter(cat)}
               className="flex relative text-sm items-center justify-between p-2 text-gray-800 hover:bg-secondary/90 hover:text-primary-foreground cursor-pointer "
@@ -58,9 +58,11 @@ const MegaSidebar = ({ categories }) => {
                 <ul className="space-y-1">
                   {column.children.map((child, index) => (
                     <Link
-                      to={`/collections/${child.slug === null || child.slug === '' ? activeCategory.slug : child.slug}`}
+                      to={`/collections/${child.type}/${
+                        child.slug === null || child.slug === '' ? activeCategory.slug : child.slug
+                      }`}
                       key={index}
-                      className="text-sm flex flex-col gap-2 text-gray-700 hover:text-primary cursor-pointer"
+                      className="text-sm flex flex-col gap-2 text-gray-700 hover:text-red-600 cursor-pointer"
                     >
                       {child.name}
                     </Link>

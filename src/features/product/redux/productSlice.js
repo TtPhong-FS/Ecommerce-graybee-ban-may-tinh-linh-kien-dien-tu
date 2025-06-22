@@ -43,15 +43,13 @@ export const productSlice = createSlice({
         const index = state.details?.reviews.findIndex((r) => r.id === review.id)
         if (index !== -1) {
           state.details.reviews[index] = {
-            ...state.details.reviews[index],
             ...review
           }
         }
-        state.details.reviews.push(review)
       })
       .addCase(deleteReviewProductAsync.fulfilled, (state, action) => {
         const deletedReview = action.payload.data
-        state.details.reviews.filter((r) => r.id !== deletedReview.reviewId)
+        state.details.reviews = state.details.reviews.filter((r) => r.id !== deletedReview.reviewId)
       })
   }
 })

@@ -3,15 +3,8 @@ import { collectionApi } from './collectionApi'
 
 export const fetchProductByCategorySlugAsync = handleCreateAsyncThunk(
   'product/fetchProductByCategorySlugAsync',
-  async (categorySlug) => {
-    const response = await collectionApi.fetchProductByCategorySlug(categorySlug)
-    return response.data
-  }
-)
-export const fetchProductByTagSlugAsync = handleCreateAsyncThunk(
-  'product/fetchProductByTagSlugAsync',
-  async (tagSlug) => {
-    const response = await collectionApi.fetchProductByTagSlug(tagSlug)
+  async ({ slug, type }) => {
+    const response = await collectionApi.fetchProductByCategorySlugAndType(slug, type)
     return response.data
   }
 )

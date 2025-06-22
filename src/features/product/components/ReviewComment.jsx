@@ -1,10 +1,13 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useAppContext } from '@/hooks'
 import { getToken } from '@/utils'
 import { Rate } from 'antd'
+import { jwtDecode } from 'jwt-decode'
+import { MoreHorizontal } from 'lucide-react'
 import { useSelector } from 'react-redux'
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import { toast } from 'sonner'
 
 export const ReviewComment = () => {
@@ -13,6 +16,8 @@ export const ReviewComment = () => {
   const { navigate } = useAppContext()
 
   const reviews = useSelector((state) => state.product.details?.reviews)
+
+  const decodedToken = jwtDecode(token)
 
   const handleReviewClick = () => {
     if (!token) {
@@ -106,23 +111,44 @@ export const ReviewComment = () => {
               </button>
             ))}
           </div>
-          <div className="mt-6">
+          <div className="mt-6 flex flex-col gap-4">
             {reviews?.map((r, index) => (
               <div key={index}>
-                <div className="flex items-center gap-6">
-                  <div className="flex gap-4">
-                    <Avatar>
-                      <AvatarImage src="https://github.com/leerob.png" />
-                    </Avatar>
-                    <div className="flex flex-col gap-2">
-                      <span>{r.poster}</span>
-                      <span>{r.publishedAt}</span>
+                <div className="flex justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="flex gap-4">
+                      <Avatar>
+                        <AvatarImage src="https://github.com/leerob.png" />
+                      </Avatar>
+                      <div className="flex flex-col gap-2">
+                        <span>{r.poster}</span>
+                        <span>{r.publishedAt}</span>
+                      </div>
                     </div>
+                    <span>-</span>
+                    {<Rate value={r.rating} />}
                   </div>
-                  <span>-</span>
-                  {<Rate value={r.rating} />}
+                  {decodedToken.sub === r.uid && (
+                    <div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0 cursor-pointer ">
+                            <MoreHorizontal />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuItem asChild>
+                            <Link to={`edit/${r.id}`}>Chỉnh sửa</Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem asChild>
+                            <Link to={`delete/${r.id}`}>Xoá</Link>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  )}
                 </div>
-                <span className="mt-4 block">{r.comment}</span>
+                <span className="mt-1 block">{r.comment}</span>
               </div>
             ))}
           </div>

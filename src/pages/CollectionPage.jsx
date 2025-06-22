@@ -5,32 +5,30 @@ import { useAppContext } from '@/hooks'
 import { handleAsync } from '@/lib'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { toast } from 'sonner'
 
 export const CollectionPage = () => {
   const { dispatch } = useAppContext()
 
   const [products, setProducts] = useState([])
 
-  const { slug } = useParams()
+  const searchParams = useParams()
+  const slug = searchParams.slug
+  const type = searchParams.type
 
   useEffect(() => {
     const fetch = async () => {
       await handleAsync({
-        asyncAction: (slug) => dispatch(fetchProductByCategorySlugAsync(slug)).unwrap(),
+        asyncAction: ({ slug, type }) => dispatch(fetchProductByCategorySlugAsync({ slug: slug, type: type })).unwrap(),
         onSuccess: (res) => {
           setProducts(res?.data)
         },
-        toast,
-        values: slug
+        values: { slug, type }
       })
     }
     fetch()
 
     return () => {}
-  }, [slug])
-
-  console.log(products)
+  }, [slug, type, dispatch])
 
   return (
     <div>

@@ -27,11 +27,11 @@ export const BreadCrumbs = () => {
           const isLast = index === crumbs.length - 1
           const label = t(`breadCrumb:${item.label}`)
           return isLast ? (
-            <BreadcrumbItem>
+            <BreadcrumbItem key={item.path}>
               <BreadcrumbPage className="text-muted-foreground text-sm">{label}</BreadcrumbPage>
             </BreadcrumbItem>
           ) : (
-            <div key={index} className="flex items-center gap-2">
+            <div key={item.path} className="flex items-center gap-2">
               <BreadcrumbItem>
                 <Link className="link text-sm" to={item.path}>
                   {label}

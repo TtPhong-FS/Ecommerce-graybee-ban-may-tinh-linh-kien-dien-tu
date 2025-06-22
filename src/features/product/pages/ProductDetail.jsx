@@ -1,10 +1,11 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useLoading } from '@/hooks'
 import { handleAsync } from '@/lib'
 import { formattedPrice } from '@/utils'
 import { Grid2 } from '@mui/material'
-import { Image, Spin, Tabs } from 'antd'
+import { Image, Tabs } from 'antd'
 import { Heart, ShoppingCart } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -47,21 +48,15 @@ export const ProductDetail = () => {
   const { handleAddItemToCart, handleAddToFavourites } = useActionAddToCartAndFavourite(start, stop)
 
   useEffect(() => {
-    const fetch = async () => {
-      if (details?.slug !== slug) {
-        await handleAsync({
-          asyncAction: (slug) => dispatch(fetchProductDetailByIdAsync(slug)).unwrap(),
-          onSuccess: (res) => {
-            setReady(true)
-          },
-          values: slug,
-          toast: toast
-        })
-      }
-    }
-    setReady(true)
-    fetch()
-  }, [slug, dispatch, details])
+    handleAsync({
+      asyncAction: (slug) => dispatch(fetchProductDetailByIdAsync(slug)).unwrap(),
+      onSuccess: () => {
+        setReady(true)
+      },
+      values: slug,
+      toast
+    })
+  }, [slug])
 
   useEffect(() => {
     dispatch(leaveDetailPage())
@@ -69,7 +64,9 @@ export const ProductDetail = () => {
 
   return (
     <>
-      <Spin spinning={!ready}>
+      {!ready ? (
+        <Skeleton className="bg-white h-screen w-full" />
+      ) : (
         <div className="select-text">
           <Grid2 width={'100%'} container>
             <Grid2
@@ -134,7 +131,9 @@ export const ProductDetail = () => {
           </Grid2>
           <Tabs defaultActiveKey="1" items={items} />
         </div>
-      </Spin>
+      )}
+      {/* <Spin spinning={!ready}>
+      </Spin> */}
     </>
   )
 }

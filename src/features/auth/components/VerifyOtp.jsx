@@ -48,6 +48,7 @@ export function VerifyOtp() {
   }, [])
 
   const onSubmit = methods.handleSubmit(async (values) => {
+    start('submiting')
     const email = Cookies.get('email')
 
     await handleAsyncSubmit({
@@ -71,6 +72,7 @@ export function VerifyOtp() {
       setError: methods.setError,
       toast
     })
+    stop('submiting')
   })
 
   const onResendOtp = async () => {
@@ -109,7 +111,12 @@ export function VerifyOtp() {
               {isLoading('resendOtp') ? <LoaderCircle size={20} className="animate-spin" /> : t('common:resend')}
             </span>
           </div>
-          <Button variant="secondary" type="submit" className="cursor-pointer select-none h-[38px] w-full mt-3">
+          <Button
+            disabled={isLoading('submiting')}
+            variant="secondary"
+            type="submit"
+            className="cursor-pointer select-none h-[38px] w-full mt-3"
+          >
             {methods.formState.isSubmitting ? (
               <span className="flex items-center">
                 <LoaderCircle className="animate-spin mr-2" />

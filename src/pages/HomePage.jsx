@@ -17,9 +17,7 @@ export const HomePage = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      <div>
-        <Sidebar />
-      </div>
+      <Sidebar />
 
       <div className="mt-12 flex flex-col gap-6">
         <CarouselWrapper category={'Laptop'} />

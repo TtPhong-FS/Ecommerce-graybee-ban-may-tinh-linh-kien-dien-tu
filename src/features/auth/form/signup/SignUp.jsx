@@ -13,13 +13,13 @@ export const SignUp = () => {
       <div className="flex flex-col gap-4 mb-10 mt-6">
         <RHFInputField
           label={`${t('auth:signup.form.fullName')}`}
-          name="fullName"
+          name="profile.fullName"
           type="text"
           placeholder={`${t('auth:signup.form.fullName')}`}
         />
         <RHFInputField
           label={`${t('auth:signup.form.phone')}`}
-          name="phone"
+          name="profile.phone"
           type="text"
           placeholder={`${t('auth:signup.form.phone')}`}
         />
@@ -40,7 +40,7 @@ export const SignUp = () => {
         <RHFInputField label="Email" isRequired name="email" type="text" placeholder="Email" />
         <RHFRadioGroup
           label={`${t('auth:signup.form.gender.label')}`}
-          name="gender"
+          name="profile.gender"
           options={[
             {
               value: 'MALE',
@@ -57,9 +57,9 @@ export const SignUp = () => {
           ]}
         />
         <div className="grid grid-cols-3 gap-6">
-          <RHFSelect name="birthday.day" label="Ngày" showSearch options={days} />
-          <RHFSelect name="birthday.month" label="Tháng" options={months} />
-          <RHFSelect name="birthday.year" label="Năm" showSearch options={years} />
+          <RHFSelect placeholder="Ngày" name="profile.birthday.day" label="Ngày" showSearch options={days} />
+          <RHFSelect placeholder="Tháng" name="profile.birthday.month" label="Tháng" options={months} />
+          <RHFSelect placeholder="Năm" name="profile.birthday.year" label="Năm" showSearch options={years} />
         </div>
       </div>
     </>

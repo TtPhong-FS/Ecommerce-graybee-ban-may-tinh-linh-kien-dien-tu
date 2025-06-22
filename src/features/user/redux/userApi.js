@@ -21,7 +21,9 @@ export const accountApi = {
   toggleAddressDefault: (addressId) => privateAPI.put(`${account_endpoint}/addresses/default/${addressId}`),
   fetchAllOrderHistory: () => privateAPI.get(`${account_endpoint}/orders/history`),
   cancelOrderByCode: (code) => privateAPI.put(`${account_endpoint}/orders/cancel/${code}`),
+  getOrderDetailByCode: (code) => privateAPI.get(`${account_endpoint}/orders/detail/${code}`),
   reviewProduct: (productSlug, request) => privateAPI.post(`${account_endpoint}/reviews/${productSlug}`, request),
   editReviewProduct: (id, request) => privateAPI.put(`${account_endpoint}/reviews/${id}`, request),
-  deleteReviewProduct: (id) => privateAPI.delete(`${account_endpoint}/reviews/${id}`)
+  deleteReviewProduct: (id) => privateAPI.delete(`${account_endpoint}/reviews/${id}`),
+  getCommentRatingById: (id) => privateAPI.get(`${account_endpoint}/reviews/for-update/${id}`)
 }

@@ -1,8 +1,10 @@
 import { ProductCard } from '@/components/cards'
+import { Skeleton } from '@/components/ui/skeleton'
 import { getProductByCategory } from '@/features/product'
+import { handleAsync } from '@/lib'
 import { useMediaQuery } from '@mui/material'
 import PropTypes from 'prop-types'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -14,18 +16,27 @@ import '../styles/swiper.css'
 export const CarouselWrapper = ({ category }) => {
   const isMobile = useMediaQuery('(max-width: 640px)')
 
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(getProductByCategory(category))
-  }, [])
-
   const products = useSelector((state) => state.product.products[category])
+  const dispatch = useDispatch()
 
-  if (products?.length === 0) {
-    return null
-  }
+  const [loading, setLoading] = useState(false)
 
-  return (
+  useEffect(() => {
+    setLoading(true)
+    const fetch = async () => {
+      await handleAsync({
+        asyncAction: () => dispatch(getProductByCategory(category)).unwrap(),
+        onSuccess: (res) => {
+          setLoading(false)
+        }
+      })
+    }
+    fetch()
+  }, [category, dispatch])
+
+  return loading || products?.length === 0 ? (
+    <Skeleton className="h-[125px] w-full rounded-xl bg-white" />
+  ) : (
     <div className="card">
       <h1 className="mb-6">{category} bán chạy</h1>
       <Swiper
