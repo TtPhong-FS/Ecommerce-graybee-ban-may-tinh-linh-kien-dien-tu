@@ -1,6 +1,6 @@
 import { deleteReviewProductAsync, editReviewProductAsync, reviewProductAsync } from '@/features/user'
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchProductDetailByIdAsync, getProductByCategory, searchProductByNameAsync } from './productThunk'
+import { fetchProductDetailByIdAsync, searchProductByNameAsync } from './productThunk'
 
 const initialState = {
   search: [],
@@ -23,11 +23,6 @@ export const productSlice = createSlice({
     builder
       .addCase(fetchProductDetailByIdAsync.fulfilled, (state, action) => {
         state.details = action.payload?.data || null
-      })
-
-      .addCase(getProductByCategory.fulfilled, (state, action) => {
-        const { category, products } = action.payload
-        state.products[category] = products.data
       })
 
       .addCase(searchProductByNameAsync.fulfilled, (state, action) => {

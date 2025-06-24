@@ -2,26 +2,13 @@ import { publicAPI } from '@/config'
 import { handleCreateAsyncThunk } from '@/lib'
 import { createSlice } from '@reduxjs/toolkit'
 
-const carousel_endpoint = '/api/v1/public/carousel'
-const product_endpoint = '/api/v1/public/products'
-const fetchProductByCategory = (category, page, size, sortBy, order) =>
-  publicAPI.get(`${product_endpoint}/${category}`, {
-    params: {
-      page,
-      size,
-      sortBy,
-      order
-    }
-  })
+const carousel_endpoint = '/api/v1/public/home/carousel'
+const fetchProductByCategory = (category) => publicAPI.get(`${carousel_endpoint}/${category}`)
 
-export const fetchCarouselAsync = handleCreateAsyncThunk(
-  'carousel/fetchCarouselAsync',
-  async ({ category, page = 0, size = 20, sortBy = 'createdAt', order = 'desc' }) => {
-    const response = await fetchProductByCategory(category, page, size, sortBy, order)
-    console.log(response)
-    return { category: category, data: response.data }
-  }
-)
+export const fetchCarouselAsync = handleCreateAsyncThunk('carousel/fetchCarouselAsync', async (category) => {
+  const response = await fetchProductByCategory(category)
+  return { category: category, data: response.data }
+})
 
 const initialState = {
   carousels: {}

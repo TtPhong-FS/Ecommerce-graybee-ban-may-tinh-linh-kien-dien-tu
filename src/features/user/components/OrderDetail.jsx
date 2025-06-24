@@ -6,7 +6,6 @@ import { handleAsync } from '@/lib'
 import { formattedPrice } from '@/utils'
 import { Image, Spin } from 'antd'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { orderStatusLabels, paymentStatusLabels } from '../constants'
 import { getOrderDetailByCode } from '../redux'
@@ -56,8 +55,6 @@ export const OrderDetail = () => {
       values: code
     })
   }, [code, dispatch])
-
-  const orderDetail = useSelector((state) => state.account.orderDetail)
 
   const handleClose = () => {
     navigate(-1)

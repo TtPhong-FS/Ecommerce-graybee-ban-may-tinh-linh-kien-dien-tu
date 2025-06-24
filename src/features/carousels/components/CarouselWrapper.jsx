@@ -1,6 +1,5 @@
 import { ProductCard } from '@/components/cards'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getProductByCategory } from '@/features/product'
 import { handleAsync } from '@/lib'
 import { useMediaQuery } from '@mui/material'
 import PropTypes from 'prop-types'
@@ -11,12 +10,13 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { fetchCarouselAsync } from '../redux/carouselSlice'
 import '../styles/swiper.css'
 
 export const CarouselWrapper = ({ category }) => {
   const isMobile = useMediaQuery('(max-width: 640px)')
 
-  const products = useSelector((state) => state.product.products[category])
+  const carousels = useSelector((state) => state.carousel.carousels[category])
   const dispatch = useDispatch()
 
   const [loading, setLoading] = useState(false)
@@ -25,8 +25,8 @@ export const CarouselWrapper = ({ category }) => {
     setLoading(true)
     const fetch = async () => {
       await handleAsync({
-        asyncAction: () => dispatch(getProductByCategory(category)).unwrap(),
-        onSuccess: (res) => {
+        asyncAction: () => dispatch(fetchCarouselAsync(category)).unwrap(),
+        onSuccess: () => {
           setLoading(false)
         }
       })
@@ -34,7 +34,7 @@ export const CarouselWrapper = ({ category }) => {
     fetch()
   }, [category, dispatch])
 
-  return loading || products?.length === 0 ? (
+  return loading || carousels?.length === 0 ? (
     <Skeleton className="h-[125px] w-full rounded-xl bg-white" />
   ) : (
     <div className="card">
@@ -48,7 +48,7 @@ export const CarouselWrapper = ({ category }) => {
         loop={true}
         className="relative"
       >
-        {products?.map((product, index) => (
+        {carousels?.map((product, index) => (
           <SwiperSlide key={index}>
             <ProductCard product={product} />
           </SwiperSlide>
