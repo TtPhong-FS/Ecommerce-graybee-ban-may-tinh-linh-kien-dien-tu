@@ -1,19 +1,8 @@
 import { ProductCard } from '@/components/cards'
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious
-} from '@/components/ui/pagination'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { fetchProductByCategorySlugAsync } from '@/features/collections/redux/collectionThunk'
 import ProductEmpty from '@/features/product/components/ProductEmpty'
 import { useAppContext } from '@/hooks'
 import { handleAsync } from '@/lib'
-import { ArrowDownNarrowWide } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 
@@ -69,7 +58,7 @@ export const CollectionPage = () => {
         <h1>Kết quả tìm kiếm: {slug}</h1>
       </div>
       <div>
-        <div className="mb-6 place-items-end">
+        {/* <div className="mb-6 place-items-end">
           <Select onValueChange={(value) => handleSorter(value)}>
             <SelectTrigger className="w-[150px] py-5 bg-white">
               <ArrowDownNarrowWide />
@@ -85,7 +74,7 @@ export const CollectionPage = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
-        </div>
+        </div> */}
         <div>
           {products.length === 0 ? (
             <ProductEmpty />
@@ -98,7 +87,7 @@ export const CollectionPage = () => {
           )}
         </div>
       </div>
-      <div className="mt-6 bg-white p-4 rounded-md">
+      {/* <div className="mt-6 bg-white p-4 rounded-md">
         <Pagination>
           <PaginationContent>
             <PaginationItem className="cursor-pointer">
@@ -123,7 +112,7 @@ export const CollectionPage = () => {
             </PaginationItem>
           </PaginationContent>
         </Pagination>
-      </div>
+      </div> */}
     </div>
   )
 }
