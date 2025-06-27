@@ -34,7 +34,7 @@ export const NotFoundPage = () => {
     <NotFoundContainer className="bg-gray-100 dark:bg-gray-900">
       <ErrorCode variant="h1">404</ErrorCode>
       <ErrorMessage variant="h5">{t('common:notfound')}</ErrorMessage>
-      <Link to="/home" style={{ textDecoration: 'none' }}>
+      <Link to="/" style={{ textDecoration: 'none' }}>
         <Button variant="secondary" type="button" className="cursor-pointer h-[38px]">
           {t('common:backHome')}
         </Button>

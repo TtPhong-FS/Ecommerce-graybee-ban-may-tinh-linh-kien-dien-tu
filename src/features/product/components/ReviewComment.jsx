@@ -1,26 +1,24 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { AuthContext } from '@/features/auth'
 import { useAppContext } from '@/hooks'
-import { getToken } from '@/utils'
 import { Rate } from 'antd'
-import { jwtDecode } from 'jwt-decode'
 import { MoreHorizontal } from 'lucide-react'
+import { useContext } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, Outlet } from 'react-router-dom'
 import { toast } from 'sonner'
 
 export const ReviewComment = () => {
-  const token = getToken()
+  const { user } = useContext(AuthContext)
 
   const { navigate } = useAppContext()
 
   const reviews = useSelector((state) => state.product.details?.reviews)
 
-  const decodedToken = jwtDecode(token)
-
   const handleReviewClick = () => {
-    if (!token) {
+    if (!user) {
       toast.warning('Oh no!', {
         description: 'Bạn phải đăng nhập mới có thể dùng tính năng này'
       })
@@ -44,7 +42,7 @@ export const ReviewComment = () => {
   return (
     <div className="card">
       <Outlet />
-      <div className="font-sans  max-w-5xl mr-auto">
+      <div className="font-sans max-w-5xl mr-auto">
         <h2 className="text-2xl font-bold mb-6">Đánh giá và bình luận</h2>
 
         <div className="flex items-start mb-6">
@@ -128,7 +126,7 @@ export const ReviewComment = () => {
                     <span>-</span>
                     {<Rate value={r.rating} />}
                   </div>
-                  {decodedToken.sub === r.uid && (
+                  {user.sub === r.uid && (
                     <div>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>

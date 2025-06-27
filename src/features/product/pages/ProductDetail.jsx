@@ -78,8 +78,8 @@ export const ProductDetail = () => {
             >
               <Grid2 size={5} sx={{ borderRight: '1px solid #d1d5dc', padding: '1rem' }}>
                 <div>
-                  <div className="flex items-center  mb-6">
-                    <Image width={200} height={200} src={details?.thumbnail} alt="" />
+                  <div className="flex items-center mb-6">
+                    <Image width={200} height={200} src={details?.thumbnail} alt="" className="z-10" />
                   </div>
                 </div>
               </Grid2>

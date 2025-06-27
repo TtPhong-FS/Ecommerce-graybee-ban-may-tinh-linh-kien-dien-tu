@@ -1,4 +1,3 @@
-import { Sidebar } from '@/components'
 import { CarouselWrapper } from '@/features/carousels'
 import ProductCategories from '@/features/product/components/ProductCategories'
 import Promotions from '@/features/product/components/Promotions'
@@ -17,8 +16,6 @@ export const HomePage = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      <Sidebar />
-
       <div className="mt-12 flex flex-col gap-6">
         <CarouselWrapper category={'Laptop'} />
         <CarouselWrapper category={'Pc Gaming'} />

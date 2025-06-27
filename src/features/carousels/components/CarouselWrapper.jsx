@@ -2,9 +2,11 @@ import { ProductCard } from '@/components/cards'
 import { Skeleton } from '@/components/ui/skeleton'
 import { handleAsync } from '@/lib'
 import { useMediaQuery } from '@mui/material'
+import { Truck } from 'lucide-react'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -37,8 +39,19 @@ export const CarouselWrapper = ({ category }) => {
   return loading || carousels?.length === 0 ? (
     <Skeleton className="h-[125px] w-full rounded-xl bg-white" />
   ) : (
-    <div className="card">
-      <h1 className="mb-6">{category} bán chạy</h1>
+    <div className="bg-white p-2 rounded-md">
+      <div className="flex items-center mb-6 gap-6">
+        <Link to={`/collections/${carousels?.categorySlug}`} className="text-2xl font-semibold ml-4">
+          {category} bán chạy
+        </Link>
+        <div className="flex items-center gap-2">
+          <Truck className="text-red-600" />
+          <span className="text-sm text-muted-foreground">Miễn phí vận chuyển cho đơn hàng từ 500.000đ</span>
+        </div>
+        <Link to={`/collections/${carousels?.categorySlug}`} className="ml-auto link mr-4">
+          Xem tất cả
+        </Link>
+      </div>
       <Swiper
         modules={[Navigation, Autoplay, Pagination]}
         slidesPerView={isMobile ? 3 : 6}
@@ -48,7 +61,7 @@ export const CarouselWrapper = ({ category }) => {
         loop={true}
         className="relative"
       >
-        {carousels?.map((product, index) => (
+        {carousels?.products?.map((product, index) => (
           <SwiperSlide key={index}>
             <ProductCard product={product} />
           </SwiperSlide>

@@ -22,7 +22,10 @@ export const carouselSlice = createSlice({
     builder.addCase(fetchCarouselAsync.fulfilled, (state, action) => {
       const { category, data } = action.payload
       if (!state.carousels[category]) state.carousels[category] = {}
-      state.carousels[category] = data.data
+      state.carousels[category] = {
+        categorySlug: data.data.categorySlug,
+        products: data.data.products
+      }
     })
   }
 })

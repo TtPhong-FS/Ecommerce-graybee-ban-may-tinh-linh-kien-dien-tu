@@ -37,10 +37,6 @@ const RootRouter = [
         element: <HomePage />
       },
       {
-        path: 'home',
-        element: <HomePage />
-      },
-      {
         path: 'logout',
         element: <Logout />
       },
@@ -119,7 +115,7 @@ const RootRouter = [
         ]
       },
       {
-        path: 'collections/:type/:slug',
+        path: 'collections/:slug',
         element: <CollectionPage />,
         handle: {
           crumb: ({ params }) => `${params.slug}`

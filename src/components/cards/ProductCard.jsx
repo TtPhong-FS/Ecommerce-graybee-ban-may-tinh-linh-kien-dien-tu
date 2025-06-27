@@ -17,7 +17,7 @@ export const ProductCard = ({ product }) => {
   const { handleAddItemToCart, handleAddToFavourites } = useActionAddToCartAndFavourite(start, stop)
 
   return (
-    <div className="border rounded-md px-2 py-3 flex flex-col h-full">
+    <div className="border rounded-md px-3 py-1 flex flex-col h-full">
       <div className="pb-4 flex flex-col h-full">
         <Link to={`/products/${product?.slug}`}>
           <img

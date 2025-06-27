@@ -37,7 +37,7 @@ export const useActionAddToCartAndFavourite = (start, stop) => {
             <>
               <h3 className="text-green-600 w-full block text-center mb-2">{res?.message}</h3>
               <div className="flex items-center gap-3">
-                <img className="w-20 h-20 border border-input p-2" src={res?.data.product?.thumbnail} />
+                <img className="w-10 h-10 border border-input p-2" src={res?.data.product?.thumbnail} />
                 <span className="">{res?.data?.product?.name}</span>
               </div>
             </>

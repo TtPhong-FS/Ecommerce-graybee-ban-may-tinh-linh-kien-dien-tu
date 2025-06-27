@@ -3,16 +3,16 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background-color: lightblue !important;
+  background-color: var(--color-muted) !important;
   border-radius: 99rem !important;
   color: #090d14 !important;
   font-family: none !important;
-  height: 2.5rem !important;
-  width: 2.5rem !important;
+  height: 2.3rem !important;
+  width: 2.3rem !important;
 }
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  background-color: #7ebfeb !important;
+  color: #e7000b !important;
   border-radius: 99rem !important;
 }
 
@@ -24,7 +24,7 @@
 
 .swiper-button-next:after,
 .swiper-button-prev:after {
-  font-size: 1.2rem !important;
+  font-size: 1rem !important;
 }
 
 .carousel-container {

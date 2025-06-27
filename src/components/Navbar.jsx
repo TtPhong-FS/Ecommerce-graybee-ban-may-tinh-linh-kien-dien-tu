@@ -12,7 +12,6 @@ import { setSearch } from '@/features/product/redux/productSlice'
 import { selectProfile } from '@/features/user/redux/userSelector'
 import { useAppContext, useLoading } from '@/hooks'
 import { useCustomTranslate } from '@/i18n'
-import { onFocusSidebar } from '@/store/redux/homeSlice'
 import { getToken } from '@/utils'
 import { useMediaQuery } from '@mui/material'
 import { ProductSearchCard } from './cards'
@@ -46,9 +45,9 @@ const navigation = [
   }
 ]
 
-export const Navbar = () => {
+export const Navbar = ({ openSidebar, setOpenSidebar }) => {
   const { t } = useCustomTranslate()
-  const { dispatch, navigate } = useAppContext()
+  const { dispatch } = useAppContext()
 
   const token = getToken()
   const isMobile = useMediaQuery('(max-width: 640px)')
@@ -63,14 +62,6 @@ export const Navbar = () => {
   const { isLoading, start, stop } = useLoading()
 
   const containerRef = useRef(null)
-
-  const handleFocusSidebar = () => {
-    if (isMobile) {
-      alert('mobile')
-    } else {
-      dispatch(onFocusSidebar())
-    }
-  }
 
   const handleSearch = (value) => {
     setIsSearch(value?.length > 0)
@@ -131,8 +122,8 @@ export const Navbar = () => {
                 </Link>
               </div>
               <Link
-                to="/"
-                onClick={handleFocusSidebar}
+                to="#"
+                onClick={() => setOpenSidebar(!openSidebar)}
                 className="cursor-pointer flex items-center gap-2 h-[2.8rem] rounded-[0.4rem] px-2"
               >
                 <Menu className="text-primary" size={20} />
@@ -161,7 +152,7 @@ export const Navbar = () => {
                   )}
                   {isSearch && (
                     <>
-                      {!search || search?.length === 0 ? (
+                      {search?.length === 0 ? (
                         <span className="rounded-md text-sm absolute top-12 z-50 bg-white w-full flex items-center justify-center py-5 description">
                           {t('product:empty')}
                         </span>
@@ -239,6 +230,8 @@ export const Navbar = () => {
 }
 
 Navbar.propTypes = {
+  openSidebar: PropTypes.bool,
   active: PropTypes.bool,
-  handleFocusSidebar: PropTypes.func
+  handleFocusSidebar: PropTypes.func,
+  setOpenSidebar: PropTypes.func
 }
