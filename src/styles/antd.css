@@ -1,0 +1,51 @@
+.ant-modal-content {
+  background-color: var(--background) !important;
+  color: var(--primary) !important;
+}
+
+.ant-modal-close {
+  color: var(--primary) !important;
+}
+
+.ant-select {
+  min-height: 40px !important;
+}
+
+.ant-select-selector {
+  color: var(--primary) !important;
+  border: 1px solid var(--input) !important;
+}
+
+.custom-select .ant-select-selector {
+  background-color: transparent !important;
+}
+
+.custom-select .ant-select-selector:is(.dark *) {
+  background-color: color-mix(in oklab, var(--input) 30%, transparent) !important;
+}
+
+.custom-select .ant-select-status-error .ant-select-selector {
+  border-color: var(--error) !important;
+  border-style: var(--tw-border-style) !important;
+  border-width: 2px !important;
+}
+.custom-select .ant-select-status-error .ant-select-selector:focus-visible {
+  border-color: var(--error) !important;
+  --tw-ring-color: color-mix(in oklab, var(--error) 20%, transparent) !important;
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width))
+    var(--tw-ring-color, currentcolor) !important;
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
+    var(--tw-shadow) !important;
+}
+
+.ant-select-selection-item-remove {
+  color: var(--primary) !important;
+}
+
+.ant-select-selection-wrap {
+  align-self: center !important;
+}
+
+.ant-select-selection-placeholder {
+  color: var(--muted-foreground) !important;
+}
