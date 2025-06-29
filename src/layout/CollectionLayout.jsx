@@ -4,7 +4,7 @@ export const CollectionLayout = () => {
   return (
     <div>
       <main className="flex justify-center">
-        <div className="w-full max-w-[76.25rem]">
+        <div className="w-full max-w-[74rem]">
           <Outlet />
         </div>
       </main>

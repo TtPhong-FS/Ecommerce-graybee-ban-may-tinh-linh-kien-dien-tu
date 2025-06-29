@@ -12,6 +12,7 @@ export const SignUp = () => {
 
       <div className="flex flex-col gap-4 mb-10 mt-6">
         <RHFInputField
+          isRequired
           label={`${t('auth:signup.form.fullName')}`}
           name="profile.fullName"
           type="text"

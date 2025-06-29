@@ -12,7 +12,7 @@ export const Sidebar = ({ openSidebar, setOpenSidebar }) => {
       {openSidebar && (
         <div className="fixed inset-0 bg-foreground opacity-70" onClick={() => setOpenSidebar(false)}></div>
       )}
-      <div className="overflow-y-auto z-40 relative">
+      <div className="z-40 relative ">
         <MegaSidebar categories={sidebarMemo} setOpenSidebar={setOpenSidebar} />
       </div>
     </div>
@@ -35,7 +35,7 @@ const MegaSidebar = ({ categories, setOpenSidebar }) => {
   return (
     <div className="flex gap-2 w-full overflow-hidden " onMouseLeave={() => setActiveCategory(null)}>
       {/* Sidebar */}
-      <div className="w-[220px] max-h-96 bg-white overflow-y-scroll rounded-xs">
+      <div className="w-[220px] max-h-96 bg-white overflow-y-scroll rounded-xs hide-scrollbar">
         <ul className="">
           {categories.map((cat, index) => (
             <Link

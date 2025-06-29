@@ -43,32 +43,38 @@ export const ProductCard = ({ product }) => {
           </div>
         </div>
 
-        <div className="mt-4 flex flex-col gap-4">
-          <Button
-            disabled={isLoading(`addFavorite:${product?.id}`)}
-            onClick={() => handleAddToFavourites(product?.id)}
-            variant="outline"
-            className="py-5 cursor-pointer w-full"
-          >
-            {isPresentInFavorites(favorites, product?.id) ? (
-              <>
-                <Heart className="text-red-500" /> Đã yêu thích
-              </>
-            ) : (
-              <>
-                <Heart /> Yêu thích
-              </>
-            )}
-          </Button>
-          <Button
-            disabled={isLoading(`addItemToCart:${product?.id}`)}
-            onClick={() => handleAddItemToCart(product?.id)}
-            variant="secondary"
-            className="py-5 cursor-pointer w-full"
-          >
-            <ShoppingCart />
-            Thêm vào giỏ
-          </Button>
+        <div className="mt-4 flex lg:flex-col max-md:gap-2 lg:gap-4">
+          <div className="w-full">
+            <Button
+              disabled={isLoading(`addFavorite:${product?.id}`)}
+              onClick={() => handleAddToFavourites(product?.id)}
+              variant="outline"
+              className="py-5 cursor-pointer w-full"
+            >
+              {isPresentInFavorites(favorites, product?.id) ? (
+                <>
+                  <Heart className="text-red-500" />
+                  <span className="hidden lg:block">Đã yêu thích</span>
+                </>
+              ) : (
+                <>
+                  <Heart />
+                  <span className="hidden lg:block">Yêu thích</span>
+                </>
+              )}
+            </Button>
+          </div>
+          <div className="">
+            <Button
+              disabled={isLoading(`addItemToCart:${product?.id}`)}
+              onClick={() => handleAddItemToCart(product?.id)}
+              variant="secondary"
+              className="py-5 cursor-pointer w-full"
+            >
+              <ShoppingCart />
+              <span className="hidden lg:block">Thêm vào giỏ</span>
+            </Button>
+          </div>
         </div>
       </div>
     </div>

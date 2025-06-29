@@ -52,3 +52,10 @@
   gap: 4px;
   margin-top: 1.2rem;
 }
+
+@media (max-width: 465px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important;
+  }
+}

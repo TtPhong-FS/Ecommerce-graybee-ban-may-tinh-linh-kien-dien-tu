@@ -61,7 +61,7 @@ export const LoginProvider = () => {
     <FormProvider {...methods}>
       <form onSubmit={onSubmit}>
         <div className="flex items-center justify-center w-full">
-          <h1 className="mb-8">{t('auth:login.title')}</h1>
+          <h1 className="mb-8 text-center">{t('auth:login.title')}</h1>
         </div>
         {methods.formState.errors.root && <ErrorMessage error={methods.formState.errors.root} />}
         <Login />

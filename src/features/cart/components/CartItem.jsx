@@ -127,10 +127,10 @@ export const CartItem = () => {
           </div>
         </div>
         <div className="w-auto flex flex-col gap-4">
-          {cartItems.map((cartItem, index) => (
-            <div key={index}>
-              <div className="flex items-center not-first:mt-4 card">
-                <div className="mr-6 select-none">
+          {cartItems.map((cartItem) => (
+            <div key={cartItem.cartItemId} className="card flex items-center max-md:flex-col justify-between gap-4">
+              <div className="flex items-center not-first:mt-4 w-full">
+                <div className="mr-6 select-none ">
                   <Checkbox
                     className="w-4.5 h-4.5 cursor-pointer"
                     checked={selectedItems.includes(cartItem.cartItemId)}
@@ -138,7 +138,7 @@ export const CartItem = () => {
                     value={cartItem.cartItemId}
                   />
                 </div>
-                <div className="select-none grid grid-cols-3 place-items-center place-content-center">
+                <div className="select-none flex items-center w-full">
                   <div className="flex items-center gap-3 mr-6">
                     <Image
                       className="border-1 p-2 border-gray-300 rounded-md"
@@ -148,59 +148,62 @@ export const CartItem = () => {
                       src={cartItem.product.thumbnail}
                       alt="Anh san pham"
                     />
-                    <Link
-                      to={`/products/${cartItem?.product?.slug}`}
-                      className="cursor-pointer text-xs md:text-sm font-medium max-w-[20rem] link line-clamp-2"
-                    >
-                      {cartItem.product.name}
-                    </Link>
                   </div>
-                  <div className="flex mr-2 gap-2 items-center justify-center">
-                    <Button
-                      variant="outline"
-                      className="w-8 h-8 cursor-pointer"
-                      disabled={cartItem.quantity === 1 ? true : false}
-                      onClick={() => handleDecreaseQuantity(cartItem.product.id)}
-                    >
-                      <Minus size={16} />
-                    </Button>
-
-                    <Input
-                      type="number"
-                      className="select-none p-2 text-xs max-w-20 h-8"
-                      min={1}
-                      value={cartItem.quantity}
-                      onChange={(e) => onChangeQuantity(e, cartItem.cartItemId)}
-                    />
-
-                    <Button
-                      className="w-8 h-8 cursor-pointer"
-                      variant="outline"
-                      onClick={() => handleAddItemToCart(cartItem.product.id)}
-                    >
-                      <Plus size={16} />
-                    </Button>
-                  </div>
-                  <div className="grid grid-cols-7 place-items-center w-full">
-                    <div className="flex flex-col justify-start col-span-6">
-                      <span className="font-medium text-sm lg:text-base font-sans text-red-500">
-                        {formattedPrice(cartItem.product.finalPrice)}
-                      </span>
-                      <del className="font-medium text-xs lg:text-sm text-gray-500">
-                        {formattedPrice(cartItem.product.price)}
-                      </del>
-                    </div>
-                    <div className="cursor-pointer col-span-1">
-                      <CustomDialog
-                        triggerElement={<Trash className=" text-muted-foreground" size={16} />}
-                        title="Xoá mặt hàng"
-                        description="Bạn có chắc chắn muốn xoá mục này không?"
-                        titleCancel="Huỷ xoá"
-                        titleOk="Tiếp tục xoá"
-                        onConfirm={() => handleRemoveItem(cartItem.cartItemId)}
-                      />
+                  <div className="flex items-center justify-between lg:w-[427px]">
+                    <div className="flex max-md:flex-col justify-between gap-1 w-full">
+                      <Link
+                        to={`/products/${cartItem?.product?.slug}`}
+                        className="cursor-pointer text-base max-md:text-sm font-medium max-w-[20rem] link line-clamp-2"
+                      >
+                        {cartItem.product.name}
+                      </Link>
+                      <div className="flex flex-col">
+                        <span className="font-medium text-sm max-md:text-xs font-sans text-red-500">
+                          {formattedPrice(cartItem.product.finalPrice)}
+                        </span>
+                        <del className="font-medium text-sm max-md:text-xs text-gray-500">
+                          {formattedPrice(cartItem.product.price)}
+                        </del>
+                      </div>
                     </div>
                   </div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between lg:w-[427px] max-md:gap-6">
+                <div className="flex mr-2 gap-2 items-center justify-center">
+                  <Button
+                    variant="outline"
+                    className="w-8 h-8 cursor-pointer"
+                    disabled={cartItem.quantity === 1 ? true : false}
+                    onClick={() => handleDecreaseQuantity(cartItem.product.id)}
+                  >
+                    <Minus size={16} />
+                  </Button>
+                  <Input
+                    type="number"
+                    className="select-none p-2 text-xs max-w-20 h-8"
+                    min={1}
+                    value={cartItem.quantity}
+                    onChange={(e) => onChangeQuantity(e, cartItem.cartItemId)}
+                  />
+
+                  <Button
+                    className="w-8 h-8 cursor-pointer"
+                    variant="outline"
+                    onClick={() => handleAddItemToCart(cartItem.product.id)}
+                  >
+                    <Plus size={16} />
+                  </Button>
+                </div>
+                <div className="cursor-pointer w-4.5">
+                  <CustomDialog
+                    triggerElement={<Trash className=" text-muted-foreground" size={16} />}
+                    title="Xoá mặt hàng"
+                    description="Bạn có chắc chắn muốn xoá mục này không?"
+                    titleCancel="Huỷ xoá"
+                    titleOk="Tiếp tục xoá"
+                    onConfirm={() => handleRemoveItem(cartItem.cartItemId)}
+                  />
                 </div>
               </div>
             </div>

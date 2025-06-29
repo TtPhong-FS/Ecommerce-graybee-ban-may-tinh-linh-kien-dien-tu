@@ -114,7 +114,7 @@ export const Navbar = ({ openSidebar, setOpenSidebar }) => {
     <>
       <div className="select-none sticky top-0 z-50">
         <header className="bg-primary-foreground h-[5rem] flex items-center justify-center md:px-4 px-2">
-          <div className="flex w-full max-w-[88rem] mx-auto h-[2.8rem] gap-2 items-center">
+          <div className="flex w-full max-w-[74rem] mx-auto h-[2.8rem] gap-2 items-center">
             <div className="flex h-full items-center lg:gap-3">
               <div className="hidden md:flex gap-1 items-center">
                 <Link className="text-2xl font-semibold text-primary uppercase hidden lg:flex cursor-pointer" to="/">

@@ -132,7 +132,7 @@ const RootRouter = [
         path: 'account/',
         element: (
           <>
-            <ProtectedRoute requiredRoles={['ADMIN', 'CUSTOMER', 'MANAGE']}>
+            <ProtectedRoute requiredRoles={['ADMIN', 'SUPER_ADMIN', 'CUSTOMER', 'MANAGE']}>
               <ProfileLayout />
             </ProtectedRoute>
           </>
