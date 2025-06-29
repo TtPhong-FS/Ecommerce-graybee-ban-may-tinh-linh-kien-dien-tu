@@ -1,19 +1,21 @@
+import { privateAPI } from '@/config'
 import Cookies from 'js-cookie'
-import React from 'react'
+import { useEffect } from 'react'
 
-function generateRandomSessionId() {
-  return 'xxxxx-xxxxx-xxxxx-xxxxx'.replace(/[x]/g, () => Math.floor(Math.random() * 16).toString(16))
+async function session() {
+  const res = await privateAPI.get('/api/v1/public/home/session')
+  return res.data
 }
 
-function initSession() {
+async function initSession() {
   const token = Cookies.get('token')
   if (token) return
 
   let sessionId = Cookies.get('sessionId')
   if (!sessionId) {
-    sessionId = generateRandomSessionId()
+    const { data } = await session()
 
-    Cookies.set('sessionId', sessionId, { expires: 7, secure: true, sameSite: 'None' })
+    Cookies.set('sessionId', data, { expires: 7, secure: true, sameSite: 'None' })
     console.log('Session created:', sessionId)
   }
 
@@ -45,7 +47,7 @@ export function clearAuthToken() {
 }
 
 export function useSession() {
-  React.useEffect(() => {
+  useEffect(() => {
     initSession()
   }, [])
 }

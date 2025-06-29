@@ -5,9 +5,14 @@ import { createSlice } from '@reduxjs/toolkit'
 const home_endpoint = '/api/v1/public/home'
 
 const getSidebar = () => publicAPI.get(`${home_endpoint}/sidebar`)
+const getSessionId = () => publicAPI.get(`${home_endpoint}/session`)
 
 export const fetchSidebar = handleCreateAsyncThunk('sidebar/fetchSidebar', async () => {
   const response = await getSidebar()
+  return response.data
+})
+export const initialSession = handleCreateAsyncThunk('sidebar/fetchSidebar', async () => {
+  const response = await getSessionId()
   return response.data
 })
 
