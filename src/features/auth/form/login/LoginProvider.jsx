@@ -48,7 +48,7 @@ export const LoginProvider = () => {
         dispatch(setProfile(data?.profile))
         setLoading(false)
 
-        navigate('/home')
+        navigate('/')
       },
       values,
       toast,

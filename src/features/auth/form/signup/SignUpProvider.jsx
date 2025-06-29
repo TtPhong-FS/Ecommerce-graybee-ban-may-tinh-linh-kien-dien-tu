@@ -57,7 +57,7 @@ export const SignUpProvider = () => {
         setUser(decodedToken)
         setLoading(false)
 
-        navigate('/home')
+        navigate('/')
       },
       values: request,
       setError: methods.setError
