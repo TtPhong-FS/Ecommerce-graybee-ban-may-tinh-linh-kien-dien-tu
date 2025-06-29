@@ -12,6 +12,8 @@ function initSession() {
   let sessionId = Cookies.get('sessionId')
   if (!sessionId) {
     sessionId = generateRandomSessionId()
+    document.cookie = `sessionId=${sessionId}; path=/; SameSite=None; Secure`
+
     Cookies.set('sessionId', sessionId, { expires: 7 })
     console.log('Session created:', sessionId)
   }
