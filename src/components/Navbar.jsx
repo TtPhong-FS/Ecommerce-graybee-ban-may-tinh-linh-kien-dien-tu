@@ -166,7 +166,7 @@ export const Navbar = ({ openSidebar, setOpenSidebar }) => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-1 w-max gap-6 lg:gap-4 font-medium ml-2">
+            <div className="flex w-max gap-6 lg:gap-4 font-medium ml-2 items-center justify-center">
               {navigation.map((item, index) => {
                 const lastItem = index === navigation.length - 1
                 const title = t(`navbar:${item.title}`)

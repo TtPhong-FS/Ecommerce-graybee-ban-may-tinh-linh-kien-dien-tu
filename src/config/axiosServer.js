@@ -2,7 +2,7 @@ import i18n from '@/i18n/i18n'
 import { getToken } from '@/utils'
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = import.meta.env.VITE_TECHSTORE_API_BASE_URL
 const currentLang = i18n.language || 'vi'
 
 export const publicAPI = axios.create({

@@ -41,20 +41,22 @@ export const CarouselWrapper = ({ category }) => {
   ) : (
     <div className="bg-white p-2 rounded-md">
       <div className="flex items-center mb-6 gap-6">
-        <Link to={`/collections/${carousels?.categorySlug}`} className="text-2xl font-semibold ml-4">
+        <Link to={`/collections/${carousels?.categorySlug}`} className="max-md:text-lg text-2xl font-semibold ml-4">
           {category} bán chạy
         </Link>
         <div className="flex items-center gap-2">
           <Truck className="text-red-600" />
-          <span className="text-sm text-muted-foreground">Miễn phí vận chuyển cho đơn hàng từ 500.000đ</span>
+          <span className="text-sm max-md:text-xs text-muted-foreground">
+            Miễn phí vận chuyển cho đơn hàng từ 500.000đ
+          </span>
         </div>
-        <Link to={`/collections/${carousels?.categorySlug}`} className="ml-auto link mr-4">
+        <Link to={`/collections/${carousels?.categorySlug}`} className="ml-auto link mr-4 max-md:text-xs">
           Xem tất cả
         </Link>
       </div>
       <Swiper
         modules={[Navigation, Autoplay, Pagination]}
-        slidesPerView={isMobile ? 3 : 6}
+        slidesPerView={isMobile ? 2 : 6}
         spaceBetween={10}
         navigation
         autoplay={{ delay: 3000 }}
