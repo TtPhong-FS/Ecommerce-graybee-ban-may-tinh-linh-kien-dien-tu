@@ -13,9 +13,8 @@ async function initSession() {
 
   let sessionId = Cookies.get('sessionId')
   if (!sessionId) {
-    const { data } = await session()
+    await session()
 
-    Cookies.set('sessionId', data, { expires: 7, secure: true, sameSite: 'None' })
     console.log('Session created:', sessionId)
   }
 
