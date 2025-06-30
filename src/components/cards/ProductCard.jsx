@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-import { Heart, ShoppingCart } from 'lucide-react'
+import { Heart, LoaderCircle, ShoppingCart } from 'lucide-react'
 
 import { useActionAddToCartAndFavourite } from '@/features/product'
 import { useLoading } from '@/hooks'
@@ -71,7 +71,7 @@ export const ProductCard = ({ product }) => {
               variant="secondary"
               className="py-5 cursor-pointer w-full"
             >
-              <ShoppingCart />
+              {isLoading(`addItemToCart:${product?.id}`) ? <LoaderCircle className="animate-spin" /> : <ShoppingCart />}
               <span className="hidden md:block">Thêm vào giỏ</span>
             </Button>
           </div>

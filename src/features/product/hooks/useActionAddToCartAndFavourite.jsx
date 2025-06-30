@@ -2,11 +2,10 @@ import { addItemToCartAsync } from '@/features/cart'
 import { addToFavoriteByProductIdAsync } from '@/features/user/redux'
 import { useAppContext } from '@/hooks'
 import { handleAsync, handleAsyncSubmit } from '@/lib'
-import { getSession, getToken, session } from '@/utils'
+import { getToken } from '@/utils'
 import { toast } from 'sonner'
 export const useActionAddToCartAndFavourite = (start, stop) => {
   const token = getToken()
-  const sessionId = getSession()
   const { dispatch } = useAppContext()
 
   const handleAddToFavourites = async (productId) => {
@@ -30,16 +29,6 @@ export const useActionAddToCartAndFavourite = (start, stop) => {
   }
 
   const handleAddItemToCart = async (productId) => {
-    if (!token && !sessionId) {
-      try {
-        await session()
-      } catch (error) {
-        console.error('Không thể khởi tạo session:', error)
-        toast.error('Không thể tạo session. Vui lòng thử lại sau.')
-        return
-      }
-    }
-
     await handleAsyncSubmit({
       asyncAction: (productId) => dispatch(addItemToCartAsync(productId)).unwrap(),
       onSuccess: (res) => {
