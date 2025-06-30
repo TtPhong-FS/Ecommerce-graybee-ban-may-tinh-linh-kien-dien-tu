@@ -25,7 +25,7 @@ export const RootLayout = () => {
         <div
           className={`${isSidebarVisible ? 'block' : 'hidden'} ${
             openSidebar ? 'sticky top-25 ' : 'relative'
-          } lg:mt-4 w-full max-w-[74rem] mx-auto z-40`}
+          } max-sm:mt-0 mt-4 w-full max-w-[74rem] mx-auto z-40`}
         >
           <div className={`${openSidebar ? 'absolute' : 'ml-4 relative'} z-40 `}>
             <Sidebar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />

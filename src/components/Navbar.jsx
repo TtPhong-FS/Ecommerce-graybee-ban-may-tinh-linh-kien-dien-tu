@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { Menu, UserRound, X } from 'lucide-react'
+import { Menu, ShoppingCart, X } from 'lucide-react'
 
 import logoTS from '@/assets/logo-techstore.png'
 import { NAVIGATION } from '@/constants'
@@ -177,13 +177,16 @@ export const Navbar = ({ openSidebar, setOpenSidebar }) => {
 
               <div className="inline-flex items-center  ">
                 {isMobile && token ? (
-                  <Link to={'/account'} className="cursor-pointer">
-                    <UserRound size={20} />
-                  </Link>
+                  <Link to={'/account'} className="cursor-pointer"></Link>
                 ) : !token ? (
-                  <Link to={'/login'}>
+                  <Link to={'/cart/cart-buy-order-box'}>
                     {isMobile ? (
-                      <UserRound size={20} />
+                      <span className="inline-block relative pr-2">
+                        <ShoppingCart className="cursor-pointer text-primary " size={20} />
+                        <span className="text-secondary-foreground cursor-pointer select-none absolute w-4 h-4 justify-center text-xs flex items-center rounded-full -top-1/3 -right-0 bg-error">
+                          {totalQuantity}
+                        </span>
+                      </span>
                     ) : (
                       <Button variant="secondary" className="cursor-pointer">
                         {t('auth:login.btnLogin')}

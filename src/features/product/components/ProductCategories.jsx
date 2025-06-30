@@ -12,7 +12,7 @@ function ProductCategories() {
 
   return (
     categories?.length > 0 && (
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
         <div className="mb-6">
           <h5 className="font-bold text-gray-800 uppercase">Danh mục sản phẩm</h5>
         </div>
