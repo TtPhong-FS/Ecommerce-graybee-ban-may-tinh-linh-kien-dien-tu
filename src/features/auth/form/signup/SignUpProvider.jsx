@@ -49,7 +49,6 @@ export const SignUpProvider = () => {
     await handleAsyncSubmit({
       asyncAction: (vals) => dispatch(registerUserAsync(vals)).unwrap(),
       onSuccess: (res) => {
-        toast.success(res?.message)
         const data = res.data
         saveAuthToken(data.auth.token)
         const decodedToken = jwtDecode(data.auth.token)
@@ -57,6 +56,7 @@ export const SignUpProvider = () => {
         setUser(decodedToken)
         setLoading(false)
 
+        toast.success(res.message)
         navigate('/')
       },
       values: request,
