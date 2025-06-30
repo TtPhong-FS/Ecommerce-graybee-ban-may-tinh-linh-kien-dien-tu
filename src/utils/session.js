@@ -41,7 +41,7 @@ export function getSession() {
 
 export function clearAuthToken() {
   Cookies.remove('token')
-  session()
+  initSession()
 }
 
 export function useSession() {
