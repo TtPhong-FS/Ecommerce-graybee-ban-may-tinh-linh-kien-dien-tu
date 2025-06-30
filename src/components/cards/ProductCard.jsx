@@ -43,7 +43,7 @@ export const ProductCard = ({ product }) => {
           </div>
         </div>
 
-        <div className="mt-4 flex lg:flex-col max-md:gap-2 lg:gap-4">
+        <div className="mt-4 flex md:flex-col max-md:gap-2 md:gap-4">
           <div className="w-full">
             <Button
               disabled={isLoading(`addFavorite:${product?.id}`)}
@@ -54,12 +54,12 @@ export const ProductCard = ({ product }) => {
               {isPresentInFavorites(favorites, product?.id) ? (
                 <>
                   <Heart className="text-red-500" />
-                  <span className="hidden lg:block">Đã yêu thích</span>
+                  <span className="hidden md:block">Đã yêu thích</span>
                 </>
               ) : (
                 <>
                   <Heart />
-                  <span className="hidden lg:block">Yêu thích</span>
+                  <span className="hidden md:block">Yêu thích</span>
                 </>
               )}
             </Button>
@@ -72,7 +72,7 @@ export const ProductCard = ({ product }) => {
               className="py-5 cursor-pointer w-full"
             >
               <ShoppingCart />
-              <span className="hidden lg:block">Thêm vào giỏ</span>
+              <span className="hidden md:block">Thêm vào giỏ</span>
             </Button>
           </div>
         </div>

@@ -17,6 +17,7 @@ import '../styles/swiper.css'
 
 export const CarouselWrapper = ({ category }) => {
   const isMobile = useMediaQuery('(max-width: 640px)')
+  const isTablet = useMediaQuery('(max-width: 914px)')
 
   const carousels = useSelector((state) => state.carousel.carousels[category])
   const dispatch = useDispatch()
@@ -56,7 +57,7 @@ export const CarouselWrapper = ({ category }) => {
       </div>
       <Swiper
         modules={[Navigation, Autoplay, Pagination]}
-        slidesPerView={isMobile ? 2 : 5}
+        slidesPerView={isMobile ? 2 : isTablet ? 3 : 5}
         spaceBetween={10}
         navigation
         autoplay={{ delay: 3000 }}

@@ -1,9 +1,11 @@
 import { Outlet, useLocation } from 'react-router-dom'
 
 import { AppInitializer, BreadCrumbs, Footer, Loading, Navbar, ScrollToTop, Sidebar, ThemeProvider } from '@/components'
+import { useSession } from '@/utils'
 import { Suspense, useState } from 'react'
 import { Toaster } from 'sonner'
 export const RootLayout = () => {
+  useSession()
   const [openSidebar, setOpenSidebar] = useState(false)
 
   const location = useLocation()

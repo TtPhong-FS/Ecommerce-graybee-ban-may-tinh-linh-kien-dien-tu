@@ -1,24 +1,24 @@
-import { privateAPI } from '@/config'
+import { publicAPI } from '@/config'
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 
-async function session() {
-  const res = await privateAPI.get('/api/v1/public/home/session')
+export async function session() {
+  const res = await publicAPI.get('/api/v1/public/home/session')
   return res.data
 }
 
 async function initSession() {
   const token = Cookies.get('token')
-  if (token) return
+  if (token) return token
 
-  let sessionId = Cookies.get('sessionId')
+  const sessionId = Cookies.get('sessionId')
   if (!sessionId) {
-    await session()
+    const { data } = await session()
 
-    console.log('Session created:', sessionId)
+    console.log('Session created:', data)
+
+    return sessionId
   }
-
-  return sessionId
 }
 
 export function saveAuthToken(token) {
@@ -37,7 +37,7 @@ export function getToken() {
 }
 
 export function getSession() {
-  return getToken() ? null : Cookies.get('sessionId') || null
+  return Cookies.get('sessionId') || null
 }
 
 export function clearAuthToken() {

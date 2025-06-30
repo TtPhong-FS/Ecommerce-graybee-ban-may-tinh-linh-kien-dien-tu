@@ -6,12 +6,11 @@ import {
   getAllAddressAsync
 } from '@/features/user'
 import { fetchSidebar } from '@/store/redux/homeSlice'
-import { getToken, useSession } from '@/utils'
+import { getToken } from '@/utils'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 export const AppInitializer = () => {
-  useSession()
   const token = getToken()
 
   const dispatch = useDispatch()
