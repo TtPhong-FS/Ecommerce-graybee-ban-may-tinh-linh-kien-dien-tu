@@ -24,6 +24,7 @@ export const OrderProvider = () => {
   const handleSubmit = methods.handleSubmit(async (values) => {
     start('submiting')
     if (values.cartItemIds.length < 1) {
+      stop('submiting')
       return toast.info('Hãy chọn ít nhất 1 sản phẩm để đặt hàng!')
     }
     const customerForm = {
