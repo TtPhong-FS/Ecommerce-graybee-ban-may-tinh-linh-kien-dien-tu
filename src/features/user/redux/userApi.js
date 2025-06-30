@@ -7,7 +7,7 @@ export const accountApi = {
     return privateAPI.get(`${account_endpoint}/favourites`)
   },
   addToFavoriteByProductId: (productId) => {
-    return privateAPI.post(`${account_endpoint}/${productId}`)
+    return privateAPI.post(`${account_endpoint}/favourites/${productId}`)
   },
   getProfileByToken: () => privateAPI.get(`${account_endpoint}/profile`),
   updateProfile: (request) => privateAPI.put(`${account_endpoint}/profile/update`, request),

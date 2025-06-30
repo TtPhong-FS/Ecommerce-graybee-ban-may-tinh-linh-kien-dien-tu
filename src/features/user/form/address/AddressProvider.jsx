@@ -51,7 +51,6 @@ export const AddressProvider = ({ isUpdate, initialData }) => {
   return (
     <FormProvider {...methods}>
       <Spin spinning={isLoading('submiting')}>
-        <h1 className="px-4 mb-4">{isUpdate ? 'Cập nhật địa chỉ' : 'Thêm địa chỉ mới'}</h1>
         <form onSubmit={handleSubmit}>
           <Address />
           <div className="px-4 mt-6">

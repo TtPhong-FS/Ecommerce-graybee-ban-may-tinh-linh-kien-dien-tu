@@ -4,9 +4,10 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { Headset, MapPin, Menu, ScrollText, ShoppingCart, UserRound, X } from 'lucide-react'
+import { Menu, UserRound, X } from 'lucide-react'
 
 import logoTS from '@/assets/logo-techstore.png'
+import { NAVIGATION } from '@/constants'
 import { searchProductByNameAsync } from '@/features/product/redux'
 import { setSearch } from '@/features/product/redux/productSlice'
 import { selectProfile } from '@/features/user/redux/userSelector'
@@ -18,34 +19,14 @@ import { ProductSearchCard } from './cards'
 import { Button } from './ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Input } from './ui/input'
-const navigation = [
-  {
-    path: '#',
-    icon: Headset,
-    badge: false,
-    title: 'contact'
-  },
-  {
-    path: '#',
-    icon: MapPin,
-    badge: false,
-    title: 'showroom'
-  },
-  {
-    path: '/account/order-history',
-    icon: ScrollText,
-    badge: false,
-    title: 'orderHistory'
-  },
-  {
-    path: '/cart/cart-buy-order-box',
-    icon: ShoppingCart,
-    badge: true,
-    title: 'cart'
-  }
-]
 
 export const Navbar = ({ openSidebar, setOpenSidebar }) => {
+  // const { setTheme, theme } = useTheme()
+
+  // const toggleTheme = () => {
+  //   setTheme(theme === 'light' ? 'dark' : 'light')
+  // }
+
   const { t } = useCustomTranslate()
   const { dispatch } = useAppContext()
 
@@ -168,7 +149,7 @@ export const Navbar = ({ openSidebar, setOpenSidebar }) => {
               </div>
             </div>
             <div className="flex w-max gap-6 lg:gap-4 font-medium ml-2 items-center justify-center">
-              {navigation.map((item, index) => {
+              {NAVIGATION.map((item, index) => {
                 const lastItem = index === navigation.length - 1
                 const title = t(`navbar:${item.title}`)
                 return (
@@ -195,16 +176,19 @@ export const Navbar = ({ openSidebar, setOpenSidebar }) => {
               })}
 
               <div className="inline-flex items-center  ">
-                {isMobile ? (
-                  <Link to={'/login'} className="cursor-pointer">
+                {isMobile && token ? (
+                  <Link to={'/account'} className="cursor-pointer">
                     <UserRound size={20} />
                   </Link>
                 ) : !token ? (
-                  <Link
-                    className="cursor-pointer inline-flex items-center justify-center text-sm h-[38px] min-w-24 bg-secondary p-3 rounded-sm text-secondary-foreground dark:text-secondary-foreground select-none"
-                    to={'/login'}
-                  >
-                    {t('navbar:login')}
+                  <Link to={'/login'}>
+                    {isMobile ? (
+                      <UserRound size={20} />
+                    ) : (
+                      <Button variant="secondary" className="cursor-pointer">
+                        {t('auth:login.btnLogin')}
+                      </Button>
+                    )}
                   </Link>
                 ) : (
                   <DropdownMenu>
@@ -215,6 +199,16 @@ export const Navbar = ({ openSidebar, setOpenSidebar }) => {
                       <DropdownMenuItem asChild>
                         <Link to={'/account'}>Thông tin cá nhân</Link>
                       </DropdownMenuItem>
+                      {/* <DropdownMenuItem asChild>
+                        <Button onClick={toggleTheme} variant="ghost" size="icon" className="cursor-pointer">
+                          {theme === 'light' ? (
+                            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                          ) : (
+                            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                          )}
+                        </Button>
+                      </DropdownMenuItem> */}
+
                       <DropdownMenuItem asChild>
                         <Link to={'/logout'}>Đăng xuất</Link>
                       </DropdownMenuItem>

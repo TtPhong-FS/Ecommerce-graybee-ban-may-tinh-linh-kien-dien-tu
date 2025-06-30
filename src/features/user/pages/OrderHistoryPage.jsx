@@ -25,15 +25,15 @@ export const OrderHistoryPage = () => {
   }, [dispatch])
 
   return (
-    <div className=" p-6">
+    <>
       <Outlet />
-      <div className="flex items-center justify-between mb-8">
-        <h1>{t('customer:orderHistory.title')}</h1>
-        <Button onClick={handleReload} variant="secondary" disabled={isLoading('reload')} className="py-5 w-25">
+      <div className="flex items-center justify-between mb-8 px-4">
+        <h5 className="font-bold text-secondary-foreground uppercase">{t('customer:orderHistory.title')}</h5>
+        <Button onClick={handleReload} variant="outline" disabled={isLoading('reload')} className="py-5 w-25">
           Làm mới
         </Button>
       </div>
       <OrderItem />
-    </div>
+    </>
   )
 }

@@ -45,12 +45,14 @@ export const ProfilePage = () => {
 
   return (
     <Spin spinning={isLoading('getProfileByToken')} className="">
-      <h1 className="pb-6 pt-3">{t('customer:profile.title')}</h1>
+      <div className="mb-8">
+        <h5 className="font-bold text-secondary-foreground uppercase">{t('customer:profile.title')}</h5>
+      </div>
       {isEdit ? (
         <ProfileProvider handleCancel={handleCancel} initialData={initialData} isUpdate={isUpdate} />
       ) : (
         <div className="flex justify-center items-center bg-white p-4 rounded-lg">
-          <div className="w-[50%]">
+          <div className="w-full">
             <div className="place-items-center">
               <Avatar className="w-28 h-28">
                 <AvatarImage src="https://github.com/shadcn.png" />

@@ -42,7 +42,7 @@ export const CarouselWrapper = ({ category }) => {
   ) : (
     <div className="bg-white p-2 rounded-md">
       <div className="flex items-center mb-6 gap-6">
-        <Link to={`/collections/${carousels?.categorySlug}`} className="max-md:text-lg text-2xl font-semibold ml-4">
+        <Link to={`/collections/${carousels?.categorySlug}`} className="font-bold text-gray-800 uppercase ml-4">
           {category} bán chạy
         </Link>
         <div className="hidden md:flex items-center gap-2">

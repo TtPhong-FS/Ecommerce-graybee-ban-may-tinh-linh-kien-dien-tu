@@ -32,71 +32,67 @@ export default function OrderItem() {
   }
 
   return (
-    <div className="">
-      <div className="flex flex-col gap-4">
-        {orderHistory?.map((o) => (
-          <>
-            <div className="card" key={o.code}>
-              <div className="mb-4 flex justify-between items-center">
-                <div className="text-xs">
-                  Đơn
-                  <Link to={`detail/${o.code}`} className="link ml-1">
-                    #{o.code}
-                  </Link>
-                </div>
+    <div className="flex flex-col gap-4">
+      {orderHistory?.map((o) => (
+        <div className="card" key={o.code}>
+          <div className="mb-4 flex justify-between items-center">
+            <div className="text-xs">
+              Đơn
+              <Link to={`detail/${o.code}`} className="link ml-1">
+                #{o.code}
+              </Link>
+            </div>
 
-                {(o.status === 'PENDING' || o.status === 'CONFIRMED') && (
-                  <div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0 cursor-pointer ">
-                          <MoreHorizontal />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem
-                          disabled={isLoading(`cancelOrder:${o.code}`)}
-                          onClick={() => handleCancelOrder(o.code)}
-                        >
-                          Huỷ đơn hàng
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                )}
+            {(o.status === 'PENDING' || o.status === 'CONFIRMED') && (
+              <div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0 cursor-pointer ">
+                      <MoreHorizontal />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem
+                      disabled={isLoading(`cancelOrder:${o.code}`)}
+                      onClick={() => handleCancelOrder(o.code)}
+                    >
+                      Huỷ đơn hàng
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
-              <div className="flex justify-between">
-                <div className="flex flex-col gap-1">
-                  <div className="flex flex-col items-start mb-2 gap-2">
-                    <div className="text-xs flex items-center mb-2">
-                      <Calendar size={16} className="mr-1" />
-                      <span className="text-sm">{formattedDateTime(o.orderDate)}</span>
-                    </div>
-                    <Badge variant="outline" className="">
-                      {paymentMethodLabels[o.paymentMethod]}
-                    </Badge>
-                  </div>
+            )}
+          </div>
+          <div className="flex justify-between">
+            <div className="flex flex-col gap-1">
+              <div className="flex flex-col items-start mb-2 gap-2">
+                <div className="text-xs flex items-center mb-2">
+                  <Calendar size={16} className="mr-1" />
+                  <span className="text-sm">{formattedDateTime(o.orderDate)}</span>
                 </div>
-                <div>
-                  <h4 className="text-xs flex items-center gap-1 mb-2">
-                    <Banknote className="text-green-700" /> Thanh toán
-                  </h4>
-                  <Badge variant="destructive">{paymentStatusLabels[o.paymentStatus]}</Badge>
-                </div>
-                <div className="flex flex-col items-end gap-1">
-                  <div className="flex gap-2 items-center mb-2">
-                    <span className="text-xs">{deliveryTypeLabels[o.deliveryType]}</span>
-                    <h4 className="text-xs flex items-center ">
-                      <Dot className="text-green-600" /> Trạng thái
-                    </h4>
-                  </div>
-                  <Badge className="bg-green-800">{orderStatusLabels[o.status]}</Badge>
-                </div>
+                <Badge variant="outline" className="">
+                  {paymentMethodLabels[o.paymentMethod]}
+                </Badge>
               </div>
             </div>
-          </>
-        ))}
-      </div>
+            <div>
+              <h4 className="text-xs flex items-center gap-1 mb-2">
+                <Banknote className="text-green-700" /> Thanh toán
+              </h4>
+              <Badge variant="destructive">{paymentStatusLabels[o.paymentStatus]}</Badge>
+            </div>
+            <div className="flex flex-col items-end gap-1">
+              <div className="flex gap-2 items-center mb-2">
+                <span className="text-xs">{deliveryTypeLabels[o.deliveryType]}</span>
+                <h4 className="text-xs flex items-center ">
+                  <Dot className="text-green-600" /> Trạng thái
+                </h4>
+              </div>
+              <Badge className="bg-green-800">{orderStatusLabels[o.status]}</Badge>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   )
 }

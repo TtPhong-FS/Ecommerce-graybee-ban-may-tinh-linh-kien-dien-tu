@@ -1,4 +1,5 @@
 import { subYears } from 'date-fns'
+import { Headset, Heart, LogOut, MapPin, MapPinHouse, Scroll, ScrollText, ShoppingCart, User } from 'lucide-react'
 
 export const patterns = {
   email: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
@@ -147,5 +148,87 @@ export const GENDER_OPTIONS = [
   {
     value: 'ORTHER',
     label: 'Khác'
+  }
+]
+
+export const NAVIGATION = [
+  {
+    path: '#',
+    icon: Headset,
+    badge: false,
+    title: 'contact'
+  },
+  {
+    path: '#',
+    icon: MapPin,
+    badge: false,
+    title: 'showroom'
+  },
+  {
+    path: '/account/order-history',
+    icon: ScrollText,
+    badge: false,
+    title: 'orderHistory'
+  },
+  {
+    path: '/cart/cart-buy-order-box',
+    icon: ShoppingCart,
+    badge: true,
+    title: 'cart'
+  }
+]
+
+export const PROFILE_NAVIGATION = [
+  {
+    key: 'favourites',
+    title: 'favourites',
+    icon: Heart,
+    path: '/account/favourites'
+  },
+  {
+    key: 'order-history',
+    title: 'orderHistory',
+    icon: Scroll,
+    path: '/account/order-history'
+  },
+  {
+    key: 'manage-address',
+    title: 'manageAddress',
+    icon: MapPinHouse,
+    path: '/account/address'
+  },
+  {
+    key: 'logout',
+    title: 'logout',
+    path: '/logout',
+    icon: LogOut
+  }
+]
+
+export const SIDEBAR_DRAWER_FOOTER_ICON = [
+  {
+    id: 1,
+    icon: User,
+    path: '/account'
+  },
+  {
+    id: 2,
+    icon: Heart,
+    path: '/account/favourites'
+  },
+  {
+    id: 3,
+    icon: Scroll,
+    path: '/account/order-history'
+  },
+  {
+    id: 4,
+    icon: MapPinHouse,
+    path: '/account/address'
+  },
+  {
+    id: 5,
+    icon: LogOut,
+    path: '/logout'
   }
 ]

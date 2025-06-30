@@ -1,11 +1,14 @@
 import { Outlet, useLocation } from 'react-router-dom'
 
-import { AppInitializer, BreadCrumbs, Footer, Loading, Navbar, ScrollToTop, Sidebar, ThemeProvider } from '@/components'
+import { AppInitializer, BreadCrumbs, Footer, Loading, Navbar, ScrollToTop, Sidebar } from '@/components'
+import { ThemeProvider } from '@/components/theme-provider'
+
 import { useSession } from '@/utils'
 import { Suspense, useState } from 'react'
 import { Toaster } from 'sonner'
 export const RootLayout = () => {
   useSession()
+
   const [openSidebar, setOpenSidebar] = useState(false)
 
   const location = useLocation()
@@ -22,7 +25,7 @@ export const RootLayout = () => {
         <div
           className={`${isSidebarVisible ? 'block' : 'hidden'} ${
             openSidebar ? 'sticky top-25 ' : 'relative'
-          } w-full max-w-[74rem] mx-auto pt-4 z-40`}
+          } lg:mt-4 w-full max-w-[74rem] mx-auto z-40`}
         >
           <div className={`${openSidebar ? 'absolute' : 'ml-4 relative'} z-40 `}>
             <Sidebar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />

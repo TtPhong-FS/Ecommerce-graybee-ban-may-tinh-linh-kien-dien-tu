@@ -20,22 +20,21 @@ export const Footer = () => {
     <footer className="text-gray-900 py-10 px-4 font-inter">
       <div className="w-full max-w-[74rem] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
-          {/* VỀ GEARVN */}
           <div className="col-span-1">
             <h5 className="font-bold text-gray-800 mb-4 uppercase">VỀ TECHSTORE</h5>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="#" className="hover:text-blue-400 transition-colors duration-200">
+                <Link to="#" className="hover:text-blue-400 transition-colors duration-200">
                   Giới thiệu
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-blue-400 transition-colors duration-200">
+                <Link to="#" className="hover:text-blue-400 transition-colors duration-200">
                   Tuyển dụng
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-blue-400 transition-colors duration-200">
+                <Link to="#" className="hover:text-blue-400 transition-colors duration-200">
                   Liên hệ
                 </Link>
               </li>
@@ -47,17 +46,17 @@ export const Footer = () => {
             <h5 className="font-bold text-gray-800 mb-4 uppercase">CHÍNH SÁCH</h5>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="#" className="hover:text-blue-400 transition-colors duration-200">
+                <Link to="#" className="hover:text-blue-400 transition-colors duration-200">
                   Chính sách bảo hành
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-blue-400 transition-colors duration-200">
+                <Link to="#" className="hover:text-blue-400 transition-colors duration-200">
                   Chính sách giao hàng
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-blue-400 transition-colors duration-200">
+                <Link to="#" className="hover:text-blue-400 transition-colors duration-200">
                   Chính sách bảo mật
                 </Link>
               </li>
@@ -69,32 +68,32 @@ export const Footer = () => {
             <h5 className="font-bold text-gray-800 mb-4 uppercase">THÔNG TIN</h5>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="#" className="hover:text-blue-400 transition-colors duration-200">
+                <Link to="#" className="hover:text-blue-400 transition-colors duration-200">
                   Hệ thống cửa hàng
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-blue-400 transition-colors duration-200">
+                <Link to="#" className="hover:text-blue-400 transition-colors duration-200">
                   Hướng dẫn mua hàng
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-blue-400 transition-colors duration-200">
+                <Link to="#" className="hover:text-blue-400 transition-colors duration-200">
                   Hướng dẫn thanh toán
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-blue-400 transition-colors duration-200">
+                <Link to="#" className="hover:text-blue-400 transition-colors duration-200">
                   Hướng dẫn trả góp
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-blue-400 transition-colors duration-200">
+                <Link to="#" className="hover:text-blue-400 transition-colors duration-200">
                   Tra cứu địa chỉ bảo hành
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-blue-400 transition-colors duration-200">
+                <Link to="#" className="hover:text-blue-400 transition-colors duration-200">
                   Build PC
                 </Link>
               </li>
@@ -109,29 +108,26 @@ export const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li>
                 Mua hàng:{' '}
-                <Link href="tel:19005301" className="text-blue-400 hover:underline transition-colors duration-200">
+                <Link to="#" className="text-blue-400 hover:underline transition-colors duration-200">
                   1900.5301
                 </Link>
               </li>
               <li>
                 Bảo hành:{' '}
-                <Link href="tel:19005325" className="text-blue-400 hover:underline transition-colors duration-200">
+                <Link to="#" className="text-blue-400 hover:underline transition-colors duration-200">
                   1900.5325
                 </Link>
               </li>
               <li>
                 Khiếu nại:{' '}
-                <Link href="tel:18006173" className="text-blue-400 hover:underline transition-colors duration-200">
+                <Link to="#" className="text-blue-400 hover:underline transition-colors duration-200">
                   1800.6173
                 </Link>
               </li>
               <li>
                 Email:{' '}
-                <Link
-                  href="mailto:cskh@gearvn.com"
-                  className="text-blue-400 hover:underline transition-colors duration-200"
-                >
-                  cskh@gearvn.com
+                <Link to="#" className="text-blue-400 hover:underline transition-colors duration-200">
+                  cskh@techstore.com
                 </Link>
               </li>
             </ul>

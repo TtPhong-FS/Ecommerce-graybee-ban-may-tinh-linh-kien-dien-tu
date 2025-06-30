@@ -17,6 +17,7 @@ import { FavouritePage, ManageAddressPage, OrderDetail, OrderHistoryPage, Profil
 import AddressModal from '@/features/user/components/AddressModal'
 import UpdateAddressPage from '@/features/user/pages/UpdateAddressPage'
 import { ProfileLayout, RootLayout } from '@/layout'
+import OrderLayout from '@/layout/OrderLayout'
 import { CollectionPage, Contact, HomePage, NotFoundPage } from '@/pages'
 
 const RootRouter = [
@@ -157,9 +158,13 @@ const RootRouter = [
           },
           {
             path: 'order-history/',
-            element: <OrderHistoryPage />,
+            element: <OrderLayout />,
             handle: { crumb: () => 'orderHistory' },
             children: [
+              {
+                index: true,
+                element: <OrderHistoryPage />
+              },
               {
                 path: 'detail/:code',
                 element: <OrderDetail />,

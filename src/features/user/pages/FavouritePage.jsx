@@ -27,8 +27,8 @@ export const FavouritePage = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4 card">
-        <h1> {t('customer:favourite.title')}</h1>
+      <div className="flex items-center justify-between mb-8 px-4">
+        <h5 className="font-bold text-secondary-foreground uppercase"> {t('customer:favourite.title')}</h5>
         <div className="ml-12">
           <Button
             disabled={isLoading('reload')}

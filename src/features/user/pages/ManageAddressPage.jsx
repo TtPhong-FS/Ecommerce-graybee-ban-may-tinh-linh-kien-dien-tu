@@ -53,8 +53,8 @@ export const ManageAddressPage = () => {
   return (
     <div>
       <Outlet />
-      <div className="flex justify-between items-center py-3 pb-6">
-        <h1 className="select-text">{t('customer:manageAddress.title')}</h1>
+      <div className="flex justify-between items-center px-4 mb-8">
+        <h5 className="font-bold text-secondary-foreground uppercase">{t('customer:manageAddress.title')}</h5>
 
         <div className="flex justify-between items-center gap-6">
           <Button
@@ -81,7 +81,10 @@ export const ManageAddressPage = () => {
       {address.length > 0 ? (
         <div>
           {address.map((address) => (
-            <div key={address?.id} className="card flex items-center justify-between not-last:mb-6 text-sm">
+            <div
+              key={address?.id}
+              className="card flex max-md:flex-col lg:items-center justify-between not-last:mb-6 text-sm max-md:gap-2"
+            >
               <div className="flex flex-4 gap-2 items-center select-text">
                 <div>
                   <Avatar size={48} style={{ backgroundColor: '#ffcbcb', color: '#dc2f2f' }} icon={<HomeFilled />} />
@@ -98,7 +101,7 @@ export const ManageAddressPage = () => {
                   <div className="max-w-[25rem] ">{address?.street}</div>
                 </div>
               </div>
-              <div className="flex flex-2 items-center gap-4 justify-between">
+              <div className="flex flex-2 items-center gap-4 justify-end lg:justify-between">
                 <Link to={`edit/${address?.id}`} className="cursor-pointer text-error">
                   {t('common:edit')}
                 </Link>

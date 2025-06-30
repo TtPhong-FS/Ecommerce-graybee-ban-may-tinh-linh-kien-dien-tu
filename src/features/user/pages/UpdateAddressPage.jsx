@@ -1,6 +1,5 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useAppContext } from '@/hooks'
-import { useCustomTranslate } from '@/i18n'
 import { handleAsync } from '@/lib'
 import { Spin } from 'antd'
 import { useEffect, useState } from 'react'
@@ -12,7 +11,6 @@ export default function UpdateAddressPage() {
   const [ready, setReady] = useState(false)
   const [initialData, setInitialData] = useState(null)
   const [isUpdate, setIsUpdate] = useState(true)
-  const { t } = useCustomTranslate()
 
   const { dispatch, navigate } = useAppContext()
   const { id } = useParams()
@@ -41,7 +39,7 @@ export default function UpdateAddressPage() {
       <Dialog open onOpenChange={handleClose}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t('catalog:attribute.edit')}</DialogTitle>
+            <DialogTitle>Cập nhật địa chỉ</DialogTitle>
             <DialogDescription className="hidden" />
           </DialogHeader>
           <Spin spinning={!ready}>
