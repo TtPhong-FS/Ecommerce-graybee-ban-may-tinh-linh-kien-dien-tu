@@ -176,24 +176,16 @@ export const Navbar = ({ openSidebar, setOpenSidebar }) => {
               })}
 
               <div className="inline-flex items-center  ">
-                {isMobile && token ? (
-                  <Link to={'/account'} className="cursor-pointer"></Link>
-                ) : !token ? (
+                {isMobile ? (
                   <Link to={'/cart/cart-buy-order-box'}>
-                    {isMobile ? (
                       <span className="inline-block relative pr-2">
                         <ShoppingCart className="cursor-pointer text-primary " size={20} />
                         <span className="text-secondary-foreground cursor-pointer select-none absolute w-4 h-4 justify-center text-xs flex items-center rounded-full -top-1/3 -right-0 bg-error">
                           {totalQuantity}
                         </span>
                       </span>
-                    ) : (
-                      <Button variant="secondary" className="cursor-pointer">
-                        {t('auth:login.btnLogin')}
-                      </Button>
-                    )}
                   </Link>
-                ) : (
+                ) : token ? (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild className="text-sm w-[160px] py-5">
                       <Button variant="secondary">Hi, {profile?.fullName}</Button>
@@ -217,6 +209,12 @@ export const Navbar = ({ openSidebar, setOpenSidebar }) => {
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
+                ) : (
+                  <Link to={'/login'}>
+                    <Button variant="secondary" className="cursor-pointer">
+                      {t('auth:login.btnLogin')}
+                    </Button>
+                  </Link>
                 )}
               </div>
             </div>

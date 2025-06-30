@@ -8,10 +8,10 @@ export async function session() {
 }
 
 async function initSession() {
-  const token = Cookies.get('token')
+  let token = Cookies.get('token')
   if (token) return token
 
-  const sessionId = Cookies.get('sessionId')
+  let sessionId = Cookies.get('sessionId')
   if (!sessionId) {
     const { data } = await session()
 
@@ -25,7 +25,6 @@ export function saveAuthToken(token) {
   if (!token) return
 
   Cookies.set('token', token, { expires: 3 })
-  Cookies.remove('sessionId')
 }
 
 export function getToken() {
@@ -42,7 +41,7 @@ export function getSession() {
 
 export function clearAuthToken() {
   Cookies.remove('token')
-  initSession()
+  session()
 }
 
 export function useSession() {
