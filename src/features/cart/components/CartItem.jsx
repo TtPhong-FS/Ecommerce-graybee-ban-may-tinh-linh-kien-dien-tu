@@ -65,7 +65,14 @@ export const CartItem = () => {
   }
 
   const handleRemoveItem = (cartItemId) => {
-    dispatch(deleteItemToCartAsync(cartItemId))
+    handleAsync({
+      asyncAction: (cartItemId) => dispatch(deleteItemToCartAsync(cartItemId)).unwrap(),
+      onSuccess: (res) => {
+        toast.success(res.data.message)
+      },
+      values: cartItemId,
+      toast
+    })
   }
 
   const handleClearItems = () => {
@@ -128,7 +135,7 @@ export const CartItem = () => {
         </div>
         <div className="w-auto flex flex-col gap-4">
           {cartItems.map((cartItem) => (
-            <div key={cartItem.cartItemId} className="card flex items-center max-md:flex-col justify-between gap-4">
+            <div key={cartItem.cartItemId} className="card flex items-center max-md:flex-col justify-between gap-6">
               <div className="flex items-center not-first:mt-4 w-full">
                 <div className="mr-6 select-none ">
                   <Checkbox
@@ -149,11 +156,11 @@ export const CartItem = () => {
                       alt="Anh san pham"
                     />
                   </div>
-                  <div className="flex items-center justify-between lg:w-[427px]">
-                    <div className="flex max-md:flex-col justify-between gap-1 w-full">
+                  <div className="flex items-center justify-between lg:w-[350px]">
+                    <div className="flex max-md:flex-col gap-2 w-full">
                       <Link
                         to={`/products/${cartItem?.product?.slug}`}
-                        className="cursor-pointer text-base max-md:text-sm font-medium max-w-[20rem] link line-clamp-2"
+                        className="cursor-pointer text-base max-md:text-sm font-medium max-w-[16rem] link line-clamp-2"
                       >
                         {cartItem.product.name}
                       </Link>

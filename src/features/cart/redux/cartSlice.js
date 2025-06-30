@@ -46,32 +46,28 @@ export const cartSlice = createSlice({
       })
 
       .addCase(addItemToCartAsync.fulfilled, (state, action) => {
-        const data = action.payload?.data
-        const index = state.cartItems?.findIndex((i) => i.cartItemId === data?.cartItemId)
-        if (index === -1) {
-          state.cartItems.push(data)
-        } else {
+        const { productId, data } = action.payload
+        const index = state.cartItems?.findIndex((i) => i.product.id === productId)
+        if (index !== -1) {
           state.cartItems[index] = {
             ...state.cartItems[index],
-            ...data
+            ...data.data
           }
+        } else {
+          state.cartItems.push(data.data)
         }
-        state.totalAmount = state.cartItems?.reduce((sum, cartItem) => sum + cartItem.totalAmount, 0)
       })
 
       .addCase(decreaseQuantityAsync.fulfilled, (state, action) => {
-        const data = action.payload?.data
-        if (data?.cartItemId) {
-          const index = state.cartItems?.findIndex((i) => i.cartItemId === data?.cartItemId)
+        const { productId, data } = action.payload
 
-          if (index !== -1) {
-            state.cartItems[index] = {
-              ...state.cartItems[index],
-              ...data
-            }
+        const index = state.cartItems?.findIndex((i) => i.product.id === productId)
+
+        if (index !== -1) {
+          state.cartItems[index] = {
+            ...state.cartItems[index],
+            ...data.data
           }
-
-          state.totalAmount = state.cartItems?.reduce((sum, cartItem) => sum + cartItem.totalAmount, 0)
         }
       })
 
@@ -92,17 +88,13 @@ export const cartSlice = createSlice({
       })
 
       .addCase(deleteItemToCartAsync.fulfilled, (state, action) => {
-        const cartItemId = action.payload?.data
-        if (cartItemId) {
-          state.cartItems = state.cartItems?.filter((ci) => ci.cartItemId !== cartItemId)
-          state.totalAmount = state.cartItems?.reduce((sum, cartItem) => sum + cartItem.total, 0)
-        }
+        const { cartItemId } = action.payload
+
+        state.cartItems = state.cartItems?.filter((ci) => ci.cartItemId !== cartItemId)
       })
 
       .addCase(clearCartItemsAsync.fulfilled, (state, action) => {
-        const empty = action.payload.data
-        state.cartItems = empty
-        state.totalAmount = 0
+        state.cartItems = []
       })
   }
 })

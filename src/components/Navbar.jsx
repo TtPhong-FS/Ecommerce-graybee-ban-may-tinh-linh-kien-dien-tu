@@ -55,8 +55,9 @@ export const Navbar = ({ openSidebar, setOpenSidebar }) => {
   const profile = useSelector(selectProfile)
 
   const search = useSelector((state) => state.product.search, shallowEqual)
-  const cartItems = useSelector((state) => state.cart?.cartItems)
+  const cartItems = useSelector((state) => state.cart.cartItems)
   const totalQuantity = cartItems?.reduce((sum, cartItem) => sum + cartItem.quantity, 0)
+
   const [isSearch, setIsSearch] = useState(false)
   const [keyword, setKeyword] = useState('')
   const { isLoading, start, stop } = useLoading()
