@@ -1,4 +1,5 @@
 import { RHFInputField, RHFRadioGroup, RHFSelect } from '@/components/fields'
+import { RHFInputPassword } from '@/components/fields/RHFInputPassword'
 import { days, months, years } from '@/constants'
 import { useCustomTranslate } from '@/i18n'
 import PropTypes from 'prop-types'
@@ -24,18 +25,16 @@ export const SignUp = () => {
           type="text"
           placeholder={`${t('auth:signup.form.phone')}`}
         />
-        <RHFInputField
+        <RHFInputPassword
           label={`${t('auth:signup.form.password')}`}
           isRequired
           name="password"
-          type="password"
           placeholder={`${t('auth:signup.form.password')}`}
         />
-        <RHFInputField
+        <RHFInputPassword
           label={`${t('auth:signup.form.repeatPassword')}`}
           isRequired
           name="repeatPassword"
-          type="password"
           placeholder={`${t('auth:signup.form.repeatPassword')}`}
         />
         <RHFInputField label="Email" isRequired name="email" type="text" placeholder="Email" />

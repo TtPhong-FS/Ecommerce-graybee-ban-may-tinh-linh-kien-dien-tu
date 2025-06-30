@@ -65,7 +65,7 @@ export function VerifyEmail() {
           </span>
         )}
         <form onSubmit={onSubmit} className="flex flex-col gap-6">
-          <RHFInputField name="email" isRequired label="Email" type="email" placeholder="Email" />
+          <RHFInputField name="email" isRequired label="Email" type="text" placeholder="Email" />
           <Button
             disabled={isLoading('submiting')}
             variant="secondary"

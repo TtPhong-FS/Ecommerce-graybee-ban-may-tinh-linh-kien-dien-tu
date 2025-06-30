@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import { RHFInputField } from '@/components/fields'
+import { RHFInputPassword } from '@/components/fields/RHFInputPassword'
 import { useCustomTranslate } from '@/i18n'
 
 export const Login = () => {
@@ -15,12 +16,13 @@ export const Login = () => {
             name="email"
             placeholder="name@example.com"
             type="text"
+            isRequired
           />
-          <RHFInputField
+          <RHFInputPassword
             label={`${t('auth:login.form.password')}`}
             name="password"
-            placeholder='******'
-            type="password"
+            placeholder="******"
+            isRequired
           />
         </div>
         <div className="flex justify-end mb-8">

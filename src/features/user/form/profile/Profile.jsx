@@ -1,6 +1,6 @@
 import { RHFInputField, RHFRadioGroup, RHFSelect } from '@/components/fields'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
-import { days, months, years } from '@/constants'
+import { days, GENDER_OPTIONS, months, years } from '@/constants'
 export const Profile = () => {
   return (
     <div className="place-items-center">
@@ -10,30 +10,13 @@ export const Profile = () => {
         </Avatar>
       </div>
       <div className="w-[50%] flex flex-col gap-4 mb-4">
-        <RHFInputField name="fullName" type="text" label="Họ và tên" />
+        <RHFInputField isRequired name="fullName" type="text" label="Họ và tên" />
         <RHFInputField name="phone" type="text" label="Số điện thoại" />
-        <RHFRadioGroup
-          name="gender"
-          label="Giới tính"
-          options={[
-            {
-              value: 'MALE',
-              label: 'Nam'
-            },
-            {
-              value: 'FEMALE',
-              label: 'Nữ'
-            },
-            {
-              value: 'ORTHER',
-              label: 'Khác'
-            }
-          ]}
-        />
+        <RHFRadioGroup isRequired name="gender" label="Giới tính" options={GENDER_OPTIONS} />
         <div className="grid grid-cols-3 gap-6">
-          <RHFSelect name="birthday.day" label="Ngày" showSearch options={days} />
-          <RHFSelect name="birthday.month" label="Tháng" options={months} />
-          <RHFSelect name="birthday.year" label="Năm" showSearch options={years} />
+          <RHFSelect isRequired name="birthday.day" label="Ngày" showSearch options={days} />
+          <RHFSelect isRequired name="birthday.month" label="Tháng" options={months} />
+          <RHFSelect isRequired name="birthday.year" label="Năm" showSearch options={years} />
         </div>
       </div>
     </div>

@@ -134,3 +134,18 @@ export const years = [
   { value: '2024', label: '2024' },
   { value: '2025', label: '2025' }
 ]
+
+export const GENDER_OPTIONS = [
+  {
+    value: 'MALE',
+    label: 'Nam'
+  },
+  {
+    value: 'FEMALE',
+    label: 'Nữ'
+  },
+  {
+    value: 'ORTHER',
+    label: 'Khác'
+  }
+]

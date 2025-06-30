@@ -1,4 +1,4 @@
-import { RHFInputField } from '@/components/fields'
+import { RHFInputPassword } from '@/components/fields/RHFInputPassword'
 import { Button } from '@/components/ui/button'
 import { useAppContext, useLoading } from '@/hooks'
 import { handleAsyncSubmit } from '@/lib'
@@ -79,13 +79,8 @@ export function ResetPassword() {
           </span>
         )}
         <form onSubmit={onSubmit} className="flex flex-col gap-2">
-          <RHFInputField name="password" label="Mật khẩu" type="password" placeholder="Nhập mật khẩu..." />
-          <RHFInputField
-            name="repeatPassword"
-            label="Mật khẩu xác nhận"
-            type="password"
-            placeholder="Nhập mật khẩu xác nhận..."
-          />
+          <RHFInputPassword name="password" label="Mật khẩu" placeholder="Nhập mật khẩu" />
+          <RHFInputPassword name="repeatPassword" label="Mật khẩu xác nhận" placeholder="Nhập mật khẩu xác nhận" />
           <Button
             diabled={isLoading('submiting')}
             variant="secondary"
