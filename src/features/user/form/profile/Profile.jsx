@@ -9,11 +9,11 @@ export const Profile = () => {
           <AvatarImage src="https://github.com/shadcn.png" />
         </Avatar>
       </div>
-      <div className="w-[50%] flex flex-col gap-4 mb-4">
+      <div className="flex max-md:w-full w-1/2 flex-col gap-4 mb-4">
         <RHFInputField isRequired name="fullName" type="text" label="Họ và tên" />
         <RHFInputField name="phone" type="text" label="Số điện thoại" />
         <RHFRadioGroup isRequired name="gender" label="Giới tính" options={GENDER_OPTIONS} />
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-3">
           <RHFSelect isRequired name="birthday.day" label="Ngày" showSearch options={days} />
           <RHFSelect isRequired name="birthday.month" label="Tháng" options={months} />
           <RHFSelect isRequired name="birthday.year" label="Năm" showSearch options={years} />

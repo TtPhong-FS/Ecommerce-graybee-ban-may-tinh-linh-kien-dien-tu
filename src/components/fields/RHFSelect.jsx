@@ -12,8 +12,10 @@ export function RHFSelect({ name, label, isRequired, options, showSearch, disabl
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div className="flex flex-col">
-          <label className="title-form">{label}</label>
-          {isRequired && <sup>*</sup>}
+          <div className="flex items-center">
+            <label className="title-form">{label}</label>
+            {isRequired && <sup>*</sup>}
+          </div>
           <Select
             className={`custom-select ${error && 'ant-select-status-error'}`}
             style={{

@@ -26,7 +26,7 @@ export const Sidebar = ({ openSidebar, setOpenSidebar }) => {
   return isMobile ? (
     <DropSidebar openSidebar={openSidebar} categories={sidebarMemo} setOpenSidebar={setOpenSidebar} />
   ) : (
-    <div className={`${openSidebar ? 'sticky top-25 z-40' : ''}`}>
+    <div className={`${openSidebar ? 'sticky top-25 z-40' : ''} mb-6 mt-4`}>
       {openSidebar && (
         <div className="fixed inset-0 bg-foreground opacity-70" onClick={() => setOpenSidebar(false)}></div>
       )}

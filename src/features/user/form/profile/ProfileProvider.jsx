@@ -69,7 +69,7 @@ export const ProfileProvider = ({ handleCancel, initialData, isUpdate }) => {
               <Button
                 disabled={isLoading('updating')}
                 variant="secondary"
-                className=" mt-4 w-80 cursor-pointer py-5"
+                className="mt-4 max-md:w-full w-1/2 cursor-pointer py-5"
                 type="submit"
               >
                 Cập nhật

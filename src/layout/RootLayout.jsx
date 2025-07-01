@@ -31,10 +31,10 @@ export const RootLayout = () => {
 
         <div
           className={`${isSidebarVisible ? 'block' : 'hidden'} ${
-            openSidebar ? 'sticky top-20' : 'relative'
+            openSidebar ? 'sticky top-20' : 'relative '
           } w-full max-w-[74rem] mx-auto z-40 `}
         >
-          <div className={`${openSidebar && 'relative top-5'} z-40 mt-4 mb-6`}>
+          <div className={`${openSidebar && 'relative top-5'} z-40`}>
             <Sidebar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
           </div>
         </div>

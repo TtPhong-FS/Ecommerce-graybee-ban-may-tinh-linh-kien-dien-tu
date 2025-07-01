@@ -67,6 +67,9 @@ export const SignUpProvider = () => {
 
   return (
     <FormProvider {...methods}>
+      <div className="flex items-center justify-center w-full">
+        <h1>{t('auth:signup.title')}</h1>
+      </div>
       <form onSubmit={onSubmit}>
         <Spin spinning={isLoading('submiting')}>
           <SignUp />

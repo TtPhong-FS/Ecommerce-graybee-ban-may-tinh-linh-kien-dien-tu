@@ -52,7 +52,7 @@ export const ProfilePage = () => {
         <ProfileProvider handleCancel={handleCancel} initialData={initialData} isUpdate={isUpdate} />
       ) : (
         <div className="flex justify-center items-center bg-white p-4 rounded-lg">
-          <div className="w-full">
+          <div className="max-md:w-full w-1/2">
             <div className="place-items-center">
               <Avatar className="w-28 h-28">
                 <AvatarImage src="https://github.com/shadcn.png" />
