@@ -1,5 +1,6 @@
 import { publicAPI } from '@/config'
 import { handleCreateAsyncThunk } from '@/lib'
+import { slugify } from '@/utils'
 import { createSlice } from '@reduxjs/toolkit'
 
 const carousel_endpoint = '/api/v1/public/home/carousel'
@@ -21,8 +22,9 @@ export const carouselSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchCarouselAsync.fulfilled, (state, action) => {
       const { category, data } = action.payload
-      if (!state.carousels[category]) state.carousels[category] = {}
-      state.carousels[category] = {
+      let formatCategory = slugify(category)
+      if (!state.carousels[formatCategory]) state.carousels[formatCategory] = {}
+      state.carousels[formatCategory] = {
         categorySlug: data.data.categorySlug,
         products: data.data.products
       }

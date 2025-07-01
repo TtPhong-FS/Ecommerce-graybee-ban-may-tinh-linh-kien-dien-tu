@@ -116,7 +116,7 @@ const DropSidebar = ({ openSidebar, categories, setOpenSidebar }) => {
         <DrawerContent>
           <DrawerHeader className="p-0">
             <DrawerTitle className="bg-secondary flex justify-between items-center px-3">
-              <h5 className="font-bold text-secondary-foreground uppercase py-3">Danh mục sản phẩm</h5>
+              <h5 className="font-bold text-secondary-foreground uppercase py-3 max-md:text-base">Danh mục sản phẩm</h5>
               <DrawerClose asChild>
                 <Button onClick={() => setActiveCategory(null)} variant="icon" className="text-white cursor-pointer">
                   <X />
@@ -174,7 +174,7 @@ const DropSidebar = ({ openSidebar, categories, setOpenSidebar }) => {
               {SIDEBAR_DRAWER_FOOTER_ICON.map((item) => (
                 <Link
                   onClick={() => setOpenSidebar(false)}
-                  className="w-1/5  p-4 place-items-center "
+                  className="w-1/4  p-4 place-items-center "
                   key={item.id}
                   to={item.path}
                 >

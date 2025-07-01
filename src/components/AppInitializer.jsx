@@ -5,31 +5,70 @@ import {
   fetchProfileByTokenAsync,
   getAllAddressAsync
 } from '@/features/user'
+import { selectAddresses, selectFavorites, selectOrderHistory, selectProfile } from '@/features/user/redux/userSelector'
 import { fetchSidebar } from '@/store/redux/homeSlice'
 import { getToken } from '@/utils'
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useEffect, useRef } from 'react'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 
 export const AppInitializer = () => {
   const token = getToken()
 
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    if (token) {
-      const fetchData = async () => {
-        dispatch(fetchProfileByTokenAsync())
-        dispatch(getAllAddressAsync())
-        dispatch(fetchAllOrderHistoryAsync())
-        dispatch(fetchFavouritesAsync())
-        dispatch(getCartByUserUidOrSessionIdAsync())
-      }
-      fetchData()
-    }
-  }, [dispatch, token])
+  const sidebar = useSelector((state) => state.home.sidebar)
+  const profile = useSelector(selectProfile)
+  const favorites = useSelector(selectFavorites)
+  const address = useSelector(selectAddresses)
+  const cartItems = useSelector((state) => state.cart.cartItems, shallowEqual)
+  const orderHistory = useSelector(selectOrderHistory)
+
+  const profileFetched = useRef(false)
+  const favoritesFetched = useRef(false)
+  const addressFetched = useRef(false)
+  const ordersFetched = useRef(false)
+  const cartFetched = useRef(false)
+  const sidebarFetchedCount = useRef(0)
 
   useEffect(() => {
-    dispatch(getCartByUserUidOrSessionIdAsync())
-    dispatch(fetchSidebar())
-  }, [dispatch])
+    if (token && !profile && !profileFetched.current) {
+      dispatch(fetchProfileByTokenAsync())
+      profileFetched.current = true
+    }
+  }, [token, profile, dispatch])
+
+  useEffect(() => {
+    if (token && (!favorites || favorites.length === 0) && !favoritesFetched.current) {
+      dispatch(fetchFavouritesAsync())
+      favoritesFetched.current = true
+    }
+  }, [token, favorites, dispatch])
+
+  useEffect(() => {
+    if (token && (!address || address.length === 0) && !addressFetched.current) {
+      dispatch(getAllAddressAsync())
+      addressFetched.current = true
+    }
+  }, [token, address, dispatch])
+
+  useEffect(() => {
+    if (token && (!orderHistory || orderHistory.length === 0) && !ordersFetched.current) {
+      dispatch(fetchAllOrderHistoryAsync())
+      ordersFetched.current = true
+    }
+  }, [token, orderHistory, dispatch])
+
+  useEffect(() => {
+    if ((!cartItems || cartItems.length === 0) && !cartFetched.current) {
+      dispatch(getCartByUserUidOrSessionIdAsync())
+      cartFetched.current = true
+    }
+  }, [cartItems, dispatch])
+
+  useEffect(() => {
+    if ((!sidebar || sidebar.length === 0) && sidebarFetchedCount.current < 3) {
+      dispatch(fetchSidebar())
+      sidebarFetchedCount.current += 1
+    }
+  }, [sidebar, dispatch])
 }

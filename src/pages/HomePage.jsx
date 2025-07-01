@@ -16,7 +16,7 @@ export const HomePage = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="mt-12 flex flex-col gap-6">
+      <div className="flex flex-col gap-6">
         <CarouselWrapper category={'Laptop'} />
         <CarouselWrapper category={'Pc Gaming'} />
         <CarouselWrapper category={'Cpu'} />

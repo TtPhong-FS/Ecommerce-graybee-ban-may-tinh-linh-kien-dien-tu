@@ -9,15 +9,16 @@ import { handleAsync } from '@/lib'
 import { Chip } from '@mui/material'
 import { Avatar } from 'antd'
 import { LoaderCircle, Trash } from 'lucide-react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, Outlet } from 'react-router-dom'
 import { toast } from 'sonner'
-import { useAddressData } from '../data'
 import { getAllAddressAsync, toggleAddressDefaultAsync } from '../redux'
+import { selectAddresses } from '../redux/userSelector'
 
 export const ManageAddressPage = () => {
   const { t } = useCustomTranslate()
-  const { address } = useAddressData()
+
+  const address = useSelector(selectAddresses)
 
   const { isLoading, start, stop } = useLoading()
 

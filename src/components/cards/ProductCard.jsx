@@ -4,7 +4,7 @@ import { Heart, LoaderCircle, ShoppingCart } from 'lucide-react'
 
 import { useActionAddToCartAndFavourite } from '@/features/product'
 import { useLoading } from '@/hooks'
-import { formattedPrice, isPresentInFavorites } from '@/utils'
+import { formattedPrice } from '@/utils'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import '../../features/carousels/styles/swiper.css'
@@ -44,27 +44,18 @@ export const ProductCard = ({ product }) => {
         </div>
 
         <div className="mt-4 flex md:flex-col max-md:gap-2 md:gap-4">
-          <div className="w-full">
+          <div className="w-full max-md:w-1/2">
             <Button
               disabled={isLoading(`addFavorite:${product?.id}`)}
               onClick={() => handleAddToFavourites(product?.id)}
-              variant="outline"
+              variant="destructive"
               className="py-5 cursor-pointer w-full"
             >
-              {isPresentInFavorites(favorites, product?.id) ? (
-                <>
-                  <Heart className="text-red-500" />
-                  <span className="hidden md:block">Đã yêu thích</span>
-                </>
-              ) : (
-                <>
-                  <Heart />
-                  <span className="hidden md:block">Yêu thích</span>
-                </>
-              )}
+              <Heart />
+              <span className="hidden md:block">Yêu thích</span>
             </Button>
           </div>
-          <div className="">
+          <div className="w-full">
             <Button
               disabled={isLoading(`addItemToCart:${product?.id}`)}
               onClick={() => handleAddItemToCart(product?.id)}

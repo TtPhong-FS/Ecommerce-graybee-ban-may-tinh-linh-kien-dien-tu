@@ -3,12 +3,15 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { AppInitializer, BreadCrumbs, Footer, Loading, Navbar, ScrollToTop, Sidebar } from '@/components'
 import { ThemeProvider } from '@/components/theme-provider'
 
+import { RightBanner } from '@/components/Banner'
 import { useSession } from '@/utils'
+import { useMediaQuery } from '@mui/material'
 import { Suspense, useState } from 'react'
 import { Toaster } from 'sonner'
 export const RootLayout = () => {
   useSession()
 
+  const isMobile = useMediaQuery('(max-width: 640px)')
   const [openSidebar, setOpenSidebar] = useState(false)
 
   const location = useLocation()
@@ -22,27 +25,30 @@ export const RootLayout = () => {
         <AppInitializer />
         <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
 
+        <div className={`${location.pathname === '/' && isMobile ? 'block' : 'hidden'} w-full max-w-[74rem] mx-auto`}>
+          <RightBanner />
+        </div>
+
         <div
           className={`${isSidebarVisible ? 'block' : 'hidden'} ${
-            openSidebar ? 'sticky top-25 ' : 'relative'
-          } max-sm:mt-0 mt-4 w-full max-w-[74rem] mx-auto z-40`}
+            openSidebar ? 'sticky top-20' : 'relative'
+          } w-full max-w-[74rem] mx-auto z-40 `}
         >
-          <div className={`${openSidebar ? 'absolute' : 'ml-4 relative'} z-40 `}>
+          <div className={`${openSidebar && 'relative top-5'} z-40 mt-4 mb-6`}>
             <Sidebar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
           </div>
         </div>
-        <main className="py-6">
+        <main className="mb-6 md:mt-0">
           <div className="w-full max-w-[74rem] mx-auto pb-12 gap-6 relative ">
             <div className="min-h-screen">
-              <div className="max-md:px-4 mb-4">
-                <BreadCrumbs />
-              </div>
+              <BreadCrumbs />
+
               <Suspense fallback={<Loading />}>
                 <Outlet />
               </Suspense>
             </div>
           </div>
-          <Toaster closeButton position="top-left" />
+          <Toaster closeButton position="bottom-left" />
         </main>
         <div className="bg-primary-foreground">
           <Footer />

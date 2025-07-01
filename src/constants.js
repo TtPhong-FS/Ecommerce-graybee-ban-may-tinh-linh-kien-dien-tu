@@ -212,11 +212,6 @@ export const SIDEBAR_DRAWER_FOOTER_ICON = [
     path: '/account'
   },
   {
-    id: 2,
-    icon: Heart,
-    path: '/account/favourites'
-  },
-  {
     id: 3,
     icon: Scroll,
     path: '/account/order-history'

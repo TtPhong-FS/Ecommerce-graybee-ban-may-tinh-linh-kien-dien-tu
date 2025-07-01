@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const subBanners = [
@@ -26,24 +27,29 @@ export function SubBanner() {
 }
 
 export function RightBanner() {
+  const laptop = useSelector((state) => state.carousel.carousels['laptop'])
+  const pc = useSelector((state) => state.carousel.carousels['pc_gaming'])
+
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 p-2">
       <div>
-        <img
-          src="https://file.hstatic.net/200000722513/file/thang_06_laptop_gaming_800x400_-_web_slider.jpg"
-          alt=""
-          className="w-xl"
-        />
-        <div className="flex gap-4">
-          <Link className="w-1/3 block">
+        <Link to={'#'}>
+          <img
+            src="https://file.hstatic.net/200000722513/file/thang_06_laptop_gaming_800x400_-_web_slider.jpg"
+            alt=""
+            className="w-xl"
+          />
+        </Link>
+        <div className="flex">
+          <Link to={`/collections/${laptop?.categorySlug}`} className="w-1/2">
             <img src="https://file.hstatic.net/200000722513/file/lp_gaming.png" alt="" />
           </Link>
-          <Link className="w-1/3 block">
+          <Link to={`/collections/${pc?.categorySlug}`} className="w-1/2">
             <img src="https://file.hstatic.net/200000722513/file/lp_gearvn.png" alt="" />
           </Link>
         </div>
       </div>
-      <div className="w-1/4">
+      <div className="w-1/4 max-md:hidden">
         <Link>
           <img src="https://file.hstatic.net/200000722513/file/tcdm.png" alt="" />
         </Link>

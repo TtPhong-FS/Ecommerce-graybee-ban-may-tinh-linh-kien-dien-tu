@@ -29,7 +29,7 @@ function Promotions() {
     <div className="bg-white p-6 rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-6">
         <h5 className="font-bold text-gray-800 uppercase">Chuyên trang khuyến mãi</h5>
-        <Link to={'#'} className="text-blue-600 hover:underline font-semibold text-lg">
+        <Link to={'#'} className="ml-auto link mr-4 max-md:text-sm">
           Xem tất cả
         </Link>
       </div>

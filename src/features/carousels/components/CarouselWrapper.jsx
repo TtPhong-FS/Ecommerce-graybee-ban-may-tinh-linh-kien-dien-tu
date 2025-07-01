@@ -1,10 +1,11 @@
 import { ProductCard } from '@/components/cards'
 import { Skeleton } from '@/components/ui/skeleton'
 import { handleAsync } from '@/lib'
+import { slugify } from '@/utils'
 import { useMediaQuery } from '@mui/material'
 import { Truck } from 'lucide-react'
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import 'swiper/css'
@@ -19,23 +20,30 @@ export const CarouselWrapper = ({ category }) => {
   const isMobile = useMediaQuery('(max-width: 640px)')
   const isTablet = useMediaQuery('(max-width: 914px)')
 
-  const carousels = useSelector((state) => state.carousel.carousels[category])
+  const slugifyCategory = slugify(category)
+
+  const carousels = useSelector((state) => state.carousel.carousels[slugifyCategory])
   const dispatch = useDispatch()
 
   const [loading, setLoading] = useState(false)
 
+  let isFetch = useRef(false)
+
   useEffect(() => {
-    setLoading(true)
-    const fetch = async () => {
-      await handleAsync({
-        asyncAction: () => dispatch(fetchCarouselAsync(category)).unwrap(),
-        onSuccess: () => {
-          setLoading(false)
-        }
-      })
+    if (!isFetch.current && (carousels?.products.length === 0 || carousels === undefined)) {
+      setLoading(true)
+      const fetch = async () => {
+        await handleAsync({
+          asyncAction: () => dispatch(fetchCarouselAsync(category)).unwrap(),
+          onSuccess: () => {
+            setLoading(false)
+          }
+        })
+      }
+      fetch()
     }
-    fetch()
-  }, [category, dispatch])
+    isFetch.current = true
+  }, [category, dispatch, carousels?.products.length, carousels])
 
   return loading || carousels?.length === 0 ? (
     <Skeleton className="h-[125px] w-full rounded-xl bg-white" />
@@ -51,7 +59,7 @@ export const CarouselWrapper = ({ category }) => {
             Miễn phí vận chuyển cho đơn hàng từ 500.000đ
           </span>
         </div>
-        <Link to={`/collections/${carousels?.categorySlug}`} className="ml-auto link mr-4 max-md:text-xs">
+        <Link to={`/collections/${carousels?.categorySlug}`} className="ml-auto link mr-4 max-md:text-sm">
           Xem tất cả
         </Link>
       </div>
@@ -64,8 +72,8 @@ export const CarouselWrapper = ({ category }) => {
         loop={true}
         className="relative"
       >
-        {carousels?.products?.map((product, index) => (
-          <SwiperSlide key={index}>
+        {carousels?.products?.map((product) => (
+          <SwiperSlide key={product.id}>
             <ProductCard product={product} />
           </SwiperSlide>
         ))}
