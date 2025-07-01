@@ -1,11 +1,10 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useLoading } from '@/hooks'
 import { handleAsync } from '@/lib'
 import { formattedPrice } from '@/utils'
-import { Grid2 } from '@mui/material'
-import { Image, Tabs } from 'antd'
 import { Heart, ShoppingCart } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,7 +13,6 @@ import { toast } from 'sonner'
 import { Description, ReviewComment, Specification } from '../components'
 import { useActionAddToCartAndFavourite } from '../hooks'
 import { fetchProductDetailByIdAsync } from '../redux'
-import { leaveDetailPage } from '../redux/productSlice'
 
 const items = [
   {
@@ -56,11 +54,7 @@ export const ProductDetail = () => {
       values: slug,
       toast
     })
-  }, [slug])
-
-  useEffect(() => {
-    dispatch(leaveDetailPage())
-  }, [])
+  }, [slug, dispatch])
 
   return (
     <>
@@ -68,22 +62,16 @@ export const ProductDetail = () => {
         <Skeleton className="bg-white h-screen w-full" />
       ) : (
         <div className="select-text">
-          <Grid2 width={'100%'} container>
-            <Grid2
-              width={'100%'}
-              spacing={2}
-              container
-              size={12}
-              sx={{ bgcolor: 'white', padding: '1rem', borderRadius: '0.7rem' }}
-            >
-              <Grid2 size={5} sx={{ borderRight: '1px solid #d1d5dc', padding: '1rem' }}>
+          <div className="mb-6">
+            <div className="grid grid-cols-12">
+              <div className="col-span-6 max-md:col-span-12">
                 <div>
-                  <div className="flex items-center mb-6">
-                    <Image width={200} height={200} src={details?.thumbnail} alt="" className="z-10" />
+                  <div className="flex items-center justify-center mb-6">
+                    <img className="lg:w-1/2" src={details?.thumbnail} alt="" />
                   </div>
                 </div>
-              </Grid2>
-              <Grid2 size={7} sx={{ padding: '1rem' }}>
+              </div>
+              <div className="col-span-6 max-md:col-span-12 max-md:px-2 place-content-end">
                 <h1>{details?.name}</h1>
                 <div className="flex mt-4 mb-4 gap-3 items-center">
                   <span className="font-medium text-[2rem] font-sans text-red-500 max-sm:text-[0.9rem]">
@@ -104,32 +92,45 @@ export const ProductDetail = () => {
                   <p className="content">Bảo hàng: {details?.warranty} tháng</p>
                 </div>
                 <div className="flex gap-10 justify-center items-center mt-10">
-                  <div>
+                  <div className="w-full">
                     <Button
                       disabled={isLoading(`addFavorite:${details?.productId}`)}
                       onClick={() => handleAddToFavourites(details?.productId)}
-                      variant="outline"
-                      className="py-5 cursor-pointer "
+                      variant="destructive"
+                      className="py-5 cursor-pointer w-full"
                     >
                       <Heart /> Yêu thích
                     </Button>
                   </div>
-                  <div>
+                  <div className="w-full">
                     <Button
                       disabled={isLoading(`addItemToCart:${details?.productId}`)}
                       onClick={() => handleAddItemToCart(details?.productId)}
                       variant="secondary"
-                      className="py-5 cursor-pointer"
+                      className="py-5 cursor-pointer w-full"
                     >
                       <ShoppingCart />
                       Thêm vào giỏ
                     </Button>
                   </div>
                 </div>
-              </Grid2>
-            </Grid2>
-          </Grid2>
-          <Tabs defaultActiveKey="1" items={items} />
+              </div>
+            </div>
+          </div>
+          <Tabs defaultValue="specifications">
+            <TabsList>
+              {items.map((item) => (
+                <TabsTrigger key={item.key} value={item.key}>
+                  {item.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            {items.map((item) => (
+              <TabsContent key={item.key} value={item.key}>
+                {item.children}
+              </TabsContent>
+            ))}
+          </Tabs>
         </div>
       )}
       {/* <Spin spinning={!ready}>

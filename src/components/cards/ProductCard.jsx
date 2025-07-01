@@ -5,14 +5,11 @@ import { Heart, LoaderCircle, ShoppingCart } from 'lucide-react'
 import { useActionAddToCartAndFavourite } from '@/features/product'
 import { useLoading } from '@/hooks'
 import { formattedPrice } from '@/utils'
-import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import '../../features/carousels/styles/swiper.css'
 import { Button } from '../ui/button'
 export const ProductCard = ({ product }) => {
   const { isLoading, start, stop } = useLoading()
-
-  const favorites = useSelector((state) => state.account.favourites) || []
 
   const { handleAddItemToCart, handleAddToFavourites } = useActionAddToCartAndFavourite(start, stop)
 
