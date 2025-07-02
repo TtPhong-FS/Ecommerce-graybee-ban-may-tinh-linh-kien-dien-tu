@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { ErrorMessage } from '../custom/ErrorMessage'
 import { Input } from '../ui/input'
+import { Label } from '../ui/label'
 
 export function RHFInputPassword({ name, label, isRequired, placeholder, disabled }) {
   const { control } = useFormContext()
@@ -15,10 +16,9 @@ export function RHFInputPassword({ name, label, isRequired, placeholder, disable
       name={name}
       render={({ field, fieldState: { error } }) => (
         <div className=" flex flex-col">
-          <div className="title-form">
-            <label>{label}</label>
-            {isRequired && <sup>*</sup>}
-          </div>
+          <Label className="title-form" htmlFor={name}>
+            {label} {isRequired && '*'}
+          </Label>
           <div className="relative">
             <Input
               value={field.value ?? null}

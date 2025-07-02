@@ -3,6 +3,7 @@ import { Select } from 'antd'
 import { CircleAlert } from 'lucide-react'
 import PropTypes from 'prop-types'
 import { Controller, useFormContext } from 'react-hook-form'
+import { Label } from '../ui/label'
 export function RHFSelect({ name, label, isRequired, options, showSearch, disabled, mode, ...props }) {
   const { control } = useFormContext()
 
@@ -12,10 +13,9 @@ export function RHFSelect({ name, label, isRequired, options, showSearch, disabl
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div className="flex flex-col">
-          <div className="flex items-center">
-            <label className="title-form">{label}</label>
-            {isRequired && <sup>*</sup>}
-          </div>
+          <Label className="title-form" htmlFor={name}>
+            {label} {isRequired && '*'}
+          </Label>
           <Select
             className={`custom-select ${error && 'ant-select-status-error'}`}
             style={{

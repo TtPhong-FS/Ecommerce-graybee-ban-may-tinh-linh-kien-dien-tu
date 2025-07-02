@@ -123,7 +123,7 @@ export function VerifyOtp() {
                 {t('common:loading')}
               </span>
             ) : (
-              <>{t('auth:verifyOtp.btnConfirm')}</>
+              <>Xác nhận OTP</>
             )}
           </Button>
         </form>

@@ -59,7 +59,7 @@ export function VerifyEmail() {
       <h2 className="text-center mb-6">{t('auth:verifyEmail.title')}</h2>
       <FormProvider {...methods}>
         {methods.formState.errors.root && (
-          <span className="error-message px-10 flex gap-1 mb-2 items-center">
+          <span className="error-message flex gap-1 mb-2 items-center">
             <CircleAlert size={16} />
             {methods.formState.errors.root.message}
           </span>
@@ -80,7 +80,7 @@ export function VerifyEmail() {
             ) : (
               <>
                 <Mail />
-                {t('common:send')}
+                Gửi
               </>
             )}
           </Button>

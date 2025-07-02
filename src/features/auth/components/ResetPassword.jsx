@@ -87,7 +87,7 @@ export function ResetPassword() {
             type="submit"
             className="cursor-pointer select-none h-[38px] mt-4"
           >
-            Đặt lại
+            Xác nhận
           </Button>
         </form>
       </FormProvider>
