@@ -7,7 +7,7 @@ const currentLang = i18n.language || 'vi'
 
 export const publicAPI = axios.create({
   baseURL: BASE_URL,
-  timeout: 30000,
+  timeout: 15000,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ export const publicAPI = axios.create({
 
 export const privateAPI = axios.create({
   baseURL: BASE_URL,
-  timeout: 30000,
+  timeout: 15000,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',

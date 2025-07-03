@@ -10,7 +10,7 @@ export function handleCreateAsyncThunk(typePrefix, asyncCallback) {
     } catch (error) {
       if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
         return rejectWithValue({
-          unconnect: t('common:unconnect')
+          unconnect: 'Hệ thống đang bảo trì hoặc đang cập nhật. Vui lòng thử lại sau!'
         })
       }
 
