@@ -1,9 +1,10 @@
+import { HOME_URL } from '@/api/constants'
 import { publicAPI } from '@/config'
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 
 export async function session() {
-  const res = await publicAPI.get('/api/v1/public/home/session')
+  const res = await publicAPI.get(`${HOME_URL}/session`)
   return res.data
 }
 

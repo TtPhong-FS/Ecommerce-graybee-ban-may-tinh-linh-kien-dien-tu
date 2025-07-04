@@ -68,7 +68,7 @@ export const CarouselWrapper = ({ category }) => {
         slidesPerView={isMobile ? 2 : isTablet ? 3 : 5}
         spaceBetween={10}
         navigation
-        autoplay={{ delay: 3000 }}
+        autoplay={{ delay: 3500 }}
         loop={true}
         className="relative"
       >

@@ -1,4 +1,4 @@
-import { getAllAddressAsync } from '@/features/user'
+import { getAllAddressAsync } from '@/features/account'
 import { useAppContext } from '@/hooks'
 import { Select } from 'antd'
 import { useState } from 'react'

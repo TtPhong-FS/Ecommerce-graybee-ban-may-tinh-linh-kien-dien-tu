@@ -146,7 +146,7 @@ export const GENDER_OPTIONS = [
     label: 'Nữ'
   },
   {
-    value: 'ORTHER',
+    value: 'OTHER',
     label: 'Khác'
   }
 ]

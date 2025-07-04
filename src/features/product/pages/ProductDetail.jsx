@@ -46,43 +46,45 @@ export const ProductDetail = () => {
   const { handleAddItemToCart, handleAddToFavourites } = useActionAddToCartAndFavourite(start, stop)
 
   useEffect(() => {
-    handleAsync({
-      asyncAction: (slug) => dispatch(fetchProductDetailByIdAsync(slug)).unwrap(),
-      onSuccess: () => {
-        setReady(true)
-      },
-      values: slug,
-      toast
-    })
-  }, [slug, dispatch])
+    if (!details) {
+      handleAsync({
+        asyncAction: (slug) => dispatch(fetchProductDetailByIdAsync(slug)).unwrap(),
+        onSuccess: () => {
+          setReady(true)
+        },
+        values: slug,
+        toast
+      })
+    } else {
+      setReady(true)
+    }
+  }, [slug, dispatch, details])
 
   return (
     <>
       {!ready ? (
         <Skeleton className="bg-white h-screen w-full" />
       ) : (
-        <div className="select-text">
+        <div className="select-text bg-white p-2 rounded-md">
           <div className="mb-6">
             <div className="grid grid-cols-12">
               <div className="col-span-6 max-md:col-span-12">
                 <div>
-                  <div className="flex items-center justify-center mb-6">
-                    <img className="lg:w-1/2" src={details?.thumbnail} alt="" />
+                  <div className="flex items-center justify-center mb-6 ">
+                    <img className="lg:w-1/2 w-10/12 " src={details?.thumbnail} alt="" />
                   </div>
                 </div>
               </div>
               <div className="col-span-6 max-md:col-span-12 max-md:px-2 place-content-end">
                 <h1>{details?.name}</h1>
                 <div className="flex mt-4 mb-4 gap-3 items-center">
-                  <span className="font-medium text-[2rem] font-sans text-red-500 max-sm:text-[0.9rem]">
+                  <span className="font-medium text-[2rem] font-sans text-red-500 max-md:text-xl">
                     {formattedPrice(details?.finalPrice)}
                   </span>
-                  <del className="font-medium text-[1.4rem] text-gray-500 max-sm:text-[0.6rem]">
+                  <del className="font-medium text-[1.4rem] text-gray-500 max-md:text-lg">
                     {formattedPrice(details?.price)}
                   </del>
-                  <span>
-                    <Badge variant="destructive">-{details?.discountPercent}%</Badge>
-                  </span>
+                  <Badge variant="destructive">-{details?.discountPercent}%</Badge>
                 </div>
                 <div className="text-base box">
                   {details?.brandName !== null && details?.brandName !== '' && (
@@ -97,7 +99,7 @@ export const ProductDetail = () => {
                       disabled={isLoading(`addFavorite:${details?.productId}`)}
                       onClick={() => handleAddToFavourites(details?.productId)}
                       variant="destructive"
-                      className="py-5 cursor-pointer w-full"
+                      className="py-7 max-md:py-6 cursor-pointer w-full text-xl max-md:text-base"
                     >
                       <Heart /> Yêu thích
                     </Button>
@@ -107,7 +109,7 @@ export const ProductDetail = () => {
                       disabled={isLoading(`addItemToCart:${details?.productId}`)}
                       onClick={() => handleAddItemToCart(details?.productId)}
                       variant="secondary"
-                      className="py-5 cursor-pointer w-full"
+                      className="py-7 max-md:py-6 cursor-pointer w-full text-xl max-md:text-base"
                     >
                       <ShoppingCart />
                       Thêm vào giỏ

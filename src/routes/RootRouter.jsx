@@ -1,4 +1,7 @@
 import Logout from '@/components/Logout'
+import { FavouritePage, ManageAddressPage, OrderDetail, OrderHistoryPage, ProfilePage } from '@/features/account'
+import AddressModal from '@/features/account/components/AddressModal'
+import UpdateAddressPage from '@/features/account/pages/UpdateAddressPage'
 import {
   AuthPage,
   AuthProvider,
@@ -10,15 +13,13 @@ import {
   VerifyOtp
 } from '@/features/auth'
 import ForgotPasswordLayout from '@/features/auth/layout/ForgotPasswordLayout'
+import { CollectionPage } from '@/features/collections/pages/CollectionPage'
 import { OrderPage } from '@/features/order'
 import { ProductDetail } from '@/features/product'
 import ReviewModal from '@/features/product/components/ReviewModal'
-import { FavouritePage, ManageAddressPage, OrderDetail, OrderHistoryPage, ProfilePage } from '@/features/user'
-import AddressModal from '@/features/user/components/AddressModal'
-import UpdateAddressPage from '@/features/user/pages/UpdateAddressPage'
 import { ProfileLayout, RootLayout } from '@/layout'
 import OrderLayout from '@/layout/OrderLayout'
-import { CollectionPage, Contact, HomePage, NotFoundPage } from '@/pages'
+import { Contact, HomePage, NotFoundPage } from '@/pages'
 
 const RootRouter = [
   {

@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle
 } from '@/components/ui/dialog'
-import { deleteReviewProductAsync, getCommentRatingByIdAsync } from '@/features/user'
+import { deleteReviewProductAsync, getCommentRatingByIdAsync } from '@/features/account'
 import { useAppContext } from '@/hooks'
 import { handleAsync } from '@/lib'
 import { Spin } from 'antd'

@@ -1,11 +1,10 @@
+import { HOME_URL } from '@/api/constants'
 import { publicAPI } from '@/config'
 import { handleCreateAsyncThunk } from '@/lib'
 import { createSlice } from '@reduxjs/toolkit'
 
-const home_endpoint = '/api/v1/public/home'
-
-const getSidebar = () => publicAPI.get(`${home_endpoint}/sidebar`)
-const getSessionId = () => publicAPI.get(`${home_endpoint}/session`)
+const getSidebar = () => publicAPI.get(`${HOME_URL}/sidebar`)
+const getSessionId = () => publicAPI.get(`${HOME_URL}/session`)
 
 export const fetchSidebar = handleCreateAsyncThunk('sidebar/fetchSidebar', async () => {
   const response = await getSidebar()

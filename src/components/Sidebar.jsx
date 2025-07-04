@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom'
 import { Button } from './ui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible'
 export const Sidebar = ({ openSidebar, setOpenSidebar }) => {
-  const isMobile = useMediaQuery('(max-width: 640px)')
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
   const sidebar = useSelector((state) => state.home.sidebar)
   const sidebarMemo = useMemo(() => sidebar, [sidebar])

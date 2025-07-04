@@ -4,7 +4,9 @@ export function Specification() {
   const specifications = useSelector((state) => state.product.details?.specifications)
   if (!specifications) return null
 
-  return (
+  return specifications?.length === 0 ? (
+    <div className="text-muted-foreground italic card">Sản phẩm hiện chưa có thông số kỹ thuật</div>
+  ) : (
     <div className="gap-4 p-4 bg-white">
       <h1 className="mb-3">Thông số sản phẩm</h1>
       <div className="flex flex-col gap-4">

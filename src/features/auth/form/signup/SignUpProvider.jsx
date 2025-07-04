@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import { Button } from '@/components/ui/button'
-import { setProfile } from '@/features/user/redux/userSlice'
+import { setProfile } from '@/features/account/redux/accountSlice'
 import { useAppContext, useLoading } from '@/hooks'
 import { useCustomTranslate } from '@/i18n'
 import { handleAsyncSubmit } from '@/lib'

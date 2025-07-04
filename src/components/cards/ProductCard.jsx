@@ -28,15 +28,19 @@ export const ProductCard = ({ product }) => {
           <div className="cursor-pointer min-h-[3rem]">
             <Link
               to={`/products/${product?.slug}`}
-              className="font-medium hover:underline decoration-solid text-blue-600 text-xs md:text-sm line-clamp-2"
+              className="font-medium hover:underline decoration-solid text-blue-600 text-base line-clamp-2"
             >
               {product?.name}
             </Link>
           </div>
 
           <div className="flex flex-col justify-center">
-            <del className="font-medium text-muted-foreground text-xs lg:text-sm">{formattedPrice(product?.price)}</del>
-            <span className="font-medium text-base lg:text-lg text-red-500">{formattedPrice(product?.finalPrice)}</span>
+            <del className="font-medium text-muted-foreground text-xs lg:text-sm max-md:text-base">
+              {formattedPrice(product?.price)}
+            </del>
+            <span className="font-medium text-base lg:text-lg text-red-500 max-md:text-xl">
+              {formattedPrice(product?.finalPrice)}
+            </span>
           </div>
         </div>
 

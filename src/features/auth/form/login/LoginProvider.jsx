@@ -9,7 +9,7 @@ import { toast } from 'sonner'
 
 import { ErrorMessage } from '@/components/custom/ErrorMessage'
 import { Button } from '@/components/ui/button'
-import { setProfile } from '@/features/user/redux/userSlice'
+import { setProfile } from '@/features/account/redux/accountSlice'
 import { useAppContext, useLoading } from '@/hooks'
 import { useCustomTranslate } from '@/i18n'
 import { LoaderCircle } from 'lucide-react'

@@ -11,7 +11,7 @@ import { Toaster } from 'sonner'
 export const RootLayout = () => {
   useSession()
 
-  const isMobile = useMediaQuery('(max-width: 640px)')
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const [openSidebar, setOpenSidebar] = useState(false)
 
   const location = useLocation()

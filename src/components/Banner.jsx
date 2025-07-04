@@ -37,7 +37,7 @@ export function RightBanner() {
           <img
             src="https://file.hstatic.net/200000722513/file/thang_06_laptop_gaming_800x400_-_web_slider.jpg"
             alt=""
-            className="w-xl"
+            className="w-full"
           />
         </Link>
         <div className="flex">

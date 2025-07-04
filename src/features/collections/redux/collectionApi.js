@@ -1,10 +1,9 @@
+import { HOME_URL } from '@/api/constants'
 import { publicAPI } from '@/config'
-
-export const COLLECTION_ENDPOINT = '/api/v1/public/collections'
 
 export const collectionApi = {
   fetchProductByCategorySlugAndType: (slug, page, sortBy, order) =>
-    publicAPI.get(`${COLLECTION_ENDPOINT}/${slug}`, {
+    publicAPI.get(`${HOME_URL}/collections/${slug}`, {
       params: {
         page: page,
         sortBy: sortBy,

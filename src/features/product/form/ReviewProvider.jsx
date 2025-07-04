@@ -1,6 +1,6 @@
 import { RHFInputField, RHFRate } from '@/components/fields'
 import { Button } from '@/components/ui/button'
-import { editReviewProductAsync, reviewProductAsync } from '@/features/user'
+import { editReviewProductAsync, reviewProductAsync } from '@/features/account'
 import { useAppContext, useLoading } from '@/hooks'
 import { handleAsyncSubmit } from '@/lib'
 import { yupResolver } from '@hookform/resolvers/yup'

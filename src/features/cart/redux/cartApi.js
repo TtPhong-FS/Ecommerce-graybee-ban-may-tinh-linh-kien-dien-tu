@@ -1,12 +1,11 @@
+import { CART_URL } from '@/api/constants'
 import { privateAPI } from '@/config'
 
-const cart_endpoint = '/api/v1/public/carts'
-
 export const cartApi = {
-  addItemToCart: (productId) => privateAPI.post(`${cart_endpoint}/products/${productId}`, productId),
-  decreaseQuantity: (productId) => privateAPI.put(`${cart_endpoint}/decrease/${productId}`),
-  updateQuantity: (cartItemId, quantity) => privateAPI.put(`${cart_endpoint}/quantity/${cartItemId}/${quantity}`),
-  deleteItemToCart: (cartItemId) => privateAPI.delete(`${cart_endpoint}/${cartItemId}`),
-  getCartByUserUidOrSessionId: () => privateAPI.get(cart_endpoint),
-  clearCartItems: () => privateAPI.delete(`${cart_endpoint}/clear-items`)
+  addItemToCart: (productId) => privateAPI.post(`${CART_URL}/products/${productId}`, productId),
+  decreaseQuantity: (productId) => privateAPI.put(`${CART_URL}/decrease/${productId}`),
+  updateQuantity: (cartItemId, quantity) => privateAPI.put(`${CART_URL}/quantity/${cartItemId}/${quantity}`),
+  deleteItemToCart: (cartItemId) => privateAPI.delete(`${CART_URL}/${cartItemId}`),
+  getCartByUserUidOrSessionId: () => privateAPI.get(CART_URL),
+  clearCartItems: () => privateAPI.delete(`${CART_URL}/clear-items`)
 }

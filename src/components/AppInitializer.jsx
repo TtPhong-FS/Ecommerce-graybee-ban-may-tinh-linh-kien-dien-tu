@@ -1,11 +1,16 @@
-import { getCartByUserUidOrSessionIdAsync } from '@/features/cart'
 import {
   fetchAllOrderHistoryAsync,
   fetchFavouritesAsync,
   fetchProfileByTokenAsync,
   getAllAddressAsync
-} from '@/features/user'
-import { selectAddresses, selectFavorites, selectOrderHistory, selectProfile } from '@/features/user/redux/userSelector'
+} from '@/features/account'
+import {
+  selectAddresses,
+  selectFavorites,
+  selectOrderHistory,
+  selectProfile
+} from '@/features/account/redux/accountSelector'
+import { getCartByUserUidOrSessionIdAsync } from '@/features/cart'
 import { fetchSidebar } from '@/store/redux/homeSlice'
 import { getToken } from '@/utils'
 import { useEffect, useRef } from 'react'

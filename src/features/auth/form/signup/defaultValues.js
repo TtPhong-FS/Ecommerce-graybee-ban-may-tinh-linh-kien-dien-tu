@@ -4,7 +4,7 @@ export const defaultValues = {
   repeatPassword: '',
   profile: {
     birthday: '',
-    gender: 'ORTHER',
+    gender: 'OTHER',
     fullName: '',
     phone: ''
   }

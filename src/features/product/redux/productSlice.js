@@ -1,4 +1,4 @@
-import { deleteReviewProductAsync, editReviewProductAsync, reviewProductAsync } from '@/features/user'
+import { deleteReviewProductAsync, editReviewProductAsync, reviewProductAsync } from '@/features/account'
 import { createSlice } from '@reduxjs/toolkit'
 import { fetchProductDetailByIdAsync, searchProductByNameAsync } from './productThunk'
 

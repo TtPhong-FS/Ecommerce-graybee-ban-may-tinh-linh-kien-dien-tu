@@ -5,6 +5,12 @@ export const fetchProductByCategorySlugAsync = handleCreateAsyncThunk(
   'product/fetchProductByCategorySlugAsync',
   async ({ slug, page = 1, sortBy = 'updatedAt', order = 'desc' }) => {
     const response = await collectionApi.fetchProductByCategorySlugAndType(slug, page - 1, sortBy, order)
-    return response.data
+    return {
+      categorySlug: slug,
+      page,
+      sortBy,
+      order,
+      data: response.data
+    }
   }
 )

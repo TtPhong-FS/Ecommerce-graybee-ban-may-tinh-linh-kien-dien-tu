@@ -5,8 +5,8 @@ import React, { createContext, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import { clearAccount } from '@/features/account/redux/accountSlice'
 import { clearCart } from '@/features/cart/redux/cartSlice'
-import { clearAccount } from '@/features/user/redux/userSlice'
 import { clearAuthToken, getToken } from '@/utils'
 
 export const AuthContext = createContext()

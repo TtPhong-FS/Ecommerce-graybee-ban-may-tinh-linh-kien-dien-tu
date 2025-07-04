@@ -1,10 +1,10 @@
+import { HOME_URL } from '@/api/constants'
 import { publicAPI } from '@/config'
 import { handleCreateAsyncThunk } from '@/lib'
 import { slugify } from '@/utils'
 import { createSlice } from '@reduxjs/toolkit'
 
-const carousel_endpoint = '/api/v1/public/home/carousel'
-const fetchProductByCategory = (category) => publicAPI.get(`${carousel_endpoint}/${category}`)
+const fetchProductByCategory = (category) => publicAPI.get(`${HOME_URL}/carousel/${category}`)
 
 export const fetchCarouselAsync = handleCreateAsyncThunk('carousel/fetchCarouselAsync', async (category) => {
   const response = await fetchProductByCategory(category)

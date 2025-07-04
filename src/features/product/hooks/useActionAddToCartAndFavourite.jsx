@@ -1,5 +1,5 @@
+import { addToFavoriteByProductIdAsync } from '@/features/account/redux'
 import { addItemToCartAsync } from '@/features/cart'
-import { addToFavoriteByProductIdAsync } from '@/features/user/redux'
 import { useAppContext } from '@/hooks'
 import { handleAsync, handleAsyncSubmit } from '@/lib'
 import { getToken } from '@/utils'
