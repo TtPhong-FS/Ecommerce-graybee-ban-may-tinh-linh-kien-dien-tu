@@ -1,0 +1,7 @@
+export const HOME_URL = '/api/v1/home'
+export const ACCOUNT_URL = '/api/v1/account'
+export const ORDER_URL = '/api/v1/orders'
+export const AUTH_URL = '/api/v1/auth'
+export const CART_URL = '/api/v1/carts'
+export const PRODUCT_URL = '/api/v1/products'
+export const COLLECTION_URL = '/api/v1/collections'
