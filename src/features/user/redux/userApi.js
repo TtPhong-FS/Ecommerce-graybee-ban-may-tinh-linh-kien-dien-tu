@@ -10,7 +10,7 @@ export const accountApi = {
     return privateAPI.post(`${account_endpoint}/favourites/${productId}`)
   },
   getProfileByToken: () => privateAPI.get(`${account_endpoint}/profile`),
-  updateProfile: (request) => privateAPI.put(`${account_endpoint}/profile/update`, request),
+  updateProfile: (request) => privateAPI.put(`${account_endpoint}/profile`, request),
   getAllAddress: () => {
     return privateAPI.get(`${account_endpoint}/addresses`)
   },
