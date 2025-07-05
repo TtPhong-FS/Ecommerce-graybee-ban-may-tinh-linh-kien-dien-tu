@@ -14,7 +14,7 @@ import { getCartByUserUidOrSessionIdAsync } from '@/features/cart'
 import { fetchSidebar } from '@/store/redux/homeSlice'
 import { getToken } from '@/utils'
 import { useEffect, useRef } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 export const AppInitializer = () => {
   const token = getToken()
@@ -25,14 +25,13 @@ export const AppInitializer = () => {
   const profile = useSelector(selectProfile)
   const favorites = useSelector(selectFavorites)
   const address = useSelector(selectAddresses)
-  const cartItems = useSelector((state) => state.cart.cartItems, shallowEqual)
   const orderHistory = useSelector(selectOrderHistory)
 
   const profileFetched = useRef(false)
   const favoritesFetched = useRef(false)
   const addressFetched = useRef(false)
   const ordersFetched = useRef(false)
-  const cartFetched = useRef(false)
+  let cartFetched = useRef(false)
   const sidebarFetchedCount = useRef(0)
 
   useEffect(() => {
@@ -64,11 +63,18 @@ export const AppInitializer = () => {
   }, [token, orderHistory, dispatch])
 
   useEffect(() => {
-    if ((!cartItems || cartItems.length === 0) && !cartFetched.current) {
+    const hasSessionId = !!localStorage.getItem('sessionId')
+
+    if (token) {
       dispatch(getCartByUserUidOrSessionIdAsync())
       cartFetched.current = true
     }
-  }, [cartItems, dispatch])
+
+    if (!token && hasSessionId) {
+      dispatch(getCartByUserUidOrSessionIdAsync())
+      cartFetched.current = true
+    }
+  }, [token, dispatch])
 
   useEffect(() => {
     if ((!sidebar || sidebar.length === 0) && sidebarFetchedCount.current < 3) {

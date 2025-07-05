@@ -28,7 +28,7 @@ async function initSession() {
 export function saveAuthToken(token) {
   if (!token) return
 
-  Cookies.set('token', token, { expires: 3 })
+  Cookies.set('token', token, { expires: 1 })
 }
 
 export function getToken() {

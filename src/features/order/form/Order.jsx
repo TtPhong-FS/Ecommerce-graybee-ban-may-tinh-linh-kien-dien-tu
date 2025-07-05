@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button'
 import { CartItem } from '@/features/cart'
-import { useAppContext } from '@/hooks'
 import { useCustomTranslate } from '@/i18n'
 import { Grid2 } from '@mui/material'
 import { useMemo, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { CustomerInfo } from '../components'
 import { PaymentInformation } from '../components/PaymentInformation'
 import { ShippingInformation } from '../components/ShippingInformation'
@@ -13,7 +13,6 @@ import { ConfirmOrder } from './ConfirmOrder'
 
 export const Order = () => {
   const { t } = useCustomTranslate()
-  const { navigate } = useAppContext()
 
   const cartItems = useSelector((state) => state.cart.cartItems)
 
@@ -51,8 +50,10 @@ export const Order = () => {
       ) : (
         <div className="place-items-center text-center bg-white p-4 rounded-md">
           <p className="mb-8 mt-2 text-muted-foreground">{t('order:empty')}</p>
-          <Button className="cursor-pointer h-[40px]" variant="secondary" type="button" onClick={() => navigate('/')}>
-            {t('order:continueShopping')}
+          <Button className="cursor-pointer py-5 mb-4" asChild>
+            <Link className="link" to={'/'}>
+              {t('order:continueShopping')}
+            </Link>
           </Button>
         </div>
       )}

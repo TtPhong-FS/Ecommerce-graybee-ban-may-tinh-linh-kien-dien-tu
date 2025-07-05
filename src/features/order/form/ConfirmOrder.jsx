@@ -25,8 +25,8 @@ export const ConfirmOrder = ({ confirm, setConfirm, onUnConfirm }) => {
 
   return (
     <div className="sticky top-24">
-      <Button asChild className="cursor-pointer py-5 mb-4 ">
-        <Link className="link" to="/home">
+      <Button asChild className="cursor-pointer py-5 mb-4">
+        <Link className="link" to={'/'}>
           <ChevronLeft /> {t('order:continueShopping')}
         </Link>
       </Button>
