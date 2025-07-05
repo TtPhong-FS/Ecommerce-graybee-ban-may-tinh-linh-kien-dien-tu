@@ -21,7 +21,7 @@ export const BreadCrumbs = () => {
     }))
 
   return (
-    <Breadcrumb className="py-4 max-md:ml-4">
+    <Breadcrumb className="py-4 max-md:ml-4 lg:ml-4">
       <BreadcrumbList>
         {crumbs.map((item, index) => {
           const isLast = index === crumbs.length - 1

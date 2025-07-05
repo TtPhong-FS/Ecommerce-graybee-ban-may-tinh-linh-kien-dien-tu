@@ -1,10 +1,13 @@
 import { HOME_URL } from '@/api/constants'
-import { publicAPI } from '@/config'
+import { BASE_URL } from '@/config'
+import axios from 'axios'
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 
 export async function session() {
-  const res = await publicAPI.get(`${HOME_URL}/session`)
+  const res = await axios.get(`${BASE_URL}${HOME_URL}/session`)
+  const sessionId = res.data.data
+  localStorage.setItem('sessionId', sessionId)
   return res.data
 }
 
@@ -12,7 +15,7 @@ async function initSession() {
   let token = Cookies.get('token')
   if (token) return token
 
-  let sessionId = Cookies.get('sessionId')
+  let sessionId = localStorage.getItem('sessionId')
   if (!sessionId) {
     const { data } = await session()
 
@@ -37,7 +40,7 @@ export function getToken() {
 }
 
 export function getSession() {
-  return Cookies.get('sessionId') || null
+  return localStorage.getItem('sessionId')
 }
 
 export function clearAuthToken() {

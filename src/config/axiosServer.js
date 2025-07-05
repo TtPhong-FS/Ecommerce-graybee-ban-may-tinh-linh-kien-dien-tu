@@ -1,12 +1,12 @@
-import { HOME_URL } from '@/api/constants'
 import i18n from '@/i18n/i18n'
-import { getSession, getToken } from '@/utils'
+import { getSession, getToken, session } from '@/utils'
 import axios from 'axios'
+import { toast } from 'sonner'
 
-const BASE_URL = import.meta.env.VITE_TECHSTORE_API_BASE_URL
+export const BASE_URL = import.meta.env.VITE_TECHSTORE_API_BASE_URL
 const currentLang = i18n.language || 'vi'
 
-export const publicAPI = axios.create({
+export const api = axios.create({
   baseURL: BASE_URL,
   timeout: 15000,
   withCredentials: true,
@@ -16,46 +16,25 @@ export const publicAPI = axios.create({
   }
 })
 
-publicAPI.interceptors.request.use((config) => {
-  const sessionId = getSession()
-
-  if (!sessionId) {
-    const fetchSession = async () => {
-      await axios.get(`${BASE_URL}${HOME_URL}/session`, {
-        withCredentials: true
-      })
-    }
-    fetchSession()
-  }
-  return config
-})
-
-export const privateAPI = axios.create({
-  baseURL: BASE_URL,
-  timeout: 15000,
-  withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept-Language': currentLang
-  }
-})
-
-privateAPI.interceptors.request.use(
-  (config) => {
+api.interceptors.request.use(
+  async (config) => {
     const token = getToken()
-    const sessionId = getSession()
+    let sessionId = getSession()
 
     if (!token && !sessionId) {
-      const fetchSession = async () => {
-        return await axios.get(`${BASE_URL}${HOME_URL}/session`, {
-          withCredentials: true
-        })
+      try {
+        const { data } = await session()
+        sessionId = data
+      } catch (error) {
+        console.error(error)
+        toast.warning('Thất bại khi nhận session ID')
       }
-      fetchSession()
     }
 
-    if (token !== null) {
-      config.headers.Authorization = `Bearer ${token}`
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`
+    } else if (sessionId) {
+      config.headers['X-Session-Id'] = sessionId
     }
 
     return config
