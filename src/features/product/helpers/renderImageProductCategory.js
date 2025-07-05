@@ -12,7 +12,8 @@ const imageMap = {
   'ổ cứng': 'https://file.hstatic.net/200000636033/file/icon11_2f0ea4c77ae3482f906591cec8f24cea.png',
   ram: 'https://file.hstatic.net/200000636033/file/icon13_708c31c3ba56430dbec3f4cc7e1b14f0.png',
   chuột: 'https://file.hstatic.net/200000722513/file/chuot_aa348bf0177b4795a39ab66d51e62ed7.jpg',
-  vga: 'https://file.hstatic.net/200000722513/file/asus-rog-strix-rtx4090-o24g-gaming-03_c948a4c2a9cf4adcbd522319bfcd4846.jpg'
+  vga: 'https://file.hstatic.net/200000722513/file/asus-rog-strix-rtx4090-o24g-gaming-03_c948a4c2a9cf4adcbd522319bfcd4846.jpg',
+  'lót chuột': 'https://res.cloudinary.com/dqntp2s9q/image/upload/ojospao2uzmaqr4klg0v.png'
 }
 
 export function renderImageProductCategory(categoryName) {

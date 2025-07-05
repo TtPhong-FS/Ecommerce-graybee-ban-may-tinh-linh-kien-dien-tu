@@ -18,7 +18,7 @@ import '../styles/swiper.css'
 
 export const CarouselWrapper = ({ category }) => {
   const isMobile = useMediaQuery('(max-width: 640px)')
-  const isTablet = useMediaQuery('(max-width: 914px)')
+  const isTablet = useMediaQuery('(max-width: 1024px)')
 
   const slugifyCategory = slugify(category)
 

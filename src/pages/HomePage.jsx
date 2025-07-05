@@ -23,6 +23,7 @@ export const HomePage = () => {
         <CarouselWrapper category={'Ram'} />
         <CarouselWrapper category={'Màn hình'} />
         <CarouselWrapper category={'Vga'} />
+        <CarouselWrapper category={'Chuột'} />
       </div>
       <div className="flex flex-col gap-4">
         <ProductCategories />
