@@ -1,7 +1,6 @@
 import i18n from '@/i18n/i18n'
 import { getSession, getToken, session } from '@/utils'
 import axios from 'axios'
-import { toast } from 'sonner'
 
 export const BASE_URL = import.meta.env.VITE_TECHSTORE_API_BASE_URL
 const currentLang = i18n.language || 'vi'
@@ -22,13 +21,7 @@ api.interceptors.request.use(
     let sessionId = getSession()
 
     if (!token && !sessionId) {
-      try {
-        const { data } = await session()
-        sessionId = data
-      } catch (error) {
-        console.error(error)
-        toast.warning('Thất bại khi nhận session ID')
-      }
+      sessionId = await session()
     }
 
     if (token) {

@@ -4,11 +4,16 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 
+let sessionInitialized = false
+
 export async function session() {
+  if (sessionInitialized) return localStorage.getItem('sessionId')
+  sessionInitialized = true
+
   const res = await axios.get(`${BASE_URL}${HOME_URL}/session`)
   const sessionId = res.data.data
   localStorage.setItem('sessionId', sessionId)
-  return res.data
+  return sessionId
 }
 
 async function initSession() {
@@ -17,9 +22,9 @@ async function initSession() {
 
   let sessionId = localStorage.getItem('sessionId')
   if (!sessionId) {
-    const { data } = await session()
+    sessionId = await session()
 
-    console.log('Session created:', data)
+    console.log('Session created:', sessionId)
 
     return sessionId
   }
