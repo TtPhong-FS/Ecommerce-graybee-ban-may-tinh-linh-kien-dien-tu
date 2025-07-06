@@ -1,10 +1,16 @@
 import { handleCreateAsyncThunk } from '@/lib'
-import { loginApi, resetPasswordApi, signUpApi, verifyEmailApi, verifyOtpApi } from './authApi'
+import { loginApi, logout, resetPasswordApi, signUpApi, verifyEmailApi, verifyOtpApi } from './authApi'
 
 export const loginUserAsync = handleCreateAsyncThunk('auth/loginApi', async (request) => {
   const response = await loginApi(request)
   return response.data
 })
+
+export const logoutAsync = handleCreateAsyncThunk('auth/logoutAsync', async (request) => {
+  const response = await logout(request)
+  return response.data
+})
+
 export const verifyEmailAsync = handleCreateAsyncThunk('auth/verifyEmailApi', async (email) => {
   const response = await verifyEmailApi(email)
   return response.data

@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { clearAccount } from '@/features/account/redux/accountSlice'
 import { clearCart } from '@/features/cart/redux/cartSlice'
 import { clearAuthToken, getToken } from '@/utils'
+import { logoutAsync } from '../redux'
 
 export const AuthContext = createContext()
 
@@ -32,6 +33,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogout = () => {
     clearAuthToken()
+    dispatch(logoutAsync())
     dispatch(clearCart())
     dispatch(clearAccount())
     setUser(null)
