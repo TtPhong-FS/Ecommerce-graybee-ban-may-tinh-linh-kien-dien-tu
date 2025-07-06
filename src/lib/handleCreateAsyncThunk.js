@@ -14,6 +14,12 @@ export function handleCreateAsyncThunk(typePrefix, asyncCallback) {
         })
       }
 
+      if (error.code === 'ECONNABORTED') {
+        return rejectWithValue({
+          service_bussy: 'Dịch vụ hệ thống chưa sẵn sàng hoặc đang cập nhật. Vui lòng thử lại sau!'
+        })
+      }
+
       if (axios.isAxiosError?.(error) && error.response?.data) {
         return rejectWithValue(error.response.data)
       }

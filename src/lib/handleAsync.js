@@ -14,10 +14,10 @@ export const handleAsync = async ({ asyncAction, values, toast, onSuccess, loadi
       return
     }
 
-    const message = error?.unconnect || error?.global || error?.detail
+    const message = error?.unconnect || error?.service_bussy || error?.global || error?.detail
 
     if (message) {
-      const type = error?.unconnect ? 'warning' : 'error'
+      const type = error?.unconnect || error?.service_bussy ? 'warning' : 'error'
       toast?.[type](message)
     }
   } finally {

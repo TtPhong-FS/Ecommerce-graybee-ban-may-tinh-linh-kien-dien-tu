@@ -36,6 +36,7 @@ export const handleAsyncSubmit = async ({
       })
 
       if (error.unconnect) return toast.warning(error.unconnect)
+      if (error.service_bussy) return toast.warning(error.service_bussy)
       if (error.global) return toast.error(error.global)
       if (error.detail) return toast.error(error.detail)
     } else {
