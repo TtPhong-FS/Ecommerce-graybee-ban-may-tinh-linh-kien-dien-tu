@@ -6,8 +6,8 @@ export const loginUserAsync = handleCreateAsyncThunk('auth/loginApi', async (req
   return response.data
 })
 
-export const logoutAsync = handleCreateAsyncThunk('auth/logoutAsync', async (request) => {
-  const response = await logout(request)
+export const logoutAsync = handleCreateAsyncThunk('auth/logoutAsync', async () => {
+  const response = await logout()
   return response.data
 })
 
