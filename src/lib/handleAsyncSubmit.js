@@ -19,11 +19,12 @@ export const handleAsyncSubmit = async ({
   } catch (error) {
     if (error.status === 400) {
       toast.error('Yêu cầu không hợp lệ')
+      return
     }
     if (error.status === 500) {
       toast.error('Hệ thống đang gặp sự cố. Vui lòng thử lại sau')
+      return
     }
-    console.log(error)
     if (error && typeof error === 'object') {
       Object.entries(error).forEach(([field, message]) => {
         if (field !== 'unconnect' && field !== 'request' && field !== 'global' && field !== 'detail') {
@@ -36,7 +37,10 @@ export const handleAsyncSubmit = async ({
         return
       }
 
-      if (error?.global) return toast?.error(error.global)
+      if (error?.global) {
+        toast?.error(error.global)
+        return
+      }
       if (error?.detail) {
         toast?.error(error.detail)
         return
