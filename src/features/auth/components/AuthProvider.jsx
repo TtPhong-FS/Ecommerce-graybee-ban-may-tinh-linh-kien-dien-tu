@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { clearAccount } from '@/features/account/redux/accountSlice'
 import { clearCart } from '@/features/cart/redux/cartSlice'
+import { handleAsync } from '@/lib'
 import { clearAuthToken, getToken } from '@/utils'
 import { logoutAsync } from '../redux'
 
@@ -32,13 +33,17 @@ export const AuthProvider = ({ children }) => {
   }, [token])
 
   const handleLogout = () => {
-    clearAuthToken()
-    dispatch(logoutAsync())
-    dispatch(clearCart())
-    dispatch(clearAccount())
-    setUser(null)
-    setLoading(false)
-    navigate('/')
+    handleAsync({
+      asyncAction: () => dispatch(logoutAsync()).unwrap(),
+      onSuccess: () => {
+        clearAuthToken()
+        dispatch(clearCart())
+        dispatch(clearAccount())
+        setUser(null)
+        setLoading(false)
+        navigate('/')
+      }
+    })
   }
 
   return (

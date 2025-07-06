@@ -17,6 +17,7 @@ export const api = axios.create({
 
 api.interceptors.request.use(
   async (config) => {
+    debugger
     const token = getToken()
     let sessionId = getSession()
 
