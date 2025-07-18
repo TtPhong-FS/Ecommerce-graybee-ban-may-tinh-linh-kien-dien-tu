@@ -7,7 +7,7 @@ function ProductCategories() {
   const categories = sidebar?.map(({ name, slug }) => ({
     name,
     slug,
-    imageUrl: 'https://file.hstatic.net/200000636033/file/icon1_ce115f32db874a8e9b5af39517176e96.png'
+    imageUrl: ''
   }))
 
   return (

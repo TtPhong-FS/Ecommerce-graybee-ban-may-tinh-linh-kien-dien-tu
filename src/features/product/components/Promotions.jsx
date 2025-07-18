@@ -1,3 +1,4 @@
+import { PromoteDeal, PromoteMic365, PromoteSale, PromoteUpdatePc } from '@/assets'
 import { Link } from 'react-router-dom'
 
 function Promotions() {
@@ -5,23 +6,23 @@ function Promotions() {
     {
       title: 'NÂNG CẤP PC',
       description: 'Tiết kiệm đến 1.800.000đ',
-      imageUrl: 'https://file.hstatic.net/200000722513/file/thang_03_thu_cu_doi_moi_banner_web_slider_800x400.jpg'
+      imageUrl: PromoteUpdatePc
     },
     {
       title: 'Mua Microsoft 365',
       description: 'Giảm 100.000đ',
       subtext: 'Giá chỉ từ 20.000đ/tháng',
-      imageUrl: 'https://file.hstatic.net/200000722513/file/gearvn-microsoft-365_2aa8dbe17b0941e180f6da14132d6a27.png'
+      imageUrl: PromoteMic365
     },
     {
       title: 'GÓC NHÌN DEAL XỊN',
       description: 'Giảm 53% / từ 1.590k',
-      imageUrl: 'https://file.hstatic.net/200000722513/file/man_hinh_thang_04_banner_web_slider_800x400.jpg'
+      imageUrl: PromoteDeal
     },
     {
       title: 'LAP XỊN GIÁ RẺ - CHIẾN MÙA HÈ',
       description: '',
-      imageUrl: 'https://file.hstatic.net/200000722513/file/thang_04_van_phong_banner_web_slider_800x400.jpg'
+      imageUrl: PromoteSale
     }
   ]
 

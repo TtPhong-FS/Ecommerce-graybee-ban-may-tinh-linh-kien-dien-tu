@@ -27,7 +27,7 @@ export const RootLayout = () => {
             openSidebar ? 'sticky top-20' : 'relative '
           } w-full max-w-[74rem] mx-auto z-40`}
         >
-          <div className={`${openSidebar && 'relative '} flex z-40 max-h-[448px] mt-0 lg:mt-4`}>
+          <div className={`${openSidebar && 'relative '} flex z-40 max-h-[460px] mt-0 lg:mt-4`}>
             <Sidebar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
             <RightBanner />
           </div>
@@ -45,7 +45,7 @@ export const RootLayout = () => {
           </div>
           <Toaster closeButton position="bottom-left" />
         </main>
-          <Footer />
+        <Footer />
         <Analytics />
       </ThemeProvider>
     </>

@@ -26,7 +26,7 @@ export const Sidebar = ({ openSidebar, setOpenSidebar }) => {
   return isMobile ? (
     <DropSidebar openSidebar={openSidebar} categories={sidebarMemo} setOpenSidebar={setOpenSidebar} />
   ) : (
-    <div className={`${openSidebar ? 'sticky top-25 z-40' : 'max-h-[448px] h-[448px]'}`}>
+    <div className={`${openSidebar && 'sticky top-25 z-40'} h-full`}>
       {openSidebar && (
         <div className="fixed inset-0 bg-foreground opacity-70" onClick={() => setOpenSidebar(false)}></div>
       )}
@@ -53,25 +53,25 @@ const MegaSidebar = ({ categories, setOpenSidebar }) => {
   return (
     <div className="flex gap-2 w-full overflow-hidden " onMouseLeave={() => setActiveCategory(null)}>
       {/* Sidebar */}
-      <ul className="max-w-[200px] w-[200px] max-h-[448px] h-[448px] bg-white overflow-y-scroll rounded-xs hide-scrollbar">
-          {categories.map((cat, index) => (
-            <Link
-              to={`/collections/${cat.slug || '#'}`}
-              key={index}
-              onClick={() => setOpenSidebar(false)}
-              onMouseEnter={() => handleMouseEnter(cat)}
+      <ul className="max-w-[200px] w-[200px] max-h-[460px] h-[460px] bg-white overflow-y-scroll rounded-xs hide-scrollbar">
+        {categories.map((cat, index) => (
+          <Link
+            to={`/collections/${cat.slug || '#'}`}
+            key={index}
+            onClick={() => setOpenSidebar(false)}
+            onMouseEnter={() => handleMouseEnter(cat)}
             className="flex relative text-[13px] font-semibold items-center justify-between p-2 text-gray-800 hover:bg-secondary/90 hover:text-primary-foreground cursor-pointer "
-            >
-              {cat.name}
+          >
+            {cat.name}
             <ChevronRight size={12} />
-            </Link>
-          ))}
-        </ul>
+          </Link>
+        ))}
+      </ul>
 
       {/* Mega Menu */}
 
       {isMegaMenuVisible && activeCategory?.children?.length > 0 && (
-        <div className="absolute top-0 left-full ml-2 w-[980px] max-w-[980px] bg-white h-full max-h-[448px] px-6 py-4 grid grid-cols-4 gap-4 overflow-hidden rounded-xs">
+        <div className="absolute top-0 left-full ml-2 w-[980px] max-w-[980px] bg-white h-full max-h-[460px] px-6 py-4 grid grid-cols-4 gap-4 overflow-hidden rounded-xs">
           {activeCategory.children.map((column, index) => {
             return (
               <div key={index}>
