@@ -148,7 +148,7 @@ export const Navbar = ({ openSidebar, setOpenSidebar }) => {
                 </div>
               </div>
             </div>
-            <div className="flex w-max gap-6 lg:gap-4 font-medium ml-2 items-center justify-center">
+            <nav className="flex w-max gap-6 lg:gap-4 font-medium ml-2 items-center justify-center">
               {NAVIGATION.map((item, index) => {
                 const lastItem = index === navigation.length - 1
                 const title = t(`navbar:${item.title}`)
@@ -217,7 +217,7 @@ export const Navbar = ({ openSidebar, setOpenSidebar }) => {
                   </Link>
                 )}
               </div>
-            </div>
+            </nav>
           </div>
         </header>
       </div>

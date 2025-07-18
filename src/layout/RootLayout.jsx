@@ -1,17 +1,15 @@
 import { Outlet, useLocation } from 'react-router-dom'
 
 import { AppInitializer, BreadCrumbs, Footer, Loading, Navbar, ScrollToTop, Sidebar } from '@/components'
+import { RightBanner, SubBanner } from '@/components/Banner'
 import { ThemeProvider } from '@/components/theme-provider'
-
-import { RightBanner } from '@/components/Banner'
 import { useSession } from '@/utils'
-import { useMediaQuery } from '@mui/material'
+import { Analytics } from '@vercel/analytics/react'
 import { Suspense, useState } from 'react'
 import { Toaster } from 'sonner'
 export const RootLayout = () => {
   useSession()
 
-  const isMobile = useMediaQuery('(max-width: 768px)')
   const [openSidebar, setOpenSidebar] = useState(false)
 
   const location = useLocation()
@@ -24,19 +22,16 @@ export const RootLayout = () => {
         <ScrollToTop />
         <AppInitializer />
         <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
-
-        <div className={`${location.pathname === '/' && isMobile ? 'block' : 'hidden'} w-full max-w-[74rem] mx-auto`}>
-          <RightBanner />
-        </div>
-
         <div
           className={`${isSidebarVisible ? 'block' : 'hidden'} ${
             openSidebar ? 'sticky top-20' : 'relative '
-          } w-full max-w-[74rem] mx-auto z-40 `}
+          } w-full max-w-[74rem] mx-auto z-40`}
         >
-          <div className={`${openSidebar && 'relative top-5'} z-40`}>
+          <div className={`${openSidebar && 'relative '} flex z-40 max-h-[448px] mt-0 lg:mt-4`}>
             <Sidebar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
+            <RightBanner />
           </div>
+          <SubBanner />
         </div>
         <main className="mb-6 md:mt-0">
           <div className="w-full max-w-[74rem] mx-auto pb-12 gap-6 relative ">
@@ -50,9 +45,8 @@ export const RootLayout = () => {
           </div>
           <Toaster closeButton position="bottom-left" />
         </main>
-        <div className="bg-primary-foreground">
           <Footer />
-        </div>
+        <Analytics />
       </ThemeProvider>
     </>
   )

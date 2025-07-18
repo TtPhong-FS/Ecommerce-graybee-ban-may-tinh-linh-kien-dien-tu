@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/drawer'
 import { SIDEBAR_DRAWER_FOOTER_ICON } from '@/constants'
 import { useMediaQuery } from '@mui/material'
-import { ChevronDown, X } from 'lucide-react'
+import { ChevronDown, ChevronRight, X } from 'lucide-react'
 import PropTypes from 'prop-types'
 import { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -26,7 +26,7 @@ export const Sidebar = ({ openSidebar, setOpenSidebar }) => {
   return isMobile ? (
     <DropSidebar openSidebar={openSidebar} categories={sidebarMemo} setOpenSidebar={setOpenSidebar} />
   ) : (
-    <div className={`${openSidebar ? 'sticky top-25 z-40' : ''} mb-6 mt-4`}>
+    <div className={`${openSidebar ? 'sticky top-25 z-40' : 'max-h-[448px] h-[448px]'}`}>
       {openSidebar && (
         <div className="fixed inset-0 bg-foreground opacity-70" onClick={() => setOpenSidebar(false)}></div>
       )}
@@ -53,25 +53,25 @@ const MegaSidebar = ({ categories, setOpenSidebar }) => {
   return (
     <div className="flex gap-2 w-full overflow-hidden " onMouseLeave={() => setActiveCategory(null)}>
       {/* Sidebar */}
-      <div className="w-[220px] max-h-96 bg-white overflow-y-scroll rounded-xs hide-scrollbar">
-        <ul className="">
+      <ul className="max-w-[200px] w-[200px] max-h-[448px] h-[448px] bg-white overflow-y-scroll rounded-xs hide-scrollbar">
           {categories.map((cat, index) => (
             <Link
               to={`/collections/${cat.slug || '#'}`}
               key={index}
               onClick={() => setOpenSidebar(false)}
               onMouseEnter={() => handleMouseEnter(cat)}
-              className="flex relative text-sm items-center justify-between p-2 text-gray-800 hover:bg-secondary/90 hover:text-primary-foreground cursor-pointer "
+            className="flex relative text-[13px] font-semibold items-center justify-between p-2 text-gray-800 hover:bg-secondary/90 hover:text-primary-foreground cursor-pointer "
             >
               {cat.name}
+            <ChevronRight size={12} />
             </Link>
           ))}
         </ul>
-      </div>
 
       {/* Mega Menu */}
+
       {isMegaMenuVisible && activeCategory?.children?.length > 0 && (
-        <div className="flex-1 bg-white max-h-96 px-6 py-4 grid grid-cols-4 gap-4 overflow-hidden">
+        <div className="absolute top-0 left-full ml-2 w-[980px] max-w-[980px] bg-white h-full max-h-[448px] px-6 py-4 grid grid-cols-4 gap-4 overflow-hidden rounded-xs">
           {activeCategory.children.map((column, index) => {
             return (
               <div key={index}>
