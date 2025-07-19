@@ -134,8 +134,8 @@ export const Navbar = ({ openSidebar, setOpenSidebar }) => {
                   )}
                   {isSearch && (
                     <>
-                      {search?.length === 0 ? (
-                        <span className="rounded-md text-sm absolute top-12 z-50 bg-white w-full flex items-center justify-center py-5 description">
+                      {!isLoading('searching') && search?.length === 0 ? (
+                        <span className='rounded-md text-sm absolute top-12 z-50 bg-white w-full flex items-center justify-center py-5 description'>
                           {t('product:empty')}
                         </span>
                       ) : (
