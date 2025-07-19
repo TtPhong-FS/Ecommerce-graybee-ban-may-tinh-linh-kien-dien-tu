@@ -1,8 +1,17 @@
 import { Outlet, useLocation } from 'react-router-dom'
 
-import { AppInitializer, BreadCrumbs, Footer, Loading, Navbar, ScrollToTop, Sidebar } from '@/components'
+import {
+  AppInitializer,
+  BreadCrumbs,
+  Footer,
+  Loading,
+  Navbar,
+  ScrollToTop,
+  Sidebar
+} from '@/components'
 import { RightBanner, SubBanner } from '@/components/Banner'
 import { ThemeProvider } from '@/components/theme-provider'
+import '@/index.css'
 import { useSession } from '@/utils'
 import { Analytics } from '@vercel/analytics/react'
 import { Suspense, useState } from 'react'
@@ -11,14 +20,14 @@ export const RootLayout = () => {
   useSession()
 
   const [openSidebar, setOpenSidebar] = useState(false)
-
+  const [isMegaMenuVisible, setIsMegaMenuVisible] = useState(false)
   const location = useLocation()
 
   const isSidebarVisible = location.pathname === '/' || openSidebar
 
   return (
     <>
-      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
         <ScrollToTop />
         <AppInitializer />
         <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
@@ -27,8 +36,16 @@ export const RootLayout = () => {
             openSidebar ? 'sticky top-20' : 'relative '
           } w-full max-w-[74rem] mx-auto z-40`}
         >
-          <div className={`${openSidebar && 'relative '} flex z-40 max-h-[460px] mt-0 lg:mt-4`}>
-            <Sidebar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
+          <div
+            onMouseLeave={() => setIsMegaMenuVisible(false)}
+            className={`${openSidebar && 'relative'} flex z-40 mt-0 lg:mt-4`}
+          >
+            <Sidebar
+              setIsMegaMenuVisible={setIsMegaMenuVisible}
+              isMegaMenuVisible={isMegaMenuVisible}
+              openSidebar={openSidebar}
+              setOpenSidebar={setOpenSidebar}
+            />
             <RightBanner />
           </div>
           <SubBanner />

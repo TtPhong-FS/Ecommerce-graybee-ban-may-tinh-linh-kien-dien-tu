@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { selectShippingInfo } from '../redux/orderSelector'
-import { AddressSelector } from './AddressSelector'
 
 export function ShippingInformation() {
   const { control, setValue } = useFormContext()
@@ -69,10 +68,29 @@ export function ShippingInformation() {
           </div>
         )}
 
-        <div className="flex flex-col gap-2">
-          <h2 className="sub-title">Địa chỉ nhận hàng</h2>
-          <div className="flex flex-col gap-3">
-            <AddressSelector />
+        <div className='flex flex-col gap-2'>
+          <h2 className='sub-title'>Địa chỉ nhận hàng</h2>
+          <div className='flex flex-col gap-3'>
+            {/* <AddressSelector /> */}
+
+            <RHFInputField
+              name='shippingInfo.city'
+              label='Thành phố/Tỉnh'
+              type='text'
+              placeholder='Ví dụ: Thành phố Hà Nội'
+            />
+            <RHFInputField
+              name='shippingInfo.district'
+              label='Huyện/Quận'
+              type='text'
+              placeholder='Ví dụ: Huyện Thanh Trì'
+            />
+            <RHFInputField
+              name='shippingInfo.commune'
+              label='Xã/Phường'
+              type='text'
+              placeholder='Ví dụ: Xã Vân Tảo'
+            />
             <RHFInputField
               name="shippingInfo.streetAddress"
               label="Địa chỉ cụ thể"
