@@ -17,6 +17,7 @@ export const CollectionPage = () => {
 
   const { slug } = useParams()
 
+  const [isLoading, setIsLoading] = useState(false)
   const [products, setProducts] = useState([])
 
   const [totalPages, setTotalPages] = useState(0)
@@ -31,19 +32,21 @@ export const CollectionPage = () => {
 
   useEffect(() => {
     if (!collections || collections?.length === 0) {
+      setIsLoading(true)
       handleAsync({
         asyncAction: ({ slug, page, sortBy, order }) =>
           dispatch(fetchProductByCategorySlugAsync({ slug: slug, page: page, sortBy: sortBy, order: order })).unwrap(),
         onSuccess: (res) => {
           setTotalPages(res?.data.paginationInfo?.totalPages || 2)
           setProducts(res?.data.data)
+          setIsLoading(false)
         },
         values: { slug, page: filters.page, sortBy: filters.sortBy, order: filters.order }
       })
     } else {
       setProducts(collections)
     }
-  }, [slug, filters.page, filters.sortBy, filters.order, collections, dispatch])
+  }, [dispatch, filters.order, filters.page, filters.sortBy, slug])
 
   const goToPage = (pageNum) => {
     setFilter('page', String(pageNum))
@@ -57,7 +60,7 @@ export const CollectionPage = () => {
           </div>
         )}
         <div>
-          {products.length === 0 ? (
+          {!isLoading && products.length === 0 ? (
             <ProductEmpty />
           ) : (
             <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 lg:gap-4 ">

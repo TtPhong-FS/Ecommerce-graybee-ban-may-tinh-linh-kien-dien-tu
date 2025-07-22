@@ -39,6 +39,10 @@ const RootRouter = [
         element: <HomePage />
       },
       {
+        path: 'home',
+        element: <HomePage />
+      },
+      {
         path: 'logout',
         element: <Logout />
       },
@@ -134,7 +138,7 @@ const RootRouter = [
         path: 'account/',
         element: (
           <>
-            <ProtectedRoute requiredRoles={['ADMIN', 'SUPER_ADMIN', 'CUSTOMER', 'MANAGE']}>
+            <ProtectedRoute>
               <ProfileLayout />
             </ProtectedRoute>
           </>

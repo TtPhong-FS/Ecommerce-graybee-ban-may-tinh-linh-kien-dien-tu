@@ -54,8 +54,6 @@ export function VerifyOtp() {
     await handleAsyncSubmit({
       asyncAction: (vals) => dispatch(verifyOtpAsync({ otp: vals.otp, email: email })).unwrap(),
       onSuccess: (res) => {
-        console.log(res)
-
         if (res?.status === 200) {
           toast.success(res?.message)
           Cookies.set('otpVerified', 'true')

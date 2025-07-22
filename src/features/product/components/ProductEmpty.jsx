@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
 
 function ProductEmpty() {
@@ -31,16 +30,7 @@ function ProductEmpty() {
         </p>
       </div>
 
-      <div className="">
-        <Button
-          asChild
-          variant="outline"
-          onClick={() => console.log('Thực hiện hành động: Xem tất cả sản phẩm')}
-          className="py-6 cursor-pointer"
-        >
-          <Link to={'/home'}>Xem tất cả sản phẩm</Link>
-        </Button>
-      </div>
+      <Link to={{ pathname: '/' }}>Xem tất cả sản phẩm</Link>
 
       <p className="text-gray-500 mt-6 text-xs md:text-sm">Bạn có thể liên hệ hỗ trợ nếu cần thêm trợ giúp.</p>
     </div>
